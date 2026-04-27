@@ -14,12 +14,16 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: colors.surface,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Spacer(flex: 2),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+              const SizedBox(height: 8),
               // App icon
               Container(
                 width: 72,
@@ -75,7 +79,7 @@ class WelcomeScreen extends StatelessWidget {
                 label: 'Risikoprofil & Empfehlungen erhalten',
                 colors: colors,
               ),
-              const Spacer(flex: 3),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
@@ -104,10 +108,14 @@ class WelcomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               _MadeBySection(colors: colors),
+              const SizedBox(height: 8),
             ],
+                ),
+              ),
+            );
+          },
           ),
         ),
-      ),
     );
   }
 }
