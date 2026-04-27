@@ -4,6 +4,7 @@ import '../models/room.dart';
 import '../models/survey_state.dart';
 import '../widgets/wizard_progress_bar.dart';
 import 'room_selection_screen.dart';
+import 'summary_screen.dart';
 
 class RoomEvaluationScreen extends StatelessWidget {
   final SurveyState state;
@@ -17,12 +18,22 @@ class RoomEvaluationScreen extends StatelessWidget {
 
   Room get currentRoom => room;
 
-  void _onNext(BuildContext context) {
+  void _goToRoomSelection(BuildContext context) {
     state.markRoomCompleted(currentRoom.id);
 
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (_) => RoomSelectionScreen(state: state),
+      ),
+    );
+  }
+
+  void _goToSummary(BuildContext context) {
+    state.markRoomCompleted(currentRoom.id);
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => SummaryScreen(state: state),
       ),
     );
   }
@@ -88,27 +99,49 @@ class RoomEvaluationScreen extends StatelessWidget {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
-          child: SizedBox(
-            width: double.infinity,
-            child: FilledButton(
-              onPressed: () => _onNext(context),
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
+          child: Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => _goToRoomSelection(context),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  child: const Text(
+                    'Raumauswahl',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
-              child: Text(
-                'Zurück zur Raumauswahl →',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+              const SizedBox(width: 10),
+              Expanded(
+                child: FilledButton(
+                  onPressed: () => _goToSummary(context),
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  child: const Text(
+                    'Gesamtauswertung →',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
+          ),
           ),
         ),
-      ),
     );
   }
 }

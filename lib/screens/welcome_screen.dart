@@ -102,18 +102,58 @@ class WelcomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              Center(
-                child: Text(
-                  'Basierend auf dem Simplications Maßnahmenkatalog · TU Chemnitz',
-                  style: text.bodySmall?.copyWith(
-                    color: colors.onSurfaceVariant,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+              _MadeBySection(colors: colors),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _MadeBySection extends StatelessWidget {
+  final ColorScheme colors;
+
+  const _MadeBySection({required this.colors});
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: colors.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: colors.outlineVariant),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Made by Simplications',
+            style: text.labelLarge?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: colors.onSurface,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Projektpartner: Technische Universität Chemnitz, Hochschule Anhalt, Verbraucherzentrale Sachsen e.V.',
+            style: text.bodySmall?.copyWith(color: colors.onSurfaceVariant),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            'Koordination: Plattform Privatheit · Fördermittelgeber: BMFTR',
+            style: text.bodySmall?.copyWith(color: colors.onSurfaceVariant),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            'Mehr Infos: simplications.tucmi.de',
+            style: text.bodySmall?.copyWith(color: colors.primary),
+          ),
+        ],
       ),
     );
   }

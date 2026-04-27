@@ -67,7 +67,7 @@ class RoomSelectionScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Räume auswählen'),
+        title: const Text('Raume auswählen'),
         centerTitle: false,
         actions: [
           ListenableBuilder(

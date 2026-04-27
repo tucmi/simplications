@@ -46,73 +46,95 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Neuen Raum hinzufügen'),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                labelText: 'Raumname',
-                hintText: 'z. B. Wohnzimmer, Garage',
-                prefixIcon: Icon(_selectedIcon),
+    return Dialog(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 500),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Neuen Raum hinzufügen',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
-            ),
-            const SizedBox(height: 16),
-            const Text('Symbol wählen:'),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: widget.availableIcons.map((icon) {
-                final isSelected = icon == _selectedIcon;
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedIcon = icon;
-                    });
-                  },
-                  child: Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: isSelected ? Colors.teal : Colors.grey,
-                        width: isSelected ? 2 : 1,
+              const SizedBox(height: 16),
+              TextField(
+                controller: _nameController,
+                onChanged: (_) => setState(() {}),
+                decoration: InputDecoration(
+                  labelText: 'Raumname',
+                  hintText: 'z. B. Wohnzimmer, Garage',
+                  prefixIcon: Icon(_selectedIcon),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text('Symbol wählen:'),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: widget.availableIcons.map((icon) {
+                  final isSelected = icon == _selectedIcon;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedIcon = icon;
+                      });
+                    },
+                    child: Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: isSelected ? Colors.teal : Colors.grey,
+                          width: isSelected ? 2 : 1,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                        color:
+                            isSelected
+                                ? Colors.teal.withValues(alpha: 0.1)
+                                : Colors.transparent,
                       ),
-                      borderRadius: BorderRadius.circular(8),
-                      color: isSelected ? Colors.teal.withValues(alpha: 0.1) : Colors.transparent,
+                      child: Icon(
+                        icon,
+                        color: isSelected ? Colors.teal : Colors.grey,
+                      ),
                     ),
-                    child: Icon(icon, color: isSelected ? Colors.teal : Colors.grey),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Abbrechen'),
                   ),
-                );
-              }).toList(),
-            ),
-          ],
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed:
+                        _nameController.text.trim().isEmpty
+                            ? null
+                            : () {
+                              Navigator.pop(
+                                context,
+                                {
+                                  'name': _nameController.text.trim(),
+                                  'icon': _selectedIcon,
+                                },
+                              );
+                            },
+                    child: const Text('Hinzufügen'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Abbrechen'),
-        ),
-        ElevatedButton(
-          onPressed: _nameController.text.isEmpty
-              ? null
-              : () {
-                  Navigator.pop(
-                    context,
-                    {
-                      'name': _nameController.text,
-                      'icon': _selectedIcon,
-                    },
-                  );
-                },
-          child: const Text('Hinzufügen'),
-        ),
-      ],
     );
   }
 }
@@ -168,105 +190,132 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Neues Gerät hinzufügen'),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                labelText: 'Gerätename',
-                hintText: 'z. B. Mein Smart Speaker',
-                prefixIcon: Icon(_selectedIcon),
+    return Dialog(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 520),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Neues Gerät hinzufügen',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _riskScoreController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Basis-Risiko-Punktzahl (0-100)',
-                hintText: 'z. B. 30 (niedrig) bis 60 (hoch)',
+              const SizedBox(height: 16),
+              TextField(
+                controller: _nameController,
+                onChanged: (_) => setState(() {}),
+                decoration: InputDecoration(
+                  labelText: 'Gerätename',
+                  hintText: 'z. B. Mein Smart Speaker',
+                  prefixIcon: Icon(_selectedIcon),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            CheckboxListTile(
-              title: const Text('Hat Kamera?'),
-              value: _hasCamera,
-              onChanged: (value) {
-                setState(() {
-                  _hasCamera = value ?? false;
-                });
-              },
-            ),
-            CheckboxListTile(
-              title: const Text('Hat Mikrofon?'),
-              value: _hasMicrophone,
-              onChanged: (value) {
-                setState(() {
-                  _hasMicrophone = value ?? false;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            const Text('Symbol wählen:'),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: widget.availableIcons.map((icon) {
-                final isSelected = icon == _selectedIcon;
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedIcon = icon;
-                    });
-                  },
-                  child: Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: isSelected ? Colors.teal : Colors.grey,
-                        width: isSelected ? 2 : 1,
+              const SizedBox(height: 12),
+              TextField(
+                controller: _riskScoreController,
+                onChanged: (_) => setState(() {}),
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Basis-Risiko-Punktzahl (0-100)',
+                  hintText: 'z. B. 30 (niedrig) bis 60 (hoch)',
+                ),
+              ),
+              const SizedBox(height: 16),
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('Hat Kamera?'),
+                value: _hasCamera,
+                onChanged: (value) {
+                  setState(() {
+                    _hasCamera = value ?? false;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('Hat Mikrofon?'),
+                value: _hasMicrophone,
+                onChanged: (value) {
+                  setState(() {
+                    _hasMicrophone = value ?? false;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              const Text('Symbol wählen:'),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: widget.availableIcons.map((icon) {
+                  final isSelected = icon == _selectedIcon;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedIcon = icon;
+                      });
+                    },
+                    child: Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: isSelected ? Colors.teal : Colors.grey,
+                          width: isSelected ? 2 : 1,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                        color:
+                            isSelected
+                                ? Colors.teal.withValues(alpha: 0.1)
+                                : Colors.transparent,
                       ),
-                      borderRadius: BorderRadius.circular(8),
-                      color: isSelected ? Colors.teal.withValues(alpha: 0.1) : Colors.transparent,
+                      child: Icon(
+                        icon,
+                        color: isSelected ? Colors.teal : Colors.grey,
+                      ),
                     ),
-                    child: Icon(icon, color: isSelected ? Colors.teal : Colors.grey),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Abbrechen'),
                   ),
-                );
-              }).toList(),
-            ),
-          ],
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed:
+                        _nameController.text.trim().isEmpty ||
+                                _riskScoreController.text.trim().isEmpty
+                            ? null
+                            : () {
+                              final riskScore =
+                                  int.tryParse(_riskScoreController.text) ?? 30;
+                              Navigator.pop(
+                                context,
+                                {
+                                  'name': _nameController.text.trim(),
+                                  'icon': _selectedIcon,
+                                  'riskScore': riskScore.clamp(0, 100),
+                                  'hasCamera': _hasCamera,
+                                  'hasMicrophone': _hasMicrophone,
+                                },
+                              );
+                            },
+                    child: const Text('Hinzufügen'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Abbrechen'),
-        ),
-        ElevatedButton(
-          onPressed: _nameController.text.isEmpty || _riskScoreController.text.isEmpty
-              ? null
-              : () {
-                  final riskScore = int.tryParse(_riskScoreController.text) ?? 30;
-                  Navigator.pop(
-                    context,
-                    {
-                      'name': _nameController.text,
-                      'icon': _selectedIcon,
-                      'riskScore': riskScore.clamp(0, 100),
-                      'hasCamera': _hasCamera,
-                      'hasMicrophone': _hasMicrophone,
-                    },
-                  );
-                },
-          child: const Text('Hinzufügen'),
-        ),
-      ],
     );
   }
 }

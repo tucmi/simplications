@@ -429,37 +429,33 @@ class _AnswerButton extends StatelessWidget {
     final selectedBg = isPositive ? colors.secondary : colors.error;
     final selectedFg = isPositive ? colors.onSecondary : colors.onError;
 
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected ? selectedBg : colors.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
+    return SizedBox(
+      height: 42,
+      child: OutlinedButton.icon(
+        onPressed: onTap,
+        style: OutlinedButton.styleFrom(
+          backgroundColor:
+              isSelected ? selectedBg : colors.surfaceContainerHighest,
+          side: BorderSide(
             color: isSelected ? selectedBg : colors.outline,
             width: 1.5,
           ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 16,
-              color: isSelected ? selectedFg : colors.onSurfaceVariant,
-            ),
-            const SizedBox(width: 6),
-            Text(
-              label,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-                color: isSelected ? selectedFg : colors.onSurfaceVariant,
-              ),
-            ),
-          ],
+        icon: Icon(
+          icon,
+          size: 16,
+          color: isSelected ? selectedFg : colors.onSurfaceVariant,
+        ),
+        label: Text(
+          label,
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            color: isSelected ? selectedFg : colors.onSurfaceVariant,
+          ),
         ),
       ),
     );
