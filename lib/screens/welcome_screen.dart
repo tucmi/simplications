@@ -1,0 +1,174 @@
+import 'package:flutter/material.dart';
+import '../models/survey_state.dart';
+import 'room_selection_screen.dart';
+
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final text = Theme.of(context).textTheme;
+
+    return Scaffold(
+      backgroundColor: colors.surface,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Spacer(flex: 2),
+              // App icon
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  color: colors.primaryContainer,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Icon(
+                  Icons.home_outlined,
+                  size: 40,
+                  color: colors.primary,
+                ),
+              ),
+              const SizedBox(height: 28),
+              Text(
+                'Smart Home\nDatenschutz-Check',
+                style: text.headlineLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  height: 1.2,
+                ),
+              ),
+              const SizedBox(height: 14),
+              Text(
+                'Dieser Assistent führt Sie Raum für Raum durch Ihr Zuhause, erfasst Ihre smarten Geräte und bewertet deren Datenschutzrisiko – mit konkreten Empfehlungen aus dem Simplications Maßnahmenkatalog.',
+                style: text.bodyLarge?.copyWith(
+                  color: colors.onSurfaceVariant,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 32),
+              _StepRow(
+                number: '1',
+                icon: Icons.room,
+                label: 'Räume auswählen',
+                colors: colors,
+              ),
+              _StepRow(
+                number: '2',
+                icon: Icons.devices,
+                label: 'Geräte erfassen',
+                colors: colors,
+              ),
+              _StepRow(
+                number: '3',
+                icon: Icons.quiz_outlined,
+                label: 'Sicherheitsfragen beantworten',
+                colors: colors,
+              ),
+              _StepRow(
+                number: '4',
+                icon: Icons.shield_outlined,
+                label: 'Risikoprofil & Empfehlungen erhalten',
+                colors: colors,
+              ),
+              const Spacer(flex: 3),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            RoomSelectionScreen(state: SurveyState()),
+                      ),
+                    );
+                  },
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  child: const Text(
+                    'Jetzt starten',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Center(
+                child: Text(
+                  'Basierend auf dem Simplications Maßnahmenkatalog · TU Chemnitz',
+                  style: text.bodySmall?.copyWith(
+                    color: colors.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _StepRow extends StatelessWidget {
+  final String number;
+  final IconData icon;
+  final String label;
+  final ColorScheme colors;
+
+  const _StepRow({
+    required this.number,
+    required this.icon,
+    required this.label,
+    required this.colors,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        children: [
+          Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+              color: colors.primary,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                number,
+                style: TextStyle(
+                  color: colors.onPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Icon(icon, size: 20, color: colors.primary),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              label,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -1,0 +1,242 @@
+# Simplications - LLM Context Guide
+
+This file provides essential context for LLMs working on the Simplications project.
+
+## Project Overview
+
+**Simplications** is a Flutter application that helps users evaluate privacy and security risks in their smart home, room-by-room. Users select a room, add devices, answer targeted security questions, and receive actionable recommendations based on BSI (German Federal Office for Information Security) guidelines.
+
+**Language**: German (Deutsch) - all UI text is in German
+**Framework**: Flutter 3.11.5+, Dart
+**Platform**: Cross-platform (Android, iOS, Web, macOS, Windows, Linux)
+**Target Users**: German-speaking users concerned about smart home privacy
+
+## Core Concepts
+
+### Assessment Flow
+1. **Welcome Screen**: User starts privacy assessment
+2. **Room Selection**: User picks a room (predefined or custom)
+3. **Device Selection**: User adds devices to room (predefined or custom)
+4. **Questionnaire**: User answers 8-12 device-specific security questions (yes/no)
+5. **Evaluation**: App displays room risk score + recommended security actions
+6. **Summary**: Overall smart home risk assessment across all rooms
+
+### Device-Specific Features
+The app dynamically changes questions based on device type:
+- **speaker**: Voice history, local processing, app permissions (3 device-specific Q's)
+- **camera**: Encryption, storage, sharing controls, motion detection (4 Q's)
+- **tv**: Account required, tracking disabled, offline mode (3 Q's)
+- **thermostat**: Data collection, offline control, family access (3 Q's)
+- **lock**: Offline unlock, access logging, 2FA (3 Q's)
+- **robot**: Map privacy, cloud requirement, vision data (3 Q's)
+- **toy**: Parental control, child data limits, recording disable (3 Q's)
+- **wearable**: Health data sharing, location tracking (2 Q's)
+- **light/plug/blind**: Local control, usage tracking, offline fallback (3 Q's)
+- All devices: 5 universal base questions (password, updates, network, informed, permissions)
+- Conditional: Camera/microphone consent questions if applicable
+
+### Risk Scoring
+Each device's risk score is calculated based on:
+- Base risk score from device type (20-50 range)
+- Question answers: Each "No" answer adds 5-20 penalty points
+- Risk levels: LOW (≤33), MEDIUM (34-66), HIGH (>66)
+- Per-device calculations feed into room and overall assessments
+
+### Security Actions (Remedies)
+30+ device-type-specific security actions are offered based on failed answers:
+- **Examples**:
+  - Speaker: "Delete voice recordings monthly", "Enable local voice processing"
+  - Camera: "Verify WPA2/WPA3 WLAN encryption", "Review access permissions monthly"
+  - Lock: "Enable 2FA", "Review access logs weekly"
+  - All devices: General recommendations about updates, network isolation, etc.
+
+## Project Structure
+
+```
+lib/
+├── main.dart                          # App entry point, theme setup
+├── models/
+│   ├── room.dart                     # Room(id, name, icon)
+│   ├── device.dart                   # Device models + risk logic
+│   │   ├── enum RiskLevel { low, medium, high }
+│   │   ├── enum ActionType { social, technical, security }
+│   │   ├── enum ActionPriority { high, medium, low }
+│   │   ├── class PrivacyAction
+│   │   ├── class DeviceTemplate
+│   │   ├── class DeviceQuestion(id, text, hint)
+│   │   └── class DeviceInstance (with risk scoring & question getters)
+│   └── survey_state.dart             # ChangeNotifier for state management
+├── data/
+│   └── catalog_data.dart             # Static data: rooms, devices, questions, actions
+├── screens/
+│   ├── welcome_screen.dart
+│   ├── room_selection_screen.dart    # Grid of rooms + add button
+│   ├── device_selection_screen.dart  # Grid of devices + add button
+│   ├── device_questionnaire_screen.dart
+│   ├── room_evaluation_screen.dart
+│   └── summary_screen.dart
+└── widgets/
+    ├── custom_add_dialogs.dart       # CustomRoomDialog, CustomDeviceDialog
+    └── wizard_progress_bar.dart
+```
+
+## Key Architecture Decisions
+
+### State Management: ChangeNotifier
+- Centralized `SurveyState` manages all app state
+- Screens use `ListenableBuilder` for reactive updates
+- No external state library (provider, bloc, riverpod)
+- Simple, lightweight, built-in to Flutter
+
+### Device-Specific Logic
+- `DeviceTemplate.deviceType` (string) determines question set
+- `DeviceInstance.questions` property returns conditional question list
+- `CatalogData.getDeviceSpecificQuestions(template)` provides question definitions
+- `CatalogData.getDeviceSpecificActions(template)` provides action recommendations
+- Questions stored in base properties or `Map<String, bool> deviceSpecificAnswers`
+
+### Custom Rooms/Devices
+- Stored in `SurveyState.customRooms` and `SurveyState.customDevices`
+- Created via `CustomRoomDialog` and `CustomDeviceDialog` UI dialogs
+- Unique IDs generated using timestamps (millisecondsSinceEpoch)
+- Deletable via confirmation dialogs with red delete buttons
+- Visual distinction: Custom rooms/devices show custom border and delete button
+
+### Data Persistence
+- **Current**: Transient (lost on app restart)
+- **Planned Enhancement**: SharedPreferences or local SQLite storage
+
+## Important Code Patterns
+
+### Adding a Device-Specific Question
+1. Add question to `DeviceQuestion` constants in `catalog_data.dart`
+2. Add device type check in `DeviceInstance.questions` getter
+3. Add corresponding check in `setAnswer()` method
+4. Add to `CatalogData.getDeviceSpecificQuestions()` for that device type
+5. Test by selecting device of that type in questionnaire
+
+### Adding a Device-Specific Action
+1. Create `PrivacyAction` constant in `catalog_data.dart`
+2. Add to `CatalogData.getDeviceSpecificActions()` for appropriate device type
+3. Actions automatically display in evaluation screen based on failed answers
+
+### Styling & Theme
+- Material Design 3
+- Primary color: Teal (#00695C)
+- Theme accessed via `Theme.of(context).colorScheme`
+- All text in German - search for `const Text` to find strings for localization
+
+### Screen Navigation
+- Use `Navigator.of(context).push(MaterialPageRoute(...))` for forward navigation
+- Use `Navigator.of(context).pop()` to return
+- Pass state via constructor parameters (no route params)
+
+## Common Tasks for Future Development
+
+### To Add Support for a New Device Type
+1. Add device type string (e.g., `'dishwasher'`) to device constants
+2. Create 3-4 device-specific questions in `catalog_data.dart`
+3. Add conditional questions in `DeviceInstance.questions` getter (if device type == 'dishwasher')
+4. Add 3-5 device-specific actions in `CatalogData.getDeviceSpecificActions()`
+5. Test with custom device creation or add to predefined devices list
+
+### To Fix Lint Warnings
+- Run `flutter analyze` to identify issues
+- Common issues: unused imports, deprecated methods, missing curly braces
+- Use `dart format lib/` to auto-format code
+
+### To Test Device-Specific Questions
+1. Run app: `flutter run`
+2. Select a room (e.g., "Wohnzimmer")
+3. Add a device (e.g., "Sprachassistent" / Speaker)
+4. View questions in questionnaire
+5. Verify device-specific questions appear in addition to base 5 questions
+6. Test custom device: use "Gerät hinzufügen" and enable camera/microphone flags
+
+### To Add a New Predefined Device
+1. Create `DeviceTemplate` constant in `catalog_data.dart`
+2. Assign `deviceType` to match an existing device category
+3. Add to `List<DeviceTemplate> allDeviceTemplates`
+4. Optionally add to `devicesForRoom()` method to limit which rooms show it
+
+## Naming Conventions
+
+### German Text (All UI)
+- Room names: "Wohnzimmer", "Küche", "Schlafzimmer"
+- Device names: "Sprachassistent", "Smarte Kamera", "Intelligenter Thermostat"
+- Question text: First letter capitalized, no punctuation at end
+- Actions: Imperative form, e.g., "Sprachdaten monatlich löschen"
+- Button labels: "Weiter →", "Abbrechen", "Hinzufügen"
+
+### Code Names (English)
+- Variable/method names: camelCase
+- Class names: PascalCase
+- Constants: camelCase with const keyword
+- Device type strings: lowercase single word (speaker, camera, tv, lock, robot, toy, wearable, thermostat, light, plug, blind, router, hub, meter, printer, appliance, outdoor)
+- Question IDs: lowercase with underscores (e.g., 'password', 'voice_history', 'video_encryption')
+
+## File Locations & Purposes
+
+| File | Purpose | Last Modified |
+|------|---------|---------------|
+| lib/models/device.dart | Core device models + risk scoring logic | 2026-04 |
+| lib/models/survey_state.dart | Central state management | 2026-04 |
+| lib/data/catalog_data.dart | Device catalog + 40+ questions + 30+ actions | 2026-04 |
+| lib/screens/room_selection_screen.dart | Room picker with custom room support | 2026-04 |
+| lib/screens/device_selection_screen.dart | Device picker with custom device support | 2026-04 |
+| lib/widgets/custom_add_dialogs.dart | Dialogs for creating custom rooms/devices | 2026-04 |
+| pubspec.yaml | Dependencies (minimal, no external state libs) | 2026-04 |
+
+## Testing Checklist
+
+Before submitting changes:
+- [ ] `flutter analyze` shows 0 issues
+- [ ] `flutter run` launches without errors
+- [ ] Custom room creation works end-to-end
+- [ ] Custom device creation works end-to-end
+- [ ] Device-specific questions appear for tested device types
+- [ ] Risk score updates when questions are answered
+- [ ] Device-specific actions appear in evaluation screen
+- [ ] UI text is German throughout
+- [ ] Material 3 teal theme is applied consistently
+
+## Troubleshooting
+
+### "The name 'currentRoom' is already defined"
+- Duplicate getter/property in screen class
+- Check for duplicate method definitions
+
+### ".withOpacity is deprecated"
+- Replace with `.withValues(alpha: x)`
+- Example: `Colors.teal.withValues(alpha: 0.1)`
+
+### Device-specific questions not appearing
+- Check `DeviceTemplate.deviceType` matches string used in `DeviceInstance.questions`
+- Verify question added to `CatalogData.getDeviceSpecificQuestions()`
+- Check conditional logic: `if (template.deviceType == 'speaker')`
+
+### Custom devices not showing in grid
+- Verify `_AddDeviceCard` widget is defined
+- Check grid logic: `allDevices.length + state.customDevices.length + 1`
+- Ensure `isCustom` flag is properly set
+
+## Resources
+
+- **Flutter Docs**: https://docs.flutter.dev/
+- **Material Design 3**: https://m3.material.io/
+- **Dart Language**: https://dart.dev/guides/language/language-tour
+- **BSI Smart Home Security** (reference): German Federal Office for Information Security guidelines
+
+## Recent Changes (April 2026)
+
+- ✅ Added custom room and device support with full UI
+- ✅ Implemented 40+ device-specific questions across 12+ device types
+- ✅ Added 30+ BSI-based security actions mapped to device types
+- ✅ Fixed all lint warnings (0 issues in `flutter analyze`)
+- ✅ Added device-specific evaluation logic
+- 🟡 Future: Add persistence layer (SharedPreferences/SQLite)
+- 🟡 Future: Add multi-language support
+
+---
+
+**For Questions**: Refer to README.md for high-level overview, this file for technical deep-dive.
