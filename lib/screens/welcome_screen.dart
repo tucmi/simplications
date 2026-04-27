@@ -179,7 +179,7 @@ class _MadeBySection extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Mehr Infos: simplications.tucmi.de',
+                    'simplications.tucmi.de',
                     style: text.bodySmall?.copyWith(
                       color: colors.primary,
                       decoration: TextDecoration.underline,

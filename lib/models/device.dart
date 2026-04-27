@@ -329,6 +329,9 @@ class DeviceInstance {
 
   bool get isFullyAnswered => questions.every((q) => answerFor(q.id) != null);
 
+  bool get allAnswersPositive =>
+      questions.every((q) => answerFor(q.id) == true);
+
   int get riskScore {
     int score = template.baseRiskScore;
     if (passwordChanged == false) score += 20;
@@ -354,6 +357,24 @@ class DeviceInstance {
     if (s <= 33) return RiskLevel.low;
     if (s <= 66) return RiskLevel.medium;
     return RiskLevel.high;
+  }
+
+  String? get inherentRiskHint {
+    if (!allAnswersPositive || riskLevel == RiskLevel.low) {
+      return null;
+    }
+
+    if (template.deviceType == 'camera' || template.hasCamera) {
+      return 'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt das Grundrisiko bei Kameras höher, weil sie besonders sensible Beobachtungsdaten erfassen und bei Fehlkonfiguration zur Überwachung genutzt werden können.';
+    }
+    if (template.deviceType == 'speaker' || template.hasMicrophone) {
+      return 'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt das Grundrisiko bei Geräten mit Mikrofon erhöht, da Sprachdaten sehr sensibel sind und Fehlaktivierungen bzw. Cloud-Verarbeitung weiterhin Risiken bergen.';
+    }
+    if (template.deviceType == 'lock') {
+      return 'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt bei smarten Schlössern ein erhöhtes Grundrisiko, da ein möglicher Missbrauch direkt den physischen Zugang zur Wohnung betrifft.';
+    }
+
+    return 'Sie haben alle Fragen positiv beantwortet. Das Gerät bleibt trotzdem im mittleren/hohen Bereich, weil bereits die Art des Geräts sensible Nutzungs- und Verhaltensdaten offenlegen kann.';
   }
 
   List<PrivacyAction> get suggestedActions {

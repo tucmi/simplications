@@ -209,7 +209,7 @@ class _DeviceQuestionnaireScreenState
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
           child: SizedBox(
             width: double.infinity,
-            child: FilledButton(
+            child: FilledButton.icon(
               onPressed: allAnswered ? _onNext : null,
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -217,9 +217,10 @@ class _DeviceQuestionnaireScreenState
                   borderRadius: BorderRadius.circular(14),
                 ),
               ),
-              child: Text(
-                allAnswered ? 'Fertig ✓' : 'Alle Fragen beantworten',
-                style: const TextStyle(
+              icon: const Icon(Icons.check_circle_outline, size: 18),
+              label: const Text(
+                'Fertig',
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),

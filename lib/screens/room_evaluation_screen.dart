@@ -295,6 +295,7 @@ class _DeviceIssueCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final actions = device.suggestedActions;
+    final inherentRiskHint = device.inherentRiskHint;
 
     return Card(
       elevation: 0,
@@ -316,6 +317,15 @@ class _DeviceIssueCard extends StatelessWidget {
         ),
         leading: Icon(device.template.icon, color: colors.primary),
         children: [
+          if (inherentRiskHint != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _InfoCard(
+                title: 'Hinweis zum Grundrisiko',
+                description: inherentRiskHint,
+                icon: Icons.info_outline,
+              ),
+            ),
           if (actions.isEmpty)
             const _InfoCard(
               title: 'Keine Probleme erkannt',
