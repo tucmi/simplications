@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/survey_state.dart';
 import 'room_selection_screen.dart';
 
@@ -116,6 +117,18 @@ class _MadeBySection extends StatelessWidget {
 
   const _MadeBySection({required this.colors});
 
+  Future<void> _openWebsite(BuildContext context) async {
+    final uri = Uri.parse('https://simplications.tucmi.de');
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Website konnte nicht geöffnet werden.'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
@@ -149,9 +162,30 @@ class _MadeBySection extends StatelessWidget {
             style: text.bodySmall?.copyWith(color: colors.onSurfaceVariant),
           ),
           const SizedBox(height: 2),
-          Text(
-            'Mehr Infos: simplications.tucmi.de',
-            style: text.bodySmall?.copyWith(color: colors.primary),
+          InkWell(
+            onTap: () => _openWebsite(context),
+            borderRadius: BorderRadius.circular(8),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Mehr Infos: simplications.tucmi.de',
+                    style: text.bodySmall?.copyWith(
+                      color: colors.primary,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Icon(
+                    Icons.open_in_new,
+                    size: 14,
+                    color: colors.primary,
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
