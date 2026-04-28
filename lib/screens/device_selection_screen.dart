@@ -6,7 +6,7 @@ import '../models/survey_state.dart';
 import '../widgets/wizard_progress_bar.dart';
 import '../widgets/custom_add_dialogs.dart';
 import 'device_questionnaire_screen.dart';
-import 'room_evaluation_screen.dart';
+import 'summary_screen.dart';
 
 class DeviceSelectionScreen extends StatelessWidget {
   final SurveyState state;
@@ -38,13 +38,14 @@ class DeviceSelectionScreen extends StatelessWidget {
   }
 
   void _onNext(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => RoomEvaluationScreen(
-          state: state,
-          room: currentRoom,
-        ),
-      ),
+    state.markRoomCompleted(currentRoom.id);
+    Navigator.of(context).pop();
+  }
+
+  void _onFinish(BuildContext context) {
+    state.markRoomCompleted(currentRoom.id);
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => SummaryScreen(state: state)),
     );
   }
 
@@ -53,7 +54,9 @@ class DeviceSelectionScreen extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Gerät löschen?'),
-        content: const Text('Dieses benutzerdefinierte Gerät wird gelöscht. Alle verknüpften Instanzen werden auch entfernt.'),
+        content: const Text(
+          'Dieses benutzerdefinierte Gerät wird gelöscht. Alle verknüpften Instanzen werden auch entfernt.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -86,7 +89,7 @@ class DeviceSelectionScreen extends StatelessWidget {
         centerTitle: false,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
-          child: const WizardProgressBar(current: 2, total: 4),
+          child: const WizardProgressBar(current: 2, total: 3),
         ),
       ),
       body: ListenableBuilder(
@@ -186,14 +189,14 @@ class DeviceSelectionScreen extends StatelessWidget {
                           ...availableDevices,
                           ...state.customDevices,
                         ];
-                        
+
                         // Last item is "Add custom device" button
                         if (index == allDevices.length) {
                           return _AddDeviceCard(
                             onTap: () => _showAddDeviceDialog(context),
                           );
                         }
-                        
+
                         final device = allDevices[index];
                         final isAdded = state.isDeviceAdded(
                           currentRoom.id,
@@ -202,7 +205,8 @@ class DeviceSelectionScreen extends StatelessWidget {
                         final instances = state
                             .devicesForRoom(currentRoom.id)
                             .where((i) => i.template.id == device.id);
-                        final isCompleted = instances.isNotEmpty &&
+                        final isCompleted =
+                            instances.isNotEmpty &&
                             instances.first.isFullyAnswered;
                         final isCustom = state.customDevices.contains(device);
 
@@ -232,8 +236,9 @@ class DeviceSelectionScreen extends StatelessWidget {
                               : null,
                         );
                       },
-                      childCount: availableDevices.length + 
-                          state.customDevices.length + 
+                      childCount:
+                          availableDevices.length +
+                          state.customDevices.length +
                           1, // +1 for "Add" button
                     ),
                   ),
@@ -245,6 +250,7 @@ class DeviceSelectionScreen extends StatelessWidget {
       ),
       bottomNavigationBar: _BottomBar(
         onNext: () => _onNext(context),
+        onFinish: () => _onFinish(context),
         state: state,
         currentRoomId: currentRoom.id,
       ),
@@ -306,7 +312,11 @@ class _DeviceCard extends StatelessWidget {
                     if (device.hasCamera && !isCompleted)
                       Tooltip(
                         message: 'Kamera',
-                        child: Icon(Icons.videocam, size: 14, color: contentColor),
+                        child: Icon(
+                          Icons.videocam,
+                          size: 14,
+                          color: contentColor,
+                        ),
                       ),
                     if (device.hasMicrophone && !isCompleted)
                       Tooltip(
@@ -384,11 +394,7 @@ class _AddDeviceCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.add,
-              size: 32,
-              color: colors.primary,
-            ),
+            Icon(Icons.add, size: 32, color: colors.primary),
             const SizedBox(height: 6),
             Text(
               'Gerät\nhinzufügen',
@@ -407,11 +413,13 @@ class _AddDeviceCard extends StatelessWidget {
 
 class _BottomBar extends StatelessWidget {
   final VoidCallback onNext;
+  final VoidCallback onFinish;
   final SurveyState state;
   final String currentRoomId;
 
   const _BottomBar({
     required this.onNext,
+    required this.onFinish,
     required this.state,
     required this.currentRoomId,
   });
@@ -421,32 +429,49 @@ class _BottomBar extends StatelessWidget {
     return ListenableBuilder(
       listenable: state,
       builder: (context, _) {
-        final roomDeviceCount = state.devicesForRoom(currentRoomId).length;
-        final label =
-            roomDeviceCount == 0
-                ? 'Raum ohne Geräte auswerten →'
-                : 'Raum auswerten →';
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
-            child: SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: onNext,
-                style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
+            child: Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: onNext,
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: const Text(
+                      'Raum abschließen',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
-                child: Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                const SizedBox(width: 10),
+                Expanded(
+                  child: FilledButton(
+                    onPressed: onFinish,
+                    style: FilledButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: const Text(
+                      'Fertig',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         );

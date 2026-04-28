@@ -11,11 +11,85 @@ class CatalogData {
     Room(id: 'office', name: 'Arbeitszimmer', icon: Icons.computer),
     Room(id: 'hallway', name: 'Flur / Eingang', icon: Icons.meeting_room),
     Room(id: 'garden', name: 'Garten / Außenbereich', icon: Icons.yard),
-    Room(id: 'basement', name: 'Keller / Utility', icon: Icons.storage),
+    Room(id: 'basement', name: 'Keller / Speisekammer', icon: Icons.food_bank),
     Room(id: 'whole_home', name: 'Ganze Wohnung', icon: Icons.home),
   ];
 
   static const List<DeviceTemplate> allDeviceTemplates = [
+    // ── Sensors ───────────────────────────────────────────────────────
+    DeviceTemplate(
+      id: 'simple_sensor',
+      name: 'Einfacher Sensor (z. B. Bewegungs- oder Türsensor)',
+      icon: Icons.sensors,
+      baseRiskScore: 20,
+      roomIds: [
+        'living',
+        'kitchen',
+        'bedroom',
+        'bathroom',
+        'office',
+        'hallway',
+        'garden',
+        'basement',
+        'whole_home',
+      ],
+      deviceType: 'sensor',
+    ),
+    DeviceTemplate(
+      id: 'humidity_sensor',
+      name: 'Feuchtigkeitssensor',
+      icon: Icons.water_drop,
+      baseRiskScore: 15,
+      roomIds: [
+        'living',
+        'kitchen',
+        'bedroom',
+        'bathroom',
+        'office',
+        'hallway',
+        'garden',
+        'basement',
+        'whole_home',
+      ],
+      deviceType: 'sensor',
+    ),
+    DeviceTemplate(
+      id: 'temperature_sensor',
+      name: 'Temperatursensor',
+      icon: Icons.thermostat,
+      baseRiskScore: 15,
+      roomIds: [
+        'living',
+        'kitchen',
+        'bedroom',
+        'bathroom',
+        'office',
+        'hallway',
+        'garden',
+        'basement',
+        'whole_home',
+      ],
+      deviceType: 'sensor',
+    ),
+    DeviceTemplate(
+      id: 'light_sensor',
+      name: 'Lichtsensor',
+      icon: Icons.light_mode,
+      baseRiskScore: 15,
+      roomIds: [
+        'living',
+        'kitchen',
+        'bedroom',
+        'bathroom',
+        'office',
+        'hallway',
+        'garden',
+        'basement',
+        'whole_home',
+      ],
+      deviceType: 'sensor',
+    ),
+
     // ── Smart Speaker / Voice ──────────────────────────────────────────
     DeviceTemplate(
       id: 'smart_speaker',
@@ -272,11 +346,61 @@ class CatalogData {
   static List<DeviceQuestion> getDeviceSpecificQuestions(
     DeviceTemplate template,
   ) {
+    // Simple sensors typically have no app, dedicated password, or software updates,
+    // so they get a tailored, minimal question set focused on data minimisation.
+    if (template.deviceType == 'sensor') {
+      return [
+        const DeviceQuestion(
+          id: 'sensor_informed',
+          text:
+              'Sind alle Personen im Haushalt über diesen Sensor und seine Funktion informiert?',
+          hint:
+              'Alle Mitbewohnenden sollten wissen, welche Daten der Sensor erfasst.',
+        ),
+        const DeviceQuestion(
+          id: 'sensor_network',
+          text:
+              'Ist der Sensor in einem separaten Smart-Home- oder IoT-WLAN eingebunden (sofern netzwerkfähig)?',
+          hint:
+              'Ein eigenes Netz für smarte Geräte schützt Ihr restliches Heimnetzwerk.',
+        ),
+        const DeviceQuestion(
+          id: 'sensor_frequency',
+          text:
+              'Können Sie das Messintervall des Sensors reduzieren (z. B. seltener messen)?',
+          hint:
+              'Eine niedrigere Messfrequenz erzeugt weniger Daten und schränkt Rückschlüsse auf Ihr Verhalten ein.',
+        ),
+        const DeviceQuestion(
+          id: 'sensor_data_deletion',
+          text: 'Werden ältere Messwerte automatisch oder auf Wunsch gelöscht?',
+          hint:
+              'Alte Verlaufsdaten sollten nicht dauerhaft gespeichert bleiben. Prüfen Sie die Aufbewahrungszeit in den Einstellungen.',
+        ),
+        const DeviceQuestion(
+          id: 'sensor_granularity',
+          text:
+              'Zeigt das System die Sensordaten nur in zusammengefasster Form an (z. B. Tages- statt Minutenwerte)?',
+          hint:
+              'Weniger granulare Anzeigen schützen vor Rückschlüssen auf genaue Anwesenheits- oder Verhaltensmuster.',
+        ),
+        const DeviceQuestion(
+          id: 'sensor_local',
+          text:
+              'Werden die Messdaten lokal verarbeitet und gespeichert, ohne in eine Cloud übertragen zu werden?',
+          hint:
+              'Lokale Verarbeitung verhindert, dass der Hersteller Einblick in Ihre Messwerte erhält.',
+        ),
+      ];
+    }
+
     final baseQuestions = <DeviceQuestion>[
       const DeviceQuestion(
         id: 'password',
-        text: 'Haben Sie das Standard-Passwort des Geräts oder des zugehörigen Kontos geändert?',
-        hint: 'Voreingestellte Passwörter sind oft öffentlich bekannt und leicht zu knacken.',
+        text:
+            'Haben Sie das Standard-Passwort des Geräts oder des zugehörigen Kontos geändert?',
+        hint:
+            'Voreingestellte Passwörter sind oft öffentlich bekannt und leicht zu knacken.',
       ),
       const DeviceQuestion(
         id: 'updates',
@@ -285,17 +409,22 @@ class CatalogData {
       ),
       const DeviceQuestion(
         id: 'network',
-        text: 'Ist das Gerät in einem separaten Smart-Home- oder IoT-WLAN eingebunden?',
-        hint: 'Ein eigenes Netz für smarte Geräte schützt Ihr restliches Heimnetzwerk.',
+        text:
+            'Ist das Gerät in einem separaten Smart-Home- oder IoT-WLAN eingebunden?',
+        hint:
+            'Ein eigenes Netz für smarte Geräte schützt Ihr restliches Heimnetzwerk.',
       ),
       const DeviceQuestion(
         id: 'informed',
-        text: 'Sind alle Personen im Haushalt über dieses Gerät und seine Funktion informiert?',
-        hint: 'Alle Mitbewohnenden sollten wissen, welche Daten das Gerät erfasst.',
+        text:
+            'Sind alle Personen im Haushalt über dieses Gerät und seine Funktion informiert?',
+        hint:
+            'Alle Mitbewohnenden sollten wissen, welche Daten das Gerät erfasst.',
       ),
       const DeviceQuestion(
         id: 'permissions',
-        text: 'Haben Sie unnötige App-Berechtigungen (z. B. Standort, Kontakte) deaktiviert?',
+        text:
+            'Haben Sie unnötige App-Berechtigungen (z. B. Standort, Kontakte) deaktiviert?',
         hint: 'Nur wirklich benötigte Berechtigungen sollten aktiviert sein.',
       ),
     ];
@@ -312,7 +441,8 @@ class CatalogData {
         ),
         const DeviceQuestion(
           id: 'voice_local',
-          text: 'Wird die Sprachverarbeitung teilweise lokal auf dem Gerät durchgeführt?',
+          text:
+              'Wird die Sprachverarbeitung teilweise lokal auf dem Gerät durchgeführt?',
           hint:
               'Lokale Verarbeitung reduziert die Menge an Daten, die in die Cloud übertragen werden.',
         ),
@@ -328,7 +458,8 @@ class CatalogData {
       baseQuestions.addAll([
         const DeviceQuestion(
           id: 'video_encryption',
-          text: 'Ist die Videoaufnahme und -übertragung durchgängig verschlüsselt?',
+          text:
+              'Ist die Videoaufnahme und -übertragung durchgängig verschlüsselt?',
           hint:
               'BSI-Empfehlung: Verschlüsselte Verbindung verhindert Abhören und Datenklau unterwegs.',
         ),
@@ -341,7 +472,8 @@ class CatalogData {
         ),
         const DeviceQuestion(
           id: 'sharing_restrictions',
-          text: 'Können Sie steuern, wer auf die Live-View und Aufnahmen zugreifen kann?',
+          text:
+              'Können Sie steuern, wer auf die Live-View und Aufnahmen zugreifen kann?',
           hint:
               'Sie sollten genau kontrollieren können, wer Zugang zu den Videoaufnahmen erhält.',
         ),
@@ -357,8 +489,10 @@ class CatalogData {
       baseQuestions.addAll([
         const DeviceQuestion(
           id: 'account_required',
-          text: 'Müssen Sie ein Online-Konto erstellen, um das Gerät zu nutzen?',
-          hint: 'Konten mit Werbe-Tracking können Ihre Sehgewohnheiten speichern und auswerten.',
+          text:
+              'Müssen Sie ein Online-Konto erstellen, um das Gerät zu nutzen?',
+          hint:
+              'Konten mit Werbe-Tracking können Ihre Sehgewohnheiten speichern und auswerten.',
         ),
         const DeviceQuestion(
           id: 'tracking_disabled',
@@ -379,13 +513,15 @@ class CatalogData {
       baseQuestions.addAll([
         const DeviceQuestion(
           id: 'data_collection',
-          text: 'Werden Temperatur-Historien und Zeitpläne an den Hersteller übermittelt?',
+          text:
+              'Werden Temperatur-Historien und Zeitpläne an den Hersteller übermittelt?',
           hint:
               'Historien können Anwesenheitsmuster und Lebensgewohnheiten offenbaren.',
         ),
         const DeviceQuestion(
           id: 'offline_control',
-          text: 'Können Sie das Thermostat auch offline betreiben (ohne Internet)?',
+          text:
+              'Können Sie das Thermostat auch offline betreiben (ohne Internet)?',
           hint:
               'Offline-Betrieb oder lokale Automatisierung schützt Ihre Daten vor Cloud-Zugriff.',
         ),
@@ -403,7 +539,8 @@ class CatalogData {
       baseQuestions.addAll([
         const DeviceQuestion(
           id: 'local_control',
-          text: 'Können Automatisierungen lokal ohne Internetverbindung erfolgen?',
+          text:
+              'Können Automatisierungen lokal ohne Internetverbindung erfolgen?',
           hint:
               'Lokale Ausführung von Szenen und Zeitplänen schützt Ihre Privatsphäre besser.',
         ),
@@ -426,7 +563,8 @@ class CatalogData {
       baseQuestions.addAll([
         const DeviceQuestion(
           id: 'offline_unlock',
-          text: 'Können Sie das Schloss auch offline (z. B. mit Code oder Schlüssel) öffnen?',
+          text:
+              'Können Sie das Schloss auch offline (z. B. mit Code oder Schlüssel) öffnen?',
           hint:
               'Backup-Optionen verhindern Aussperrung bei Internet- oder Stromausfällen.',
         ),
@@ -455,7 +593,8 @@ class CatalogData {
         ),
         const DeviceQuestion(
           id: 'cloud_required',
-          text: 'Ist eine Cloud-Verbindung für die Grundriss-Navigation erforderlich?',
+          text:
+              'Ist eine Cloud-Verbindung für die Grundriss-Navigation erforderlich?',
           hint:
               'Geräte mit lokaler Navigation datenschutzfreundlicher als Varianten, die Cloud brauchen.',
         ),
@@ -471,7 +610,8 @@ class CatalogData {
       baseQuestions.addAll([
         const DeviceQuestion(
           id: 'parental_control',
-          text: 'Gibt es Elternkontroll-Funktionen zur Verwaltung des Spielzeugs?',
+          text:
+              'Gibt es Elternkontroll-Funktionen zur Verwaltung des Spielzeugs?',
           hint:
               'Elternkontrolle sollte ermöglichen, Kontakte und Funktionen zu beschränken.',
         ),
@@ -484,7 +624,8 @@ class CatalogData {
         ),
         const DeviceQuestion(
           id: 'recording_disable',
-          text: 'Können Sie Audio- und Videoaufnahmen auf dem Gerät deaktivieren?',
+          text:
+              'Können Sie Audio- und Videoaufnahmen auf dem Gerät deaktivieren?',
           hint:
               'BSI-Empfehlung: Aufnahmen von Kindern sollten nur mit expliziter Kontrolle möglich sein.',
         ),
@@ -493,21 +634,26 @@ class CatalogData {
 
     // Add camera/microphone specific questions if applicable
     if (template.hasCamera) {
-      baseQuestions.add(const DeviceQuestion(
-        id: 'camera_consent',
-        text:
-            'Filmt die Kamera nur Bereiche, für die alle Betroffenen ihr Einverständnis gegeben haben?',
-        hint:
-            'Kameras in Gemeinschafts- oder Privatbereichen bedürfen der Zustimmung aller Bewohner.',
-      ));
+      baseQuestions.add(
+        const DeviceQuestion(
+          id: 'camera_consent',
+          text:
+              'Filmt die Kamera nur Bereiche, für die alle Betroffenen ihr Einverständnis gegeben haben?',
+          hint:
+              'Kameras in Gemeinschafts- oder Privatbereichen bedürfen der Zustimmung aller Bewohner.',
+        ),
+      );
     }
     if (template.hasMicrophone) {
-      baseQuestions.add(const DeviceQuestion(
-        id: 'mic_active',
-        text: 'Deaktivieren Sie das Mikrofon, wenn Sie es nicht aktiv nutzen?',
-        hint:
-            'Smarte Lautsprecher und Geräte mit Mikrofonen können versehentlich aktiviert werden.',
-      ));
+      baseQuestions.add(
+        const DeviceQuestion(
+          id: 'mic_active',
+          text:
+              'Deaktivieren Sie das Mikrofon, wenn Sie es nicht aktiv nutzen?',
+          hint:
+              'Smarte Lautsprecher und Geräte mit Mikrofonen können versehentlich aktiviert werden.',
+        ),
+      );
     }
 
     return baseQuestions;

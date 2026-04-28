@@ -21,13 +21,15 @@ class DeviceQuestionnaireScreen extends StatefulWidget {
       _DeviceQuestionnaireScreenState();
 }
 
-class _DeviceQuestionnaireScreenState
-    extends State<DeviceQuestionnaireScreen> {
+class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
   Room get currentRoom => widget.room;
-  DeviceInstance get device => widget.state.devices
-      .firstWhere((d) => d.instanceId == widget.instanceId);
+  DeviceInstance get device =>
+      widget.state.devices.firstWhere((d) => d.instanceId == widget.instanceId);
 
   void _onAnswer(String questionId, bool value) {
+    if (device.answerFor(questionId) == value) {
+      return;
+    }
     setState(() {
       device.setAnswer(questionId, value);
     });
@@ -43,7 +45,9 @@ class _DeviceQuestionnaireScreenState
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final questions = device.questions;
-    final answered = questions.where((q) => device.answerFor(q.id) != null).length;
+    final answered = questions
+        .where((q) => device.answerFor(q.id) != null)
+        .length;
     final allAnswered = answered == questions.length;
 
     return Scaffold(
@@ -52,7 +56,7 @@ class _DeviceQuestionnaireScreenState
         centerTitle: false,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
-          child: const WizardProgressBar(current: 3, total: 4),
+          child: const WizardProgressBar(current: 3, total: 3),
         ),
       ),
       body: CustomScrollView(
@@ -131,9 +135,7 @@ class _DeviceQuestionnaireScreenState
                                       ),
                                     if (device.template.hasMicrophone)
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 6,
-                                        ),
+                                        padding: const EdgeInsets.only(left: 6),
                                         child: _FeatureChip(
                                           icon: Icons.mic,
                                           label: 'Mikrofon',
@@ -183,22 +185,20 @@ class _DeviceQuestionnaireScreenState
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final question = questions[index];
-                  final answer = device.answerFor(question.id);
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: _QuestionCard(
-                      question: question,
-                      answer: answer,
-                      onAnswer: (v) => _onAnswer(question.id, v),
-                      number: index + 1,
-                    ),
-                  );
-                },
-                childCount: questions.length,
-              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final question = questions[index];
+                final answer = device.answerFor(question.id);
+                return Padding(
+                  key: ValueKey(question.id),
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: _QuestionCard(
+                    question: question,
+                    answer: answer,
+                    onAnswer: (v) => _onAnswer(question.id, v),
+                    number: index + 1,
+                  ),
+                );
+              }, childCount: questions.length),
             ),
           ),
           const SliverToBoxAdapter(child: SizedBox(height: 100)),
@@ -220,10 +220,7 @@ class _DeviceQuestionnaireScreenState
               icon: const Icon(Icons.check_circle_outline, size: 18),
               label: const Text(
                 'Fertig',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
             ),
           ),
@@ -292,21 +289,17 @@ class _QuestionCard extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      color:
-          answered
-              ? (answer == true
-                  ? colors.secondaryContainer.withAlpha(180)
-                  : colors.errorContainer.withAlpha(120))
-              : colors.surfaceContainerLow,
+      color: answered
+          ? (answer == true
+                ? colors.secondaryContainer.withAlpha(180)
+                : colors.errorContainer.withAlpha(120))
+          : colors.surfaceContainerLow,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14),
         side: BorderSide(
-          color:
-              answered
-                  ? (answer == true
-                      ? colors.secondary
-                      : colors.error)
-                  : Colors.transparent,
+          color: answered
+              ? (answer == true ? colors.secondary : colors.error)
+              : Colors.transparent,
           width: 1.5,
         ),
       ),
@@ -322,35 +315,28 @@ class _QuestionCard extends StatelessWidget {
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
-                    color:
-                        answered
-                            ? (answer == true
-                                ? colors.secondary
-                                : colors.error)
-                            : colors.outlineVariant,
+                    color: answered
+                        ? (answer == true ? colors.secondary : colors.error)
+                        : colors.outlineVariant,
                     shape: BoxShape.circle,
                   ),
                   child: Center(
-                    child:
-                        answered
-                            ? Icon(
-                              answer == true
-                                  ? Icons.check
-                                  : Icons.close,
-                              size: 14,
-                              color:
-                                  answer == true
-                                      ? colors.onSecondary
-                                      : colors.onError,
-                            )
-                            : Text(
-                              '$number',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: colors.onSurface,
-                              ),
+                    child: answered
+                        ? Icon(
+                            answer == true ? Icons.check : Icons.close,
+                            size: 14,
+                            color: answer == true
+                                ? colors.onSecondary
+                                : colors.onError,
+                          )
+                        : Text(
+                            '$number',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: colors.onSurface,
                             ),
+                          ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -435,8 +421,9 @@ class _AnswerButton extends StatelessWidget {
       child: OutlinedButton.icon(
         onPressed: onTap,
         style: OutlinedButton.styleFrom(
-          backgroundColor:
-              isSelected ? selectedBg : colors.surfaceContainerHighest,
+          backgroundColor: isSelected
+              ? selectedBg
+              : colors.surfaceContainerHighest,
           side: BorderSide(
             color: isSelected ? selectedBg : colors.outline,
             width: 1.5,

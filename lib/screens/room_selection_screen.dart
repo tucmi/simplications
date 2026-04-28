@@ -3,7 +3,6 @@ import '../data/catalog_data.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
 import 'device_selection_screen.dart';
-import 'summary_screen.dart';
 import '../widgets/wizard_progress_bar.dart';
 import '../widgets/custom_add_dialogs.dart';
 
@@ -15,10 +14,7 @@ class RoomSelectionScreen extends StatelessWidget {
   void _openRoom(BuildContext context, Room room) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => DeviceSelectionScreen(
-          state: state,
-          room: room,
-        ),
+        builder: (_) => DeviceSelectionScreen(state: state, room: room),
       ),
     );
   }
@@ -30,10 +26,7 @@ class RoomSelectionScreen extends StatelessWidget {
     );
 
     if (result != null && context.mounted) {
-      state.addCustomRoom(
-        result['name'] as String,
-        result['icon'] as IconData,
-      );
+      state.addCustomRoom(result['name'] as String, result['icon'] as IconData);
     }
   }
 
@@ -42,7 +35,9 @@ class RoomSelectionScreen extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Raum löschen?'),
-        content: const Text('Dieser benutzerdefinierte Raum wird gelöscht. Alle verknüpften Geräte werden auch entfernt.'),
+        content: const Text(
+          'Dieser benutzerdefinierte Raum wird gelöscht. Alle verknüpften Geräte werden auch entfernt.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -69,34 +64,15 @@ class RoomSelectionScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Raum auswählen'),
         centerTitle: false,
-        actions: [
-          ListenableBuilder(
-            listenable: state,
-            builder: (context, _) {
-              if (state.completedRoomIds.isEmpty) {
-                return const SizedBox.shrink();
-              }
-              return TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => SummaryScreen(state: state),
-                    ),
-                  );
-                },
-                child: const Text('Gesamtauswertung'),
-              );
-            },
-          ),
-        ],
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(6),
-          child: WizardProgressBar(current: 1, total: 4),
+          child: WizardProgressBar(current: 1, total: 3),
         ),
       ),
       body: ListenableBuilder(
         listenable: state,
         builder: (context, _) {
+          final allRooms = [...CatalogData.allRooms, ...state.customRooms];
           return Column(
             children: [
               Expanded(
@@ -116,7 +92,7 @@ class RoomSelectionScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Tippen Sie auf einen Raum. Nach der Auswertung kehren Sie hierher zurück und wählen den nächsten Raum.',
+                              'Tippen Sie auf einen Raum, erfassen Sie dort Ihre Geräte und kehren Sie dann hierher zurück, um den nächsten Raum zu wählen.',
                               style: text.bodyMedium?.copyWith(
                                 color: colors.onSurfaceVariant,
                               ),
@@ -139,22 +115,22 @@ class RoomSelectionScreen extends StatelessWidget {
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
                             // Get all rooms (catalog + custom)
-                            final allRooms = [
+                            final allRoomsInGrid = [
                               ...CatalogData.allRooms,
                               ...state.customRooms,
                             ];
-                            
+
                             // Last item is "Add custom room" button
-                            if (index == allRooms.length) {
+                            if (index == allRoomsInGrid.length) {
                               return _AddRoomCard(
                                 onTap: () => _showAddRoomDialog(context),
                               );
                             }
-                            
-                            final room = allRooms[index];
+
+                            final room = allRoomsInGrid[index];
                             final isCompleted = state.isRoomCompleted(room.id);
                             final isCustom = state.customRooms.contains(room);
-                            
+
                             return _RoomCard(
                               room: room,
                               isCompleted: isCompleted,
@@ -165,15 +141,14 @@ class RoomSelectionScreen extends StatelessWidget {
                                   : null,
                             );
                           },
-                          childCount: CatalogData.allRooms.length +
+                          childCount:
+                              CatalogData.allRooms.length +
                               state.customRooms.length +
                               1, // +1 for "Add" button
                         ),
                       ),
                     ),
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: 100),
-                    ),
+                    const SliverToBoxAdapter(child: SizedBox(height: 100)),
                   ],
                 ),
               ),
@@ -185,7 +160,7 @@ class RoomSelectionScreen extends StatelessWidget {
                     return Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        '${state.completedRoomIds.length} Raum/Räume ausgewertet',
+                        '${state.completedRoomIds.length} / ${allRooms.length} Räume ausgewertet',
                         style: text.labelMedium?.copyWith(
                           color: colors.primary,
                           fontWeight: FontWeight.w600,
@@ -238,7 +213,7 @@ class _RoomCard extends StatelessWidget {
             width: 2,
           ),
         ),
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(12),
         child: Stack(
           children: [
             Column(
@@ -249,7 +224,7 @@ class _RoomCard extends StatelessWidget {
                   children: [
                     Icon(
                       room.icon,
-                      size: 26,
+                      size: 24,
                       color: isCompleted
                           ? colors.onSurface.withValues(alpha: 0.35)
                           : colors.onSurfaceVariant,
@@ -258,32 +233,34 @@ class _RoomCard extends StatelessWidget {
                     if (isCompleted)
                       const Icon(
                         Icons.check_circle,
-                        size: 20,
+                        size: 18,
                         color: Colors.green,
                       ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 6),
                 Text(
                   room.name,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w500,
                     color: isCompleted
                         ? colors.onSurface.withValues(alpha: 0.35)
                         : colors.onSurfaceVariant,
                   ),
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  isCompleted ? 'Bereits ausgewertet' : 'Jetzt prüfen',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: isCompleted
-                        ? colors.onSurface.withValues(alpha: 0.35)
-                        : colors.onSurfaceVariant,
+                if (isCompleted) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    'Bereits ausgewertet',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: colors.onSurface.withValues(alpha: 0.35),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
+                ],
               ],
             ),
             if (isCustom && onRemove != null)
@@ -337,11 +314,7 @@ class _AddRoomCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.add,
-              size: 40,
-              color: colors.primary,
-            ),
+            Icon(Icons.add, size: 40, color: colors.primary),
             const SizedBox(height: 8),
             Text(
               'Raum hinzufügen',
