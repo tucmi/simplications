@@ -5,12 +5,14 @@ A Flutter application for evaluating smart home privacy and security risks room-
 ## 🎯 Features
 
 ### Core Functionality
+
 - **Room-based Assessment**: Evaluate privacy risks by room (living room, bedroom, kitchen, etc.)
 - **Device Evaluation**: Add devices to rooms and answer targeted security questions
 - **Risk Scoring**: Automatic risk calculation (Low/Medium/High) based on security practices
 - **Actionable Remedies**: Get device-specific security recommendations
 
 ### Advanced Features
+
 - **Custom Rooms**: Create custom room types beyond predefined options
 - **Custom Devices**: Add devices not in the catalog with custom risk profiles
 - **Device-Specific Questions**: Tailored security questions for each device type:
@@ -28,6 +30,7 @@ A Flutter application for evaluating smart home privacy and security risks room-
 ## 📱 Device Support
 
 The app supports 12+ device categories with dedicated security profiles:
+
 - Smart Speakers & Hubs
 - Cameras & Video Doorbells
 - Smart TVs
@@ -44,6 +47,7 @@ The app supports 12+ device categories with dedicated security profiles:
 ## 🏗️ Architecture
 
 ### Project Structure
+
 ```
 lib/
 ├── main.dart                          # App entry point
@@ -68,29 +72,35 @@ lib/
 ### Key Models
 
 **DeviceTemplate**: Device type definition
+
 - `id`, `name`, `icon`, `baseRiskScore`
 - `deviceType`: Category for device-specific questions (speaker, camera, tv, thermostat, etc.)
 - `hasCamera`, `hasMicrophone`: Flags for conditional questions
 - `isCustom`: User-created device indicator
 
 **DeviceInstance**: Device added to a room
+
 - Stores answers to all applicable questions
 - Calculates individual device risk score
 - Provides device-specific security actions
 
 **PrivacyAction**: Security remedy/recommendation
+
 - `title`, `description`, `type` (social/technical/security)
 - `priority` (high/medium/low)
 - `deviceType`: Optional field for device-specific actions
 
 **SurveyState**: Central state manager (ChangeNotifier)
+
 - Tracks selected room and devices
 - Manages custom rooms and devices
 - Maintains completion status
 - Provides device and action queries
 
 ### Data Model
+
 All catalog data (rooms, devices, questions, actions) is static in `catalog_data.dart`:
+
 - 9 predefined rooms
 - 27 standard devices + unlimited custom devices
 - 40+ device-specific questions
@@ -98,11 +108,13 @@ All catalog data (rooms, devices, questions, actions) is static in `catalog_data
 - 7 general recommendations
 
 ### State Management
+
 Uses Flutter's `ChangeNotifier` pattern with `ListenableBuilder` for reactive UI updates. Custom rooms and devices are transient (lost on app restart).
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Flutter SDK 3.11.5 or later
 - Dart SDK 3.1.0 or later
 - Supported platforms: Android, iOS, Web, macOS, Windows, Linux
@@ -159,6 +171,7 @@ flutter run --analyze
 ## 🌍 Localization
 
 The app is currently in **German (Deutsch)**. All UI text, device names, questions, and recommendations are in German. To adapt to other languages:
+
 1. Extract all String literals to `lib/l10n/` directory
 2. Use Flutter's intl package for localization
 3. Create `.arb` files for each language
@@ -202,18 +215,6 @@ The app is currently in **German (Deutsch)**. All UI text, device names, questio
 - No data export/import functionality
 - No user accounts or cloud synchronization
 
-## 🛣️ Future Enhancements
-
-- Local storage persistence (SharedPreferences/SQLite)
-- Multi-language support
-- Risk trend tracking over time
-- Detailed remediation guides for each action
-- Device integration with real APIs for live checks
-- Export assessment reports (PDF/JSON)
-- User accounts and cloud sync
-- More granular risk scoring by device type
-- Integration with actual product security certifications
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -221,6 +222,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🤝 Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+
 - Setting up the development environment
 - Code style and conventions
 - Testing requirements
@@ -238,6 +240,6 @@ For issues, questions, or suggestions, please open an issue on the project repos
 
 ---
 
-**Last Updated**: April 2026  
-**Language**: German (Deutsch) UI  
+**Last Updated**: April 2026
+**Language**: German (Deutsch) UI
 **Status**: Active Development
