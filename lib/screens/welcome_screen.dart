@@ -96,11 +96,16 @@ class WelcomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         FilledButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            final surveyState = SurveyState();
+                            await surveyState.loadFromStorage();
+                            if (!context.mounted) {
+                              return;
+                            }
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) =>
-                                    RoomSelectionScreen(state: SurveyState()),
+                                    RoomSelectionScreen(state: surveyState),
                               ),
                             );
                           },

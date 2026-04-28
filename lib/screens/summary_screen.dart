@@ -84,7 +84,11 @@ class _SummaryScreenState extends State<SummaryScreen> {
           TextButton.icon(
             icon: const Icon(Icons.restart_alt, size: 18),
             label: const Text('Neu starten'),
-            onPressed: () {
+            onPressed: () async {
+              await widget.state.reset();
+              if (!context.mounted) {
+                return;
+              }
               Navigator.of(context).popUntil((route) => route.isFirst);
             },
           ),

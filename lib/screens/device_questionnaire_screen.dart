@@ -32,6 +32,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
     }
     setState(() {
       device.setAnswer(questionId, value);
+      widget.state.notifyUpdate();
     });
   }
 
