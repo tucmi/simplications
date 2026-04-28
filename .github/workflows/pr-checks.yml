@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - main
-  push:
-    branches:
-      - main
 
 permissions:
   contents: read
@@ -39,3 +36,6 @@ jobs:
 
       - name: Run tests
         run: flutter test
+
+      - name: Verify Android build (debug)
+        run: flutter build apk --debug
