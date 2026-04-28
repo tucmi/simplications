@@ -14,47 +14,42 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: colors.surface,
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-              const SizedBox(height: 8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               // App icon
               Container(
-                width: 72,
-                height: 72,
+                width: 64,
+                height: 64,
                 decoration: BoxDecoration(
                   color: colors.primaryContainer,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(18),
                 ),
                 child: Icon(
                   Icons.home_outlined,
-                  size: 40,
+                  size: 36,
                   color: colors.primary,
                 ),
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 16),
               Text(
                 'Smart Home\nDatenschutz-Check',
-                style: text.headlineLarge?.copyWith(
+                style: text.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   height: 1.2,
                 ),
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 10),
               Text(
-                'Dieser Assistent führt Sie Raum für Raum durch Ihr Zuhause, erfasst Ihre smarten Geräte und bewertet deren Datenschutzrisiko – mit konkreten Empfehlungen aus dem Simplications Maßnahmenkatalog.',
-                style: text.bodyLarge?.copyWith(
+                'Erfassen Sie Raum für Raum Ihre smarten Geräte und erhalten Sie eine Datenschutzbewertung mit konkreten Empfehlungen.',
+                style: text.bodyMedium?.copyWith(
                   color: colors.onSurfaceVariant,
-                  height: 1.5,
+                  height: 1.4,
                 ),
               ),
-              const SizedBox(height: 32),
+              const Spacer(),
               _StepRow(
                 number: '1',
                 icon: Icons.room,
@@ -79,7 +74,7 @@ class WelcomeScreen extends StatelessWidget {
                 label: 'Risikoprofil & Empfehlungen erhalten',
                 colors: colors,
               ),
-              const SizedBox(height: 20),
+              const Spacer(),
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
@@ -108,12 +103,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               _MadeBySection(colors: colors),
-              const SizedBox(height: 8),
             ],
-                ),
-              ),
-            );
-          },
           ),
         ),
     );
@@ -178,11 +168,14 @@ class _MadeBySection extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'simplications.tucmi.de',
-                    style: text.bodySmall?.copyWith(
-                      color: colors.primary,
-                      decoration: TextDecoration.underline,
+                  Flexible(
+                    child: Text(
+                      'simplications.tucmi.de',
+                      overflow: TextOverflow.ellipsis,
+                      style: text.bodySmall?.copyWith(
+                        color: colors.primary,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 6),

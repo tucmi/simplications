@@ -299,6 +299,7 @@ class _DeviceIssueCard extends StatelessWidget {
 
     return Card(
       elevation: 0,
+      clipBehavior: Clip.antiAlias,
       color: colors.surfaceContainerLow,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14),
@@ -307,6 +308,8 @@ class _DeviceIssueCard extends StatelessWidget {
       child: ExpansionTile(
         tilePadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
         childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+        shape: const Border(),
+        collapsedShape: const Border(),
         title: Text(
           device.template.name,
           style: const TextStyle(fontWeight: FontWeight.w600),

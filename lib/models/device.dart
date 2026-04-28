@@ -139,8 +139,8 @@ class DeviceInstance {
         ),
         const DeviceQuestion(
           id: 'video_storage',
-          text: 'Werden Aufnahmen lokal gespeichert oder exklusiv in der Cloud des Anbieters?',
-          hint: 'Lokale Speicherung gibt Ihnen mehr Kontrolle; Cloud-Speicherung erfordert zusätzliche Vertrauensebene.',
+          text: 'Werden Aufnahmen lokal gespeichert (nicht ausschließlich in der Cloud des Anbieters)?',
+          hint: 'Lokale Speicherung gibt Ihnen mehr Kontrolle über Ihre Daten; bei reiner Cloud-Speicherung sind Sie auf die Sicherheit des Anbieters angewiesen.',
         ),
         const DeviceQuestion(
           id: 'sharing_restrictions',
@@ -157,8 +157,8 @@ class DeviceInstance {
       q.addAll([
         const DeviceQuestion(
           id: 'account_required',
-          text: 'Müssen Sie ein Online-Konto erstellen, um das Gerät zu nutzen?',
-          hint: 'Konten mit Werbe-Tracking können Ihre Sehgewohnheiten speichern und auswerten.',
+          text: 'Können Sie das Gerät ohne obligatorisches Online-Konto nutzen?',
+          hint: 'Pflichtkonten ermöglichen dem Hersteller Werbe-Tracking und das Speichern Ihrer Sehgewohnheiten. Ein kontoloser Betrieb schützt Ihre Privatsphäre.',
         ),
         const DeviceQuestion(
           id: 'tracking_disabled',
@@ -175,8 +175,8 @@ class DeviceInstance {
       q.addAll([
         const DeviceQuestion(
           id: 'data_collection',
-          text: 'Werden Temperatur-Historien und Zeitpläne an den Hersteller übermittelt?',
-          hint: 'Historien können Anwesenheitsmuster und Lebensgewohnheiten offenbaren.',
+          text: 'Bleiben Ihre Temperatur-Historien und Zeitpläne auf dem Gerät (keine Übertragung an den Hersteller)?',
+          hint: 'Historien können Anwesenheitsmuster und Lebensgewohnheiten offenbaren. Lokale Speicherung schützt vor unerwünschter Auswertung.',
         ),
         const DeviceQuestion(
           id: 'offline_control',
@@ -198,8 +198,8 @@ class DeviceInstance {
         ),
         const DeviceQuestion(
           id: 'usage_tracking',
-          text: 'Werden Ihre Schaltmuster und Nutzungszeiten vom Hersteller erfasst?',
-          hint: 'Nutzungsmuster können Ihre Anwesenheit und Gewohnheiten offenbaren.',
+          text: 'Haben Sie die Erfassung von Schaltmustern und Nutzungszeiten durch den Hersteller deaktiviert oder eingeschränkt?',
+          hint: 'Nutzungsmuster können Ihre Anwesenheit und Gewohnheiten offenbaren. Prüfen Sie die Datenschutzeinstellungen der App.',
         ),
         const DeviceQuestion(
           id: 'offline_fallback',
@@ -229,18 +229,18 @@ class DeviceInstance {
       q.addAll([
         const DeviceQuestion(
           id: 'map_privacy',
-          text: 'Werden die erstellten Grundrisse lokal gespeichert oder an den Hersteller übermittelt?',
-          hint: 'Grundrisse Ihres Hauses sind sensible Informationen; sie sollten lokal bleiben.',
+          text: 'Werden die erstellten Grundrisse ausschließlich lokal auf dem Gerät gespeichert?',
+          hint: 'Grundrisse Ihres Hauses sind sensible Informationen und sollten nicht an den Hersteller übermittelt werden.',
         ),
         const DeviceQuestion(
           id: 'cloud_required',
-          text: 'Ist eine Cloud-Verbindung für die Grundriss-Navigation erforderlich?',
-          hint: 'Geräte mit lokaler Navigation datenschutzfreundlicher als Varianten, die Cloud brauchen.',
+          text: 'Funktioniert die Grundriss-Navigation auch ohne Cloud-Verbindung?',
+          hint: 'Geräte mit lokaler Navigation sind datenschutzfreundlicher, da keine Raumdaten in die Cloud übertragen werden.',
         ),
         const DeviceQuestion(
           id: 'vision_data',
-          text: 'Wenn der Robot Kameras nutzt: Werden die Kamerabilder gespeichert oder übertragen?',
-          hint: 'Kamerabilder sollten nur lokal für Navigation verwendet, nicht gespeichert oder gesendet werden.',
+          text: 'Wenn der Roboter Kameras nutzt: Werden die Kamerabilder ausschließlich lokal für die Navigation verwendet (kein Speichern oder Übertragen)?',
+          hint: 'Kamerabilder sollten nur lokal für die Navigation verarbeitet und weder gespeichert noch an den Hersteller gesendet werden.',
         ),
       ]);
     } else if (template.deviceType == 'toy') {
