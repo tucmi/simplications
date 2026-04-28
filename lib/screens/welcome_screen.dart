@@ -14,97 +14,119 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: colors.surface,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // App icon
-              Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  color: colors.primaryContainer,
-                  borderRadius: BorderRadius.circular(18),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight - 32,
                 ),
-                child: Icon(
-                  Icons.home_outlined,
-                  size: 36,
-                  color: colors.primary,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Smart Home\nDatenschutz-Check',
-                style: text.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  height: 1.2,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                'Erfassen Sie Raum für Raum Ihre smarten Geräte und erhalten Sie eine Datenschutzbewertung mit konkreten Empfehlungen.',
-                style: text.bodyMedium?.copyWith(
-                  color: colors.onSurfaceVariant,
-                  height: 1.4,
-                ),
-              ),
-              const Spacer(),
-              _StepRow(
-                number: '1',
-                icon: Icons.room,
-                label: 'Räume auswählen',
-                colors: colors,
-              ),
-              _StepRow(
-                number: '2',
-                icon: Icons.devices,
-                label: 'Geräte erfassen',
-                colors: colors,
-              ),
-              _StepRow(
-                number: '3',
-                icon: Icons.quiz_outlined,
-                label: 'Sicherheitsfragen beantworten',
-                colors: colors,
-              ),
-              _StepRow(
-                number: '4',
-                icon: Icons.shield_outlined,
-                label: 'Risikoprofil & Empfehlungen erhalten',
-                colors: colors,
-              ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) =>
-                            RoomSelectionScreen(state: SurveyState()),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 64,
+                          height: 64,
+                          decoration: BoxDecoration(
+                            color: colors.primaryContainer,
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: Icon(
+                            Icons.home_outlined,
+                            size: 36,
+                            color: colors.primary,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Smart Home\nDatenschutz-Check',
+                          style: text.headlineMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            height: 1.2,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Erfassen Sie Raum für Raum Ihre smarten Geräte und erhalten Sie eine Datenschutzbewertung mit konkreten Empfehlungen.',
+                          style: text.bodyMedium?.copyWith(
+                            color: colors.onSurfaceVariant,
+                            height: 1.4,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _StepRow(
+                            number: '1',
+                            icon: Icons.room,
+                            label: 'Räume auswählen',
+                            colors: colors,
+                          ),
+                          _StepRow(
+                            number: '2',
+                            icon: Icons.devices,
+                            label: 'Geräte erfassen',
+                            colors: colors,
+                          ),
+                          _StepRow(
+                            number: '3',
+                            icon: Icons.quiz_outlined,
+                            label: 'Sicherheitsfragen beantworten',
+                            colors: colors,
+                          ),
+                          _StepRow(
+                            number: '4',
+                            icon: Icons.shield_outlined,
+                            label: 'Risikoprofil & Empfehlungen erhalten',
+                            colors: colors,
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                  style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
                     ),
-                  ),
-                  child: const Text(
-                    'Jetzt starten',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        FilledButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    RoomSelectionScreen(state: SurveyState()),
+                              ),
+                            );
+                          },
+                          style: FilledButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                          child: const Text(
+                            'Jetzt starten',
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        _MadeBySection(colors: colors),
+                      ],
                     ),
-                  ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 12),
-              _MadeBySection(colors: colors),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -121,9 +143,7 @@ class _MadeBySection extends StatelessWidget {
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Website konnte nicht geöffnet werden.'),
-        ),
+        const SnackBar(content: Text('Website konnte nicht geöffnet werden.')),
       );
     }
   }
@@ -180,11 +200,7 @@ class _MadeBySection extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 6),
-                  Icon(
-                    Icons.open_in_new,
-                    size: 14,
-                    color: colors.primary,
-                  ),
+                  Icon(Icons.open_in_new, size: 14, color: colors.primary),
                 ],
               ),
             ),
