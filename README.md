@@ -237,6 +237,7 @@ For issues, questions, or suggestions, please open an issue on the project repos
 - BSI (Bundesamt für Sicherheit in der Informationstechnik) for security guidelines
 - Flutter team for the excellent framework
 - Material Design team for design inspiration
+- BMFTR
 
 ---
 
