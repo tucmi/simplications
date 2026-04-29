@@ -343,7 +343,7 @@ class _SummaryReport {
     if (overallLevel == RiskLevel.medium) {
       return 'Es gibt Verbesserungspotenzial. Schauen Sie sich die Empfehlungen zu den einzelnen Geräten an.$learnHint';
     }
-    return 'Mehrere Geräte haben erhebliche Datenschutzrisiken. Bitte setzen Sie die Maßnahmen mit hoher Priorität zeitnah um.$learnHint';
+    return 'Mehrere Geräte haben erhebliche Privatsphäre-/Datenschutzrisiken. Bitte setzen Sie die Maßnahmen mit hoher Priorität zeitnah um.$learnHint';
   }
 }
 
@@ -767,7 +767,7 @@ class _OverviewHeader extends StatelessWidget {
     } else if (level == RiskLevel.medium) {
       return 'Es gibt Verbesserungspotenzial. Schauen Sie sich die Empfehlungen zu den einzelnen Geräten an.$learnHint';
     } else {
-      return 'Mehrere Geräte haben erhebliche Datenschutzrisiken. Bitte setzen Sie die Maßnahmen mit hoher Priorität zeitnah um.$learnHint';
+      return 'Mehrere Geräte haben erhebliche Privatsphäre-/Datenschutzrisiken. Bitte setzen Sie die Maßnahmen mit hoher Priorität zeitnah um.$learnHint';
     }
   }
 }

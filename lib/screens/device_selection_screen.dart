@@ -28,6 +28,7 @@ class DeviceSelectionScreen extends StatelessWidget {
 
     if (result != null && context.mounted) {
       state.addCustomDevice(
+        currentRoom.id,
         result['name'] as String,
         result['icon'] as IconData,
         result['riskScore'] as int,
@@ -78,7 +79,7 @@ class DeviceSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final availableDevices = CatalogData.devicesForRoom(currentRoom.id);
+    final catalogDevices = CatalogData.devicesForRoom(currentRoom.id);
 
     return Scaffold(
       appBar: AppBar(
@@ -95,6 +96,9 @@ class DeviceSelectionScreen extends StatelessWidget {
       body: ListenableBuilder(
         listenable: state,
         builder: (context, _) {
+          final customDevices = state.customDevicesForRoom(currentRoom.id);
+          final allDevices = [...catalogDevices, ...customDevices];
+
           return CustomScrollView(
             slivers: [
               SliverPadding(
@@ -157,7 +161,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              if (availableDevices.isEmpty)
+              if (allDevices.isEmpty)
                 SliverPadding(
                   padding: const EdgeInsets.all(32),
                   sliver: SliverToBoxAdapter(
@@ -184,12 +188,6 @@ class DeviceSelectionScreen extends StatelessWidget {
                         ),
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        // Get all devices (catalog + custom)
-                        final allDevices = [
-                          ...availableDevices,
-                          ...state.customDevices,
-                        ];
-
                         // Last item is "Add custom device" button
                         if (index == allDevices.length) {
                           return _AddDeviceCard(
@@ -208,7 +206,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                         final isCompleted =
                             instances.isNotEmpty &&
                             instances.first.isFullyAnswered;
-                        final isCustom = state.customDevices.contains(device);
+                        final isCustom = customDevices.contains(device);
 
                         return _DeviceCard(
                           device: device,
@@ -236,10 +234,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                               : null,
                         );
                       },
-                      childCount:
-                          availableDevices.length +
-                          state.customDevices.length +
-                          1, // +1 for "Add" button
+                      childCount: allDevices.length + 1, // +1 for "Add" button
                     ),
                   ),
                 ),
@@ -444,7 +439,7 @@ class _BottomBar extends StatelessWidget {
                       ),
                     ),
                     child: const Text(
-                      'Raum abschließen',
+                      'Nächster Raum',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -463,7 +458,7 @@ class _BottomBar extends StatelessWidget {
                       ),
                     ),
                     child: const Text(
-                      'Fertig',
+                      'Ergebnisse',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,

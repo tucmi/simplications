@@ -12,6 +12,6 @@ import 'package:simplications/main.dart';
 void main() {
   testWidgets('App launches smoke test', (WidgetTester tester) async {
     await tester.pumpWidget(const SimplicationsApp());
-    expect(find.text('Jetzt starten'), findsOneWidget);
+    expect(find.text('Starten'), findsOneWidget);
   });
 }

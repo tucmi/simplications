@@ -126,12 +126,24 @@ class SurveyState extends ChangeNotifier {
   /// Remove a custom room (and its devices)
   void removeCustomRoom(String roomId) {
     final beforeRooms = customRooms.length;
+    final removedCustomDeviceIds = customDevices
+        .where((d) => d.roomIds.contains(roomId))
+        .map((d) => d.id)
+        .toSet();
+    final beforeTemplates = customDevices.length;
     final beforeDevices = devices.length;
     final hadCompleted = completedRoomIds.contains(roomId);
     customRooms.removeWhere((r) => r.id == roomId);
+    customDevices.removeWhere((d) => d.roomIds.contains(roomId));
     devices.removeWhere((d) => d.roomId == roomId);
+    if (removedCustomDeviceIds.isNotEmpty) {
+      devices.removeWhere(
+        (d) => removedCustomDeviceIds.contains(d.template.id),
+      );
+    }
     completedRoomIds.remove(roomId);
     if (customRooms.length != beforeRooms ||
+        customDevices.length != beforeTemplates ||
         devices.length != beforeDevices ||
         hadCompleted) {
       _changed();
@@ -140,6 +152,7 @@ class SurveyState extends ChangeNotifier {
 
   /// Add a custom device
   void addCustomDevice(
+    String roomId,
     String name,
     IconData icon,
     int baseRiskScore, {
@@ -153,13 +166,16 @@ class SurveyState extends ChangeNotifier {
       baseRiskScore: baseRiskScore,
       hasCamera: hasCamera,
       hasMicrophone: hasMicrophone,
-      roomIds: [], // Will be determined at add-time
+      roomIds: [roomId],
       deviceType: 'custom',
       isCustom: true,
     );
     customDevices.add(newDevice);
     _changed();
   }
+
+  List<DeviceTemplate> customDevicesForRoom(String roomId) =>
+      customDevices.where((device) => device.roomIds.contains(roomId)).toList();
 
   /// Remove a custom device (and its instances)
   void removeCustomDevice(String deviceId) {
@@ -221,12 +237,42 @@ class SurveyState extends ChangeNotifier {
                   baseRiskScore: (e['baseRiskScore'] as num).toInt(),
                   hasCamera: e['hasCamera'] as bool? ?? false,
                   hasMicrophone: e['hasMicrophone'] as bool? ?? false,
-                  roomIds: const [],
+                  roomIds: (e['roomIds'] as List<dynamic>? ?? const [])
+                      .whereType<String>()
+                      .toList(),
                   deviceType: 'custom',
                   isCustom: true,
                 ),
               ),
         );
+
+      // Backward compatibility: infer room ownership for older saved custom
+      // devices that did not persist roomIds.
+      final customRoomIdsByTemplate = <String, Set<String>>{};
+      for (final dynamic item
+          in (data['devices'] as List<dynamic>? ?? const [])) {
+        if (item is! Map) {
+          continue;
+        }
+        final entry = Map<String, dynamic>.from(item);
+        final templateId = entry['templateId'] as String?;
+        final roomId = entry['roomId'] as String?;
+        if (templateId == null || roomId == null) {
+          continue;
+        }
+        customRoomIdsByTemplate
+            .putIfAbsent(templateId, () => <String>{})
+            .add(roomId);
+      }
+      for (final template in customDevices) {
+        if (template.roomIds.isNotEmpty) {
+          continue;
+        }
+        final inferred = customRoomIdsByTemplate[template.id];
+        if (inferred != null && inferred.isNotEmpty) {
+          template.roomIds.addAll(inferred);
+        }
+      }
 
       final templateById = <String, DeviceTemplate>{
         for (final template in CatalogData.allDeviceTemplates)
@@ -345,6 +391,7 @@ class SurveyState extends ChangeNotifier {
               'baseRiskScore': device.baseRiskScore,
               'hasCamera': device.hasCamera,
               'hasMicrophone': device.hasMicrophone,
+              'roomIds': device.roomIds,
             },
           )
           .toList(),

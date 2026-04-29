@@ -11,8 +11,9 @@ class SimplicationsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Smart Home Datenschutz-Check',
+      title: 'Smart Home Privatsphäre-Check',
       debugShowCheckedModeBanner: false,
+      navigatorObservers: [appRouteObserver],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF00695C),

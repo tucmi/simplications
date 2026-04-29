@@ -1,10 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../models/survey_state.dart';
+import 'about_screen.dart';
 import 'room_selection_screen.dart';
 
-class WelcomeScreen extends StatelessWidget {
+/// App-wide route observer — provide this in [MaterialApp.navigatorObservers].
+final RouteObserver<ModalRoute<void>> appRouteObserver =
+    RouteObserver<ModalRoute<void>>();
+
+class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
+
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
+  SurveyState? _surveyState;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSurveyState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    appRouteObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    appRouteObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  /// Called when this screen is popped back to (e.g. after reset).
+  @override
+  void didPopNext() {
+    _loadSurveyState();
+  }
+
+  Future<void> _loadSurveyState() async {
+    final surveyState = SurveyState();
+    await surveyState.loadFromStorage();
+    if (mounted) {
+      setState(() => _surveyState = surveyState);
+    }
+  }
+
+  bool _hasSavedProgress(SurveyState state) {
+    return state.completedRoomIds.isNotEmpty ||
+        state.devices.isNotEmpty ||
+        state.customRooms.isNotEmpty ||
+        state.customDevices.isNotEmpty;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +94,7 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Smart Home\nDatenschutz-Check',
+                          'Smart Home\nPrivatsphäre-Check',
                           style: text.headlineMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             height: 1.2,
@@ -52,7 +102,7 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'Erfassen Sie Raum für Raum Ihre smarten Geräte und erhalten Sie eine Datenschutzbewertung mit konkreten Empfehlungen.',
+                          'Erfassen Sie Raum für Raum Ihre smarten Geräte und erhalten Sie eine Privatsphärebewertung mit konkreten Empfehlungen.',
                           style: text.bodyMedium?.copyWith(
                             color: colors.onSurfaceVariant,
                             height: 1.4,
@@ -95,36 +145,60 @@ class WelcomeScreen extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        FilledButton(
-                          onPressed: () async {
-                            final surveyState = SurveyState();
-                            await surveyState.loadFromStorage();
-                            if (!context.mounted) {
-                              return;
-                            }
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    RoomSelectionScreen(state: surveyState),
+                        Builder(
+                          builder: (context) {
+                            final surveyState = _surveyState;
+                            final hasState = surveyState != null;
+                            final hasProgress =
+                                hasState && _hasSavedProgress(surveyState);
+
+                            return FilledButton(
+                              onPressed: hasState
+                                  ? () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (_) => RoomSelectionScreen(
+                                            state: surveyState,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  : null,
+                              style: FilledButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                              ),
+                              child: Text(
+                                hasProgress ? 'Fortsetzen' : 'Starten',
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             );
                           },
-                          style: FilledButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
+                        ),
+                        const SizedBox(height: 4),
+                        Center(
+                          child: TextButton.icon(
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const AboutScreen(),
+                              ),
                             ),
-                          ),
-                          child: const Text(
-                            'Jetzt starten',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600,
+                            icon: const Icon(Icons.info_outline, size: 16),
+                            label: const Text('Über'),
+                            style: TextButton.styleFrom(
+                              foregroundColor: colors.onSurfaceVariant,
+                              textStyle: const TextStyle(fontSize: 13),
+                              visualDensity: VisualDensity.compact,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 12),
-                        _MadeBySection(colors: colors),
                       ],
                     ),
                   ],
@@ -133,84 +207,6 @@ class WelcomeScreen extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-class _MadeBySection extends StatelessWidget {
-  final ColorScheme colors;
-
-  const _MadeBySection({required this.colors});
-
-  Future<void> _openWebsite(BuildContext context) async {
-    final uri = Uri.parse('https://simplications.tucmi.de');
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Website konnte nicht geöffnet werden.')),
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: colors.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: colors.outlineVariant),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Made by Simplications',
-            style: text.labelLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: colors.onSurface,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Projektpartner: Technische Universität Chemnitz, Hochschule Anhalt, Verbraucherzentrale Sachsen e.V.',
-            style: text.bodySmall?.copyWith(color: colors.onSurfaceVariant),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            'Koordination: Plattform Privatheit · Fördermittelgeber: BMFTR',
-            style: text.bodySmall?.copyWith(color: colors.onSurfaceVariant),
-          ),
-          const SizedBox(height: 2),
-          InkWell(
-            onTap: () => _openWebsite(context),
-            borderRadius: BorderRadius.circular(8),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    child: Text(
-                      'simplications.tucmi.de',
-                      overflow: TextOverflow.ellipsis,
-                      style: text.bodySmall?.copyWith(
-                        color: colors.primary,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Icon(Icons.open_in_new, size: 14, color: colors.primary),
-                ],
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -162,17 +162,6 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                   ),
                   const SizedBox(height: 6),
                   // Progress within this device
-                  Row(
-                    children: [
-                      Text(
-                        '$answered / ${questions.length} Fragen beantwortet',
-                        style: text.labelSmall?.copyWith(
-                          color: colors.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
                   LinearProgressIndicator(
                     value: questions.isEmpty ? 0 : answered / questions.length,
                     borderRadius: BorderRadius.circular(4),
@@ -409,19 +398,14 @@ class _QuestionCard extends StatelessWidget {
                 value: isNotApplicable,
                 onChanged: (enabled) =>
                     onAnswer(enabled ? QuestionAnswer.notApplicable : null),
+                dense: true,
                 contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 2,
+                  horizontal: 8,
+                  vertical: 0,
                 ),
                 title: Text(
                   'Diese Frage trifft auf mein Geraet nicht zu',
-                  style: text.bodySmall?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                subtitle: Text(
-                  'Optional: Nur aktivieren, wenn die Frage wirklich nicht anwendbar ist.',
-                  style: text.bodySmall?.copyWith(
-                    color: colors.onSurfaceVariant,
-                  ),
+                  style: text.labelSmall?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ),
             ),

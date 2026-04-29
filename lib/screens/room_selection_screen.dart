@@ -3,6 +3,7 @@ import '../data/catalog_data.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
 import 'device_selection_screen.dart';
+import 'summary_screen.dart';
 import '../widgets/wizard_progress_bar.dart';
 import '../widgets/custom_add_dialogs.dart';
 
@@ -55,6 +56,12 @@ class RoomSelectionScreen extends StatelessWidget {
     );
   }
 
+  void _openResults(BuildContext context) {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => SummaryScreen(state: state)));
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -72,7 +79,6 @@ class RoomSelectionScreen extends StatelessWidget {
       body: ListenableBuilder(
         listenable: state,
         builder: (context, _) {
-          final allRooms = [...CatalogData.allRooms, ...state.customRooms];
           return Column(
             children: [
               Expanded(
@@ -157,15 +163,30 @@ class RoomSelectionScreen extends StatelessWidget {
                 child: ListenableBuilder(
                   listenable: state,
                   builder: (context, _) {
-                    return Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '${state.completedRoomIds.length} / ${allRooms.length} Räume ausgewertet',
-                        style: text.labelMedium?.copyWith(
-                          color: colors.primary,
-                          fontWeight: FontWeight.w600,
+                    final hasCompletedRoom = state.completedRoomIds.isNotEmpty;
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: FilledButton(
+                            onPressed: hasCompletedRoom
+                                ? () => _openResults(context)
+                                : null,
+                            style: FilledButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                            ),
+                            child: const Text(
+                              'Ergebnisse',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     );
                   },
                 ),
