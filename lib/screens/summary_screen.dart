@@ -101,6 +101,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
             child: _OverviewHeader(
               devices: devices,
               overallScore: report.overallScore,
+              dontKnowAnswers: report.dontKnowAnswers,
               highCount: highRisk.length,
               medCount: medRisk.length,
               lowCount: lowRisk.length,
@@ -283,6 +284,7 @@ class _SummaryReport {
   final List<DeviceInstance> lowRisk;
   final int overallScore;
   final RiskLevel overallLevel;
+  final int dontKnowAnswers;
 
   const _SummaryReport({
     required this.devices,
@@ -291,6 +293,7 @@ class _SummaryReport {
     required this.lowRisk,
     required this.overallScore,
     required this.overallLevel,
+    required this.dontKnowAnswers,
   });
 
   factory _SummaryReport.fromDevices(List<DeviceInstance> devices) {
@@ -315,6 +318,10 @@ class _SummaryReport {
         ? RiskLevel.medium
         : RiskLevel.high;
 
+    final dontKnowAnswers = devices
+        .map((d) => d.dontKnowAnswerCount)
+        .fold(0, (sum, count) => sum + count);
+
     return _SummaryReport(
       devices: List.unmodifiable(devices),
       highRisk: List.unmodifiable(highRisk),
@@ -322,17 +329,21 @@ class _SummaryReport {
       lowRisk: List.unmodifiable(lowRisk),
       overallScore: overallScore,
       overallLevel: overallLevel,
+      dontKnowAnswers: dontKnowAnswers,
     );
   }
 
   String get overallMessage {
+    final learnHint = dontKnowAnswers > 0
+        ? ' Es wurden $dontKnowAnswers Antwort${dontKnowAnswers == 1 ? '' : 'en'} mit "Weiss ich nicht" gegeben - nehmen Sie sich Zeit, die Einstellungen Ihrer Geraete besser kennenzulernen.'
+        : '';
     if (overallLevel == RiskLevel.low) {
-      return 'Gut gemacht! Ihre Geräte sind überwiegend sicher konfiguriert. Schauen Sie trotzdem in die allgemeinen Empfehlungen.';
+      return 'Gut gemacht! Ihre Geräte sind überwiegend sicher konfiguriert. Schauen Sie trotzdem in die allgemeinen Empfehlungen.$learnHint';
     }
     if (overallLevel == RiskLevel.medium) {
-      return 'Es gibt Verbesserungspotenzial. Schauen Sie sich die Empfehlungen zu den einzelnen Geräten an.';
+      return 'Es gibt Verbesserungspotenzial. Schauen Sie sich die Empfehlungen zu den einzelnen Geräten an.$learnHint';
     }
-    return 'Mehrere Geräte haben erhebliche Datenschutzrisiken. Bitte setzen Sie die Maßnahmen mit hoher Priorität zeitnah um.';
+    return 'Mehrere Geräte haben erhebliche Datenschutzrisiken. Bitte setzen Sie die Maßnahmen mit hoher Priorität zeitnah um.$learnHint';
   }
 }
 
@@ -636,6 +647,7 @@ IconData _actionTypeIcon(ActionType type) {
 class _OverviewHeader extends StatelessWidget {
   final List<DeviceInstance> devices;
   final int overallScore;
+  final int dontKnowAnswers;
   final int highCount;
   final int medCount;
   final int lowCount;
@@ -645,6 +657,7 @@ class _OverviewHeader extends StatelessWidget {
   const _OverviewHeader({
     required this.devices,
     required this.overallScore,
+    required this.dontKnowAnswers,
     required this.highCount,
     required this.medCount,
     required this.lowCount,
@@ -733,7 +746,7 @@ class _OverviewHeader extends StatelessWidget {
             ),
             const SizedBox(height: 14),
             Text(
-              _overallMessage(scoreLevel),
+              _overallMessage(scoreLevel, dontKnowAnswers),
               style: text.bodySmall?.copyWith(
                 color: colors.onSurfaceVariant,
                 height: 1.4,
@@ -745,13 +758,16 @@ class _OverviewHeader extends StatelessWidget {
     );
   }
 
-  String _overallMessage(RiskLevel level) {
+  String _overallMessage(RiskLevel level, int dontKnowCount) {
+    final learnHint = dontKnowCount > 0
+        ? ' Ausserdem wurden $dontKnowCount Antwort${dontKnowCount == 1 ? '' : 'en'} mit "Weiss ich nicht" gegeben - informieren Sie sich zu den Geraeteeinstellungen.'
+        : '';
     if (level == RiskLevel.low) {
-      return 'Gut gemacht! Ihre Geräte sind überwiegend sicher konfiguriert. Schauen Sie trotzdem in die allgemeinen Empfehlungen.';
+      return 'Gut gemacht! Ihre Geräte sind überwiegend sicher konfiguriert. Schauen Sie trotzdem in die allgemeinen Empfehlungen.$learnHint';
     } else if (level == RiskLevel.medium) {
-      return 'Es gibt Verbesserungspotenzial. Schauen Sie sich die Empfehlungen zu den einzelnen Geräten an.';
+      return 'Es gibt Verbesserungspotenzial. Schauen Sie sich die Empfehlungen zu den einzelnen Geräten an.$learnHint';
     } else {
-      return 'Mehrere Geräte haben erhebliche Datenschutzrisiken. Bitte setzen Sie die Maßnahmen mit hoher Priorität zeitnah um.';
+      return 'Mehrere Geräte haben erhebliche Datenschutzrisiken. Bitte setzen Sie die Maßnahmen mit hoher Priorität zeitnah um.$learnHint';
     }
   }
 }

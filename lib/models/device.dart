@@ -6,6 +6,45 @@ enum ActionType { social, technical, security }
 
 enum ActionPriority { high, medium, low }
 
+enum QuestionAnswer { yes, no, dontKnow, notApplicable }
+
+extension QuestionAnswerCodec on QuestionAnswer {
+  String get wireValue {
+    switch (this) {
+      case QuestionAnswer.yes:
+        return 'yes';
+      case QuestionAnswer.no:
+        return 'no';
+      case QuestionAnswer.dontKnow:
+        return 'dontKnow';
+      case QuestionAnswer.notApplicable:
+        return 'notApplicable';
+    }
+  }
+}
+
+QuestionAnswer? questionAnswerFromStored(dynamic value) {
+  if (value == null) {
+    return null;
+  }
+  if (value is bool) {
+    return value ? QuestionAnswer.yes : QuestionAnswer.no;
+  }
+  if (value is String) {
+    switch (value) {
+      case 'yes':
+        return QuestionAnswer.yes;
+      case 'no':
+        return QuestionAnswer.no;
+      case 'dontKnow':
+        return QuestionAnswer.dontKnow;
+      case 'notApplicable':
+        return QuestionAnswer.notApplicable;
+    }
+  }
+  return null;
+}
+
 class PrivacyAction {
   final String title;
   final String description;
@@ -66,16 +105,16 @@ class DeviceInstance {
   final String roomId;
   final String roomName;
 
-  bool? passwordChanged;
-  bool? autoUpdatesEnabled;
-  bool? separateNetwork;
-  bool? householdInformed;
-  bool? permissionsReduced;
-  bool? cameraConsentGiven;
-  bool? micDeactivatedWhenUnused;
+  QuestionAnswer? passwordChanged;
+  QuestionAnswer? autoUpdatesEnabled;
+  QuestionAnswer? separateNetwork;
+  QuestionAnswer? householdInformed;
+  QuestionAnswer? permissionsReduced;
+  QuestionAnswer? cameraConsentGiven;
+  QuestionAnswer? micDeactivatedWhenUnused;
 
   // Store device-specific question answers
-  final Map<String, bool> deviceSpecificAnswers = {};
+  final Map<String, QuestionAnswer> deviceSpecificAnswers = {};
 
   DeviceInstance({
     required this.instanceId,
@@ -414,7 +453,7 @@ class DeviceInstance {
     return q;
   }
 
-  bool? answerFor(String questionId) {
+  QuestionAnswer? answerFor(String questionId) {
     if (questionId == 'password') return passwordChanged;
     if (questionId == 'updates') return autoUpdatesEnabled;
     if (questionId == 'network') return separateNetwork;
@@ -426,7 +465,7 @@ class DeviceInstance {
     return deviceSpecificAnswers[questionId];
   }
 
-  void setAnswer(String questionId, bool value) {
+  void setAnswer(String questionId, QuestionAnswer? value) {
     if (questionId == 'password') {
       passwordChanged = value;
     } else if (questionId == 'updates') {
@@ -443,32 +482,51 @@ class DeviceInstance {
       micDeactivatedWhenUnused = value;
     } else {
       // Store device-specific question answers
-      deviceSpecificAnswers[questionId] = value;
+      if (value == null) {
+        deviceSpecificAnswers.remove(questionId);
+      } else {
+        deviceSpecificAnswers[questionId] = value;
+      }
     }
   }
 
   bool get isFullyAnswered => questions.every((q) => answerFor(q.id) != null);
 
   bool get allAnswersPositive =>
-      questions.every((q) => answerFor(q.id) == true);
+      questions.every((q) => answerFor(q.id) == QuestionAnswer.yes);
+
+  int get dontKnowAnswerCount =>
+      questions.where((q) => answerFor(q.id) == QuestionAnswer.dontKnow).length;
 
   int get riskScore {
     int score = template.baseRiskScore;
-    if (passwordChanged == false) score += 20;
-    if (autoUpdatesEnabled == false) score += 15;
-    if (separateNetwork == false) score += 10;
-    if (householdInformed == false) score += 10;
-    if (permissionsReduced == false) score += 5;
-    if (template.hasCamera && cameraConsentGiven == false) score += 15;
-    if (template.hasMicrophone && micDeactivatedWhenUnused == false) {
-      score += 10;
+    score += _riskPenalty(passwordChanged, noPenalty: 20, dontKnowPenalty: 10);
+    score += _riskPenalty(
+      autoUpdatesEnabled,
+      noPenalty: 15,
+      dontKnowPenalty: 8,
+    );
+    score += _riskPenalty(separateNetwork, noPenalty: 10, dontKnowPenalty: 5);
+    score += _riskPenalty(householdInformed, noPenalty: 10, dontKnowPenalty: 5);
+    score += _riskPenalty(permissionsReduced, noPenalty: 5, dontKnowPenalty: 3);
+    if (template.hasCamera) {
+      score += _riskPenalty(
+        cameraConsentGiven,
+        noPenalty: 15,
+        dontKnowPenalty: 8,
+      );
+    }
+    if (template.hasMicrophone) {
+      score += _riskPenalty(
+        micDeactivatedWhenUnused,
+        noPenalty: 10,
+        dontKnowPenalty: 5,
+      );
     }
 
     // Penalties for device-specific questions
     for (final entry in deviceSpecificAnswers.entries) {
-      if (entry.value == false) {
-        score += 8;
-      }
+      score += _riskPenalty(entry.value, noPenalty: 8, dontKnowPenalty: 4);
     }
 
     return score.clamp(0, 100);
@@ -501,7 +559,7 @@ class DeviceInstance {
 
   List<PrivacyAction> get suggestedActions {
     final actions = <PrivacyAction>[];
-    if (passwordChanged == false) {
+    if (passwordChanged == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'Standard-Passwort ändern',
@@ -512,7 +570,7 @@ class DeviceInstance {
         ),
       );
     }
-    if (autoUpdatesEnabled == false) {
+    if (autoUpdatesEnabled == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'Automatische Updates aktivieren',
@@ -523,7 +581,7 @@ class DeviceInstance {
         ),
       );
     }
-    if (separateNetwork == false) {
+    if (separateNetwork == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'Separates IoT-WLAN einrichten',
@@ -534,7 +592,7 @@ class DeviceInstance {
         ),
       );
     }
-    if (householdInformed == false) {
+    if (householdInformed == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'Haushaltsmitglieder informieren',
@@ -545,7 +603,7 @@ class DeviceInstance {
         ),
       );
     }
-    if (permissionsReduced == false) {
+    if (permissionsReduced == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'App-Berechtigungen einschränken',
@@ -556,7 +614,7 @@ class DeviceInstance {
         ),
       );
     }
-    if (template.hasCamera && cameraConsentGiven == false) {
+    if (template.hasCamera && cameraConsentGiven == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'Kameraausrichtung mit Bewohnern abstimmen',
@@ -567,7 +625,8 @@ class DeviceInstance {
         ),
       );
     }
-    if (template.hasMicrophone && micDeactivatedWhenUnused == false) {
+    if (template.hasMicrophone &&
+        micDeactivatedWhenUnused == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'Mikrofon bei Nichtnutzung deaktivieren',
@@ -579,9 +638,21 @@ class DeviceInstance {
       );
     }
 
+    if (dontKnowAnswerCount > 0) {
+      actions.add(
+        const PrivacyAction(
+          title: 'Geräteeinstellungen besser kennenlernen',
+          description:
+              'Mindestens eine Frage wurde mit "Weiß ich nicht" beantwortet. Prüfen Sie die Einstellungen und Dokumentation Ihres Geräts, damit Sie Risiken künftig gezielt reduzieren können.',
+          type: ActionType.social,
+          priority: ActionPriority.medium,
+        ),
+      );
+    }
+
     // Add device-specific actions
     if (template.deviceType == 'speaker') {
-      if (deviceSpecificAnswers['voice_history'] == false) {
+      if (deviceSpecificAnswers['voice_history'] == QuestionAnswer.no) {
         actions.add(
           const PrivacyAction(
             title: 'Sprachaufzeichnungen löschen',
@@ -593,7 +664,7 @@ class DeviceInstance {
           ),
         );
       }
-      if (deviceSpecificAnswers['skills_permissions'] == false) {
+      if (deviceSpecificAnswers['skills_permissions'] == QuestionAnswer.no) {
         actions.add(
           const PrivacyAction(
             title: 'Skills/Fähigkeiten überprüfen',
@@ -606,7 +677,7 @@ class DeviceInstance {
         );
       }
     } else if (template.deviceType == 'camera') {
-      if (deviceSpecificAnswers['video_encryption'] == false) {
+      if (deviceSpecificAnswers['video_encryption'] == QuestionAnswer.no) {
         actions.add(
           const PrivacyAction(
             title: 'WLAN-Verschlüsselung prüfen',
@@ -618,7 +689,7 @@ class DeviceInstance {
           ),
         );
       }
-      if (deviceSpecificAnswers['sharing_restrictions'] == false) {
+      if (deviceSpecificAnswers['sharing_restrictions'] == QuestionAnswer.no) {
         actions.add(
           const PrivacyAction(
             title: 'Zugriffsrechte der Kamera überprüfen',
@@ -631,7 +702,7 @@ class DeviceInstance {
         );
       }
     } else if (template.deviceType == 'lock') {
-      if (deviceSpecificAnswers['two_factor'] == false) {
+      if (deviceSpecificAnswers['two_factor'] == QuestionAnswer.no) {
         actions.add(
           const PrivacyAction(
             title: 'Zwei-Faktor-Authentifizierung aktivieren',
@@ -644,7 +715,7 @@ class DeviceInstance {
         );
       }
     } else if (template.deviceType == 'robot') {
-      if (deviceSpecificAnswers['map_privacy'] == false) {
+      if (deviceSpecificAnswers['map_privacy'] == QuestionAnswer.no) {
         actions.add(
           const PrivacyAction(
             title: 'Grundriss-Speicherung klären',
@@ -659,5 +730,19 @@ class DeviceInstance {
     }
 
     return actions;
+  }
+
+  int _riskPenalty(
+    QuestionAnswer? answer, {
+    required int noPenalty,
+    required int dontKnowPenalty,
+  }) {
+    if (answer == QuestionAnswer.no) {
+      return noPenalty;
+    }
+    if (answer == QuestionAnswer.dontKnow) {
+      return dontKnowPenalty;
+    }
+    return 0;
   }
 }

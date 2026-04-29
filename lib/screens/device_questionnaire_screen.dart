@@ -26,7 +26,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
   DeviceInstance get device =>
       widget.state.devices.firstWhere((d) => d.instanceId == widget.instanceId);
 
-  void _onAnswer(String questionId, bool value) {
+  void _onAnswer(String questionId, QuestionAnswer? value) {
     if (device.answerFor(questionId) == value) {
       return;
     }
@@ -271,8 +271,8 @@ class _FeatureChip extends StatelessWidget {
 
 class _QuestionCard extends StatelessWidget {
   final DeviceQuestion question;
-  final bool? answer;
-  final ValueChanged<bool> onAnswer;
+  final QuestionAnswer? answer;
+  final ValueChanged<QuestionAnswer?> onAnswer;
   final int number;
 
   const _QuestionCard({
@@ -287,20 +287,18 @@ class _QuestionCard extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final answered = answer != null;
+    final isNotApplicable = answer == QuestionAnswer.notApplicable;
+    final accentColor = _answerAccentColor(colors, answer);
 
     return Card(
       elevation: 0,
       color: answered
-          ? (answer == true
-                ? colors.secondaryContainer.withAlpha(180)
-                : colors.errorContainer.withAlpha(120))
+          ? _answerCardColor(colors, answer)
           : colors.surfaceContainerLow,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14),
         side: BorderSide(
-          color: answered
-              ? (answer == true ? colors.secondary : colors.error)
-              : Colors.transparent,
+          color: answered ? accentColor : Colors.transparent,
           width: 1.5,
         ),
       ),
@@ -316,19 +314,15 @@ class _QuestionCard extends StatelessWidget {
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: answered
-                        ? (answer == true ? colors.secondary : colors.error)
-                        : colors.outlineVariant,
+                    color: answered ? accentColor : colors.outlineVariant,
                     shape: BoxShape.circle,
                   ),
                   child: Center(
                     child: answered
                         ? Icon(
-                            answer == true ? Icons.check : Icons.close,
+                            _answerIcon(answer),
                             size: 14,
-                            color: answer == true
-                                ? colors.onSecondary
-                                : colors.onError,
+                            color: _answerIconColor(colors, answer),
                           )
                         : Text(
                             '$number',
@@ -369,9 +363,9 @@ class _QuestionCard extends StatelessWidget {
                   child: _AnswerButton(
                     label: 'Ja',
                     icon: Icons.check,
-                    isSelected: answer == true,
-                    isPositive: true,
-                    onTap: () => onAnswer(true),
+                    isSelected: answer == QuestionAnswer.yes,
+                    tone: _AnswerButtonTone.positive,
+                    onTap: () => onAnswer(QuestionAnswer.yes),
                     colors: colors,
                   ),
                 ),
@@ -380,26 +374,131 @@ class _QuestionCard extends StatelessWidget {
                   child: _AnswerButton(
                     label: 'Nein',
                     icon: Icons.close,
-                    isSelected: answer == false,
-                    isPositive: false,
-                    onTap: () => onAnswer(false),
+                    isSelected: answer == QuestionAnswer.no,
+                    tone: _AnswerButtonTone.negative,
+                    onTap: () => onAnswer(QuestionAnswer.no),
                     colors: colors,
                   ),
                 ),
               ],
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              child: _AnswerButton(
+                label: 'Weiss ich nicht',
+                icon: Icons.help_outline,
+                isSelected: answer == QuestionAnswer.dontKnow,
+                tone: _AnswerButtonTone.neutral,
+                onTap: () => onAnswer(QuestionAnswer.dontKnow),
+                colors: colors,
+              ),
+            ),
+            const SizedBox(height: 8),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: isNotApplicable
+                    ? colors.tertiaryContainer.withAlpha(220)
+                    : colors.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: isNotApplicable ? colors.tertiary : colors.outline,
+                ),
+              ),
+              child: SwitchListTile.adaptive(
+                value: isNotApplicable,
+                onChanged: (enabled) =>
+                    onAnswer(enabled ? QuestionAnswer.notApplicable : null),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 2,
+                ),
+                title: Text(
+                  'Diese Frage trifft auf mein Geraet nicht zu',
+                  style: text.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+                ),
+                subtitle: Text(
+                  'Optional: Nur aktivieren, wenn die Frage wirklich nicht anwendbar ist.',
+                  style: text.bodySmall?.copyWith(
+                    color: colors.onSurfaceVariant,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
       ),
     );
   }
+
+  Color _answerCardColor(ColorScheme colors, QuestionAnswer? value) {
+    switch (value) {
+      case QuestionAnswer.yes:
+        return colors.secondaryContainer.withAlpha(180);
+      case QuestionAnswer.no:
+        return colors.errorContainer.withAlpha(120);
+      case QuestionAnswer.dontKnow:
+        return colors.tertiaryContainer.withAlpha(180);
+      case QuestionAnswer.notApplicable:
+        return colors.surfaceContainerHigh;
+      case null:
+        return colors.surfaceContainerLow;
+    }
+  }
+
+  Color _answerAccentColor(ColorScheme colors, QuestionAnswer? value) {
+    switch (value) {
+      case QuestionAnswer.yes:
+        return colors.secondary;
+      case QuestionAnswer.no:
+        return colors.error;
+      case QuestionAnswer.dontKnow:
+        return colors.tertiary;
+      case QuestionAnswer.notApplicable:
+        return colors.outline;
+      case null:
+        return colors.outlineVariant;
+    }
+  }
+
+  Color _answerIconColor(ColorScheme colors, QuestionAnswer? value) {
+    switch (value) {
+      case QuestionAnswer.yes:
+        return colors.onSecondary;
+      case QuestionAnswer.no:
+        return colors.onError;
+      case QuestionAnswer.dontKnow:
+        return colors.onTertiary;
+      case QuestionAnswer.notApplicable:
+        return colors.onSurfaceVariant;
+      case null:
+        return colors.onSurface;
+    }
+  }
+
+  IconData _answerIcon(QuestionAnswer? value) {
+    switch (value) {
+      case QuestionAnswer.yes:
+        return Icons.check;
+      case QuestionAnswer.no:
+        return Icons.close;
+      case QuestionAnswer.dontKnow:
+        return Icons.help_outline;
+      case QuestionAnswer.notApplicable:
+        return Icons.horizontal_rule;
+      case null:
+        return Icons.circle;
+    }
+  }
 }
+
+enum _AnswerButtonTone { positive, negative, neutral }
 
 class _AnswerButton extends StatelessWidget {
   final String label;
   final IconData icon;
   final bool isSelected;
-  final bool isPositive;
+  final _AnswerButtonTone tone;
   final VoidCallback onTap;
   final ColorScheme colors;
 
@@ -407,15 +506,23 @@ class _AnswerButton extends StatelessWidget {
     required this.label,
     required this.icon,
     required this.isSelected,
-    required this.isPositive,
+    required this.tone,
     required this.onTap,
     required this.colors,
   });
 
   @override
   Widget build(BuildContext context) {
-    final selectedBg = isPositive ? colors.secondary : colors.error;
-    final selectedFg = isPositive ? colors.onSecondary : colors.onError;
+    final selectedBg = switch (tone) {
+      _AnswerButtonTone.positive => colors.secondary,
+      _AnswerButtonTone.negative => colors.error,
+      _AnswerButtonTone.neutral => colors.tertiary,
+    };
+    final selectedFg = switch (tone) {
+      _AnswerButtonTone.positive => colors.onSecondary,
+      _AnswerButtonTone.negative => colors.onError,
+      _AnswerButtonTone.neutral => colors.onTertiary,
+    };
 
     return SizedBox(
       height: 42,

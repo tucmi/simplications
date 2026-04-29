@@ -204,22 +204,43 @@ class SurveyState extends ChangeNotifier {
           roomName: entry['roomName'] as String,
         );
 
-        instance.passwordChanged = entry['passwordChanged'] as bool?;
-        instance.autoUpdatesEnabled = entry['autoUpdatesEnabled'] as bool?;
-        instance.separateNetwork = entry['separateNetwork'] as bool?;
-        instance.householdInformed = entry['householdInformed'] as bool?;
-        instance.permissionsReduced = entry['permissionsReduced'] as bool?;
-        instance.cameraConsentGiven = entry['cameraConsentGiven'] as bool?;
-        instance.micDeactivatedWhenUnused =
-            entry['micDeactivatedWhenUnused'] as bool?;
+        instance.passwordChanged = questionAnswerFromStored(
+          entry['passwordChanged'],
+        );
+        instance.autoUpdatesEnabled = questionAnswerFromStored(
+          entry['autoUpdatesEnabled'],
+        );
+        instance.separateNetwork = questionAnswerFromStored(
+          entry['separateNetwork'],
+        );
+        instance.householdInformed = questionAnswerFromStored(
+          entry['householdInformed'],
+        );
+        instance.permissionsReduced = questionAnswerFromStored(
+          entry['permissionsReduced'],
+        );
+        instance.cameraConsentGiven = questionAnswerFromStored(
+          entry['cameraConsentGiven'],
+        );
+        instance.micDeactivatedWhenUnused = questionAnswerFromStored(
+          entry['micDeactivatedWhenUnused'],
+        );
 
         final storedSpecific = Map<String, dynamic>.from(
           entry['deviceSpecificAnswers'] as Map? ?? const {},
         );
         instance.deviceSpecificAnswers
           ..clear()
-          ..addAll(
-            storedSpecific.map((key, value) => MapEntry(key, value as bool)),
+          ..addEntries(
+            storedSpecific.entries
+                .map(
+                  (entry) => MapEntry(
+                    entry.key,
+                    questionAnswerFromStored(entry.value),
+                  ),
+                )
+                .where((entry) => entry.value != null)
+                .map((entry) => MapEntry(entry.key, entry.value!)),
           );
 
         devices.add(instance);
@@ -281,14 +302,17 @@ class SurveyState extends ChangeNotifier {
               'templateId': device.template.id,
               'roomId': device.roomId,
               'roomName': device.roomName,
-              'passwordChanged': device.passwordChanged,
-              'autoUpdatesEnabled': device.autoUpdatesEnabled,
-              'separateNetwork': device.separateNetwork,
-              'householdInformed': device.householdInformed,
-              'permissionsReduced': device.permissionsReduced,
-              'cameraConsentGiven': device.cameraConsentGiven,
-              'micDeactivatedWhenUnused': device.micDeactivatedWhenUnused,
-              'deviceSpecificAnswers': device.deviceSpecificAnswers,
+              'passwordChanged': device.passwordChanged?.wireValue,
+              'autoUpdatesEnabled': device.autoUpdatesEnabled?.wireValue,
+              'separateNetwork': device.separateNetwork?.wireValue,
+              'householdInformed': device.householdInformed?.wireValue,
+              'permissionsReduced': device.permissionsReduced?.wireValue,
+              'cameraConsentGiven': device.cameraConsentGiven?.wireValue,
+              'micDeactivatedWhenUnused':
+                  device.micDeactivatedWhenUnused?.wireValue,
+              'deviceSpecificAnswers': device.deviceSpecificAnswers.map(
+                (key, value) => MapEntry(key, value.wireValue),
+              ),
             },
           )
           .toList(),
