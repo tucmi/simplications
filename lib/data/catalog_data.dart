@@ -869,6 +869,6 @@ class CatalogData {
     'Legen Sie im Haushalt fest, wer für Updates, Backups und Konten verantwortlich ist.',
     'Überprüfen Sie regelmäßig (mind. 1× pro Quartal) alle Zugriffsberechtigungen und Konten.',
     'Entsorgen Sie alte Geräte datenschutzgerecht: Werksreset durchführen und aus der Hersteller-Cloud austragen.',
-    'Nutzen Sie das Konsens-Protokoll, bevor Sie neue Geräte kaufen – beziehen Sie alle Haushaltsmitglieder ein.',
+    'Nutzen Sie ein Konsens-Protokoll, bevor Sie neue Geräte kaufen – beziehen Sie alle Haushaltsmitglieder ein.',
   ];
 }
