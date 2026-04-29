@@ -986,6 +986,7 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
           ),
           // Expanded actions
           if (_expanded) ...[
+            _ScoreBreakdown(device: device),
             if (actions.isEmpty)
               Padding(
                 padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
@@ -1060,6 +1061,162 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
               ),
             ],
           ],
+        ],
+      ),
+    );
+  }
+}
+
+class _ScoreBreakdown extends StatefulWidget {
+  final DeviceInstance device;
+
+  const _ScoreBreakdown({required this.device});
+
+  @override
+  State<_ScoreBreakdown> createState() => _ScoreBreakdownState();
+}
+
+class _ScoreBreakdownState extends State<_ScoreBreakdown> {
+  bool _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final factors = widget.device.scoringFactors;
+    if (factors.isEmpty) return const SizedBox.shrink();
+
+    final colors = Theme.of(context).colorScheme;
+    final text = Theme.of(context).textTheme;
+    final riskColor = _riskColor(widget.device.riskLevel);
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(14, 0, 14, 10),
+      decoration: BoxDecoration(
+        color: Colors.white.withAlpha(140),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: riskColor.withAlpha(60)),
+      ),
+      child: Column(
+        children: [
+          // Toggle row
+          InkWell(
+            borderRadius: BorderRadius.circular(10),
+            onTap: () => setState(() => _expanded = !_expanded),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.calculate_outlined,
+                    size: 14,
+                    color: colors.onSurfaceVariant,
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      'Wie wird das Risiko berechnet?',
+                      style: text.labelSmall?.copyWith(
+                        color: colors.onSurfaceVariant,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    _expanded ? Icons.expand_less : Icons.expand_more,
+                    size: 16,
+                    color: colors.onSurfaceVariant,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Expanded factor list
+          if (_expanded) ...[
+            Divider(height: 1, thickness: 1, color: riskColor.withAlpha(40)),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Gesamt: ${widget.device.riskScore}/100',
+                        style: text.labelSmall?.copyWith(
+                          color: riskColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  ...factors.map((f) => _FactorRow(factor: f, text: text)),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _FactorRow extends StatelessWidget {
+  final ScoringFactor factor;
+  final TextTheme text;
+
+  const _FactorRow({required this.factor, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    final Color chipColor;
+    final IconData icon;
+
+    if (factor.isBaseRisk) {
+      chipColor = const Color(0xFF5C6BC0);
+      icon = Icons.device_hub_outlined;
+    } else if (factor.isDontKnow) {
+      chipColor = const Color(0xFFE65100);
+      icon = Icons.help_outline;
+    } else {
+      chipColor = const Color(0xFFC62828);
+      icon = Icons.cancel_outlined;
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 1),
+            child: Icon(icon, size: 14, color: chipColor),
+          ),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(
+              factor.label,
+              style: text.bodySmall?.copyWith(height: 1.3),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            decoration: BoxDecoration(
+              color: chipColor.withAlpha(20),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Text(
+              '+${factor.penalty}',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                color: chipColor,
+              ),
+            ),
+          ),
         ],
       ),
     );

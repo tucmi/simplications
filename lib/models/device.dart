@@ -62,6 +62,27 @@ class PrivacyAction {
   });
 }
 
+/// A single factor that contributed to a device's risk score.
+class ScoringFactor {
+  final String label;
+  final int penalty;
+
+  /// True if the user answered "don't know" (partial penalty).
+  /// False if answered "no" (full penalty) or this is an inherent base risk.
+  final bool isDontKnow;
+
+  /// True if this represents the device type's inherent base risk,
+  /// not a specific question answer.
+  final bool isBaseRisk;
+
+  const ScoringFactor({
+    required this.label,
+    required this.penalty,
+    required this.isDontKnow,
+    this.isBaseRisk = false,
+  });
+}
+
 class DeviceTemplate {
   final String id;
   final String name;
@@ -124,24 +145,57 @@ class DeviceInstance {
   });
 
   List<DeviceQuestion> get questions {
-    // Simple sensors typically have no app, dedicated password, or software updates,
-    // so they use a tailored question set focused on data minimisation.
+    // ── Base question definitions (referenced selectively per device type) ─────
+    const qPassword = DeviceQuestion(
+      id: 'password',
+      text:
+          'Haben Sie das Standard-Passwort des Geräts oder des zugehörigen Kontos geändert?',
+      hint:
+          'Voreingestellte Passwörter sind oft öffentlich bekannt und leicht zu knacken.',
+    );
+    const qUpdates = DeviceQuestion(
+      id: 'updates',
+      text: 'Sind automatische Sicherheits-Updates für das Gerät aktiviert?',
+      hint: 'Updates schließen bekannte Sicherheitslücken zeitnah.',
+    );
+    const qNetwork = DeviceQuestion(
+      id: 'network',
+      text:
+          'Ist das Gerät in einem separaten Smart-Home- oder IoT-WLAN eingebunden?',
+      hint:
+          'Ein eigenes Netz für smarte Geräte schützt Ihr restliches Heimnetzwerk.',
+    );
+    const qInformed = DeviceQuestion(
+      id: 'informed',
+      text:
+          'Sind alle Personen im Haushalt über dieses Gerät und seine Funktion informiert?',
+      hint:
+          'Alle Mitbewohnenden sollten wissen, welche Daten das Gerät erfasst.',
+    );
+    const qPermissions = DeviceQuestion(
+      id: 'permissions',
+      text:
+          'Haben Sie unnötige App-Berechtigungen (z. B. Standort, Kontakte) deaktiviert?',
+      hint: 'Nur wirklich benötigte Berechtigungen sollten aktiviert sein.',
+    );
+    const qMicActive = DeviceQuestion(
+      id: 'mic_active',
+      text: 'Deaktivieren Sie das Mikrofon, wenn Sie es nicht aktiv nutzen?',
+      hint:
+          'Smarte Lautsprecher und Geräte mit Mikrofonen können versehentlich aktiviert werden.',
+    );
+    // Unused base questions kept for reference (re-enable per device type as needed):
+    // const qCameraConsent = DeviceQuestion(
+    //   id: 'camera_consent',
+    //   text: 'Filmt die Kamera nur Bereiche, für die alle Betroffenen ihr Einverständnis gegeben haben?',
+    //   hint: 'Kameras in Gemeinschafts- oder Privatbereichen bedürfen der Zustimmung aller Bewohner.',
+    // );
+
+    // ── Sensor: tailored set – no app/password/update concept ─────────────────
     if (template.deviceType == 'sensor') {
       return const [
-        DeviceQuestion(
-          id: 'sensor_informed',
-          text:
-              'Sind alle Personen im Haushalt über diesen Sensor und seine Funktion informiert?',
-          hint:
-              'Alle Mitbewohnenden sollten wissen, welche Daten der Sensor erfasst.',
-        ),
-        DeviceQuestion(
-          id: 'sensor_network',
-          text:
-              'Ist der Sensor in einem separaten Smart-Home- oder IoT-WLAN eingebunden (sofern netzwerkfähig)?',
-          hint:
-              'Ein eigenes Netz für smarte Geräte schützt Ihr restliches Heimnetzwerk.',
-        ),
+        // DeviceQuestion(id: 'sensor_informed', ...) // removed – generic, ≈ qInformed
+        // DeviceQuestion(id: 'sensor_network', ...)  // removed – generic, ≈ qNetwork
         DeviceQuestion(
           id: 'sensor_frequency',
           text:
@@ -172,44 +226,14 @@ class DeviceInstance {
       ];
     }
 
-    final q = <DeviceQuestion>[
-      const DeviceQuestion(
-        id: 'password',
-        text:
-            'Haben Sie das Standard-Passwort des Geräts oder des zugehörigen Kontos geändert?',
-        hint:
-            'Voreingestellte Passwörter sind oft öffentlich bekannt und leicht zu knacken.',
-      ),
-      const DeviceQuestion(
-        id: 'updates',
-        text: 'Sind automatische Sicherheits-Updates für das Gerät aktiviert?',
-        hint: 'Updates schließen bekannte Sicherheitslücken zeitnah.',
-      ),
-      const DeviceQuestion(
-        id: 'network',
-        text:
-            'Ist das Gerät in einem separaten Smart-Home- oder IoT-WLAN eingebunden?',
-        hint:
-            'Ein eigenes Netz für smarte Geräte schützt Ihr restliches Heimnetzwerk.',
-      ),
-      const DeviceQuestion(
-        id: 'informed',
-        text:
-            'Sind alle Personen im Haushalt über dieses Gerät und seine Funktion informiert?',
-        hint:
-            'Alle Mitbewohnenden sollten wissen, welche Daten das Gerät erfasst.',
-      ),
-      const DeviceQuestion(
-        id: 'permissions',
-        text:
-            'Haben Sie unnötige App-Berechtigungen (z. B. Standort, Kontakte) deaktiviert?',
-        hint: 'Nur wirklich benötigte Berechtigungen sollten aktiviert sein.',
-      ),
-    ];
-
-    // Device-specific questions based on device type
+    // ── Speaker ───────────────────────────────────────────────────────────────
     if (template.deviceType == 'speaker') {
-      q.addAll([
+      return [
+        // qPassword,    // removed – generic
+        // qUpdates,     // removed – generic
+        // qNetwork,     // removed – generic
+        // qInformed,    // removed – generic
+        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'voice_history',
           text:
@@ -231,40 +255,58 @@ class DeviceInstance {
           hint:
               'Skills von Drittanbietern können sensible Daten abfangen. Nur notwendige Skills aktivieren.',
         ),
-      ]);
-    } else if (template.deviceType == 'camera') {
-      q.addAll([
-        const DeviceQuestion(
+        qMicActive,
+      ];
+    }
+
+    // ── Camera ────────────────────────────────────────────────────────────────
+    if (template.deviceType == 'camera') {
+      return const [
+        // qPassword,      // removed – generic
+        // qUpdates,       // removed – generic
+        // qNetwork,       // removed – generic
+        // qInformed,      // removed – generic
+        // qPermissions,   // removed – generic
+        // qCameraConsent, // removed – generic hasCamera flag
+        DeviceQuestion(
           id: 'video_encryption',
           text:
               'Ist die Videoaufnahme und -übertragung durchgängig verschlüsselt?',
           hint:
               'BSI-Empfehlung: Verschlüsselte Verbindung verhindert Abhören und Datenklau unterwegs.',
         ),
-        const DeviceQuestion(
+        DeviceQuestion(
           id: 'video_storage',
           text:
               'Werden Aufnahmen lokal gespeichert (nicht ausschließlich in der Cloud des Anbieters)?',
           hint:
               'Lokale Speicherung gibt Ihnen mehr Kontrolle über Ihre Daten; bei reiner Cloud-Speicherung sind Sie auf die Sicherheit des Anbieters angewiesen.',
         ),
-        const DeviceQuestion(
+        DeviceQuestion(
           id: 'sharing_restrictions',
           text:
               'Können Sie steuern, wer auf die Live-View und Aufnahmen zugreifen kann?',
           hint:
               'Sie sollten genau kontrollieren können, wer Zugang zu den Videoaufnahmen erhält.',
         ),
-        const DeviceQuestion(
+        DeviceQuestion(
           id: 'motion_detection',
           text:
               'Können Sie Bewegungserkennung deaktivieren oder zeitlich begrenzen, wenn Sie zu Hause sind?',
           hint:
               'BSI-Empfehlung: Unnötige Aufnahmen vermeiden reduziert Datenmenge und Missbrauchsrisiko.',
         ),
-      ]);
-    } else if (template.deviceType == 'tv') {
-      q.addAll([
+      ];
+    }
+
+    // ── Smart TV ──────────────────────────────────────────────────────────────
+    if (template.deviceType == 'tv') {
+      return [
+        // qPassword,    // removed – generic
+        qUpdates,
+        // qNetwork,     // removed – generic
+        // qInformed,    // removed – generic
+        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'account_required',
           text:
@@ -286,9 +328,17 @@ class DeviceInstance {
           hint:
               'Offline-Betrieb schützt Ihre Nutzungsdaten vor Übertragung an den Hersteller.',
         ),
-      ]);
-    } else if (template.deviceType == 'thermostat') {
-      q.addAll([
+      ];
+    }
+
+    // ── Thermostat ────────────────────────────────────────────────────────────
+    if (template.deviceType == 'thermostat') {
+      return [
+        // qPassword,    // removed – generic
+        qUpdates,
+        // qNetwork,     // removed – generic
+        // qInformed,    // removed – generic
+        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'data_collection',
           text:
@@ -310,11 +360,19 @@ class DeviceInstance {
           hint:
               'Haushaltsmitglieder sollten Kontrolle haben, ohne dass Besucher alles ändern können.',
         ),
-      ]);
-    } else if (template.deviceType == 'light' ||
+      ];
+    }
+
+    // ── Smart Light / Smart Plug / Motorised Blind ────────────────────────────
+    if (template.deviceType == 'light' ||
         template.deviceType == 'plug' ||
         template.deviceType == 'blind') {
-      q.addAll([
+      return [
+        // qPassword,    // removed – generic
+        qUpdates,
+        // qNetwork,     // removed – generic
+        // qInformed,    // removed – generic
+        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'local_control',
           text:
@@ -336,9 +394,17 @@ class DeviceInstance {
           hint:
               'Zuverlässige lokale Funktion ist wichtig für alltägliche Nutzung und Privatsphäre.',
         ),
-      ]);
-    } else if (template.deviceType == 'lock') {
-      q.addAll([
+      ];
+    }
+
+    // ── Smart Lock ────────────────────────────────────────────────────────────
+    if (template.deviceType == 'lock') {
+      return [
+        qPassword,
+        // qUpdates,     // removed – generic
+        // qNetwork,     // removed – generic
+        // qInformed,    // removed – generic
+        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'offline_unlock',
           text:
@@ -359,9 +425,17 @@ class DeviceInstance {
           hint:
               'BSI-Empfehlung: 2FA schützt Ihr Konto vor unbefugtem Fernzugriff auf das Schloss.',
         ),
-      ]);
-    } else if (template.deviceType == 'robot') {
-      q.addAll([
+      ];
+    }
+
+    // ── Robot Vacuum ──────────────────────────────────────────────────────────
+    if (template.deviceType == 'robot') {
+      return [
+        // qPassword,    // removed – generic
+        qUpdates,
+        // qNetwork,     // removed – generic
+        // qInformed,    // removed – generic
+        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'map_privacy',
           text:
@@ -383,9 +457,17 @@ class DeviceInstance {
           hint:
               'Kamerabilder sollten nur lokal für die Navigation verarbeitet und weder gespeichert noch an den Hersteller gesendet werden.',
         ),
-      ]);
-    } else if (template.deviceType == 'toy') {
-      q.addAll([
+      ];
+    }
+
+    // ── Connected Toy ─────────────────────────────────────────────────────────
+    if (template.deviceType == 'toy') {
+      return [
+        // qPassword,    // removed – generic
+        qUpdates,
+        // qNetwork,     // removed – generic
+        // qInformed,    // removed – generic
+        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'parental_control',
           text:
@@ -407,9 +489,17 @@ class DeviceInstance {
           hint:
               'BSI-Empfehlung: Aufnahmen von Kindern sollten nur mit expliziter Kontrolle möglich sein.',
         ),
-      ]);
-    } else if (template.deviceType == 'wearable') {
-      q.addAll([
+      ];
+    }
+
+    // ── Wearable / Fitness Tracker ────────────────────────────────────────────
+    if (template.deviceType == 'wearable') {
+      return [
+        // qPassword,    // removed – generic
+        qUpdates,
+        // qNetwork,     // removed – generic
+        // qInformed,    // removed – generic
+        qPermissions,
         const DeviceQuestion(
           id: 'health_sharing',
           text:
@@ -424,33 +514,18 @@ class DeviceInstance {
           hint:
               'GPS-Tracking verbraucht Akku und kann Ihre Bewegungsmuster offenbaren.',
         ),
-      ]);
+      ];
     }
 
-    if (template.hasCamera) {
-      q.add(
-        const DeviceQuestion(
-          id: 'camera_consent',
-          text:
-              'Filmt die Kamera nur Bereiche, für die alle Betroffenen ihr Einverständnis gegeben haben?',
-          hint:
-              'Kameras in Gemeinschafts- oder Privatbereichen bedürfen der Zustimmung aller Bewohner.',
-        ),
-      );
-    }
-    if (template.hasMicrophone) {
-      q.add(
-        const DeviceQuestion(
-          id: 'mic_active',
-          text:
-              'Deaktivieren Sie das Mikrofon, wenn Sie es nicht aktiv nutzen?',
-          hint:
-              'Smarte Lautsprecher und Geräte mit Mikrofonen können versehentlich aktiviert werden.',
-        ),
-      );
-    }
-
-    return q;
+    // ── Default / custom device ───────────────────────────────────────────────
+    // Keep the 4 most universally important base questions.
+    return [
+      qPassword,
+      qUpdates,
+      qNetwork,
+      qInformed,
+      // qPermissions, // removed – only applicable when device has a companion app
+    ];
   }
 
   QuestionAnswer? answerFor(String questionId) {
@@ -730,6 +805,130 @@ class DeviceInstance {
     }
 
     return actions;
+  }
+
+  /// Returns each factor that contributed to the risk score —
+  /// the base device risk plus every negatively-answered question.
+  List<ScoringFactor> get scoringFactors {
+    final factors = <ScoringFactor>[];
+
+    // Inherent device-type risk
+    if (template.baseRiskScore > 0) {
+      factors.add(
+        ScoringFactor(
+          label: 'Grundrisiko des Gerätetyps',
+          penalty: template.baseRiskScore,
+          isDontKnow: false,
+          isBaseRisk: true,
+        ),
+      );
+    }
+
+    void check(
+      String questionId,
+      String shortLabel,
+      int noPenalty,
+      int dontKnowPenalty,
+    ) {
+      final answer = answerFor(questionId);
+      if (answer == QuestionAnswer.no) {
+        factors.add(
+          ScoringFactor(
+            label: shortLabel,
+            penalty: noPenalty,
+            isDontKnow: false,
+          ),
+        );
+      } else if (answer == QuestionAnswer.dontKnow) {
+        factors.add(
+          ScoringFactor(
+            label: shortLabel,
+            penalty: dontKnowPenalty,
+            isDontKnow: true,
+          ),
+        );
+      }
+    }
+
+    check('password', 'Standard-Passwort nicht geändert', 20, 10);
+    check('updates', 'Automatische Updates nicht aktiv', 15, 8);
+    check('network', 'Kein separates IoT-WLAN eingerichtet', 10, 5);
+    check('informed', 'Haushaltsmitglieder nicht informiert', 10, 5);
+    check('permissions', 'App-Berechtigungen nicht reduziert', 5, 3);
+    if (template.hasCamera) {
+      check('camera_consent', 'Kein Einverständnis für Kamerabereich', 15, 8);
+    }
+    if (template.hasMicrophone) {
+      check('mic_active', 'Mikrofon nicht bei Nichtnutzung deaktiviert', 10, 5);
+    }
+
+    // Device-specific questions — use short labels instead of full question text.
+    const Map<String, String> shortLabels = {
+      // Sensor
+      'sensor_informed': 'Haushalt nicht über Sensor informiert',
+      'sensor_network': 'Sensor nicht im IoT-Netz eingebunden',
+      'sensor_frequency': 'Messintervall nicht reduziert',
+      'sensor_data_deletion': 'Alte Messwerte nicht gelöscht',
+      'sensor_granularity': 'Daten zu fein granular gespeichert',
+      'sensor_local': 'Daten in die Cloud übertragen',
+      // Speaker
+      'voice_history': 'Sprachaufnahmen nicht löschbar',
+      'voice_local': 'Keine lokale Sprachverarbeitung',
+      'skills_permissions': 'Skills nicht regelmäßig geprüft',
+      // Camera
+      'video_encryption': 'Videoübertragung nicht verschlüsselt',
+      'video_storage': 'Aufnahmen nur in Anbieter-Cloud',
+      'sharing_restrictions': 'Zugriff auf Aufnahmen nicht kontrolliert',
+      'motion_detection': 'Bewegungserkennung immer aktiv',
+      // TV
+      'account_required': 'Pflichtdkonto beim Hersteller nötig',
+      'tracking_disabled': 'Werbe-Tracking nicht deaktiviert',
+      'local_mode': 'Kein Offline-Betrieb möglich',
+      // Thermostat
+      'data_collection': 'Temperaturverlauf an Hersteller übertragen',
+      'offline_control': 'Kein Offline-Betrieb möglich',
+      'family_access': 'Zugriff nicht einschränkbar',
+      // Light / Plug / Blind
+      'local_control': 'Automatisierungen nur mit Internet',
+      'usage_tracking': 'Schaltmuster vom Hersteller erfasst',
+      'offline_fallback': 'Gerät offline nicht nutzbar',
+      // Lock
+      'offline_unlock': 'Kein Offline-Öffnen möglich',
+      'access_logging': 'Kein Zugriffsprotokoll verfügbar',
+      'two_factor': '2-Faktor-Authentifizierung fehlt',
+      // Robot
+      'map_privacy': 'Grundriss an Hersteller übertragen',
+      'cloud_required': 'Navigation nur mit Cloud möglich',
+      'vision_data': 'Kamerabilder gespeichert oder übertragen',
+      // Toy
+      'parental_control': 'Elternkontrolle nicht eingerichtet',
+      'child_data_limits': 'Datenmenge nicht eingeschränkt',
+      'recording_disable': 'Aufnahmen nicht deaktivierbar',
+      // Wearable
+      'health_sharing': 'Gesundheitsdaten mit Dritten geteilt',
+      'location_tracking': 'Standortverfolgung aktiv',
+    };
+    const baseIds = {
+      'password',
+      'updates',
+      'network',
+      'informed',
+      'permissions',
+      'camera_consent',
+      'mic_active',
+    };
+    for (final q in questions) {
+      if (baseIds.contains(q.id)) continue;
+      final answer = answerFor(q.id);
+      final label = shortLabels[q.id] ?? q.text;
+      if (answer == QuestionAnswer.no) {
+        factors.add(ScoringFactor(label: label, penalty: 8, isDontKnow: false));
+      } else if (answer == QuestionAnswer.dontKnow) {
+        factors.add(ScoringFactor(label: label, penalty: 4, isDontKnow: true));
+      }
+    }
+
+    return factors;
   }
 
   int _riskPenalty(
