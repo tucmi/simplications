@@ -22,7 +22,7 @@ Thank you for your interest in contributing to Simplications! We appreciate all 
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/tucmi/simplications.git
    cd simplications
    ```
 

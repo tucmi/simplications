@@ -1,8 +1,9 @@
 name: simplications
-description: "A new Flutter project."
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+description: "Smart-Home-Datenschutz-Check: Erfassen Sie Ihre smarten Geräte und erhalten Sie konkrete Sicherheitsempfehlungen."
+homepage: https://simplications.tucmi.de
+repository: https://github.com/tucmi/simplications
+issue_tracker: https://github.com/tucmi/simplications/issues
+publish_to: 'none'
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
