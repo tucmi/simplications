@@ -8,6 +8,63 @@ import '../data/catalog_data.dart';
 import 'device.dart';
 import 'room.dart';
 
+/// Registry of all icon keys used in the app, mapping string keys to const
+/// [IconData] values from [Icons].  This allows icons to be persisted as a
+/// short string while keeping every [IconData] instance a compile-time constant
+/// (required for Flutter's release-build icon tree shaking).
+///
+/// When adding icons to the app UI, add the corresponding entry here.
+const Map<String, IconData> kIconRegistry = {
+  'weekend': Icons.weekend,
+  'kitchen': Icons.kitchen,
+  'hotel': Icons.hotel,
+  'bathtub': Icons.bathtub,
+  'computer': Icons.computer,
+  'meeting_room': Icons.meeting_room,
+  'yard': Icons.yard,
+  'storage': Icons.storage,
+  'home': Icons.home,
+  'living': Icons.living,
+  'local_library': Icons.local_library,
+  'fitness_center': Icons.fitness_center,
+  'sports_esports': Icons.sports_esports,
+  'roofing': Icons.roofing,
+  'food_bank': Icons.food_bank,
+  'speaker': Icons.speaker,
+  'videocam': Icons.videocam,
+  'tv': Icons.tv,
+  'thermostat': Icons.thermostat,
+  'lightbulb': Icons.lightbulb,
+  'lock': Icons.lock,
+  'electrical_services': Icons.electrical_services,
+  'window': Icons.window,
+  'cleaning_services': Icons.cleaning_services,
+  'watch': Icons.watch,
+  'toys': Icons.toys,
+  'router': Icons.router,
+  'print': Icons.print,
+  'sensors': Icons.sensors,
+  'water_drop': Icons.water_drop,
+  'light_mode': Icons.light_mode,
+  'tablet_android': Icons.tablet_android,
+  'camera_outdoor': Icons.camera_outdoor,
+  'doorbell': Icons.doorbell,
+  'child_care': Icons.child_care,
+  'microwave': Icons.microwave,
+  'coffee': Icons.coffee,
+  'local_laundry_service': Icons.local_laundry_service,
+  'hub': Icons.hub,
+  'bolt': Icons.bolt,
+  'monitor_weight': Icons.monitor_weight,
+};
+
+/// Reverse lookup: `'$codePoint:$fontFamily'` → registry key.
+/// Built once from [kIconRegistry] for O(1) icon-to-key lookups.
+final Map<String, String> _iconKeyByFingerprint = {
+  for (final e in kIconRegistry.entries)
+    '${e.value.codePoint}:${e.value.fontFamily}': e.key,
+};
+
 class SurveyState extends ChangeNotifier {
   static const String _storageKey = 'survey_state_v1';
 
@@ -145,9 +202,7 @@ class SurveyState extends ChangeNotifier {
                 (e) => Room(
                   id: e['id'] as String,
                   name: e['name'] as String,
-                  icon: _iconFromJson(
-                    Map<String, dynamic>.from(e['icon'] as Map),
-                  ),
+                  icon: _resolveIcon(e),
                 ),
               ),
         );
@@ -162,9 +217,7 @@ class SurveyState extends ChangeNotifier {
                 (e) => DeviceTemplate(
                   id: e['id'] as String,
                   name: e['name'] as String,
-                  icon: _iconFromJson(
-                    Map<String, dynamic>.from(e['icon'] as Map),
-                  ),
+                  icon: _resolveIcon(e),
                   baseRiskScore: (e['baseRiskScore'] as num).toInt(),
                   hasCamera: e['hasCamera'] as bool? ?? false,
                   hasMicrophone: e['hasMicrophone'] as bool? ?? false,
@@ -279,7 +332,7 @@ class SurveyState extends ChangeNotifier {
             (room) => {
               'id': room.id,
               'name': room.name,
-              'icon': _iconToJson(room.icon),
+              'iconKey': _iconToKey(room.icon),
             },
           )
           .toList(),
@@ -288,7 +341,7 @@ class SurveyState extends ChangeNotifier {
             (device) => {
               'id': device.id,
               'name': device.name,
-              'icon': _iconToJson(device.icon),
+              'iconKey': _iconToKey(device.icon),
               'baseRiskScore': device.baseRiskScore,
               'hasCamera': device.hasCamera,
               'hasMicrophone': device.hasMicrophone,
@@ -319,22 +372,42 @@ class SurveyState extends ChangeNotifier {
     };
   }
 
-  Map<String, dynamic> _iconToJson(IconData icon) {
-    return {
-      'codePoint': icon.codePoint,
-      'fontFamily': icon.fontFamily,
-      'fontPackage': icon.fontPackage,
-      'matchTextDirection': icon.matchTextDirection,
-    };
+  /// Returns the registry key for [icon], falling back to `'home'` for
+  /// any icon that is not in [kIconRegistry].
+  String _iconToKey(IconData icon) {
+    final fingerprint = '${icon.codePoint}:${icon.fontFamily}';
+    return _iconKeyByFingerprint[fingerprint] ?? 'home';
   }
 
-  IconData _iconFromJson(Map<String, dynamic> json) {
-    return IconData(
-      (json['codePoint'] as num).toInt(),
-      fontFamily: json['fontFamily'] as String?,
-      fontPackage: json['fontPackage'] as String?,
-      matchTextDirection: json['matchTextDirection'] as bool? ?? false,
-    );
+  /// Returns the [IconData] for [key] from [kIconRegistry], defaulting to
+  /// [Icons.home] when the key is unknown.
+  IconData _iconFromKey(String key) => kIconRegistry[key] ?? Icons.home;
+
+  /// Resolves an icon from a persisted entry map.
+  ///
+  /// Prefers the new `iconKey` field; falls back to the legacy `icon` map
+  /// (which stored `codePoint` / `fontFamily`), mapping it to the closest
+  /// registry entry by code-point.  Defaults to [Icons.home] if nothing
+  /// matches.
+  IconData _resolveIcon(Map<String, dynamic> e) {
+    final key = e['iconKey'] as String?;
+    if (key != null) {
+      return _iconFromKey(key);
+    }
+    // Legacy path: icon was stored as a map with codePoint/fontFamily/...
+    final iconMap = e['icon'];
+    if (iconMap is Map) {
+      final codePoint = (iconMap['codePoint'] as num?)?.toInt();
+      final fontFamily = iconMap['fontFamily'] as String?;
+      if (codePoint != null) {
+        final fingerprint = '$codePoint:$fontFamily';
+        final key = _iconKeyByFingerprint[fingerprint];
+        if (key != null) {
+          return kIconRegistry[key]!;
+        }
+      }
+    }
+    return Icons.home;
   }
 
   void _changed() {
