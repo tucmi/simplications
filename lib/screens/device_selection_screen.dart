@@ -450,7 +450,9 @@ class _BottomBar extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: FilledButton(
-                    onPressed: onFinish,
+                    onPressed: state.completedRoomIds.isNotEmpty
+                        ? onFinish
+                        : null,
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(

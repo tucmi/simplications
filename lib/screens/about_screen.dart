@@ -101,12 +101,38 @@ class AboutScreen extends StatelessWidget {
             label: 'Koordination',
             value: 'Plattform Privatheit',
           ),
-          _InfoRow(
-            colors: colors,
-            text: text,
-            icon: Icons.account_balance_outlined,
-            label: 'Fördermittelgeber',
-            value: 'BMFTR (FKZ 16KIS1868K)',
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.account_balance_outlined,
+                  size: 18,
+                  color: colors.onSurfaceVariant,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Fördermittelgeber',
+                        style: text.bodyMedium?.copyWith(
+                          color: colors.onSurfaceVariant,
+                        ),
+                      ),
+                      Text(
+                        'Bundesministerium für Forschung, Technologie und Raumfahrt\nFKZ 16KIS1868K',
+                        style: text.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 20),
 
