@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:simplications/data/catalog_data.dart';
+import 'package:simplications/models/device.dart';
 import 'package:simplications/models/survey_state.dart';
 
 void main() {
@@ -44,8 +46,11 @@ void main() {
 
       final room = rooms.first as Map<String, dynamic>;
       expect(room['iconKey'], equals('kitchen'));
-      expect(room.containsKey('icon'), isFalse,
-          reason: 'legacy icon map must not be written any more');
+      expect(
+        room.containsKey('icon'),
+        isFalse,
+        reason: 'legacy icon map must not be written any more',
+      );
     });
 
     test('loading a room saved with iconKey returns expected icon', () async {
@@ -93,63 +98,67 @@ void main() {
       expect(state.customDevices.first.icon, equals(Icons.speaker));
     });
 
-    test('loading legacy icon map (codePoint) returns the matching icon', () async {
-      SharedPreferences.setMockInitialValues({
-        'survey_state_v1': jsonEncode({
-          'completedRoomIds': <String>[],
-          'customRooms': [
-            {
-              'id': 'custom_1',
-              'name': 'Legacy Room',
-              'icon': {
-                'codePoint': Icons.kitchen.codePoint,
-                'fontFamily': Icons.kitchen.fontFamily,
-                'fontPackage': null,
-                'matchTextDirection': false,
+    test(
+      'loading legacy icon map (codePoint) returns the matching icon',
+      () async {
+        SharedPreferences.setMockInitialValues({
+          'survey_state_v1': jsonEncode({
+            'completedRoomIds': <String>[],
+            'customRooms': [
+              {
+                'id': 'custom_1',
+                'name': 'Legacy Room',
+                'icon': {
+                  'codePoint': Icons.kitchen.codePoint,
+                  'fontFamily': Icons.kitchen.fontFamily,
+                  'fontPackage': null,
+                  'matchTextDirection': false,
+                },
               },
-            },
-          ],
-          'customDevices': <Map>[],
-          'devices': <Map>[],
-        }),
-      });
+            ],
+            'customDevices': <Map>[],
+            'devices': <Map>[],
+          }),
+        });
 
-      final state = SurveyState();
-      await state.loadFromStorage();
+        final state = SurveyState();
+        await state.loadFromStorage();
 
-      expect(state.customRooms, hasLength(1));
-      expect(state.customRooms.first.icon, equals(Icons.kitchen));
-    });
+        expect(state.customRooms, hasLength(1));
+        expect(state.customRooms.first.icon, equals(Icons.kitchen));
+      },
+    );
 
     test(
-        'loading legacy icon map with unknown codePoint defaults to Icons.home',
-        () async {
-      SharedPreferences.setMockInitialValues({
-        'survey_state_v1': jsonEncode({
-          'completedRoomIds': <String>[],
-          'customRooms': [
-            {
-              'id': 'custom_1',
-              'name': 'Unknown Icon Room',
-              'icon': {
-                'codePoint': 0xFFFFF, // not in registry
-                'fontFamily': 'MaterialIcons',
-                'fontPackage': null,
-                'matchTextDirection': false,
+      'loading legacy icon map with unknown codePoint defaults to Icons.home',
+      () async {
+        SharedPreferences.setMockInitialValues({
+          'survey_state_v1': jsonEncode({
+            'completedRoomIds': <String>[],
+            'customRooms': [
+              {
+                'id': 'custom_1',
+                'name': 'Unknown Icon Room',
+                'icon': {
+                  'codePoint': 0xFFFFF, // not in registry
+                  'fontFamily': 'MaterialIcons',
+                  'fontPackage': null,
+                  'matchTextDirection': false,
+                },
               },
-            },
-          ],
-          'customDevices': <Map>[],
-          'devices': <Map>[],
-        }),
-      });
+            ],
+            'customDevices': <Map>[],
+            'devices': <Map>[],
+          }),
+        });
 
-      final state = SurveyState();
-      await state.loadFromStorage();
+        final state = SurveyState();
+        await state.loadFromStorage();
 
-      expect(state.customRooms, hasLength(1));
-      expect(state.customRooms.first.icon, equals(Icons.home));
-    });
+        expect(state.customRooms, hasLength(1));
+        expect(state.customRooms.first.icon, equals(Icons.home));
+      },
+    );
 
     test('unknown iconKey defaults to Icons.home', () async {
       SharedPreferences.setMockInitialValues({
@@ -172,6 +181,46 @@ void main() {
 
       expect(state.customRooms, hasLength(1));
       expect(state.customRooms.first.icon, equals(Icons.home));
+    });
+
+    test('results require one completed room with a finished device', () {
+      final state = SurveyState();
+      final room = CatalogData.allRooms.first;
+      final template = CatalogData.devicesForRoom(room.id).first;
+
+      state.addDevice(template, room.id, room.name);
+      final device = state.devices.first;
+      for (final question in device.questions) {
+        device.setAnswer(question.id, QuestionAnswer.yes);
+      }
+      state.notifyUpdate();
+
+      expect(state.hasFinishedDeviceInRoom(room.id), isTrue);
+      expect(state.hasResultsAvailable, isFalse);
+
+      state.markRoomCompleted(room.id);
+      expect(state.hasResultsAvailable, isTrue);
+    });
+
+    test('completed room progress is restored after restart', () async {
+      final state = SurveyState();
+      final room = CatalogData.allRooms.first;
+      final template = CatalogData.devicesForRoom(room.id).first;
+
+      state.addDevice(template, room.id, room.name);
+      final device = state.devices.first;
+      for (final question in device.questions) {
+        device.setAnswer(question.id, QuestionAnswer.yes);
+      }
+      state.markRoomCompleted(room.id);
+      await state.saveToStorage();
+
+      final reloaded = SurveyState();
+      await reloaded.loadFromStorage();
+
+      expect(reloaded.completedRoomIds.contains(room.id), isTrue);
+      expect(reloaded.hasFinishedDeviceInRoom(room.id), isTrue);
+      expect(reloaded.hasResultsAvailable, isTrue);
     });
   });
 }

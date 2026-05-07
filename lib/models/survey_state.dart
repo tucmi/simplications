@@ -135,8 +135,7 @@ class SurveyState extends ChangeNotifier {
   List<DeviceInstance> devicesForRoom(String roomId) =>
       devices.where((d) => d.roomId == roomId).toList();
 
-  bool get hasResultsAvailable =>
-      devices.any((device) => device.isFullyAnswered);
+  bool get hasResultsAvailable => completedRoomIds.any(hasFinishedDeviceInRoom);
 
   void markRoomWithoutDevices(String roomId) {
     final beforeDevices = devices.length;

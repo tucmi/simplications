@@ -519,7 +519,9 @@ class _BottomBar extends StatelessWidget {
       listenable: state,
       builder: (context, _) {
         final localizations = AppLocalizations.of(context);
-        final hasResultsAvailable = state.hasResultsAvailable;
+        final hasResultsAvailable =
+            state.hasResultsAvailable ||
+            state.hasFinishedDeviceInRoom(currentRoomId);
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
