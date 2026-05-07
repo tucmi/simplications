@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
+import '../l10n/language_controller.dart';
 import '../models/survey_state.dart';
+import '../widgets/language_switcher.dart';
 import 'about_screen.dart';
 import 'room_selection_screen.dart';
 
@@ -9,7 +11,14 @@ final RouteObserver<ModalRoute<void>> appRouteObserver =
     RouteObserver<ModalRoute<void>>();
 
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({super.key});
+  final LanguageController languageController;
+  final GlobalKey<NavigatorState>? navigatorKey;
+
+  const WelcomeScreen({
+    super.key,
+    required this.languageController,
+    this.navigatorKey,
+  });
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
@@ -65,153 +74,171 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
 
     return Scaffold(
       backgroundColor: colors.surface,
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight - 32,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
+      body: Stack(
+        children: [
+          SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 28,
+                    vertical: 16,
+                  ),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight - 32,
+                    ),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 64,
-                          height: 64,
-                          decoration: BoxDecoration(
-                            color: colors.primaryContainer,
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          child: Icon(
-                            Icons.home_outlined,
-                            size: 36,
-                            color: colors.primary,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 64,
+                              height: 64,
+                              decoration: BoxDecoration(
+                                color: colors.primaryContainer,
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              child: Icon(
+                                Icons.home_outlined,
+                                size: 36,
+                                color: colors.primary,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              localizations.welcomeTitle(),
+                              style: text.headlineMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                height: 1.2,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              localizations.welcomeDescription(),
+                              style: text.bodyMedium?.copyWith(
+                                color: colors.onSurfaceVariant,
+                                height: 1.4,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _StepRow(
+                                number: '1',
+                                icon: Icons.room,
+                                label: localizations.stepSelectRooms(),
+                                colors: colors,
+                              ),
+                              _StepRow(
+                                number: '2',
+                                icon: Icons.devices,
+                                label: localizations.stepCaptureDevices(),
+                                colors: colors,
+                              ),
+                              _StepRow(
+                                number: '3',
+                                icon: Icons.quiz_outlined,
+                                label: localizations.stepAnswerQuestions(),
+                                colors: colors,
+                              ),
+                              _StepRow(
+                                number: '4',
+                                icon: Icons.shield_outlined,
+                                label: localizations.stepGetRisk(),
+                                colors: colors,
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        Text(
-                          localizations.welcomeTitle(),
-                          style: text.headlineMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            height: 1.2,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          localizations.welcomeDescription(),
-                          style: text.bodyMedium?.copyWith(
-                            color: colors.onSurfaceVariant,
-                            height: 1.4,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _StepRow(
-                            number: '1',
-                            icon: Icons.room,
-                            label: localizations.stepSelectRooms(),
-                            colors: colors,
-                          ),
-                          _StepRow(
-                            number: '2',
-                            icon: Icons.devices,
-                            label: localizations.stepCaptureDevices(),
-                            colors: colors,
-                          ),
-                          _StepRow(
-                            number: '3',
-                            icon: Icons.quiz_outlined,
-                            label: localizations.stepAnswerQuestions(),
-                            colors: colors,
-                          ),
-                          _StepRow(
-                            number: '4',
-                            icon: Icons.shield_outlined,
-                            label: localizations.stepGetRisk(),
-                            colors: colors,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Builder(
-                          builder: (context) {
-                            final surveyState = _surveyState;
-                            final hasState = surveyState != null;
-                            final hasProgress =
-                                hasState && _hasSavedProgress(surveyState);
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Builder(
+                              builder: (context) {
+                                final surveyState = _surveyState;
+                                final hasState = surveyState != null;
+                                final hasProgress =
+                                    hasState && _hasSavedProgress(surveyState);
 
-                            return FilledButton(
-                              onPressed: hasState
-                                  ? () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (_) => RoomSelectionScreen(
-                                            state: surveyState,
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  : null,
-                              style: FilledButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 16,
+                                return FilledButton(
+                                  onPressed: hasState
+                                      ? () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  RoomSelectionScreen(
+                                                    state: surveyState,
+                                                  ),
+                                            ),
+                                          );
+                                        }
+                                      : null,
+                                  style: FilledButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    hasProgress
+                                        ? localizations.resume()
+                                        : localizations.start(),
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 4),
+                            Center(
+                              child: TextButton.icon(
+                                onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        AboutScreen(state: _surveyState),
+                                  ),
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                icon: const Icon(Icons.info_outline, size: 16),
+                                label: Text(localizations.about()),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: colors.onSurfaceVariant,
+                                  textStyle: const TextStyle(fontSize: 13),
+                                  visualDensity: VisualDensity.compact,
                                 ),
-                              ),
-                              child: Text(
-                                hasProgress
-                                    ? localizations.resume()
-                                    : localizations.start(),
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 4),
-                        Center(
-                          child: TextButton.icon(
-                            onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    AboutScreen(state: _surveyState),
                               ),
                             ),
-                            icon: const Icon(Icons.info_outline, size: 16),
-                            label: Text(localizations.about()),
-                            style: TextButton.styleFrom(
-                              foregroundColor: colors.onSurfaceVariant,
-                              textStyle: const TextStyle(fontSize: 13),
-                              visualDensity: VisualDensity.compact,
-                            ),
-                          ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: SafeArea(
+              child: LanguageSwitcher(
+                controller: widget.languageController,
+                navigatorKey: widget.navigatorKey,
               ),
-            );
-          },
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

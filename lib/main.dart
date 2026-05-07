@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'l10n/language_controller.dart';
 import 'screens/welcome_screen.dart';
-import 'widgets/language_switcher.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,24 +49,10 @@ class _SimplicationsAppState extends State<SimplicationsApp> {
             ),
             useMaterial3: true,
           ),
-          builder: (context, child) {
-            return Stack(
-              children: [
-                if (child != null) child,
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: SafeArea(
-                    child: LanguageSwitcher(
-                      controller: widget.languageController,
-                      navigatorKey: _navigatorKey,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
-          home: const WelcomeScreen(),
+          home: WelcomeScreen(
+            languageController: widget.languageController,
+            navigatorKey: _navigatorKey,
+          ),
         );
       },
     );

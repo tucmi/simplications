@@ -21,10 +21,10 @@ class LanguageController extends ChangeNotifier {
 
   static const Map<String, String> nativeNamesByLanguageCode = {
     'de': 'Deutsch',
-    'cs': 'Cestina',
+    'cs': 'Čeština',
     'en': 'English',
     'pl': 'Polski',
-    'fr': 'Francais',
+    'fr': 'Français',
     'nl': 'Nederlands',
     'da': 'Dansk',
   };

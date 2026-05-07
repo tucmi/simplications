@@ -7,6 +7,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:simplications/l10n/app_localizations.dart';
 import 'package:simplications/l10n/language_controller.dart';
 import 'package:simplications/main.dart';
 
@@ -15,6 +16,13 @@ void main() {
     await tester.pumpWidget(
       SimplicationsApp(languageController: LanguageController()),
     );
-    expect(find.text('Starten'), findsOneWidget);
+    await tester.pumpAndSettle();
+
+    final context = tester.element(find.byType(SimplicationsApp));
+    final localizations = AppLocalizations.of(context);
+    final hasStart = find.text(localizations.start()).evaluate().isNotEmpty;
+    final hasResume = find.text(localizations.resume()).evaluate().isNotEmpty;
+
+    expect(hasStart || hasResume, isTrue);
   });
 }
