@@ -5,8 +5,13 @@ import '../l10n/language_controller.dart';
 
 class LanguageSwitcher extends StatelessWidget {
   final LanguageController controller;
+  final GlobalKey<NavigatorState>? navigatorKey;
 
-  const LanguageSwitcher({super.key, required this.controller});
+  const LanguageSwitcher({
+    super.key,
+    required this.controller,
+    this.navigatorKey,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +52,11 @@ class LanguageSwitcher extends StatelessWidget {
   }
 
   Future<void> _showLanguageDialog(BuildContext context) async {
+    final dialogContext = navigatorKey?.currentContext ?? context;
     final localizations = AppLocalizations.of(context);
     final selected = await showDialog<String>(
-      context: context,
+      context: dialogContext,
+      useRootNavigator: true,
       builder: (context) {
         return AlertDialog(
           title: Text(localizations.languageDialogTitle()),

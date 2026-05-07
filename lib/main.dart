@@ -23,12 +23,15 @@ class SimplicationsApp extends StatefulWidget {
 }
 
 class _SimplicationsAppState extends State<SimplicationsApp> {
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: widget.languageController,
       builder: (context, _) {
         return MaterialApp(
+          navigatorKey: _navigatorKey,
           onGenerateTitle: (context) => AppLocalizations.of(context).appTitle(),
           debugShowCheckedModeBanner: false,
           navigatorObservers: [appRouteObserver],
@@ -57,6 +60,7 @@ class _SimplicationsAppState extends State<SimplicationsApp> {
                   child: SafeArea(
                     child: LanguageSwitcher(
                       controller: widget.languageController,
+                      navigatorKey: _navigatorKey,
                     ),
                   ),
                 ),
