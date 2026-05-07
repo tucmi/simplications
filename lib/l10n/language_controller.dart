@@ -33,11 +33,15 @@ class LanguageController extends ChangeNotifier {
   Locale get locale => _locale;
 
   Future<void> init() async {
-    final prefs = await SharedPreferences.getInstance();
-    final storedCode = prefs.getString(_storageKey);
-    if (storedCode != null && _isSupportedLanguage(storedCode)) {
-      _locale = Locale(storedCode);
-      return;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final storedCode = prefs.getString(_storageKey);
+      if (storedCode != null && _isSupportedLanguage(storedCode)) {
+        _locale = Locale(storedCode);
+        return;
+      }
+    } catch (_) {
+      // Keep startup resilient if preferences are unavailable.
     }
 
     final deviceLocale = PlatformDispatcher.instance.locale;
@@ -58,8 +62,12 @@ class LanguageController extends ChangeNotifier {
     _locale = Locale(locale.languageCode);
     notifyListeners();
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_storageKey, locale.languageCode);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_storageKey, locale.languageCode);
+    } catch (_) {
+      // Language switch should still work for this run even if persistence fails.
+    }
   }
 
   bool _isSupportedLanguage(String languageCode) {
