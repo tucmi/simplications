@@ -21,6 +21,10 @@ class AboutScreen extends StatelessWidget {
   }
 
   Future<void> _deleteAllData(BuildContext context) async {
+    if (state == null || !state!.hasAnyData) {
+      return;
+    }
+
     final localizations = AppLocalizations.of(context);
     final shouldDelete = await showDialog<bool>(
       context: context,
@@ -48,12 +52,7 @@ class AboutScreen extends StatelessWidget {
       return;
     }
 
-    if (state != null) {
-      await state!.reset();
-    } else {
-      final fallback = SurveyState();
-      await fallback.reset();
-    }
+    await state!.reset();
 
     if (!context.mounted) {
       return;
@@ -258,15 +257,33 @@ class AboutScreen extends StatelessWidget {
                 const SizedBox(height: 12),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: FilledButton.tonalIcon(
-                    onPressed: () => _deleteAllData(context),
-                    icon: const Icon(Icons.delete_forever_outlined),
-                    label: Text(localizations.deleteAllDataButton()),
-                    style: FilledButton.styleFrom(
-                      backgroundColor: colors.error,
-                      foregroundColor: colors.onError,
-                    ),
-                  ),
+                  child: state == null
+                      ? FilledButton.tonalIcon(
+                          onPressed: null,
+                          icon: const Icon(Icons.delete_forever_outlined),
+                          label: Text(localizations.deleteAllDataButton()),
+                          style: FilledButton.styleFrom(
+                            backgroundColor: colors.error,
+                            foregroundColor: colors.onError,
+                          ),
+                        )
+                      : ListenableBuilder(
+                          listenable: state!,
+                          builder: (context, _) {
+                            final canDelete = state!.hasAnyData;
+                            return FilledButton.tonalIcon(
+                              onPressed: canDelete
+                                  ? () => _deleteAllData(context)
+                                  : null,
+                              icon: const Icon(Icons.delete_forever_outlined),
+                              label: Text(localizations.deleteAllDataButton()),
+                              style: FilledButton.styleFrom(
+                                backgroundColor: colors.error,
+                                foregroundColor: colors.onError,
+                              ),
+                            );
+                          },
+                        ),
                 ),
               ],
             ),
