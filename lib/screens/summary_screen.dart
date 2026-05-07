@@ -5,6 +5,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:share_plus/share_plus.dart';
 
 import '../data/catalog_data.dart';
+import '../l10n/app_localizations.dart';
 import '../models/device.dart';
 import '../models/survey_state.dart';
 
@@ -27,6 +28,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final localizations = AppLocalizations.of(context);
     final report = _SummaryReport.fromDevices(widget.state.devices);
     final devices = report.devices;
     final highRisk = report.highRisk;
@@ -35,7 +37,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ihr Ergebnis'),
+        title: Text(localizations.summaryTitle()),
         centerTitle: false,
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -44,15 +46,15 @@ class _SummaryScreenState extends State<SummaryScreen> {
         ),
         actions: [
           PopupMenuButton<_ShareFormat>(
-            tooltip: 'Ergebnis teilen',
+            tooltip: localizations.shareResult(),
             enabled: !_isSharing,
             onSelected: _shareSummary,
-            itemBuilder: (context) => const [
+            itemBuilder: (context) => [
               PopupMenuItem(
                 value: _ShareFormat.text,
                 child: ListTile(
                   leading: Icon(Icons.text_snippet_outlined),
-                  title: Text('Als Text teilen'),
+                  title: Text(localizations.shareAsText()),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
@@ -60,7 +62,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                 value: _ShareFormat.pdf,
                 child: ListTile(
                   leading: Icon(Icons.picture_as_pdf_outlined),
-                  title: Text('Als PDF teilen'),
+                  title: Text(localizations.shareAsPdf()),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
@@ -83,7 +85,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
           ),
           TextButton.icon(
             icon: const Icon(Icons.restart_alt, size: 18),
-            label: const Text('Neu starten'),
+            label: Text(localizations.restart()),
             onPressed: () async {
               await widget.state.reset();
               if (!context.mounted) {
@@ -107,6 +109,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
               lowCount: lowRisk.length,
               colors: colors,
               text: text,
+              localizations: localizations,
             ),
           ),
 
@@ -124,10 +127,13 @@ class _SummaryScreenState extends State<SummaryScreen> {
                         color: colors.primary,
                       ),
                       const SizedBox(height: 16),
-                      Text('Keine Geräte erfasst.', style: text.titleMedium),
+                      Text(
+                        localizations.noDevicesCaptured(),
+                        style: text.titleMedium,
+                      ),
                       const SizedBox(height: 8),
                       Text(
-                        'Starten Sie erneut und fügen Sie Geräte hinzu, um eine Bewertung zu erhalten.',
+                        localizations.noDevicesHint(),
                         style: text.bodyMedium?.copyWith(
                           color: colors.onSurfaceVariant,
                         ),
@@ -143,7 +149,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
           if (highRisk.isNotEmpty) ...[
             SliverToBoxAdapter(
               child: _SectionHeader(
-                label: 'Hohes Risiko',
+                label: localizations.highRisk(),
                 count: highRisk.length,
                 color: _riskColor(RiskLevel.high),
                 icon: Icons.warning_rounded,
@@ -167,7 +173,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
           if (medRisk.isNotEmpty) ...[
             SliverToBoxAdapter(
               child: _SectionHeader(
-                label: 'Mittleres Risiko',
+                label: localizations.mediumRisk(),
                 count: medRisk.length,
                 color: _riskColor(RiskLevel.medium),
                 icon: Icons.info_rounded,
@@ -191,7 +197,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
           if (lowRisk.isNotEmpty) ...[
             SliverToBoxAdapter(
               child: _SectionHeader(
-                label: 'Niedriges Risiko',
+                label: localizations.lowRisk(),
                 count: lowRisk.length,
                 color: _riskColor(RiskLevel.low),
                 icon: Icons.check_circle_rounded,
@@ -223,6 +229,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
   }
 
   Future<void> _shareSummary(_ShareFormat format) async {
+    final localizations = AppLocalizations.of(context);
     if (_isSharing) {
       return;
     }
@@ -236,17 +243,17 @@ class _SummaryScreenState extends State<SummaryScreen> {
       if (format == _ShareFormat.text) {
         await SharePlus.instance.share(
           ShareParams(
-            subject: 'Simplications Ergebnis',
-            text: _buildShareText(report),
+            subject: localizations.summaryShareSubject(),
+            text: _buildShareText(report, localizations),
             sharePositionOrigin: origin,
           ),
         );
       } else {
-        final pdfBytes = await _buildSharePdf(report);
+        final pdfBytes = await _buildSharePdf(report, localizations);
         await SharePlus.instance.share(
           ShareParams(
-            subject: 'Simplications Ergebnis',
-            text: 'Simplications Ergebnisbericht als PDF',
+            subject: localizations.summaryShareSubject(),
+            text: localizations.summarySharePdfText(),
             files: [
               XFile.fromData(
                 pdfBytes,
@@ -262,9 +269,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Export fehlgeschlagen: $error')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${localizations.exportFailed()}: $error')),
+      );
     } finally {
       if (mounted) {
         setState(() => _isSharing = false);
@@ -333,17 +340,20 @@ class _SummaryReport {
     );
   }
 
-  String get overallMessage {
+  String overallMessage(AppLocalizations localizations) {
     final learnHint = dontKnowAnswers > 0
-        ? ' Es wurden $dontKnowAnswers Antwort${dontKnowAnswers == 1 ? '' : 'en'} mit "Weiss ich nicht" gegeben - nehmen Sie sich Zeit, die Einstellungen Ihrer Geraete besser kennenzulernen.'
+        ? localizations.dontKnowHint(
+            dontKnowAnswers,
+            suffix: dontKnowAnswers == 1 ? '' : 'en',
+          )
         : '';
     if (overallLevel == RiskLevel.low) {
-      return 'Gut gemacht! Ihre Geräte sind überwiegend sicher konfiguriert. Schauen Sie trotzdem in die allgemeinen Empfehlungen.$learnHint';
+      return '${localizations.overallLow()}$learnHint';
     }
     if (overallLevel == RiskLevel.medium) {
-      return 'Es gibt Verbesserungspotenzial. Schauen Sie sich die Empfehlungen zu den einzelnen Geräten an.$learnHint';
+      return '${localizations.overallMedium()}$learnHint';
     }
-    return 'Mehrere Geräte haben erhebliche Privatsphäre-/Datenschutzrisiken. Bitte setzen Sie die Maßnahmen mit hoher Priorität zeitnah um.$learnHint';
+    return '${localizations.overallHigh()}$learnHint';
   }
 }
 
@@ -358,14 +368,14 @@ Color _riskColor(RiskLevel level) {
   }
 }
 
-String _priorityLabel(ActionPriority priority) {
+String _priorityLabel(ActionPriority priority, AppLocalizations localizations) {
   switch (priority) {
     case ActionPriority.high:
-      return 'Dringend';
+      return localizations.urgent();
     case ActionPriority.medium:
-      return 'Empfohlen';
+      return localizations.recommended();
     case ActionPriority.low:
-      return 'Optional';
+      return localizations.optional();
   }
 }
 
@@ -386,47 +396,60 @@ String _formatDate(DateTime value) {
   return '$day.$month.$year, $hour:$minute';
 }
 
-String _buildShareText(_SummaryReport report) {
+String _buildShareText(_SummaryReport report, AppLocalizations localizations) {
   final buffer = StringBuffer();
   final generatedAt = _formatDate(DateTime.now());
 
-  buffer.writeln('Simplications - Ihr Ergebnis');
-  buffer.writeln('Exportiert am: $generatedAt');
+  buffer.writeln('Simplications - ${localizations.summaryTitle()}');
+  buffer.writeln('${localizations.reportExportedAt()}: $generatedAt');
   buffer.writeln();
-  buffer.writeln('Übersicht');
-  buffer.writeln('Bewertete Geräte: ${report.devices.length}');
+  buffer.writeln(localizations.overview());
   buffer.writeln(
-    'Gesamtrisiko: ${_riskLabel(report.overallLevel)} (${report.overallScore}/100)',
+    '${localizations.evaluatedDevices()}: ${report.devices.length}',
   );
-  buffer.writeln('Hohes Risiko: ${report.highRisk.length}');
-  buffer.writeln('Mittleres Risiko: ${report.mediumRisk.length}');
-  buffer.writeln('Niedriges Risiko: ${report.lowRisk.length}');
+  buffer.writeln(
+    '${localizations.overallRisk()}: ${_riskLabel(report.overallLevel)} (${report.overallScore}/100)',
+  );
+  buffer.writeln('${localizations.highRisk()}: ${report.highRisk.length}');
+  buffer.writeln('${localizations.mediumRisk()}: ${report.mediumRisk.length}');
+  buffer.writeln('${localizations.lowRisk()}: ${report.lowRisk.length}');
   if (report.devices.isNotEmpty) {
-    buffer.writeln(report.overallMessage);
+    buffer.writeln(report.overallMessage(localizations));
   }
   buffer.writeln();
 
   if (report.devices.isEmpty) {
-    buffer.writeln('Keine Geräte erfasst.');
-    buffer.writeln(
-      'Starten Sie erneut und fügen Sie Geräte hinzu, um eine Bewertung zu erhalten.',
-    );
+    buffer.writeln(localizations.noDevicesCaptured());
+    buffer.writeln(localizations.noDevicesHint());
     buffer.writeln();
   } else {
-    _writeRiskSection(buffer, 'Hohes Risiko', report.highRisk);
-    _writeRiskSection(buffer, 'Mittleres Risiko', report.mediumRisk);
-    _writeRiskSection(buffer, 'Niedriges Risiko', report.lowRisk);
+    _writeRiskSection(
+      buffer,
+      localizations.highRisk(),
+      report.highRisk,
+      localizations,
+    );
+    _writeRiskSection(
+      buffer,
+      localizations.mediumRisk(),
+      report.mediumRisk,
+      localizations,
+    );
+    _writeRiskSection(
+      buffer,
+      localizations.lowRisk(),
+      report.lowRisk,
+      localizations,
+    );
   }
 
-  buffer.writeln('Allgemeine Empfehlungen');
-  buffer.writeln(
-    'Diese Maßnahmen gelten unabhängig von einzelnen Geräten für Ihr gesamtes Smart Home.',
-  );
+  buffer.writeln(localizations.generalRecommendations());
+  buffer.writeln(localizations.generalRecommendationsHint());
   for (final entry in CatalogData.generalRecommendations.asMap().entries) {
     buffer.writeln('${entry.key + 1}. ${entry.value}');
   }
   buffer.writeln();
-  buffer.writeln('Vollständiger Maßnahmenkatalog: $_catalogUrl');
+  buffer.writeln('${localizations.fullCatalog()}: $_catalogUrl');
 
   return buffer.toString().trimRight();
 }
@@ -435,6 +458,7 @@ void _writeRiskSection(
   StringBuffer buffer,
   String heading,
   List<DeviceInstance> devices,
+  AppLocalizations localizations,
 ) {
   if (devices.isEmpty) {
     return;
@@ -442,34 +466,39 @@ void _writeRiskSection(
 
   buffer.writeln(heading);
   for (final device in devices) {
-    buffer.writeln('- ${device.template.name} (${device.roomName})');
     buffer.writeln(
-      '  Risiko: ${_riskLabel(device.riskLevel)} (${device.riskScore}/100)',
+      '- ${CatalogData.deviceName(device.template)} (${CatalogData.localizeText(device.roomName)})',
+    );
+    buffer.writeln(
+      '  ${localizations.risk()}: ${_riskLabel(device.riskLevel)} (${device.riskScore}/100)',
     );
 
     final actions = device.suggestedActions;
-    final inherentRiskHint = device.inherentRiskHint;
+    final inherentRiskHint = device.inherentRiskHint == null
+        ? null
+        : DeviceDomainI18n.localize(device.inherentRiskHint!);
     if (actions.isEmpty) {
-      buffer.writeln('  Alles in Ordnung - keine Maßnahmen erforderlich.');
+      buffer.writeln('  ${_noActionMessage(device.riskLevel, localizations)}');
       if (inherentRiskHint != null) {
-        buffer.writeln('  Hinweis: $inherentRiskHint');
+        buffer.writeln('  ${localizations.note()}: $inherentRiskHint');
       }
     } else {
-      buffer.writeln(
-        '  ${actions.length} Empfehlung${actions.length == 1 ? '' : 'en'}:',
-      );
+      buffer.writeln('  ${actions.length} ${localizations.recommendations()}:');
       for (final action in actions) {
         buffer.writeln(
-          '  - ${action.title} [${_priorityLabel(action.priority)} | ${_actionTypeLabel(action.type)}]',
+          '  - ${DeviceDomainI18n.localize(action.title)} [${_priorityLabel(action.priority, localizations)} | ${_actionTypeLabel(action.type, localizations)}]',
         );
-        buffer.writeln('    ${action.description}');
+        buffer.writeln('    ${DeviceDomainI18n.localize(action.description)}');
       }
     }
     buffer.writeln();
   }
 }
 
-Future<Uint8List> _buildSharePdf(_SummaryReport report) async {
+Future<Uint8List> _buildSharePdf(
+  _SummaryReport report,
+  AppLocalizations localizations,
+) async {
   final pdf = pw.Document();
   final generatedAt = _formatDate(DateTime.now());
 
@@ -478,40 +507,56 @@ Future<Uint8List> _buildSharePdf(_SummaryReport report) async {
       margin: const pw.EdgeInsets.all(32),
       build: (context) => [
         pw.Text(
-          'Simplications - Ihr Ergebnis',
+          'Simplications - ${localizations.summaryTitle()}',
           style: pw.TextStyle(fontSize: 22, fontWeight: pw.FontWeight.bold),
         ),
         pw.SizedBox(height: 6),
-        pw.Text('Exportiert am: $generatedAt'),
+        pw.Text('${localizations.reportExportedAt()}: $generatedAt'),
         pw.SizedBox(height: 18),
-        pw.Header(level: 1, text: 'Übersicht'),
-        pw.Bullet(text: 'Bewertete Geräte: ${report.devices.length}'),
+        pw.Header(level: 1, text: localizations.overview()),
+        pw.Bullet(
+          text: '${localizations.evaluatedDevices()}: ${report.devices.length}',
+        ),
         pw.Bullet(
           text:
-              'Gesamtrisiko: ${_riskLabel(report.overallLevel)} (${report.overallScore}/100)',
+              '${localizations.overallRisk()}: ${_riskLabel(report.overallLevel)} (${report.overallScore}/100)',
         ),
-        pw.Bullet(text: 'Hohes Risiko: ${report.highRisk.length}'),
-        pw.Bullet(text: 'Mittleres Risiko: ${report.mediumRisk.length}'),
-        pw.Bullet(text: 'Niedriges Risiko: ${report.lowRisk.length}'),
+        pw.Bullet(
+          text: '${localizations.highRisk()}: ${report.highRisk.length}',
+        ),
+        pw.Bullet(
+          text: '${localizations.mediumRisk()}: ${report.mediumRisk.length}',
+        ),
+        pw.Bullet(text: '${localizations.lowRisk()}: ${report.lowRisk.length}'),
         if (report.devices.isNotEmpty) ...[
           pw.SizedBox(height: 8),
-          pw.Text(report.overallMessage),
+          pw.Text(report.overallMessage(localizations)),
         ],
         pw.SizedBox(height: 16),
         if (report.devices.isEmpty) ...[
           pw.Text(
-            'Keine Geräte erfasst. Starten Sie erneut und fügen Sie Geräte hinzu, um eine Bewertung zu erhalten.',
+            '${localizations.noDevicesCaptured()} ${localizations.noDevicesHint()}',
           ),
           pw.SizedBox(height: 16),
         ] else ...[
-          ..._buildPdfRiskSection('Hohes Risiko', report.highRisk),
-          ..._buildPdfRiskSection('Mittleres Risiko', report.mediumRisk),
-          ..._buildPdfRiskSection('Niedriges Risiko', report.lowRisk),
+          ..._buildPdfRiskSection(
+            localizations.highRisk(),
+            report.highRisk,
+            localizations,
+          ),
+          ..._buildPdfRiskSection(
+            localizations.mediumRisk(),
+            report.mediumRisk,
+            localizations,
+          ),
+          ..._buildPdfRiskSection(
+            localizations.lowRisk(),
+            report.lowRisk,
+            localizations,
+          ),
         ],
-        pw.Header(level: 1, text: 'Allgemeine Empfehlungen'),
-        pw.Text(
-          'Diese Maßnahmen gelten unabhängig von einzelnen Geräten für Ihr gesamtes Smart Home.',
-        ),
+        pw.Header(level: 1, text: localizations.generalRecommendations()),
+        pw.Text(localizations.generalRecommendationsHint()),
         pw.SizedBox(height: 8),
         ...CatalogData.generalRecommendations.asMap().entries.map(
           (entry) => pw.Padding(
@@ -526,7 +571,7 @@ Future<Uint8List> _buildSharePdf(_SummaryReport report) async {
           ),
         ),
         pw.SizedBox(height: 12),
-        pw.Text('Vollständiger Maßnahmenkatalog: $_catalogUrl'),
+        pw.Text('${localizations.fullCatalog()}: $_catalogUrl'),
       ],
     ),
   );
@@ -537,6 +582,7 @@ Future<Uint8List> _buildSharePdf(_SummaryReport report) async {
 List<pw.Widget> _buildPdfRiskSection(
   String heading,
   List<DeviceInstance> devices,
+  AppLocalizations localizations,
 ) {
   if (devices.isEmpty) {
     return const [];
@@ -546,30 +592,30 @@ List<pw.Widget> _buildPdfRiskSection(
     pw.Header(level: 1, text: heading),
     ...devices.expand((device) {
       final actions = device.suggestedActions;
-      final inherentRiskHint = device.inherentRiskHint;
+      final inherentRiskHint = device.inherentRiskHint == null
+          ? null
+          : DeviceDomainI18n.localize(device.inherentRiskHint!);
       final widgets = <pw.Widget>[
         pw.Text(
-          '${device.template.name} (${device.roomName})',
+          '${CatalogData.deviceName(device.template)} (${CatalogData.localizeText(device.roomName)})',
           style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
         ),
         pw.Text(
-          'Risiko: ${_riskLabel(device.riskLevel)} (${device.riskScore}/100)',
+          '${localizations.risk()}: ${_riskLabel(device.riskLevel)} (${device.riskScore}/100)',
         ),
         pw.SizedBox(height: 4),
       ];
 
       if (actions.isEmpty) {
-        widgets.add(
-          pw.Text('Alles in Ordnung - keine Maßnahmen erforderlich.'),
-        );
+        widgets.add(pw.Text(_noActionMessage(device.riskLevel, localizations)));
         if (inherentRiskHint != null) {
           widgets.add(pw.SizedBox(height: 4));
-          widgets.add(pw.Text('Hinweis: $inherentRiskHint'));
+          widgets.add(pw.Text('${localizations.note()}: $inherentRiskHint'));
         }
       } else {
         widgets.add(
           pw.Text(
-            '${actions.length} Empfehlung${actions.length == 1 ? '' : 'en'}:',
+            '${actions.length} ${localizations.recommendations()}:',
             style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
           ),
         );
@@ -581,10 +627,10 @@ List<pw.Widget> _buildPdfRiskSection(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
                   pw.Text(
-                    '- ${action.title} [${_priorityLabel(action.priority)} | ${_actionTypeLabel(action.type)}]',
+                    '- ${DeviceDomainI18n.localize(action.title)} [${_priorityLabel(action.priority, localizations)} | ${_actionTypeLabel(action.type, localizations)}]',
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   ),
-                  pw.Text(action.description),
+                  pw.Text(DeviceDomainI18n.localize(action.description)),
                 ],
               ),
             ),
@@ -620,14 +666,25 @@ String _riskLabel(RiskLevel level) {
   }
 }
 
-String _actionTypeLabel(ActionType type) {
+String _noActionMessage(RiskLevel level, AppLocalizations localizations) {
+  switch (level) {
+    case RiskLevel.low:
+      return localizations.noActionLow();
+    case RiskLevel.medium:
+      return localizations.noActionMedium();
+    case RiskLevel.high:
+      return localizations.noActionHigh();
+  }
+}
+
+String _actionTypeLabel(ActionType type, AppLocalizations localizations) {
   switch (type) {
     case ActionType.social:
-      return 'Sozial';
+      return localizations.social();
     case ActionType.technical:
-      return 'Technisch';
+      return localizations.technical();
     case ActionType.security:
-      return 'Sicherheit';
+      return localizations.security();
   }
 }
 
@@ -653,6 +710,7 @@ class _OverviewHeader extends StatelessWidget {
   final int lowCount;
   final ColorScheme colors;
   final TextTheme text;
+  final AppLocalizations localizations;
 
   const _OverviewHeader({
     required this.devices,
@@ -663,6 +721,7 @@ class _OverviewHeader extends StatelessWidget {
     required this.lowCount,
     required this.colors,
     required this.text,
+    required this.localizations,
   });
 
   @override
@@ -689,7 +748,7 @@ class _OverviewHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Ihr Smart-Home-Datenschutz',
+            localizations.smartHomePrivacyHeader(),
             style: text.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
@@ -730,7 +789,7 @@ class _OverviewHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${devices.length} Gerät${devices.length == 1 ? '' : 'e'} bewertet',
+                      '${devices.length} ${localizations.devicesRated()}',
                       style: text.bodyMedium,
                     ),
                     const SizedBox(height: 8),
@@ -760,14 +819,17 @@ class _OverviewHeader extends StatelessWidget {
 
   String _overallMessage(RiskLevel level, int dontKnowCount) {
     final learnHint = dontKnowCount > 0
-        ? ' Ausserdem wurden $dontKnowCount Antwort${dontKnowCount == 1 ? '' : 'en'} mit "Weiss ich nicht" gegeben - informieren Sie sich zu den Geraeteeinstellungen.'
+        ? localizations.dontKnowHint(
+            dontKnowCount,
+            suffix: dontKnowCount == 1 ? '' : 'en',
+          )
         : '';
     if (level == RiskLevel.low) {
-      return 'Gut gemacht! Ihre Geräte sind überwiegend sicher konfiguriert. Schauen Sie trotzdem in die allgemeinen Empfehlungen.$learnHint';
+      return '${localizations.overallLow()}$learnHint';
     } else if (level == RiskLevel.medium) {
-      return 'Es gibt Verbesserungspotenzial. Schauen Sie sich die Empfehlungen zu den einzelnen Geräten an.$learnHint';
+      return '${localizations.overallMedium()}$learnHint';
     } else {
-      return 'Mehrere Geräte haben erhebliche Privatsphäre-/Datenschutzrisiken. Bitte setzen Sie die Maßnahmen mit hoher Priorität zeitnah um.$learnHint';
+      return '${localizations.overallHigh()}$learnHint';
     }
   }
 }
@@ -877,6 +939,7 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final device = widget.device;
@@ -884,7 +947,15 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
     final color = _riskColor(level);
     final bg = _riskBg(level);
     final actions = device.suggestedActions;
-    final inherentRiskHint = device.inherentRiskHint;
+    final inherentRiskHint = device.inherentRiskHint == null
+        ? null
+        : DeviceDomainI18n.localize(device.inherentRiskHint!);
+    final noActionColor = level == RiskLevel.low
+        ? _riskColor(RiskLevel.low)
+        : color;
+    final noActionIcon = level == RiskLevel.low
+        ? Icons.check_circle
+        : Icons.info_outline;
 
     return Card(
       elevation: 0,
@@ -916,14 +987,14 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          device.template.name,
+                          CatalogData.deviceName(device.template),
                           style: text.bodyMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          device.roomName,
+                          CatalogData.localizeText(device.roomName),
                           style: text.bodySmall?.copyWith(
                             color: colors.onSurfaceVariant,
                           ),
@@ -956,7 +1027,7 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Risiko: ${device.riskScore}/100',
+                        '${localizations.risk()}: ${device.riskScore}/100',
                         style: text.labelSmall?.copyWith(color: color),
                       ),
                     ],
@@ -996,17 +1067,13 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.check_circle,
-                          size: 16,
-                          color: _riskColor(RiskLevel.low),
-                        ),
+                        Icon(noActionIcon, size: 16, color: noActionColor),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            'Alles in Ordnung – keine Maßnahmen erforderlich.',
+                            _noActionMessage(level, localizations),
                             style: text.bodySmall?.copyWith(
-                              color: _riskColor(RiskLevel.low),
+                              color: noActionColor,
                             ),
                           ),
                         ),
@@ -1046,7 +1113,7 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
                 child: Text(
-                  '${actions.length} Empfehlung${actions.length == 1 ? '' : 'en'}:',
+                  '${actions.length} ${localizations.recommendations()}:',
                   style: text.labelSmall?.copyWith(
                     color: colors.onSurfaceVariant,
                     fontWeight: FontWeight.bold,
@@ -1081,6 +1148,7 @@ class _ScoreBreakdownState extends State<_ScoreBreakdown> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     final factors = widget.device.scoringFactors;
     if (factors.isEmpty) return const SizedBox.shrink();
 
@@ -1113,7 +1181,7 @@ class _ScoreBreakdownState extends State<_ScoreBreakdown> {
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
-                      'Wie wird das Risiko berechnet?',
+                      localizations.howRiskCalculated(),
                       style: text.labelSmall?.copyWith(
                         color: colors.onSurfaceVariant,
                         fontWeight: FontWeight.w600,
@@ -1141,7 +1209,7 @@ class _ScoreBreakdownState extends State<_ScoreBreakdown> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        'Gesamt: ${widget.device.riskScore}/100',
+                        '${localizations.totalScore()}: ${widget.device.riskScore}/100',
                         style: text.labelSmall?.copyWith(
                           color: riskColor,
                           fontWeight: FontWeight.bold,
@@ -1195,7 +1263,7 @@ class _FactorRow extends StatelessWidget {
           const SizedBox(width: 6),
           Expanded(
             child: Text(
-              factor.label,
+              DeviceDomainI18n.localize(factor.label),
               style: text.bodySmall?.copyWith(height: 1.3),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -1230,6 +1298,7 @@ class _ActionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final priorityColor = action.priority == ActionPriority.high
@@ -1258,7 +1327,7 @@ class _ActionTile extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        action.title,
+                        DeviceDomainI18n.localize(action.title),
                         style: text.bodySmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -1275,10 +1344,10 @@ class _ActionTile extends StatelessWidget {
                       ),
                       child: Text(
                         action.priority == ActionPriority.high
-                            ? 'Dringend'
+                            ? localizations.urgent()
                             : action.priority == ActionPriority.medium
-                            ? 'Empfohlen'
-                            : 'Optional',
+                            ? localizations.recommended()
+                            : localizations.optional(),
                         style: TextStyle(
                           fontSize: 10,
                           color: priorityColor,
@@ -1290,7 +1359,7 @@ class _ActionTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  action.description,
+                  DeviceDomainI18n.localize(action.description),
                   style: text.bodySmall?.copyWith(
                     color: colors.onSurfaceVariant,
                     height: 1.4,
@@ -1298,7 +1367,7 @@ class _ActionTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  _actionTypeLabel(action.type),
+                  _actionTypeLabel(action.type, localizations),
                   style: TextStyle(
                     fontSize: 10,
                     color: colors.primary,
@@ -1322,6 +1391,7 @@ class _GeneralRecommendations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -1334,14 +1404,14 @@ class _GeneralRecommendations extends StatelessWidget {
               Icon(Icons.tips_and_updates, color: colors.primary, size: 20),
               const SizedBox(width: 8),
               Text(
-                'Allgemeine Empfehlungen',
+                localizations.generalRecommendations(),
                 style: text.titleSmall?.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
           const SizedBox(height: 4),
           Text(
-            'Diese Maßnahmen gelten unabhängig von einzelnen Geräten für Ihr gesamtes Smart Home.',
+            localizations.generalRecommendationsHint(),
             style: text.bodySmall?.copyWith(color: colors.onSurfaceVariant),
           ),
           const SizedBox(height: 12),
@@ -1385,14 +1455,16 @@ class _GeneralRecommendations extends StatelessWidget {
             onPressed: () {
               // Link to catalog – shown as informational text
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Maßnahmenkatalog: $_catalogUrl'),
+                SnackBar(
+                  content: Text(
+                    '${localizations.catalogSnackBarPrefix()}: $_catalogUrl',
+                  ),
                   duration: Duration(seconds: 5),
                 ),
               );
             },
             icon: const Icon(Icons.open_in_new, size: 16),
-            label: const Text('Zum vollständigen Maßnahmenkatalog'),
+            label: Text(localizations.catalogButton()),
           ),
         ],
       ),

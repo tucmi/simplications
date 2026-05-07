@@ -1,27 +1,71 @@
 import 'package:flutter/material.dart';
-import 'screens/welcome_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
-  runApp(const SimplicationsApp());
+import 'l10n/app_localizations.dart';
+import 'l10n/language_controller.dart';
+import 'screens/welcome_screen.dart';
+import 'widgets/language_switcher.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final languageController = LanguageController();
+  await languageController.init();
+  runApp(SimplicationsApp(languageController: languageController));
 }
 
-class SimplicationsApp extends StatelessWidget {
-  const SimplicationsApp({super.key});
+class SimplicationsApp extends StatefulWidget {
+  final LanguageController languageController;
+
+  const SimplicationsApp({super.key, required this.languageController});
 
   @override
+  State<SimplicationsApp> createState() => _SimplicationsAppState();
+}
+
+class _SimplicationsAppState extends State<SimplicationsApp> {
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Smart Home Privatsphäre-Check',
-      debugShowCheckedModeBanner: false,
-      navigatorObservers: [appRouteObserver],
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF00695C),
-          brightness: Brightness.light,
-        ),
-        useMaterial3: true,
-      ),
-      home: const WelcomeScreen(),
+    return ListenableBuilder(
+      listenable: widget.languageController,
+      builder: (context, _) {
+        return MaterialApp(
+          onGenerateTitle: (context) => AppLocalizations.of(context).appTitle(),
+          debugShowCheckedModeBanner: false,
+          navigatorObservers: [appRouteObserver],
+          locale: widget.languageController.locale,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xFF00695C),
+              brightness: Brightness.light,
+            ),
+            useMaterial3: true,
+          ),
+          builder: (context, child) {
+            return Stack(
+              children: [
+                if (child != null) child,
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: SafeArea(
+                    child: LanguageSwitcher(
+                      controller: widget.languageController,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+          home: const WelcomeScreen(),
+        );
+      },
     );
   }
 }

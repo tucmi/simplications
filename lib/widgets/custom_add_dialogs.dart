@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
+
 class CustomRoomDialog extends StatefulWidget {
   final List<IconData> availableIcons;
 
@@ -46,6 +48,7 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Dialog(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 500),
@@ -55,8 +58,8 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Neuen Raum hinzufügen',
+              Text(
+                localizations.addRoomDialogTitle(),
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 16),
@@ -64,13 +67,13 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
                 controller: _nameController,
                 onChanged: (_) => setState(() {}),
                 decoration: InputDecoration(
-                  labelText: 'Raumname',
-                  hintText: 'z. B. Wohnzimmer, Garage',
+                  labelText: localizations.roomName(),
+                  hintText: localizations.roomNameHint(),
                   prefixIcon: Icon(_selectedIcon),
                 ),
               ),
               const SizedBox(height: 16),
-              const Text('Symbol wählen:'),
+              Text(localizations.chooseIcon()),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
@@ -92,10 +95,9 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
                           width: isSelected ? 2 : 1,
                         ),
                         borderRadius: BorderRadius.circular(8),
-                        color:
-                            isSelected
-                                ? Colors.teal.withValues(alpha: 0.1)
-                                : Colors.transparent,
+                        color: isSelected
+                            ? Colors.teal.withValues(alpha: 0.1)
+                            : Colors.transparent,
                       ),
                       child: Icon(
                         icon,
@@ -111,23 +113,19 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
                 children: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text('Abbrechen'),
+                    child: Text(localizations.cancel()),
                   ),
                   const SizedBox(width: 8),
                   ElevatedButton(
-                    onPressed:
-                        _nameController.text.trim().isEmpty
-                            ? null
-                            : () {
-                              Navigator.pop(
-                                context,
-                                {
-                                  'name': _nameController.text.trim(),
-                                  'icon': _selectedIcon,
-                                },
-                              );
-                            },
-                    child: const Text('Hinzufügen'),
+                    onPressed: _nameController.text.trim().isEmpty
+                        ? null
+                        : () {
+                            Navigator.pop(context, {
+                              'name': _nameController.text.trim(),
+                              'icon': _selectedIcon,
+                            });
+                          },
+                    child: Text(localizations.add()),
                   ),
                 ],
               ),
@@ -190,6 +188,7 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Dialog(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 520),
@@ -199,8 +198,8 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Neues Gerät hinzufügen',
+              Text(
+                localizations.addDeviceDialogTitle(),
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 16),
@@ -208,8 +207,8 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
                 controller: _nameController,
                 onChanged: (_) => setState(() {}),
                 decoration: InputDecoration(
-                  labelText: 'Gerätename',
-                  hintText: 'z. B. Mein Smart Speaker',
+                  labelText: localizations.deviceName(),
+                  hintText: localizations.deviceNameHint(),
                   prefixIcon: Icon(_selectedIcon),
                 ),
               ),
@@ -218,15 +217,15 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
                 controller: _riskScoreController,
                 onChanged: (_) => setState(() {}),
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Basis-Risiko-Punktzahl (0-100)',
-                  hintText: 'z. B. 30 (niedrig) bis 60 (hoch)',
+                decoration: InputDecoration(
+                  labelText: localizations.baseRiskLabel(),
+                  hintText: localizations.baseRiskHint(),
                 ),
               ),
               const SizedBox(height: 16),
               CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
-                title: const Text('Hat Kamera?'),
+                title: Text(localizations.hasCamera()),
                 value: _hasCamera,
                 onChanged: (value) {
                   setState(() {
@@ -236,7 +235,7 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
               ),
               CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
-                title: const Text('Hat Mikrofon?'),
+                title: Text(localizations.hasMicrophone()),
                 value: _hasMicrophone,
                 onChanged: (value) {
                   setState(() {
@@ -245,7 +244,7 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
                 },
               ),
               const SizedBox(height: 16),
-              const Text('Symbol wählen:'),
+              Text(localizations.chooseIcon()),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
@@ -267,10 +266,9 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
                           width: isSelected ? 2 : 1,
                         ),
                         borderRadius: BorderRadius.circular(8),
-                        color:
-                            isSelected
-                                ? Colors.teal.withValues(alpha: 0.1)
-                                : Colors.transparent,
+                        color: isSelected
+                            ? Colors.teal.withValues(alpha: 0.1)
+                            : Colors.transparent,
                       ),
                       child: Icon(
                         icon,
@@ -286,29 +284,26 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
                 children: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text('Abbrechen'),
+                    child: Text(localizations.cancel()),
                   ),
                   const SizedBox(width: 8),
                   ElevatedButton(
                     onPressed:
                         _nameController.text.trim().isEmpty ||
-                                _riskScoreController.text.trim().isEmpty
-                            ? null
-                            : () {
-                              final riskScore =
-                                  int.tryParse(_riskScoreController.text) ?? 30;
-                              Navigator.pop(
-                                context,
-                                {
-                                  'name': _nameController.text.trim(),
-                                  'icon': _selectedIcon,
-                                  'riskScore': riskScore.clamp(0, 100),
-                                  'hasCamera': _hasCamera,
-                                  'hasMicrophone': _hasMicrophone,
-                                },
-                              );
-                            },
-                    child: const Text('Hinzufügen'),
+                            _riskScoreController.text.trim().isEmpty
+                        ? null
+                        : () {
+                            final riskScore =
+                                int.tryParse(_riskScoreController.text) ?? 30;
+                            Navigator.pop(context, {
+                              'name': _nameController.text.trim(),
+                              'icon': _selectedIcon,
+                              'riskScore': riskScore.clamp(0, 100),
+                              'hasCamera': _hasCamera,
+                              'hasMicrophone': _hasMicrophone,
+                            });
+                          },
+                    child: Text(localizations.add()),
                   ),
                 ],
               ),

@@ -1,26 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../l10n/app_localizations.dart';
+import '../models/survey_state.dart';
+
 class AboutScreen extends StatelessWidget {
-  const AboutScreen({super.key});
+  final SurveyState? state;
+
+  const AboutScreen({super.key, required this.state});
 
   Future<void> _openUrl(BuildContext context, String url) async {
+    final localizations = AppLocalizations.of(context);
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Website konnte nicht geöffnet werden.')),
+        SnackBar(content: Text(localizations.websiteOpenFailed())),
       );
     }
+  }
+
+  Future<void> _deleteAllData(BuildContext context) async {
+    final localizations = AppLocalizations.of(context);
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        icon: const Icon(Icons.warning_amber_rounded),
+        title: Text(localizations.deleteAllDataTitle()),
+        content: Text(localizations.deleteAllDataBody()),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(localizations.cancel()),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(
+              localizations.deleteAllDataButton(),
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldDelete != true) {
+      return;
+    }
+
+    if (state != null) {
+      await state!.reset();
+    } else {
+      final fallback = SurveyState();
+      await fallback.reset();
+    }
+
+    if (!context.mounted) {
+      return;
+    }
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(localizations.allDataDeleted())));
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final localizations = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Über die App')),
+      appBar: AppBar(title: Text(localizations.aboutScreenTitle())),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         children: [
@@ -51,7 +101,7 @@ class AboutScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Smart Home Privatsphäre-Check',
+                    localizations.aboutSubtitle(),
                     style: text.bodyMedium?.copyWith(
                       color: colors.onSurfaceVariant,
                     ),
@@ -64,7 +114,7 @@ class AboutScreen extends StatelessWidget {
 
           // ── Project partners ────────────────────────────────────────
           Text(
-            'Projektpartner',
+            localizations.projectPartners(),
             style: text.titleSmall?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 10),
@@ -90,7 +140,7 @@ class AboutScreen extends StatelessWidget {
 
           // ── Coordination & funding ──────────────────────────────────
           Text(
-            'Koordination & Förderung',
+            localizations.coordinationFunding(),
             style: text.titleSmall?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 10),
@@ -98,8 +148,8 @@ class AboutScreen extends StatelessWidget {
             colors: colors,
             text: text,
             icon: Icons.manage_accounts_outlined,
-            label: 'Koordination',
-            value: 'Plattform Privatheit',
+            label: localizations.coordination(),
+            value: localizations.platformPrivacy(),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
@@ -117,13 +167,13 @@ class AboutScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Fördermittelgeber',
+                        localizations.fundingAgency(),
                         style: text.bodyMedium?.copyWith(
                           color: colors.onSurfaceVariant,
                         ),
                       ),
                       Text(
-                        'Bundesministerium für Forschung, Technologie und Raumfahrt\nFKZ 16KIS1868K',
+                        localizations.fundingAgencyValue(),
                         style: text.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -138,7 +188,7 @@ class AboutScreen extends StatelessWidget {
 
           // ── Website link ────────────────────────────────────────────
           Text(
-            'Website',
+            localizations.website(),
             style: text.titleSmall?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 8),
@@ -166,6 +216,59 @@ class AboutScreen extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          ),
+          const SizedBox(height: 28),
+
+          // ── Danger zone ────────────────────────────────────────────
+          Text(
+            localizations.dangerZone(),
+            style: text.titleSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: colors.error,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: colors.errorContainer.withAlpha(200),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: colors.error.withAlpha(150)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(Icons.warning_amber_rounded, color: colors.error),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        localizations.dangerZoneWarning(),
+                        style: text.bodyMedium?.copyWith(
+                          color: colors.onErrorContainer,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: FilledButton.tonalIcon(
+                    onPressed: () => _deleteAllData(context),
+                    icon: const Icon(Icons.delete_forever_outlined),
+                    label: Text(localizations.deleteAllDataButton()),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: colors.error,
+                      foregroundColor: colors.onError,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

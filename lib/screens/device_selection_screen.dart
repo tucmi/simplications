@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/catalog_data.dart';
+import '../l10n/app_localizations.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
@@ -38,6 +39,39 @@ class DeviceSelectionScreen extends StatelessWidget {
     }
   }
 
+  Future<void> _markNoDevice(BuildContext context) async {
+    final localizations = AppLocalizations.of(context);
+    final hasExistingDevices = state.devicesForRoom(currentRoom.id).isNotEmpty;
+    final shouldMarkNoDevice = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(localizations.noDeviceDialogTitle()),
+        content: Text(
+          hasExistingDevices
+              ? localizations.noDeviceDialogBodyWithExisting()
+              : localizations.noDeviceDialogBody(),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(localizations.cancel()),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(localizations.confirm()),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldMarkNoDevice != true || !context.mounted) {
+      return;
+    }
+
+    state.markRoomWithoutDevices(currentRoom.id);
+    Navigator.of(context).pop();
+  }
+
   void _onNext(BuildContext context) {
     state.markRoomCompleted(currentRoom.id);
     Navigator.of(context).pop();
@@ -51,24 +85,26 @@ class DeviceSelectionScreen extends StatelessWidget {
   }
 
   void _removeCustomDevice(BuildContext context, String deviceId) {
+    final localizations = AppLocalizations.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Gerät löschen?'),
-        content: const Text(
-          'Dieses benutzerdefinierte Gerät wird gelöscht. Alle verknüpften Instanzen werden auch entfernt.',
-        ),
+        title: Text(localizations.deleteDeviceTitle()),
+        content: Text(localizations.deleteDeviceBody()),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Abbrechen'),
+            child: Text(localizations.cancel()),
           ),
           TextButton(
             onPressed: () {
               state.removeCustomDevice(deviceId);
               Navigator.pop(context);
             },
-            child: const Text('Löschen', style: TextStyle(color: Colors.red)),
+            child: Text(
+              localizations.delete(),
+              style: const TextStyle(color: Colors.red),
+            ),
           ),
         ],
       ),
@@ -79,12 +115,18 @@ class DeviceSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final catalogDevices = CatalogData.devicesForRoom(currentRoom.id);
+    final localizations = AppLocalizations.of(context);
+    final isCustomRoom = state.customRooms.any(
+      (room) => room.id == currentRoom.id,
+    );
+    final catalogDevices = isCustomRoom
+        ? CatalogData.allDeviceTemplates
+        : CatalogData.devicesForRoom(currentRoom.id);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Geräte: ${currentRoom.name}',
+          localizations.devicesTitle(CatalogData.roomName(currentRoom)),
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
@@ -98,6 +140,9 @@ class DeviceSelectionScreen extends StatelessWidget {
         builder: (context, _) {
           final customDevices = state.customDevicesForRoom(currentRoom.id);
           final allDevices = [...catalogDevices, ...customDevices];
+          final isNoDeviceSelected = state.noDeviceRoomIds.contains(
+            currentRoom.id,
+          );
 
           return CustomScrollView(
             slivers: [
@@ -126,14 +171,14 @@ class DeviceSelectionScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Raum-Check',
+                                localizations.roomCheck(),
                                 style: text.labelMedium?.copyWith(
                                   color: colors.primary,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               Text(
-                                currentRoom.name,
+                                CatalogData.roomName(currentRoom),
                                 style: text.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -144,14 +189,14 @@ class DeviceSelectionScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Welche smarten Geräte nutzen Sie in diesem Raum?',
+                        localizations.deviceQuestion(),
                         style: text.titleSmall?.copyWith(
                           color: colors.onSurfaceVariant,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Tippen Sie auf ein Gerät, um die Sicherheitsfragen dafür zu beantworten.',
+                        localizations.deviceQuestionHint(),
                         style: text.bodySmall?.copyWith(
                           color: colors.onSurfaceVariant,
                         ),
@@ -163,81 +208,80 @@ class DeviceSelectionScreen extends StatelessWidget {
               ),
               if (allDevices.isEmpty)
                 SliverPadding(
-                  padding: const EdgeInsets.all(32),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
                   sliver: SliverToBoxAdapter(
-                    child: Center(
-                      child: Text(
-                        'Keine bekannten Geräte für diesen Raum.',
-                        style: text.bodyMedium?.copyWith(
-                          color: colors.onSurfaceVariant,
-                        ),
+                    child: Text(
+                      localizations.noKnownDevices(),
+                      style: text.bodyMedium?.copyWith(
+                        color: colors.onSurfaceVariant,
                       ),
                     ),
                   ),
-                )
-              else
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  sliver: SliverGrid(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 1.6,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                        ),
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        // Last item is "Add custom device" button
-                        if (index == allDevices.length) {
-                          return _AddDeviceCard(
-                            onTap: () => _showAddDeviceDialog(context),
-                          );
-                        }
+                ),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.6,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                  ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    if (index == allDevices.length) {
+                      return _NoDeviceCard(
+                        isSelected: isNoDeviceSelected,
+                        onTap: () => _markNoDevice(context),
+                      );
+                    }
 
-                        final device = allDevices[index];
-                        final isAdded = state.isDeviceAdded(
+                    // Last item is "Add custom device" button
+                    if (index == allDevices.length + 1) {
+                      return _AddDeviceCard(
+                        onTap: () => _showAddDeviceDialog(context),
+                      );
+                    }
+
+                    final device = allDevices[index];
+                    final isAdded = state.isDeviceAdded(
+                      currentRoom.id,
+                      device.id,
+                    );
+                    final instances = state
+                        .devicesForRoom(currentRoom.id)
+                        .where((i) => i.template.id == device.id);
+                    final isCompleted =
+                        instances.isNotEmpty && instances.first.isFullyAnswered;
+                    final isCustom = customDevices.contains(device);
+
+                    return _DeviceCard(
+                      device: device,
+                      isAdded: isAdded,
+                      isCompleted: isCompleted,
+                      isCustom: isCustom,
+                      onTap: () {
+                        state.addDevice(
+                          device,
                           currentRoom.id,
-                          device.id,
+                          CatalogData.roomName(currentRoom),
                         );
-                        final instances = state
-                            .devicesForRoom(currentRoom.id)
-                            .where((i) => i.template.id == device.id);
-                        final isCompleted =
-                            instances.isNotEmpty &&
-                            instances.first.isFullyAnswered;
-                        final isCustom = customDevices.contains(device);
-
-                        return _DeviceCard(
-                          device: device,
-                          isAdded: isAdded,
-                          isCompleted: isCompleted,
-                          isCustom: isCustom,
-                          onTap: () {
-                            state.addDevice(
-                              device,
-                              currentRoom.id,
-                              currentRoom.name,
-                            );
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => DeviceQuestionnaireScreen(
-                                  state: state,
-                                  room: currentRoom,
-                                  instanceId: '${currentRoom.id}_${device.id}',
-                                ),
-                              ),
-                            );
-                          },
-                          onRemove: isCustom
-                              ? () => _removeCustomDevice(context, device.id)
-                              : null,
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => DeviceQuestionnaireScreen(
+                              state: state,
+                              room: currentRoom,
+                              instanceId: '${currentRoom.id}_${device.id}',
+                            ),
+                          ),
                         );
                       },
-                      childCount: allDevices.length + 1, // +1 for "Add" button
-                    ),
-                  ),
+                      onRemove: isCustom
+                          ? () => _removeCustomDevice(context, device.id)
+                          : null,
+                    );
+                  }, childCount: allDevices.length + 2),
                 ),
+              ),
               const SliverToBoxAdapter(child: SizedBox(height: 100)),
             ],
           );
@@ -273,6 +317,7 @@ class _DeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final localizations = AppLocalizations.of(context);
     final contentColor = isCompleted
         ? colors.onSurface.withValues(alpha: 0.35)
         : colors.onSurfaceVariant;
@@ -306,7 +351,7 @@ class _DeviceCard extends StatelessWidget {
                     const Spacer(),
                     if (device.hasCamera && !isCompleted)
                       Tooltip(
-                        message: 'Kamera',
+                        message: localizations.camera(),
                         child: Icon(
                           Icons.videocam,
                           size: 14,
@@ -315,14 +360,14 @@ class _DeviceCard extends StatelessWidget {
                       ),
                     if (device.hasMicrophone && !isCompleted)
                       Tooltip(
-                        message: 'Mikrofon',
+                        message: localizations.microphone(),
                         child: Icon(Icons.mic, size: 14, color: contentColor),
                       ),
                   ],
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  device.name,
+                  CatalogData.deviceName(device),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w500,
                     color: contentColor,
@@ -373,6 +418,7 @@ class _AddDeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final localizations = AppLocalizations.of(context);
 
     return GestureDetector(
       onTap: onTap,
@@ -392,11 +438,59 @@ class _AddDeviceCard extends StatelessWidget {
             Icon(Icons.add, size: 32, color: colors.primary),
             const SizedBox(height: 6),
             Text(
-              'Gerät\nhinzufügen',
+              localizations.addDevice(),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: colors.primary,
                 fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NoDeviceCard extends StatelessWidget {
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _NoDeviceCard({required this.isSelected, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final localizations = AppLocalizations.of(context);
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: isSelected
+              ? colors.secondaryContainer
+              : colors.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: isSelected ? colors.secondary : colors.outlineVariant,
+            width: 2,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              isSelected ? Icons.check_circle_outline : Icons.block_outlined,
+              size: 32,
+              color: isSelected ? colors.secondary : colors.onSurfaceVariant,
+            ),
+            const SizedBox(height: 6),
+            Text(
+              localizations.noDevice(),
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: isSelected ? colors.secondary : colors.onSurfaceVariant,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
@@ -424,6 +518,8 @@ class _BottomBar extends StatelessWidget {
     return ListenableBuilder(
       listenable: state,
       builder: (context, _) {
+        final localizations = AppLocalizations.of(context);
+        final hasResultsAvailable = state.hasResultsAvailable;
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
@@ -438,8 +534,8 @@ class _BottomBar extends StatelessWidget {
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
-                    child: const Text(
-                      'Nächster Raum',
+                    child: Text(
+                      localizations.nextRoom(),
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -450,17 +546,15 @@ class _BottomBar extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: FilledButton(
-                    onPressed: state.completedRoomIds.isNotEmpty
-                        ? onFinish
-                        : null,
+                    onPressed: hasResultsAvailable ? onFinish : null,
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
-                    child: const Text(
-                      'Ergebnisse',
+                    child: Text(
+                      localizations.results(),
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,

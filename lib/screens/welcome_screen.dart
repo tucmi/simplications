@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../models/survey_state.dart';
 import 'about_screen.dart';
 import 'room_selection_screen.dart';
@@ -60,6 +61,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final localizations = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: colors.surface,
@@ -94,7 +96,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Smart Home\nPrivatsphäre-Check',
+                          localizations.welcomeTitle(),
                           style: text.headlineMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             height: 1.2,
@@ -102,7 +104,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'Erfassen Sie Raum für Raum Ihre smarten Geräte und erhalten Sie eine Privatsphärebewertung mit konkreten Empfehlungen.',
+                          localizations.welcomeDescription(),
                           style: text.bodyMedium?.copyWith(
                             color: colors.onSurfaceVariant,
                             height: 1.4,
@@ -118,25 +120,25 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                           _StepRow(
                             number: '1',
                             icon: Icons.room,
-                            label: 'Räume auswählen',
+                            label: localizations.stepSelectRooms(),
                             colors: colors,
                           ),
                           _StepRow(
                             number: '2',
                             icon: Icons.devices,
-                            label: 'Geräte erfassen',
+                            label: localizations.stepCaptureDevices(),
                             colors: colors,
                           ),
                           _StepRow(
                             number: '3',
                             icon: Icons.quiz_outlined,
-                            label: 'Sicherheitsfragen beantworten',
+                            label: localizations.stepAnswerQuestions(),
                             colors: colors,
                           ),
                           _StepRow(
                             number: '4',
                             icon: Icons.shield_outlined,
-                            label: 'Risikoprofil & Empfehlungen erhalten',
+                            label: localizations.stepGetRisk(),
                             colors: colors,
                           ),
                         ],
@@ -173,7 +175,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                                 ),
                               ),
                               child: Text(
-                                hasProgress ? 'Fortsetzen' : 'Starten',
+                                hasProgress
+                                    ? localizations.resume()
+                                    : localizations.start(),
                                 style: const TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w600,
@@ -187,11 +191,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                           child: TextButton.icon(
                             onPressed: () => Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (_) => const AboutScreen(),
+                                builder: (_) =>
+                                    AboutScreen(state: _surveyState),
                               ),
                             ),
                             icon: const Icon(Icons.info_outline, size: 16),
-                            label: const Text('Über'),
+                            label: Text(localizations.about()),
                             style: TextButton.styleFrom(
                               foregroundColor: colors.onSurfaceVariant,
                               textStyle: const TextStyle(fontSize: 13),

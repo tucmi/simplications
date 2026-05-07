@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/catalog_data.dart';
+import '../l10n/app_localizations.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
 import 'device_selection_screen.dart';
@@ -13,6 +14,7 @@ class RoomSelectionScreen extends StatelessWidget {
   const RoomSelectionScreen({super.key, required this.state});
 
   void _openRoom(BuildContext context, Room room) {
+    state.markRoomVisited(room.id);
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => DeviceSelectionScreen(state: state, room: room),
@@ -27,29 +29,35 @@ class RoomSelectionScreen extends StatelessWidget {
     );
 
     if (result != null && context.mounted) {
-      state.addCustomRoom(result['name'] as String, result['icon'] as IconData);
+      final room = state.addCustomRoom(
+        result['name'] as String,
+        result['icon'] as IconData,
+      );
+      _openRoom(context, room);
     }
   }
 
   void _removeCustomRoom(BuildContext context, String roomId) {
+    final localizations = AppLocalizations.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Raum löschen?'),
-        content: const Text(
-          'Dieser benutzerdefinierte Raum wird gelöscht. Alle verknüpften Geräte werden auch entfernt.',
-        ),
+        title: Text(localizations.roomDeleteTitle()),
+        content: Text(localizations.roomDeleteBody()),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Abbrechen'),
+            child: Text(localizations.cancel()),
           ),
           TextButton(
             onPressed: () {
               state.removeCustomRoom(roomId);
               Navigator.pop(context);
             },
-            child: const Text('Löschen', style: TextStyle(color: Colors.red)),
+            child: Text(
+              localizations.delete(),
+              style: const TextStyle(color: Colors.red),
+            ),
           ),
         ],
       ),
@@ -66,10 +74,11 @@ class RoomSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final localizations = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Raum auswählen'),
+        title: Text(localizations.roomSelectionTitle()),
         centerTitle: false,
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(6),
@@ -91,14 +100,14 @@ class RoomSelectionScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Welchen Raum möchten Sie jetzt prüfen?',
+                              localizations.roomQuestion(),
                               style: text.titleLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Tippen Sie auf einen Raum, erfassen Sie dort Ihre Geräte und kehren Sie dann hierher zurück, um den nächsten Raum zu wählen.',
+                              localizations.roomInstruction(),
                               style: text.bodyMedium?.copyWith(
                                 color: colors.onSurfaceVariant,
                               ),
@@ -135,11 +144,15 @@ class RoomSelectionScreen extends StatelessWidget {
 
                             final room = allRoomsInGrid[index];
                             final isCompleted = state.isRoomCompleted(room.id);
+                            final isIncomplete = state.isRoomIncomplete(
+                              room.id,
+                            );
                             final isCustom = state.customRooms.contains(room);
 
                             return _RoomCard(
                               room: room,
                               isCompleted: isCompleted,
+                              isIncomplete: isIncomplete,
                               isCustom: isCustom,
                               onTap: () => _openRoom(context, room),
                               onRemove: isCustom
@@ -163,12 +176,12 @@ class RoomSelectionScreen extends StatelessWidget {
                 child: ListenableBuilder(
                   listenable: state,
                   builder: (context, _) {
-                    final hasCompletedRoom = state.completedRoomIds.isNotEmpty;
+                    final hasResultsAvailable = state.hasResultsAvailable;
                     return Row(
                       children: [
                         Expanded(
                           child: FilledButton(
-                            onPressed: hasCompletedRoom
+                            onPressed: hasResultsAvailable
                                 ? () => _openResults(context)
                                 : null,
                             style: FilledButton.styleFrom(
@@ -177,8 +190,8 @@ class RoomSelectionScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(14),
                               ),
                             ),
-                            child: const Text(
-                              'Ergebnisse',
+                            child: Text(
+                              localizations.results(),
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -202,6 +215,7 @@ class RoomSelectionScreen extends StatelessWidget {
 class _RoomCard extends StatelessWidget {
   final Room room;
   final bool isCompleted;
+  final bool isIncomplete;
   final bool isCustom;
   final VoidCallback onTap;
   final VoidCallback? onRemove;
@@ -209,6 +223,7 @@ class _RoomCard extends StatelessWidget {
   const _RoomCard({
     required this.room,
     required this.isCompleted,
+    required this.isIncomplete,
     required this.isCustom,
     required this.onTap,
     this.onRemove,
@@ -217,6 +232,7 @@ class _RoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final localizations = AppLocalizations.of(context);
 
     return GestureDetector(
       onTap: onTap,
@@ -230,6 +246,8 @@ class _RoomCard extends StatelessWidget {
           border: Border.all(
             color: isCompleted
                 ? Colors.transparent
+                : isIncomplete
+                ? colors.error
                 : (isCustom ? colors.tertiaryContainer : Colors.transparent),
             width: 2,
           ),
@@ -248,6 +266,8 @@ class _RoomCard extends StatelessWidget {
                       size: 24,
                       color: isCompleted
                           ? colors.onSurface.withValues(alpha: 0.35)
+                          : isIncomplete
+                          ? colors.error
                           : colors.onSurfaceVariant,
                     ),
                     const Spacer(),
@@ -256,16 +276,20 @@ class _RoomCard extends StatelessWidget {
                         Icons.check_circle,
                         size: 18,
                         color: Colors.green,
-                      ),
+                      )
+                    else if (isIncomplete)
+                      Icon(Icons.cancel, size: 18, color: colors.error),
                   ],
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  room.name,
+                  CatalogData.roomName(room),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w500,
                     color: isCompleted
                         ? colors.onSurface.withValues(alpha: 0.35)
+                        : isIncomplete
+                        ? colors.error
                         : colors.onSurfaceVariant,
                   ),
                   maxLines: 1,
@@ -274,20 +298,30 @@ class _RoomCard extends StatelessWidget {
                 if (isCompleted) ...[
                   const SizedBox(height: 2),
                   Text(
-                    'Bereits ausgewertet',
+                    localizations.alreadyEvaluated(),
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
                       color: colors.onSurface.withValues(alpha: 0.35),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
+                ] else if (isIncomplete) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    localizations.notCompleted(),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelSmall?.copyWith(color: colors.error),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ],
             ),
-            if (isCustom && onRemove != null)
+            if (isCustom && onRemove != null && !isCompleted)
               Positioned(
                 top: 0,
-                right: 0,
+                right: isIncomplete ? 22 : 0,
                 child: GestureDetector(
                   onTap: onRemove,
                   child: Container(
@@ -319,6 +353,7 @@ class _AddRoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final localizations = AppLocalizations.of(context);
 
     return GestureDetector(
       onTap: onTap,
@@ -338,7 +373,7 @@ class _AddRoomCard extends StatelessWidget {
             Icon(Icons.add, size: 40, color: colors.primary),
             const SizedBox(height: 8),
             Text(
-              'Raum hinzufügen',
+              localizations.addRoom(),
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 color: colors.primary,
                 fontWeight: FontWeight.w600,

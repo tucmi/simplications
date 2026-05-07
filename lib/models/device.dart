@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
+
 enum RiskLevel { low, medium, high }
 
 enum ActionType { social, technical, security }
@@ -7,6 +9,280 @@ enum ActionType { social, technical, security }
 enum ActionPriority { high, medium, low }
 
 enum QuestionAnswer { yes, no, dontKnow, notApplicable }
+
+class DeviceDomainI18n {
+  static const Map<String, String> _deToEn = {
+    'Haben Sie das Standard-Passwort des Geräts oder des zugehörigen Kontos geändert?':
+        'Have you changed the default password of the device or its linked account?',
+    'Voreingestellte Passwörter sind oft öffentlich bekannt und leicht zu knacken.':
+        'Default passwords are often publicly known and easy to crack.',
+    'Sind automatische Sicherheits-Updates für das Gerät aktiviert?':
+        'Are automatic security updates enabled for the device?',
+    'Updates schließen bekannte Sicherheitslücken zeitnah.':
+        'Updates close known security vulnerabilities promptly.',
+    'Ist das Gerät in einem separaten Smart-Home- oder IoT-WLAN eingebunden?':
+        'Is the device connected to a separate smart home or IoT Wi-Fi network?',
+    'Ein eigenes Netz für smarte Geräte schützt Ihr restliches Heimnetzwerk.':
+        'A dedicated network for smart devices protects your main home network.',
+    'Sind alle Personen im Haushalt über dieses Gerät und seine Funktion informiert?':
+        'Are all people in the household informed about this device and its function?',
+    'Alle Mitbewohnenden sollten wissen, welche Daten das Gerät erfasst.':
+        'All household members should know what data the device captures.',
+    'Haben Sie unnötige App-Berechtigungen (z. B. Standort, Kontakte) deaktiviert?':
+        'Have you disabled unnecessary app permissions (e.g., location, contacts)?',
+    'Nur wirklich benötigte Berechtigungen sollten aktiviert sein.':
+        'Only permissions that are truly needed should be enabled.',
+    'Deaktivieren Sie das Mikrofon, wenn Sie es nicht aktiv nutzen?':
+        'Do you deactivate the microphone when you are not actively using it?',
+    'Smarte Lautsprecher und Geräte mit Mikrofonen können versehentlich aktiviert werden.':
+        'Smart speakers and devices with microphones can be activated unintentionally.',
+    'Können Sie das Messintervall des Sensors reduzieren (z. B. seltener messen)?':
+        'Can you reduce the sensor measurement interval (e.g., measure less frequently)?',
+    'Eine niedrigere Messfrequenz erzeugt weniger Daten und schränkt Rückschlüsse auf Ihr Verhalten ein.':
+        'A lower measurement frequency produces less data and limits inferences about your behavior.',
+    'Werden ältere Messwerte automatisch oder auf Wunsch gelöscht?':
+        'Are older measurement values deleted automatically or on request?',
+    'Alte Verlaufsdaten sollten nicht dauerhaft gespeichert bleiben. Prüfen Sie die Aufbewahrungszeit in den Einstellungen.':
+        'Old historical data should not be stored permanently. Check retention settings.',
+    'Zeigt das System die Sensordaten nur in zusammengefasster Form an (z. B. Tages- statt Minutenwerte)?':
+        'Does the system show sensor data only in aggregated form (e.g., daily instead of minute values)?',
+    'Weniger granulare Anzeigen schützen vor Rückschlüssen auf genaue Anwesenheits- oder Verhaltensmuster.':
+        'Less granular views help prevent inferences about precise presence or behavior patterns.',
+    'Werden die Messdaten lokal verarbeitet und gespeichert, ohne in eine Cloud übertragen zu werden?':
+        'Is measurement data processed and stored locally without being transferred to the cloud?',
+    'Lokale Verarbeitung verhindert, dass der Hersteller Einblick in Ihre Messwerte erhält.':
+        'Local processing prevents the vendor from accessing your measurement data.',
+    'Können Sie Sprachaufnahmen aus der Geräte-Historie löschen oder diese Funktion deaktivieren?':
+        'Can you delete voice recordings from device history or disable this feature?',
+    'BSI-Empfehlung: Minimieren Sie die Speicherung von Aufnahmen oder löschen Sie sie regelmäßig.':
+        'BSI recommendation: Minimize recording retention or delete recordings regularly.',
+    'Wird die Sprachverarbeitung teilweise lokal auf dem Gerät durchgeführt?':
+        'Is voice processing performed partly on the device locally?',
+    'Lokale Verarbeitung reduziert die Menge an Daten, die in die Cloud übertragen werden.':
+        'Local processing reduces the amount of data sent to the cloud.',
+    'Überprüfen Sie regelmäßig, welche Fähigkeiten/Skills Zugriff auf Ihr Konto haben?':
+        'Do you regularly review which skills have access to your account?',
+    'Skills von Drittanbietern können sensible Daten abfangen. Nur notwendige Skills aktivieren.':
+        'Third-party skills can access sensitive data. Enable only necessary skills.',
+    'Ist die Videoaufnahme und -übertragung durchgängig verschlüsselt?':
+        'Is video recording and transmission encrypted end-to-end?',
+    'BSI-Empfehlung: Verschlüsselte Verbindung verhindert Abhören und Datenklau unterwegs.':
+        'BSI recommendation: Encrypted connections prevent interception and data theft in transit.',
+    'Werden Aufnahmen lokal gespeichert (nicht ausschließlich in der Cloud des Anbieters)?':
+        'Are recordings stored locally (not only in the vendor cloud)?',
+    'Lokale Speicherung gibt Ihnen mehr Kontrolle über Ihre Daten; bei reiner Cloud-Speicherung sind Sie auf die Sicherheit des Anbieters angewiesen.':
+        'Local storage gives you more control over your data; cloud-only storage depends on vendor security.',
+    'Können Sie steuern, wer auf die Live-View und Aufnahmen zugreifen kann?':
+        'Can you control who can access live view and recordings?',
+    'Sie sollten genau kontrollieren können, wer Zugang zu den Videoaufnahmen erhält.':
+        'You should be able to precisely control access to video recordings.',
+    'Können Sie Bewegungserkennung deaktivieren oder zeitlich begrenzen, wenn Sie zu Hause sind?':
+        'Can you disable or schedule motion detection when you are at home?',
+    'BSI-Empfehlung: Unnötige Aufnahmen vermeiden reduziert Datenmenge und Missbrauchsrisiko.':
+        'BSI recommendation: Avoiding unnecessary recordings reduces data volume and misuse risk.',
+    'Können Sie das Gerät ohne obligatorisches Online-Konto nutzen?':
+        'Can you use the device without a mandatory online account?',
+    'Pflichtkonten ermöglichen dem Hersteller Werbe-Tracking und das Speichern Ihrer Sehgewohnheiten. Ein kontoloser Betrieb schützt Ihre Privatsphäre.':
+        'Mandatory accounts enable ad tracking and storage of viewing habits. Account-free use protects privacy.',
+    'Können Sie Werbe- und Tracking-Funktionen vollständig deaktivieren?':
+        'Can you completely disable advertising and tracking features?',
+    'Smart-TVs sammeln oft Daten über Ihre Sehgewohnheiten. Suchen Sie nach Datenschutzoptionen.':
+        'Smart TVs often collect viewing habit data. Look for privacy settings.',
+    'Können Sie das Gerät über HDMI oder lokale Quellen ohne Internetverbindung nutzen?':
+        'Can you use the device via HDMI or local sources without internet?',
+    'Offline-Betrieb schützt Ihre Nutzungsdaten vor Übertragung an den Hersteller.':
+        'Offline use protects usage data from being sent to the vendor.',
+    'Bleiben Ihre Temperatur-Historien und Zeitpläne auf dem Gerät (keine Übertragung an den Hersteller)?':
+        'Do temperature history and schedules stay on-device (not sent to the vendor)?',
+    'Historien können Anwesenheitsmuster und Lebensgewohnheiten offenbaren. Lokale Speicherung schützt vor unerwünschter Auswertung.':
+        'History can reveal presence patterns and habits. Local storage reduces unwanted analysis.',
+    'Können Sie das Thermostat auch offline betreiben (ohne Internet)?':
+        'Can you operate the thermostat offline (without internet)?',
+    'Offline-Betrieb oder lokale Automatisierung schützt Ihre Daten vor Cloud-Zugriff.':
+        'Offline operation or local automation protects data from cloud access.',
+    'Können Sie steuern, wer die Heizung anpassen darf (z. B. nur Gäste einschränken)?':
+        'Can you control who may adjust heating (e.g., restrict guests)?',
+    'Haushaltsmitglieder sollten Kontrolle haben, ohne dass Besucher alles ändern können.':
+        'Household members should have control without visitors changing everything.',
+    'Können Automatisierungen lokal ohne Internetverbindung erfolgen?':
+        'Can automations run locally without internet?',
+    'Lokale Ausführung von Szenen und Zeitplänen schützt Ihre Privatsphäre besser.':
+        'Local scenes and schedules protect your privacy better.',
+    'Haben Sie die Erfassung von Schaltmustern und Nutzungszeiten durch den Hersteller deaktiviert oder eingeschränkt?':
+        'Have you disabled or limited vendor collection of switching patterns and usage times?',
+    'Nutzungsmuster können Ihre Anwesenheit und Gewohnheiten offenbaren. Prüfen Sie die Datenschutzeinstellungen der App.':
+        'Usage patterns can reveal presence and habits. Check app privacy settings.',
+    'Funktionieren die Geräte noch, wenn die Internet- oder App-Verbindung ausfällt?':
+        'Do devices still work if internet or app connection fails?',
+    'Zuverlässige lokale Funktion ist wichtig für alltägliche Nutzung und Privatsphäre.':
+        'Reliable local operation is important for daily use and privacy.',
+    'Können Sie das Schloss auch offline (z. B. mit Code oder Schlüssel) öffnen?':
+        'Can you unlock the lock offline (e.g., with code or key)?',
+    'Backup-Optionen verhindern Aussperrung bei Internet- oder Stromausfällen.':
+        'Backup options prevent lockout during internet or power outages.',
+    'Können Sie nachvollziehen, wer wann das Schloss geöffnet hat?':
+        'Can you track who opened the lock and when?',
+    'Ein Zugriffsverlauf ermöglicht Ihnen, verdächtige Aktivitäten zu erkennen.':
+        'An access log helps you detect suspicious activity.',
+    'Ist Zwei-Faktor-Authentifizierung (2FA) für das Sperr-Konto verfügbar?':
+        'Is two-factor authentication (2FA) available for the lock account?',
+    'BSI-Empfehlung: 2FA schützt Ihr Konto vor unbefugtem Fernzugriff auf das Schloss.':
+        'BSI recommendation: 2FA protects your account from unauthorized remote access.',
+    'Werden die erstellten Grundrisse ausschließlich lokal auf dem Gerät gespeichert?':
+        'Are created floor plans stored exclusively on the device locally?',
+    'Grundrisse Ihres Hauses sind sensible Informationen und sollten nicht an den Hersteller übermittelt werden.':
+        'Home floor plans are sensitive information and should not be sent to the vendor.',
+    'Funktioniert die Grundriss-Navigation auch ohne Cloud-Verbindung?':
+        'Does floor-plan navigation work without cloud connection?',
+    'Geräte mit lokaler Navigation sind datenschutzfreundlicher, da keine Raumdaten in die Cloud übertragen werden.':
+        'Devices with local navigation are more privacy-friendly because no room data is uploaded.',
+    'Wenn der Roboter Kameras nutzt: Werden die Kamerabilder ausschließlich lokal für die Navigation verwendet (kein Speichern oder Übertragen)?':
+        'If the robot uses cameras: are camera images used locally only for navigation (no storing or transfer)?',
+    'Kamerabilder sollten nur lokal für die Navigation verarbeitet und weder gespeichert noch an den Hersteller gesendet werden.':
+        'Camera images should be processed locally for navigation and neither stored nor sent to the vendor.',
+    'Gibt es Elternkontroll-Funktionen zur Verwaltung des Spielzeugs?':
+        'Are there parental control features to manage the toy?',
+    'Elternkontrolle sollte ermöglichen, Kontakte und Funktionen zu beschränken.':
+        'Parental controls should allow restricting contacts and features.',
+    'Können Sie einschränken, welche persönlichen Daten das Spielzeug sammelt?':
+        'Can you limit which personal data the toy collects?',
+    'Kinder-spezifische Geräte sollten minimale Datenmenge erfassen und speichern.':
+        'Child-focused devices should collect and store minimal data.',
+    'Können Sie Audio- und Videoaufnahmen auf dem Gerät deaktivieren?':
+        'Can you disable audio and video recording on the device?',
+    'BSI-Empfehlung: Aufnahmen von Kindern sollten nur mit expliziter Kontrolle möglich sein.':
+        'BSI recommendation: Recordings of children should only be possible with explicit control.',
+    'Können Sie steuern, welche Drittanbieter Zugriff auf Ihre Gesundheitsdaten haben?':
+        'Can you control which third parties can access your health data?',
+    'Gesundheitsdaten sind sensibel. Nur autorisierte Apps sollten Zugriff erhalten.':
+        'Health data is sensitive. Only authorized apps should have access.',
+    'Können Sie Standortverfolgung deaktivieren, wenn Sie sie nicht benötigen?':
+        'Can you disable location tracking when not needed?',
+    'GPS-Tracking verbraucht Akku und kann Ihre Bewegungsmuster offenbaren.':
+        'GPS tracking uses battery and can reveal movement patterns.',
+    'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt das Grundrisiko bei Kameras höher, weil sie besonders sensible Beobachtungsdaten erfassen und bei Fehlkonfiguration zur Überwachung genutzt werden können.':
+        'You answered all questions positively. However, baseline risk remains higher for cameras because they capture highly sensitive observation data and can be misused for surveillance if misconfigured.',
+    'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt das Grundrisiko bei Geräten mit Mikrofon erhöht, da Sprachdaten sehr sensibel sind und Fehlaktivierungen bzw. Cloud-Verarbeitung weiterhin Risiken bergen.':
+        'You answered all questions positively. However, baseline risk remains elevated for microphone devices because voice data is highly sensitive and accidental activation or cloud processing still carries risks.',
+    'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt bei smarten Schlössern ein erhöhtes Grundrisiko, da ein möglicher Missbrauch direkt den physischen Zugang zur Wohnung betrifft.':
+        'You answered all questions positively. However, smart locks still have elevated baseline risk because misuse directly affects physical access to your home.',
+    'Sie haben alle Fragen positiv beantwortet. Das Gerät bleibt trotzdem im mittleren/hohen Bereich, weil bereits die Art des Geräts sensible Nutzungs- und Verhaltensdaten offenlegen kann.':
+        'You answered all questions positively. The device can still remain medium/high risk because its type may reveal sensitive usage and behavior data.',
+    'Geräteeinstellungen besser kennenlernen':
+        'Get to know device settings better',
+    'Mindestens eine Frage wurde mit "Weiß ich nicht" beantwortet. Prüfen Sie die Einstellungen und Dokumentation Ihres Geräts, damit Sie Risiken künftig gezielt reduzieren können.':
+        'At least one question was answered with "I don\'t know". Review your device settings and documentation to reduce risk more effectively.',
+    'Grundrisiko des Gerätetyps': 'Baseline risk of device type',
+    'Standard-Passwort nicht geändert': 'Default password not changed',
+    'Automatische Updates nicht aktiv': 'Automatic updates not enabled',
+    'Kein separates IoT-WLAN eingerichtet': 'No separate IoT Wi-Fi configured',
+    'Haushaltsmitglieder nicht informiert': 'Household members not informed',
+    'App-Berechtigungen nicht reduziert': 'App permissions not reduced',
+    'Kein Einverständnis für Kamerabereich':
+        'No consent for camera-covered area',
+    'Mikrofon nicht bei Nichtnutzung deaktiviert':
+        'Microphone not disabled when unused',
+    'Pflichtdkonto beim Hersteller nötig': 'Mandatory vendor account required',
+    'Daten in die Cloud übertragen': 'Data transferred to cloud',
+    'Elternkontrolle nicht eingerichtet': 'Parental controls not configured',
+    'Datenmenge nicht eingeschränkt': 'Data collection not limited',
+    'Aufnahmen nicht deaktivierbar': 'Recording cannot be disabled',
+    'Gesundheitsdaten mit Dritten geteilt':
+        'Health data shared with third parties',
+    'Standortverfolgung aktiv': 'Location tracking enabled',
+    'Standard-Passwort ändern': 'Change default password',
+    'Ersetzen Sie das voreingestellte Passwort durch ein starkes, einzigartiges Passwort. Nutzen Sie einen Passwortmanager.':
+        'Replace the default password with a strong, unique password. Use a password manager.',
+    'Automatische Updates aktivieren': 'Enable automatic updates',
+    'Aktivieren Sie automatische Sicherheits-Updates in den Geräte- oder App-Einstellungen.':
+        'Enable automatic security updates in device or app settings.',
+    'Separates IoT-WLAN einrichten': 'Set up separate IoT Wi-Fi',
+    'Richten Sie ein eigenes WLAN für Smart-Home-Geräte ein, z. B. über die Gastnetz-Funktion Ihres Routers.':
+        'Set up a dedicated Wi-Fi network for smart home devices, for example with your router\'s guest network.',
+    'Haushaltsmitglieder informieren': 'Inform household members',
+    'Informieren Sie alle Bewohner: welche Daten das Gerät erfasst, wer Zugriff hat und wie es sich deaktivieren lässt.':
+        'Inform all residents about what data the device collects, who has access, and how it can be disabled.',
+    'App-Berechtigungen einschränken': 'Restrict app permissions',
+    'Prüfen Sie in den Smartphone-Einstellungen die Berechtigungen der zugehörigen App und deaktivieren Sie nicht benötigte.':
+        'Check companion-app permissions in phone settings and disable unnecessary ones.',
+    'Kameraausrichtung mit Bewohnern abstimmen':
+        'Align camera positioning with residents',
+    'Holen Sie das Einverständnis aller Betroffenen ein. Die Kamera darf keine Bereiche ohne Zustimmung erfassen.':
+        'Obtain consent from everyone affected. The camera must not record areas without consent.',
+    'Mikrofon bei Nichtnutzung deaktivieren':
+        'Disable microphone when not in use',
+    'Nutzen Sie den physischen Stummschalter oder deaktivieren Sie das Mikrofon in den Einstellungen.':
+        'Use the physical mute switch or disable the microphone in settings.',
+    'Messintervall reduzieren': 'Reduce measurement interval',
+    'Verringern Sie, wenn möglich, die Messfrequenz des Sensors. Weniger häufige Messungen erzeugen weniger Verhaltensdaten.':
+        'If possible, reduce sensor measurement frequency. Less frequent measurements produce fewer behavior data points.',
+    'Alte Messwerte löschen': 'Delete old measurement values',
+    'Prüfen Sie Aufbewahrungsfristen in App oder Weboberfläche und aktivieren Sie automatische Löschung oder löschen Sie ältere Daten regelmäßig manuell.':
+        'Review retention periods in app or web UI and enable auto deletion, or delete older data manually on a regular basis.',
+    'Daten weniger detailliert anzeigen': 'Show less detailed data',
+    'Stellen Sie, wenn möglich, eine gröbere Anzeige oder Auswertung ein, zum Beispiel Tageswerte statt Minutenwerte.':
+        'If possible, switch to less granular display or evaluation, for example daily values instead of minute values.',
+    'Lokale Verarbeitung bevorzugen': 'Prefer local processing',
+    'Prüfen Sie, ob sich Cloud-Synchronisation deaktivieren oder eine lokale Speicherung aktivieren lässt, damit Messdaten nicht an den Hersteller übertragen werden.':
+        'Check whether cloud sync can be disabled or local storage enabled so measurement data is not sent to the vendor.',
+    'Skills/Fähigkeiten überprüfen': 'Review skills/integrations',
+    'Überprüfen Sie, welche Drittanbieter-Skills Zugriff haben. Deaktivieren Sie unnötige Skills.':
+        'Review which third-party skills have access. Disable unnecessary skills.',
+    'WLAN-Verschlüsselung prüfen': 'Check Wi-Fi encryption',
+    'BSI-Empfehlung: Verwenden Sie WPA2 oder WPA3 für Ihr Heimnetz. WEP und WPA sind veraltet.':
+        'BSI recommendation: Use WPA2 or WPA3 on your home network. WEP and WPA are outdated.',
+    'Zugriffsrechte der Kamera überprüfen': 'Review camera access rights',
+    'Überprüfen Sie monatlich in der App, wer auf Live-View und Aufnahmen zugreifen kann.':
+        'Check monthly in the app who can access live view and recordings.',
+    'Zwei-Faktor-Authentifizierung aktivieren':
+        'Enable two-factor authentication',
+    'BSI-Empfehlung: Aktivieren Sie 2FA für Ihr Schlosskonto um Remote-Zugriffe zu schützen.':
+        'BSI recommendation: Enable 2FA for your lock account to protect remote access.',
+    'Grundriss-Speicherung klären': 'Clarify floor-plan storage',
+    'Überprüfen Sie: Werden Grundrisse lokal oder in der Cloud gespeichert? Bevorzugen Sie lokal.':
+        'Check whether floor plans are stored locally or in cloud storage. Prefer local storage.',
+    'Haushalt nicht über Sensor informiert':
+        'Household not informed about sensor',
+    'Sensor nicht im IoT-Netz eingebunden':
+        'Sensor not connected to IoT network',
+    'Messintervall nicht reduziert': 'Measurement interval not reduced',
+    'Alte Messwerte nicht gelöscht': 'Old measurement values not deleted',
+    'Daten zu fein granular gespeichert':
+        'Data stored with too much granularity',
+    'Sprachaufnahmen nicht löschbar': 'Voice recordings not deletable',
+    'Keine lokale Sprachverarbeitung': 'No local voice processing',
+    'Skills nicht regelmäßig geprüft': 'Skills not reviewed regularly',
+    'Videoübertragung nicht verschlüsselt': 'Video transmission not encrypted',
+    'Aufnahmen nur in Anbieter-Cloud': 'Recordings only in vendor cloud',
+    'Zugriff auf Aufnahmen nicht kontrolliert':
+        'Recording access not controlled',
+    'Bewegungserkennung immer aktiv': 'Motion detection always active',
+    'Werbe-Tracking nicht deaktiviert': 'Ad tracking not disabled',
+    'Kein Offline-Betrieb möglich': 'No offline operation possible',
+    'Temperaturverlauf an Hersteller übertragen':
+        'Temperature history sent to vendor',
+    'Zugriff nicht einschränkbar': 'Access cannot be restricted',
+    'Automatisierungen nur mit Internet':
+        'Automations require internet connection',
+    'Schaltmuster vom Hersteller erfasst':
+        'Switching patterns collected by vendor',
+    'Gerät offline nicht nutzbar': 'Device unusable offline',
+    'Kein Offline-Öffnen möglich': 'No offline unlock possible',
+    'Kein Zugriffsprotokoll verfügbar': 'No access log available',
+    '2-Faktor-Authentifizierung fehlt': 'Two-factor authentication missing',
+    'Grundriss an Hersteller übertragen': 'Floor plan transmitted to vendor',
+    'Navigation nur mit Cloud möglich': 'Navigation only possible via cloud',
+    'Kamerabilder gespeichert oder übertragen':
+        'Camera images stored or transmitted',
+  };
+
+  static String localize(String source) {
+    if (AppLocalizations.activeLanguageCode == 'de') {
+      return source;
+    }
+    return _deToEn[source] ?? source;
+  }
+}
 
 extension QuestionAnswerCodec on QuestionAnswer {
   String get wireValue {
@@ -726,7 +1002,56 @@ class DeviceInstance {
     }
 
     // Add device-specific actions
-    if (template.deviceType == 'speaker') {
+    if (template.deviceType == 'sensor') {
+      if (deviceSpecificAnswers['sensor_frequency'] == QuestionAnswer.no) {
+        actions.add(
+          const PrivacyAction(
+            title: 'Messintervall reduzieren',
+            description:
+                'Verringern Sie, wenn möglich, die Messfrequenz des Sensors. Weniger häufige Messungen erzeugen weniger Verhaltensdaten.',
+            type: ActionType.technical,
+            priority: ActionPriority.medium,
+            deviceType: 'sensor',
+          ),
+        );
+      }
+      if (deviceSpecificAnswers['sensor_data_deletion'] == QuestionAnswer.no) {
+        actions.add(
+          const PrivacyAction(
+            title: 'Alte Messwerte löschen',
+            description:
+                'Prüfen Sie Aufbewahrungsfristen in App oder Weboberfläche und aktivieren Sie automatische Löschung oder löschen Sie ältere Daten regelmäßig manuell.',
+            type: ActionType.technical,
+            priority: ActionPriority.high,
+            deviceType: 'sensor',
+          ),
+        );
+      }
+      if (deviceSpecificAnswers['sensor_granularity'] == QuestionAnswer.no) {
+        actions.add(
+          const PrivacyAction(
+            title: 'Daten weniger detailliert anzeigen',
+            description:
+                'Stellen Sie, wenn möglich, eine gröbere Anzeige oder Auswertung ein, zum Beispiel Tageswerte statt Minutenwerte.',
+            type: ActionType.technical,
+            priority: ActionPriority.medium,
+            deviceType: 'sensor',
+          ),
+        );
+      }
+      if (deviceSpecificAnswers['sensor_local'] == QuestionAnswer.no) {
+        actions.add(
+          const PrivacyAction(
+            title: 'Lokale Verarbeitung bevorzugen',
+            description:
+                'Prüfen Sie, ob sich Cloud-Synchronisation deaktivieren oder eine lokale Speicherung aktivieren lässt, damit Messdaten nicht an den Hersteller übertragen werden.',
+            type: ActionType.technical,
+            priority: ActionPriority.high,
+            deviceType: 'sensor',
+          ),
+        );
+      }
+    } else if (template.deviceType == 'speaker') {
       if (deviceSpecificAnswers['voice_history'] == QuestionAnswer.no) {
         actions.add(
           const PrivacyAction(

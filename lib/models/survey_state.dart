@@ -69,17 +69,37 @@ class SurveyState extends ChangeNotifier {
   static const String _storageKey = 'survey_state_v1';
 
   final Set<String> completedRoomIds = {};
+  final Set<String> visitedRoomIds = {};
+  final Set<String> noDeviceRoomIds = {};
   final List<DeviceInstance> devices = [];
   final List<Room> customRooms = [];
   final List<DeviceTemplate> customDevices = [];
 
   void markRoomCompleted(String roomId) {
-    if (completedRoomIds.add(roomId)) {
+    final changed =
+        completedRoomIds.add(roomId) || noDeviceRoomIds.remove(roomId);
+    visitedRoomIds.add(roomId);
+    if (changed) {
       _changed();
     }
   }
 
-  bool isRoomCompleted(String roomId) => completedRoomIds.contains(roomId);
+  void markRoomVisited(String roomId) {
+    if (visitedRoomIds.add(roomId)) {
+      _changed();
+    }
+  }
+
+  bool hasFinishedDeviceInRoom(String roomId) =>
+      devicesForRoom(roomId).any((device) => device.isFullyAnswered);
+
+  bool isRoomCompleted(String roomId) =>
+      completedRoomIds.contains(roomId) ||
+      noDeviceRoomIds.contains(roomId) ||
+      hasFinishedDeviceInRoom(roomId);
+
+  bool isRoomIncomplete(String roomId) =>
+      visitedRoomIds.contains(roomId) && !isRoomCompleted(roomId);
 
   void addDevice(DeviceTemplate template, String roomId, String roomName) {
     if (devices.any(
@@ -87,6 +107,9 @@ class SurveyState extends ChangeNotifier {
     )) {
       return;
     }
+    visitedRoomIds.add(roomId);
+    noDeviceRoomIds.remove(roomId);
+    completedRoomIds.remove(roomId);
     devices.add(
       DeviceInstance(
         instanceId: '${roomId}_${template.id}',
@@ -112,8 +135,24 @@ class SurveyState extends ChangeNotifier {
   List<DeviceInstance> devicesForRoom(String roomId) =>
       devices.where((d) => d.roomId == roomId).toList();
 
-  /// Add a custom room
-  void addCustomRoom(String name, IconData icon) {
+  bool get hasResultsAvailable =>
+      devices.any((device) => device.isFullyAnswered);
+
+  void markRoomWithoutDevices(String roomId) {
+    final beforeDevices = devices.length;
+    final hadCompleted = completedRoomIds.contains(roomId);
+    final hadNoDevices = noDeviceRoomIds.contains(roomId);
+    visitedRoomIds.add(roomId);
+    completedRoomIds.add(roomId);
+    noDeviceRoomIds.add(roomId);
+    devices.removeWhere((device) => device.roomId == roomId);
+    if (devices.length != beforeDevices || !hadCompleted || !hadNoDevices) {
+      _changed();
+    }
+  }
+
+  /// Add a custom room and return it so callers can navigate immediately.
+  Room addCustomRoom(String name, IconData icon) {
     final newRoom = Room(
       id: 'custom_${DateTime.now().millisecondsSinceEpoch}',
       name: name,
@@ -121,6 +160,7 @@ class SurveyState extends ChangeNotifier {
     );
     customRooms.add(newRoom);
     _changed();
+    return newRoom;
   }
 
   /// Remove a custom room (and its devices)
@@ -133,6 +173,8 @@ class SurveyState extends ChangeNotifier {
     final beforeTemplates = customDevices.length;
     final beforeDevices = devices.length;
     final hadCompleted = completedRoomIds.contains(roomId);
+    final hadVisited = visitedRoomIds.contains(roomId);
+    final hadNoDevices = noDeviceRoomIds.contains(roomId);
     customRooms.removeWhere((r) => r.id == roomId);
     customDevices.removeWhere((d) => d.roomIds.contains(roomId));
     devices.removeWhere((d) => d.roomId == roomId);
@@ -142,10 +184,14 @@ class SurveyState extends ChangeNotifier {
       );
     }
     completedRoomIds.remove(roomId);
+    visitedRoomIds.remove(roomId);
+    noDeviceRoomIds.remove(roomId);
     if (customRooms.length != beforeRooms ||
         customDevices.length != beforeTemplates ||
         devices.length != beforeDevices ||
-        hadCompleted) {
+        hadCompleted ||
+        hadVisited ||
+        hadNoDevices) {
       _changed();
     }
   }
@@ -159,6 +205,9 @@ class SurveyState extends ChangeNotifier {
     bool hasCamera = false,
     bool hasMicrophone = false,
   }) {
+    visitedRoomIds.add(roomId);
+    noDeviceRoomIds.remove(roomId);
+    completedRoomIds.remove(roomId);
     final newDevice = DeviceTemplate(
       id: 'custom_${DateTime.now().millisecondsSinceEpoch}',
       name: name,
@@ -205,6 +254,20 @@ class SurveyState extends ChangeNotifier {
         ..clear()
         ..addAll(
           (data['completedRoomIds'] as List<dynamic>? ?? const [])
+              .whereType<String>(),
+        );
+
+      visitedRoomIds
+        ..clear()
+        ..addAll(
+          (data['visitedRoomIds'] as List<dynamic>? ?? const [])
+              .whereType<String>(),
+        );
+
+      noDeviceRoomIds
+        ..clear()
+        ..addAll(
+          (data['noDeviceRoomIds'] as List<dynamic>? ?? const [])
               .whereType<String>(),
         );
 
@@ -363,6 +426,8 @@ class SurveyState extends ChangeNotifier {
 
   Future<void> reset() async {
     completedRoomIds.clear();
+    visitedRoomIds.clear();
+    noDeviceRoomIds.clear();
     devices.clear();
     customRooms.clear();
     customDevices.clear();
@@ -373,6 +438,8 @@ class SurveyState extends ChangeNotifier {
   Map<String, dynamic> _toJson() {
     return {
       'completedRoomIds': completedRoomIds.toList(),
+      'visitedRoomIds': visitedRoomIds.toList(),
+      'noDeviceRoomIds': noDeviceRoomIds.toList(),
       'customRooms': customRooms
           .map(
             (room) => {

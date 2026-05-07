@@ -2,7 +2,7 @@
 
 A Flutter app that guides users through a room-by-room smart home privacy assessment and delivers actionable security recommendations based on BSI (German Federal Office for Information Security) guidelines.
 
-> UI language: **German (Deutsch)**
+> UI language: **Multilingual** (German default with runtime language switch)
 
 ## Features
 
@@ -13,6 +13,30 @@ A Flutter app that guides users through a room-by-room smart home privacy assess
 - **Custom rooms & devices** — extend the catalog with user-defined entries (scoped to their creation room)
 - **Persistent state** — progress survives app restarts via SharedPreferences
 - **Export** — share results as plain text or PDF
+- **Localization** — device-aware language selection with manual override
+
+## Localization
+
+The app supports these UI languages:
+
+- German (`de`)
+- Czech (`cs`)
+- English (`en`)
+- Polish (`pl`)
+- French (`fr`)
+- Dutch (`nl`)
+- Danish (`da`)
+
+### Runtime language switch
+
+- A small language badge is shown in the top-right corner of the app.
+- Tap it to open the language dialog and switch language immediately.
+- The selected language is persisted with `SharedPreferences`.
+
+### Default language behavior
+
+- On first start, the app tries to infer the language from the device locale.
+- If the device language is unsupported, the app falls back to German (`de`).
 
 ## Supported device categories
 

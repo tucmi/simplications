@@ -1,8 +1,81 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../models/room.dart';
 import '../models/device.dart';
 
 class CatalogData {
+  static const Map<String, String> _deToEn = {
+    'Wohnzimmer': 'Living room',
+    'Küche': 'Kitchen',
+    'Schlafzimmer': 'Bedroom',
+    'Badezimmer': 'Bathroom',
+    'Arbeitszimmer': 'Office',
+    'Flur / Eingang': 'Hallway / Entrance',
+    'Garten / Außenbereich': 'Garden / Outdoor area',
+    'Keller / Speisekammer': 'Basement / Pantry',
+    'Ganze Wohnung': 'Entire home',
+    'Einfacher Sensor (z. B. Bewegungs- oder Türsensor)':
+        'Basic sensor (e.g., motion or door sensor)',
+    'Feuchtigkeitssensor': 'Humidity sensor',
+    'Temperatursensor': 'Temperature sensor',
+    'Lichtsensor': 'Light sensor',
+    'Smart Speaker / Sprachassistent': 'Smart speaker / voice assistant',
+    'Smart Display (z. B. Nest Hub)': 'Smart display (e.g., Nest Hub)',
+    'Smart TV': 'Smart TV',
+    'Smarte Innenkamera': 'Smart indoor camera',
+    'Smarte Außenkamera': 'Smart outdoor camera',
+    'Smarte Türklingel mit Kamera': 'Smart doorbell with camera',
+    'Babymonitor / Babykamera': 'Baby monitor / baby camera',
+    'Saugroboter': 'Robot vacuum',
+    'Smarter Kühlschrank': 'Smart fridge',
+    'Smarter Backofen / Herd': 'Smart oven / stove',
+    'Smarte Kaffeemaschine': 'Smart coffee machine',
+    'Smarte Waschmaschine / Trockner': 'Smart washer / dryer',
+    'Smarter Thermostat / Heizungssteuerung':
+        'Smart thermostat / heating control',
+    'Smarte Steckdose': 'Smart plug',
+    'Smarte Beleuchtung': 'Smart lighting',
+    'Smartes Türschloss': 'Smart door lock',
+    'Smarte Jalousie / Rolllade': 'Smart blind / shutter',
+    'Fitness-Tracker / Smartwatch': 'Fitness tracker / smartwatch',
+    'Smartes Spielzeug': 'Smart toy',
+    'Smart Router / Mesh-System': 'Smart router / mesh system',
+    'Smart-Home-Hub (z. B. Homey, Home Assistant)':
+        'Smart home hub (e.g., Homey, Home Assistant)',
+    'Intelligenter Stromzähler / Smart Meter':
+        'Intelligent electricity meter / smart meter',
+    'Smarte Bewässerungsanlage': 'Smart irrigation system',
+    'Smarte Waage': 'Smart scale',
+    'Smarter Drucker': 'Smart printer',
+    'Richten Sie ein separates WLAN nur für Smart-Home-Geräte ein (z. B. Gastnetz Ihres Routers).':
+        'Set up a separate Wi-Fi network for smart home devices (e.g., your router\'s guest network).',
+    'Nutzen Sie einen Passwortmanager und vergeben Sie für jedes Gerät ein einzigartiges, starkes Passwort.':
+        'Use a password manager and assign a unique, strong password to each device.',
+    'Aktivieren Sie Mehrfaktor-Authentifizierung (MFA) für alle Hersteller-Konten.':
+        'Enable multi-factor authentication (MFA) for all vendor accounts.',
+    'Legen Sie im Haushalt fest, wer für Updates, Backups und Konten verantwortlich ist.':
+        'Define who in your household is responsible for updates, backups, and accounts.',
+    'Überprüfen Sie regelmäßig (mind. 1× pro Quartal) alle Zugriffsberechtigungen und Konten.':
+        'Regularly review (at least once per quarter) all access permissions and accounts.',
+    'Entsorgen Sie alte Geräte datenschutzgerecht: Werksreset durchführen und aus der Hersteller-Cloud austragen.':
+        'Dispose of old devices in a privacy-safe way: perform a factory reset and remove them from vendor cloud accounts.',
+    'Nutzen Sie ein Konsens-Protokoll, bevor Sie neue Geräte kaufen – beziehen Sie alle Haushaltsmitglieder ein.':
+        'Use a household consent check before buying new devices and involve all household members.',
+  };
+
+  static String localizeText(String source) {
+    final lang = AppLocalizations.activeLanguageCode;
+    if (lang == 'de') {
+      return source;
+    }
+    return _deToEn[source] ?? source;
+  }
+
+  static String roomName(Room room) => localizeText(room.name);
+
+  static String deviceName(DeviceTemplate template) =>
+      localizeText(template.name);
+
   static const List<Room> allRooms = [
     Room(id: 'living', name: 'Wohnzimmer', icon: Icons.weekend),
     Room(id: 'kitchen', name: 'Küche', icon: Icons.kitchen),
@@ -862,7 +935,7 @@ class CatalogData {
   }
 
   // General recommendations always shown on the summary screen
-  static const List<String> generalRecommendations = [
+  static const List<String> _generalRecommendations = [
     'Richten Sie ein separates WLAN nur für Smart-Home-Geräte ein (z. B. Gastnetz Ihres Routers).',
     'Nutzen Sie einen Passwortmanager und vergeben Sie für jedes Gerät ein einzigartiges, starkes Passwort.',
     'Aktivieren Sie Mehrfaktor-Authentifizierung (MFA) für alle Hersteller-Konten.',
@@ -871,4 +944,7 @@ class CatalogData {
     'Entsorgen Sie alte Geräte datenschutzgerecht: Werksreset durchführen und aus der Hersteller-Cloud austragen.',
     'Nutzen Sie ein Konsens-Protokoll, bevor Sie neue Geräte kaufen – beziehen Sie alle Haushaltsmitglieder ein.',
   ];
+
+  static List<String> get generalRecommendations =>
+      _generalRecommendations.map(localizeText).toList();
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../data/catalog_data.dart';
+import '../l10n/app_localizations.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
@@ -45,6 +47,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final localizations = AppLocalizations.of(context);
     final questions = device.questions;
     final answered = questions
         .where((q) => device.answerFor(q.id) != null)
@@ -53,7 +56,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sicherheitsfragen'),
+        title: Text(localizations.questionnaireTitle()),
         centerTitle: false,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(6),
@@ -81,7 +84,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          currentRoom.name,
+                          CatalogData.roomName(currentRoom),
                           style: text.labelSmall?.copyWith(
                             color: colors.primary,
                             fontWeight: FontWeight.bold,
@@ -120,7 +123,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  device.template.name,
+                                  CatalogData.deviceName(device.template),
                                   style: text.titleMedium?.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -131,7 +134,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                                     if (device.template.hasCamera)
                                       _FeatureChip(
                                         icon: Icons.videocam,
-                                        label: 'Kamera',
+                                        label: localizations.camera(),
                                         colors: colors,
                                       ),
                                     if (device.template.hasMicrophone)
@@ -139,14 +142,14 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                                         padding: const EdgeInsets.only(left: 6),
                                         child: _FeatureChip(
                                           icon: Icons.mic,
-                                          label: 'Mikrofon',
+                                          label: localizations.microphone(),
                                           colors: colors,
                                         ),
                                       ),
                                     if (!device.template.hasCamera &&
                                         !device.template.hasMicrophone)
                                       Text(
-                                        'Verbundenes Gerät',
+                                        localizations.connectedDevice(),
                                         style: text.bodySmall?.copyWith(
                                           color: colors.onSurfaceVariant,
                                         ),
@@ -208,8 +211,8 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                 ),
               ),
               icon: const Icon(Icons.check_circle_outline, size: 18),
-              label: const Text(
-                'Fertig',
+              label: Text(
+                localizations.done(),
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
             ),
@@ -275,6 +278,7 @@ class _QuestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final localizations = AppLocalizations.of(context);
     final answered = answer != null;
     final isNotApplicable = answer == QuestionAnswer.notApplicable;
     final accentColor = _answerAccentColor(colors, answer);
@@ -326,7 +330,7 @@ class _QuestionCard extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    question.text,
+                    DeviceDomainI18n.localize(question.text),
                     style: text.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       height: 1.4,
@@ -338,7 +342,7 @@ class _QuestionCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 34, top: 6),
               child: Text(
-                question.hint,
+                DeviceDomainI18n.localize(question.hint),
                 style: text.bodySmall?.copyWith(
                   color: colors.onSurfaceVariant,
                   fontStyle: FontStyle.italic,
@@ -350,7 +354,7 @@ class _QuestionCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: _AnswerButton(
-                    label: 'Ja',
+                    label: localizations.yes(),
                     icon: Icons.check,
                     isSelected: answer == QuestionAnswer.yes,
                     tone: _AnswerButtonTone.positive,
@@ -361,7 +365,7 @@ class _QuestionCard extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: _AnswerButton(
-                    label: 'Nein',
+                    label: localizations.no(),
                     icon: Icons.close,
                     isSelected: answer == QuestionAnswer.no,
                     tone: _AnswerButtonTone.negative,
@@ -375,7 +379,7 @@ class _QuestionCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: _AnswerButton(
-                label: 'Weiss ich nicht',
+                label: localizations.dontKnow(),
                 icon: Icons.help_outline,
                 isSelected: answer == QuestionAnswer.dontKnow,
                 tone: _AnswerButtonTone.neutral,
@@ -404,7 +408,7 @@ class _QuestionCard extends StatelessWidget {
                   vertical: 0,
                 ),
                 title: Text(
-                  'Diese Frage trifft auf mein Geraet nicht zu',
+                  localizations.notApplicableForDevice(),
                   style: text.labelSmall?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ),
