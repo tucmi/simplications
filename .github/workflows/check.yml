@@ -40,12 +40,12 @@ jobs:
       - name: Run tests
         run: flutter test
 
-      - name: Build Android APK
-        run: flutter build apk
+      - name: Build Android APK (Release)
+        run: flutter build apk --release
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: simplications-apk
-          path: build/app/outputs/flutter-apk/*.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
