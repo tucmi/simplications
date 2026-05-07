@@ -59,7 +59,7 @@ class CatalogData {
         'Regularly review (at least once per quarter) all access permissions and accounts.',
     'Entsorgen Sie alte Geräte datenschutzgerecht: Werksreset durchführen und aus der Hersteller-Cloud austragen.':
         'Dispose of old devices in a privacy-safe way: perform a factory reset and remove them from vendor cloud accounts.',
-    'Nutzen Sie ein Konsens-Protokoll, bevor Sie neue Geräte kaufen – beziehen Sie alle Haushaltsmitglieder ein.':
+    'Nutzen Sie ein Konsens-Protokoll, bevor Sie neue Geräte kaufen - beziehen Sie alle Haushaltsmitglieder ein.':
         'Use a household consent check before buying new devices and involve all household members.',
   };
 
@@ -942,7 +942,7 @@ class CatalogData {
     'Legen Sie im Haushalt fest, wer für Updates, Backups und Konten verantwortlich ist.',
     'Überprüfen Sie regelmäßig (mind. 1× pro Quartal) alle Zugriffsberechtigungen und Konten.',
     'Entsorgen Sie alte Geräte datenschutzgerecht: Werksreset durchführen und aus der Hersteller-Cloud austragen.',
-    'Nutzen Sie ein Konsens-Protokoll, bevor Sie neue Geräte kaufen – beziehen Sie alle Haushaltsmitglieder ein.',
+    'Nutzen Sie ein Konsens-Protokoll, bevor Sie neue Geräte kaufen - beziehen Sie alle Haushaltsmitglieder ein.',
   ];
 
   static List<String> get generalRecommendations =>
