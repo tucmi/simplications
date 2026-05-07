@@ -58,6 +58,8 @@ The app targets Android, iOS, Web, Windows, macOS, and Linux.
 
 All developer setup, architecture notes, code standards, and contribution workflow are documented in [CONTRIBUTING.md](CONTRIBUTING.md).
 
+Risk scoring details (formula, thresholds, weights, and rationale) are documented in [lib/models/RISK_SCORING_README.md](lib/models/RISK_SCORING_README.md).
+
 ## License
 
 MIT. See [LICENSE](LICENSE).

@@ -4,7 +4,6 @@ import '../l10n/app_localizations.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
-import '../widgets/wizard_progress_bar.dart';
 import '../widgets/custom_add_dialogs.dart';
 import 'device_questionnaire_screen.dart';
 import 'summary_screen.dart';
@@ -130,10 +129,6 @@ class DeviceSelectionScreen extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(6),
-          child: const WizardProgressBar(current: 2, total: 3),
-        ),
       ),
       body: ListenableBuilder(
         listenable: state,

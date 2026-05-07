@@ -4,7 +4,6 @@ import '../l10n/app_localizations.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
-import '../widgets/wizard_progress_bar.dart';
 
 class DeviceQuestionnaireScreen extends StatefulWidget {
   final SurveyState state;
@@ -58,10 +57,6 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
       appBar: AppBar(
         title: Text(localizations.questionnaireTitle()),
         centerTitle: false,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(6),
-          child: const WizardProgressBar(current: 3, total: 3),
-        ),
       ),
       body: CustomScrollView(
         slivers: [

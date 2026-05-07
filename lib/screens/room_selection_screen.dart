@@ -5,7 +5,6 @@ import '../models/room.dart';
 import '../models/survey_state.dart';
 import 'device_selection_screen.dart';
 import 'summary_screen.dart';
-import '../widgets/wizard_progress_bar.dart';
 import '../widgets/custom_add_dialogs.dart';
 
 class RoomSelectionScreen extends StatelessWidget {
@@ -80,10 +79,6 @@ class RoomSelectionScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(localizations.roomSelectionTitle()),
         centerTitle: false,
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(6),
-          child: WizardProgressBar(current: 1, total: 3),
-        ),
       ),
       body: ListenableBuilder(
         listenable: state,
