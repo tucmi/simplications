@@ -1,106 +1,70 @@
 # Simplications
 
-A Flutter app that guides users through a room-by-room smart home privacy assessment and delivers actionable security recommendations based on BSI (German Federal Office for Information Security) guidelines.
+Simplications is a Flutter app for assessing smart home privacy and security risks room by room. It guides people through the devices in their household and produces concrete recommendations based on BSI (German Federal Office for Information Security) guidance.
 
-> UI language: **Multilingual** (German default with runtime language switch)
+## What the app does
 
-## Features
+- Guides users through a room-by-room privacy and security check
+- Lets users add predefined and custom smart devices per room
+- Asks device-specific questions with four answer states:
+    - Yes
+    - No
+    - Don't know
+    - Not applicable
+- Calculates risk per device and an overall risk level (Low, Medium, High)
+- Generates practical, device-relevant recommendations
+- Exports results as plain text or PDF
+- Saves progress locally so sessions survive app restarts
 
-- **Room-by-room wizard** — pick rooms, add devices, answer security questions
-- **Risk scoring** — per-device and overall Low / Medium / High rating
-- **BSI-based recommendations** — 30+ prioritised actions tied to specific devices
-- **Four answer states** — Yes / No / Don't know / Not applicable (with scoring weight)
-- **Custom rooms & devices** — extend the catalog with user-defined entries (scoped to their creation room)
-- **Persistent state** — progress survives app restarts via SharedPreferences
-- **Export** — share results as plain text or PDF
-- **Localization** — device-aware language selection with manual override
+## Assessment flow
 
-## Localization
+1. Select one or more rooms.
+2. Add devices for each room.
+3. Answer security and privacy questions per device.
+4. Review the generated summary, risk levels, and recommendations.
+5. Export the report if needed.
 
-The app supports these UI languages:
+## Supported languages
 
-- German (`de`)
-- Czech (`cs`)
-- English (`en`)
-- Polish (`pl`)
-- French (`fr`)
-- Dutch (`nl`)
-- Danish (`da`)
+- German (de)
+- Czech (cs)
+- English (en)
+- Polish (pl)
+- French (fr)
+- Dutch (nl)
+- Danish (da)
 
-### Runtime language switch
+Behavior:
 
-- A small language badge is shown in the top-right corner of the app.
-- Tap it to open the language dialog and switch language immediately.
-- The selected language is persisted with `SharedPreferences`.
-
-### Default language behavior
-
-- On first start, the app tries to infer the language from the device locale.
-- If the device language is unsupported, the app falls back to German (`de`).
+- A runtime language switch is available directly in the app UI.
+- The selected language is persisted locally.
+- On first launch, the app tries to match the device locale.
+- If the locale is unsupported, the app falls back to German.
 
 ## Supported device categories
 
-Smart Speakers, Cameras, Smart TVs, Smart Locks, Thermostats, Lights / Plugs / Blinds, Robot Vacuums, Wearables, Smart Toys, Sensors, Kitchen Appliances, Network Equipment, and custom user-defined devices.
+The catalog includes common smart home categories such as smart speakers, cameras, TVs, locks, thermostats, lighting and plugs, robot vacuums, wearables, toys, sensors, kitchen devices, and network equipment. Custom device types can also be added by users.
 
-## Getting started
+## Platform support
 
-**Prerequisites:** Flutter ≥ 3.11.5 · Dart ≥ 3.1
+The app targets Android, iOS, Web, Windows, macOS, and Linux.
 
-```bash
-git clone https://github.com/tucmi/simplications.git
-cd simplications
-flutter pub get
-flutter run
-```
+## Data handling
 
-Supported targets: Android, iOS, Web, Windows, macOS, Linux.
+- Assessment state is stored locally on device.
+- No account is required to run a local assessment.
 
-## Build
+## For developers
 
-```bash
-flutter build apk       # Android
-flutter build web       # Web
-flutter build windows   # Windows
-```
-
-## Development
-
-```bash
-flutter analyze   # static analysis
-flutter test      # unit & widget tests
-```
-
-## Project structure
-
-```
-lib/
-├── main.dart
-├── data/catalog_data.dart          # static catalog – rooms, devices, actions
-├── models/
-│   ├── device.dart                 # DeviceTemplate, DeviceInstance, risk scoring
-│   ├── room.dart
-│   └── survey_state.dart          # ChangeNotifier state + SharedPreferences I/O
-├── screens/
-│   ├── welcome_screen.dart
-│   ├── room_selection_screen.dart
-│   ├── device_selection_screen.dart
-│   ├── device_questionnaire_screen.dart
-│   └── summary_screen.dart
-└── widgets/
-    ├── custom_add_dialogs.dart
-    └── wizard_progress_bar.dart
-```
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions, code style, and PR guidelines.
+All developer setup, architecture notes, code standards, and contribution workflow are documented in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
 
 ## Acknowledgements
 
 Developed by the [Simplications](https://simplications.tucmi.de) project.
-Partners: Technische Universität Chemnitz · Hochschule Anhalt · Verbraucherzentrale Sachsen e.V.
-Coordination: Plattform Privatheit · Funded by: BMFTR
+Partners: Technische Universitat Chemnitz, Hochschule Anhalt, Verbraucherzentrale Sachsen e.V.
+Coordination: Plattform Privatheit.
+Funded by: BMFTR.

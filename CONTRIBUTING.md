@@ -1,308 +1,283 @@
 # Contributing to Simplications
 
-Thank you for your interest in contributing to Simplications! We appreciate all contributions, whether they're bug fixes, feature additions, documentation improvements, or translations.
+Thank you for your interest in contributing to Simplications.
+This document is the developer handbook for setup, architecture, standards, testing, and pull requests.
 
 ## Code of Conduct
 
-- Be respectful and inclusive
-- Provide constructive feedback
-- Focus on the code, not the person
-- Help others learn and grow
+- Be respectful and inclusive.
+- Provide constructive feedback.
+- Focus on the code, not the person.
+- Help others learn and grow.
 
-## Getting Started
+## Development Setup
 
 ### Prerequisites
 
-- **Flutter**: 3.11.5 or later
-- **Dart**: 3.1.0 or later
-- **Git**: For version control
-- **IDE**: VS Code, Android Studio, or IntelliJ IDEA (with Flutter plugin)
+- Flutter 3.11.5 or later
+- Dart 3.1.0 or later
+- Git
+- VS Code, Android Studio, or IntelliJ IDEA with Flutter tooling
 
-### Setting Up Development Environment
+### Local setup
 
-1. **Clone the repository**
+1. Clone the repository:
+
    ```bash
    git clone https://github.com/tucmi/simplications.git
    cd simplications
    ```
 
-2. **Install dependencies**
+2. Install dependencies:
+
    ```bash
    flutter pub get
    ```
 
-3. **Run the app**
+3. Run the app:
+
    ```bash
    flutter run
    ```
 
-4. **Verify setup with analysis**
+4. Verify setup:
+
    ```bash
    flutter analyze
    ```
 
-## Making Changes
+### Common developer commands
 
-### Workflow
+```bash
+# Static analysis
+flutter analyze
 
-1. **Create a feature branch**
+# Tests
+flutter test
+
+# Format source files
+dart format lib/ test/
+
+# Build targets
+flutter build apk
+flutter build web
+flutter build windows
+```
+
+## Project Architecture
+
+### High-level structure
+
+```text
+lib/
+  main.dart
+  data/catalog_data.dart
+  l10n/app_localizations.dart
+  models/
+  screens/
+  widgets/
+```
+
+### Key modules
+
+- `lib/main.dart`: app entry point, app-level wiring, theme, and localization setup
+- `lib/data/catalog_data.dart`: static catalog data (rooms, templates, question/action mappings)
+- `lib/models/device.dart`: device templates/instances and risk-scoring logic
+- `lib/models/survey_state.dart`: central assessment state and local persistence
+- `lib/screens/`: wizard flow screens and summary screen
+- `lib/widgets/`: reusable UI components
+- `lib/l10n/app_localizations.dart`: localization source of truth
+
+### State and persistence
+
+- Assessment flow is state-driven via `SurveyState`.
+- Progress and selected settings are persisted locally with SharedPreferences.
+
+## Workflow
+
+1. Create a feature branch:
+
    ```bash
    git checkout -b feature/your-feature-name
    # or for bug fixes:
    git checkout -b fix/your-bug-name
    ```
 
-2. **Make your changes**
-   - Follow code style guidelines (see below)
-   - Test your changes thoroughly
-   - Commit frequently with clear messages
+2. Implement your changes and commit in logical units.
 
-3. **Keep code quality high**
+3. Keep quality checks green:
+
    ```bash
-   # Analyze for issues
    flutter analyze
-
-   # Format code
-   dart format lib/
-
-   # Run tests
+   dart format lib/ test/
    flutter test
    ```
 
-4. **Commit with meaningful messages**
-   ```bash
-   git commit -m "feat: add speaker-specific encryption question"
-   # or
-   git commit -m "fix: resolve custom device grid layout issue"
-   ```
+4. Push your branch:
 
-5. **Push and create a pull request**
    ```bash
    git push origin feature/your-feature-name
    ```
-   Then open a PR on GitHub with a clear description
+
+5. Open a pull request with clear context and testing notes.
 
 ## Code Style Guidelines
 
-### Dart/Flutter Conventions
+### Dart and Flutter conventions
 
-- **Indentation**: 2 spaces (Flutter standard)
-- **Line Length**: Max 80-100 characters
-- **Naming**:
-  - Classes: `PascalCase`
-  - Methods/Variables: `camelCase`
-  - Constants: `camelCase` with `const` keyword
-  - Private: prefix with `_`
-- **Imports**: Organize by category (dart, flutter, packages, relative)
-- **Curly Braces**: Always use braces for control flow statements
-  ```dart
-  // ✓ Good
-  if (condition) {
-    doSomething();
-  }
+- Indentation: 2 spaces
+- Naming:
+  - Classes: PascalCase
+  - Methods/variables: camelCase
+  - Private members: prefix with `_`
+- Imports: group by dart, flutter, package, then relative imports
+- Use braces for control flow blocks
 
-  // ✗ Avoid
-  if (condition) doSomething();
-  ```
+### Formatting and linting
 
-### Formatting
-
-Run formatter before committing:
 ```bash
 dart format lib/ test/
-```
-
-### Linting
-
-Keep code analysis clean:
-```bash
 flutter analyze
 ```
 
-Aim for **0 issues** (no warnings, no errors).
+Target: zero analyzer errors and warnings.
 
-### German UI Text
+### Localization requirements
 
-All user-facing text must be in German:
-- Button labels: "Weiter →", "Abbrechen", "Hinzufügen"
-- Room names: "Wohnzimmer", "Küche", "Schlafzimmer"
-- Device names: "Sprachassistent", "Smarte Kamera"
-- Questions: "Wurden die Standardpasswörter geändert?"
-
-**Future**: When multi-language support is added, extract strings to resource files.
+- Do not hardcode user-facing text in widgets.
+- Localization source of truth is `lib/l10n/app_localizations.dart`.
+- Add or update keys consistently across supported locales.
+- Verify fallback behavior for missing locale values.
+- Ensure summary export helpers still receive localized strings.
 
 ### Comments
 
-- Use clear, concise comments
-- Explain "why", not "what" (code shows what)
-- Keep German context in mind for UI explanations
-  ```dart
-  // ✓ Good
-  // Device-specific questions vary by type (e.g., speakers ask about
-  // voice recording history, cameras about encryption)
-  List<DeviceQuestion> get questions { ... }
-
-  // ✗ Avoid
-  // Get the questions
-  List<DeviceQuestion> get questions { ... }
-  ```
+- Explain why, not what.
+- Keep comments concise and maintainable.
 
 ## Testing
 
-### Running Tests
+### Run tests
 
 ```bash
-# Run all tests
+# All tests
 flutter test
 
-# Run specific test file
+# Single file
 flutter test test/widget_test.dart
 
-# Run with coverage
+# Coverage
 flutter test --coverage
 ```
 
-### Adding Tests
+### When adding features
 
-When adding new features:
-1. Write tests for new methods/widgets
-2. Ensure existing tests still pass
-3. Test German text is correct
-4. Test edge cases (empty input, null values, etc.)
+1. Add tests for new logic or widgets.
+2. Verify existing tests still pass.
+3. Validate localization behavior if UI text changed.
+4. Cover edge cases where applicable.
 
-### Manual Testing Checklist
+### Manual checklist before PR
 
-Before submitting PR:
-- [ ] Analyze passes: `flutter analyze` (0 issues)
-- [ ] Format passes: `dart format` (no changes needed)
-- [ ] Tests pass: `flutter test` (all green)
-- [ ] App runs: `flutter run` (no crashes)
-- [ ] Feature works end-to-end on target platform
-- [ ] Material Design 3 teal theme applied correctly
-- [ ] German UI text is correct and complete
-- [ ] No console errors/warnings
+- [ ] `flutter analyze` passes
+- [ ] `dart format lib/ test/` introduces no pending changes
+- [ ] `flutter test` passes
+- [ ] App runs without crashes on target platform(s)
+- [ ] Feature works end-to-end
+- [ ] No unexpected console errors
 
-## Types of Contributions
+## Contribution Types
 
-### 1. Adding a New Device Type
+### 1. Add a new device type
 
-Example: Adding "Kaffeemaschine" (smart coffee machine) support
+Primary files:
 
-**Files to modify:**
-- `lib/models/device.dart` - Ensure `deviceType` string is documented
-- `lib/data/catalog_data.dart` - Add:
-  - New device to `allDeviceTemplates`
-  - 3-4 device-specific questions to `getDeviceSpecificQuestions()`
-  - 3-5 device-specific actions to `getDeviceSpecificActions()`
+- `lib/models/device.dart`
+- `lib/data/catalog_data.dart`
 
-**Steps:**
-1. Create constants for questions and actions
-2. Add conditional logic to match device type
-3. Test by creating custom device with new type or adding predefined device
-4. Verify questions and actions display correctly
+Typical changes:
 
-### 2. Improving Risk Scoring
+- Add template entries to the catalog
+- Add device-specific questions
+- Add device-specific actions
+- Verify scoring and summary output
 
-**Files:**
-- `lib/models/device.dart` - `riskScore` getter
+### 2. Improve risk scoring
 
-**Ideas:**
-- Add device-type-specific penalty weights
-- Consider question importance relative to device type
-- Implement time-decay for recommendations
+Primary file:
 
-### 3. Adding Persistence
+- `lib/models/device.dart`
 
-**Currently:** Custom rooms/devices lost on app restart
+Typical changes:
 
-**Suggested approach:**
-- Use `shared_preferences` package for simple save/load
-- Or `sqflite` for more complex data storage
-- Store to local file on app exit, load on app start
+- Tune weighting logic
+- Improve category-specific scoring behavior
+- Add tests to prevent regressions
 
-### 4. Multi-Language Support
+### 3. Improve persistence
 
-**Approach:**
-1. Extract all German strings to `lib/l10n/`
-2. Add Flutter's `intl` package to `pubspec.yaml`
-3. Create `.arb` files for German (de) and other languages
-4. Use `AppLocalizations.of(context).get('key')` instead of hardcoded strings
+Primary files:
 
-### 5. Documentation Improvements
+- `lib/models/survey_state.dart`
+- any related models used in serialization
 
-- Improve README.md or .llmrc with missing information
-- Add code comments explaining complex logic
-- Update this CONTRIBUTING.md with new workflows
-- Create guides for common development tasks
+Typical changes:
 
-### 6. Bug Fixes
+- Extend saved state fields
+- Add migration handling for changed storage schemas
+- Add tests for save/load compatibility
 
-1. Open an issue describing the bug
-2. Provide reproduction steps
-3. Create a branch: `git checkout -b fix/issue-name`
-4. Add test that reproduces the issue
-5. Fix the bug
-6. Verify test now passes
-7. Submit PR with issue reference
+### 4. Improve localization
 
-## Pull Request Process
+Primary files:
 
-1. **Title**: Clear, concise summary
-   - "feat: add custom device deletion with confirmation"
-   - "fix: correct device-specific question filtering"
-   - "docs: update README with architecture details"
+- `lib/l10n/app_localizations.dart`
+- relevant UI files consuming localized strings
 
-2. **Description**: Explain what and why
-   ```markdown
-   ## Description
-   Adds confirmation dialog before deleting custom devices to prevent accidents.
+Typical changes:
 
-   ## Related Issues
-   Closes #42
+- Add translation keys and values
+- Ensure fallback behavior remains correct
+- Verify exports and summaries remain localized
 
-   ## Changes
-   - Added `_removeCustomDevice()` method with confirmation
-   - Added red delete button to custom device cards
-   - Added German confirmation text
+### 5. Improve documentation
 
-   ## Testing
-   - Manual: Created custom device, verified delete confirmation works
-   - Manual: Verified standard devices cannot be deleted
-   ```
+- Keep README product-focused
+- Keep CONTRIBUTING developer-focused
+- Document new workflows when introducing them
 
-3. **Testing**: Verify all checks pass
-   - `flutter analyze`: 0 issues
-   - `flutter test`: all pass
-   - App runs without crashes
-   - Feature works as intended
+### 6. Fix bugs
 
-4. **Review**: Respond to feedback
-   - Address all review comments
-   - Push additional commits to same branch
-   - Maintain good communication
+1. Reproduce the issue.
+2. Add a failing test where practical.
+3. Implement the fix.
+4. Verify tests and analyzer pass.
+5. Reference the issue in the PR.
 
-## Questions?
+## Pull Request Guidelines
 
-- **General Questions**: Open a discussion in the repository
-- **Bug Reports**: Open an issue with:
-  - Steps to reproduce
-  - Expected behavior
-  - Actual behavior
-  - Device/platform/Flutter version
-- **Feature Requests**: Open an issue with:
-  - Use case and motivation
-  - Suggested solution (if any)
-  - Alternatives considered
+### Title format examples
 
-## Recognition
+- `feat: add camera-specific encryption recommendation`
+- `fix: correct custom device risk classification`
+- `docs: clarify localization contribution workflow`
 
-Contributors will be recognized in:
-- Project README
-- Release notes
-- Contributors list (if applicable)
+### Recommended PR description structure
 
-Thank you for helping make Simplications better! 🙏
+- Description: what changed and why
+- Related issues: references (for example, `Closes #42`)
+- Testing: commands run and manual checks performed
 
----
+### Review process
 
-**Questions about this guide?** Feel free to ask in issues or discussions.
+- Address review comments directly in follow-up commits.
+- Keep discussion focused and actionable.
+- Do not force-push over reviewer context unless necessary.
+
+## Questions and Support
+
+- General questions: open a GitHub discussion.
+- Bug reports: open an issue with repro steps, expected behavior, and actual behavior.
+- Feature requests: open an issue with use case, motivation, and alternatives.
+
+Thank you for helping improve Simplications.
