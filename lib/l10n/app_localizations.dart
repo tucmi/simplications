@@ -58,11 +58,11 @@ class AppLocalizations {
 
   static const Map<String, Map<String, String>> _localizedValues = {
     'de': {
-      'appTitle': 'Smart Home Privatsphäre-Check',
-      'welcomeTitle': 'Smart Home\nPrivatsphäre-Check',
+      'appTitle': 'Simplications',
+      'welcomeTitle': 'Der Simplications\nSmart Home\nPrivatsphäre-Check',
       'welcomeDescription':
           'Erfassen Sie Raum für Raum Ihre smarten Geräte und erhalten Sie eine Privatsphärebewertung mit konkreten Empfehlungen.',
-      'stepSelectRooms': 'Räume auswählen',
+      'stepSelectRooms': 'Raum auswählen',
       'stepCaptureDevices': 'Geräte erfassen',
       'stepAnswerQuestions': 'Sicherheitsfragen beantworten',
       'stepGetRisk': 'Risikoprofil & Empfehlungen erhalten',
@@ -108,7 +108,7 @@ class AppLocalizations {
       'languageDialogTitle': 'Sprache wählen',
       'currentLanguage': 'Aktuelle Sprache',
       'aboutScreenTitle': 'Über die App',
-      'aboutSubtitle': 'Smart Home Privatsphäre-Check',
+      'aboutSubtitle': 'Simplications',
       'websiteOpenFailed': 'Website konnte nicht geöffnet werden.',
       'deleteAllDataTitle': 'Alle Daten löschen?',
       'deleteAllDataBody':
@@ -195,11 +195,11 @@ class AppLocalizations {
           ' Es wurden {count} Antwort{suffix} mit "Weiß ich nicht" gegeben - nehmen Sie sich Zeit, die Einstellungen Ihrer Geräte besser kennenzulernen.',
     },
     'en': {
-      'appTitle': 'Smart Home Privacy Check',
-      'welcomeTitle': 'Smart Home\nPrivacy Check',
+      'appTitle': 'Simplications',
+      'welcomeTitle': 'Simplications\nSmart Home\nPrivacy Check',
       'welcomeDescription':
           'Capture your smart devices room by room and receive a privacy assessment with concrete recommendations.',
-      'stepSelectRooms': 'Select rooms',
+      'stepSelectRooms': 'Select room',
       'stepCaptureDevices': 'Capture devices',
       'stepAnswerQuestions': 'Answer security questions',
       'stepGetRisk': 'Get risk profile & recommendations',
@@ -245,7 +245,7 @@ class AppLocalizations {
       'languageDialogTitle': 'Choose language',
       'currentLanguage': 'Current language',
       'aboutScreenTitle': 'About the app',
-      'aboutSubtitle': 'Smart home privacy check',
+      'aboutSubtitle': 'Simplications',
       'websiteOpenFailed': 'Could not open website.',
       'deleteAllDataTitle': 'Delete all data?',
       'deleteAllDataBody':
@@ -331,11 +331,11 @@ class AppLocalizations {
           ' {count} answer{suffix} were marked as "I don\'t know" - take time to understand your device settings better.',
     },
     'cs': {
-      'appTitle': 'Kontrola soukromí chytré domácnosti',
-      'welcomeTitle': 'Kontrola soukromí\nchytré domácnosti',
+      'appTitle': 'Simplications',
+      'welcomeTitle': 'Simplications\nKontrola soukromí\nchytré domácnosti',
       'welcomeDescription':
           'Zaznamenejte svá chytrá zařízení místnost po místnosti a získejte hodnocení soukromí s konkrétními doporučeními.',
-      'stepSelectRooms': 'Vyberte místnosti',
+      'stepSelectRooms': 'Vyberte místnost',
       'stepCaptureDevices': 'Zaznamenejte zařízení',
       'stepAnswerQuestions': 'Odpovězte na bezpečnostní otázky',
       'stepGetRisk': 'Získejte rizikový profil a doporučení',
@@ -382,11 +382,11 @@ class AppLocalizations {
       'currentLanguage': 'Aktuální jazyk',
     },
     'pl': {
-      'appTitle': 'Kontrola prywatności Smart Home',
-      'welcomeTitle': 'Kontrola prywatności\nSmart Home',
+      'appTitle': 'Simplications',
+      'welcomeTitle': 'Simplications\nKontrola prywatności\nSmart Home',
       'welcomeDescription':
           'Dodaj swoje inteligentne urządzenia pokój po pokoju i otrzymaj ocenę prywatności z konkretnymi zaleceniami.',
-      'stepSelectRooms': 'Wybierz pokoje',
+      'stepSelectRooms': 'Wybierz pokój',
       'stepCaptureDevices': 'Dodaj urządzenia',
       'stepAnswerQuestions': 'Odpowiedz na pytania dotyczące bezpieczeństwa',
       'stepGetRisk': 'Uzyskaj profil ryzyka i zalecenia',
@@ -433,11 +433,11 @@ class AppLocalizations {
       'currentLanguage': 'Bieżący język',
     },
     'fr': {
-      'appTitle': 'Contrôle de confidentialité Smart Home',
-      'welcomeTitle': 'Contrôle de confidentialité\nSmart Home',
+      'appTitle': 'Simplications',
+      'welcomeTitle': 'Simplications\nContrôle de confidentialité\nSmart Home',
       'welcomeDescription':
           'Renseignez vos appareils intelligents pièce par pièce et obtenez une évaluation de confidentialité avec des recommandations concrètes.',
-      'stepSelectRooms': 'Choisir les pièces',
+      'stepSelectRooms': 'Choisir une pièce',
       'stepCaptureDevices': 'Recenser les appareils',
       'stepAnswerQuestions': 'Répondre aux questions de sécurité',
       'stepGetRisk': 'Obtenir le profil de risque et les recommandations',
@@ -486,11 +486,11 @@ class AppLocalizations {
       'currentLanguage': 'Langue actuelle',
     },
     'nl': {
-      'appTitle': 'Smart Home-privacycheck',
-      'welcomeTitle': 'Smart Home\nprivacycheck',
+      'appTitle': 'Simplications',
+      'welcomeTitle': 'Simplications\nSmart Home\nprivacycheck',
       'welcomeDescription':
           'Leg je slimme apparaten kamer voor kamer vast en ontvang een privacybeoordeling met concrete aanbevelingen.',
-      'stepSelectRooms': 'Kamers kiezen',
+      'stepSelectRooms': 'Kamer kiezen',
       'stepCaptureDevices': 'Apparaten vastleggen',
       'stepAnswerQuestions': 'Beveiligingsvragen beantwoorden',
       'stepGetRisk': 'Risicoprofiel en aanbevelingen ontvangen',
@@ -538,11 +538,11 @@ class AppLocalizations {
       'currentLanguage': 'Huidige taal',
     },
     'da': {
-      'appTitle': 'Smart Home privatlivstjek',
-      'welcomeTitle': 'Smart Home\nprivatlivstjek',
+      'appTitle': 'Simplications',
+      'welcomeTitle': 'Simplications\nSmart Home\nprivatlivstjek',
       'welcomeDescription':
           'Registrer dine smarte enheder rum for rum, og få en privatlivsvurdering med konkrete anbefalinger.',
-      'stepSelectRooms': 'Vælg rum',
+      'stepSelectRooms': 'Vælg ét rum',
       'stepCaptureDevices': 'Registrer enheder',
       'stepAnswerQuestions': 'Besvar sikkerhedsspørgsmål',
       'stepGetRisk': 'Få risikoprofil og anbefalinger',
