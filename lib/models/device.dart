@@ -15,6 +15,7 @@ class DeviceDomainI18n {
     'Wohnzimmer': 'Living room',
     'Küche': 'Kitchen',
     'Schlafzimmer': 'Bedroom',
+    'Kinderzimmer': "Child's bedroom",
     'Badezimmer': 'Bathroom',
     'Arbeitszimmer': 'Office',
     'Flur / Eingang': 'Hallway / Entrance',
@@ -222,6 +223,8 @@ class DeviceDomainI18n {
         'You answered all questions positively. However, baseline risk remains elevated for microphone devices because voice data is highly sensitive and accidental activation or cloud processing still carries risks.',
     'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt bei smarten Schlössern ein erhöhtes Grundrisiko, da ein möglicher Missbrauch direkt den physischen Zugang zur Wohnung betrifft.':
         'You answered all questions positively. However, smart locks still have elevated baseline risk because misuse directly affects physical access to your home.',
+    'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt im Kinderzimmer ein erhöhtes Grundrisiko, da dort häufig besonders sensible Daten zu Kindern und ihrem Alltag betroffen sind.':
+        'You answered all questions positively. However, baseline risk remains elevated in a child\'s bedroom because especially sensitive data about children and their daily life can be affected there.',
     'Sie haben alle Fragen positiv beantwortet. Das Gerät bleibt trotzdem im mittleren/hohen Bereich, weil bereits die Art des Geräts sensible Nutzungs- und Verhaltensdaten offenlegen kann.':
         'You answered all questions positively. The device can still remain medium/high risk because its type may reveal sensitive usage and behavior data.',
     'Geräteeinstellungen besser kennenlernen':
@@ -229,6 +232,8 @@ class DeviceDomainI18n {
     'Mindestens eine Frage wurde mit "Weiß ich nicht" beantwortet. Prüfen Sie die Einstellungen und Dokumentation Ihres Geräts, damit Sie Risiken künftig gezielt reduzieren können.':
         'At least one question was answered with "I don\'t know". Review your device settings and documentation to reduce risk more effectively.',
     'Grundrisiko des Gerätetyps': 'Baseline risk of device type',
+    'Erhöhte Sensibilität: Kinderzimmer':
+        'Increased sensitivity: child\'s bedroom',
     'Standard-Passwort nicht geändert': 'Default password not changed',
     'Automatische Updates nicht aktiv': 'Automatic updates not enabled',
     'Kein separates IoT-WLAN eingerichtet': 'No separate IoT Wi-Fi configured',
@@ -453,6 +458,9 @@ class DeviceQuestion {
 }
 
 class DeviceInstance {
+  static const String _childBedroomRoomId = 'child_bedroom';
+  static const int _childBedroomRiskBonus = 10;
+
   final String instanceId;
   final DeviceTemplate template;
   final String roomId;
@@ -910,6 +918,9 @@ class DeviceInstance {
 
   int get riskScore {
     int score = template.baseRiskScore;
+    if (roomId == _childBedroomRoomId) {
+      score += _childBedroomRiskBonus;
+    }
     if (_hasQuestion('password')) {
       score += _riskPenalty(
         passwordChanged,
@@ -984,6 +995,9 @@ class DeviceInstance {
     }
     if (template.deviceType == 'lock') {
       return 'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt bei smarten Schlössern ein erhöhtes Grundrisiko, da ein möglicher Missbrauch direkt den physischen Zugang zur Wohnung betrifft.';
+    }
+    if (roomId == _childBedroomRoomId) {
+      return 'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt im Kinderzimmer ein erhöhtes Grundrisiko, da dort häufig besonders sensible Daten zu Kindern und ihrem Alltag betroffen sind.';
     }
 
     return 'Sie haben alle Fragen positiv beantwortet. Das Gerät bleibt trotzdem im mittleren/hohen Bereich, weil bereits die Art des Geräts sensible Nutzungs- und Verhaltensdaten offenlegen kann.';
@@ -1226,6 +1240,16 @@ class DeviceInstance {
         ScoringFactor(
           label: 'Grundrisiko des Gerätetyps',
           penalty: template.baseRiskScore,
+          isDontKnow: false,
+          isBaseRisk: true,
+        ),
+      );
+    }
+    if (roomId == _childBedroomRoomId) {
+      factors.add(
+        const ScoringFactor(
+          label: 'Erhöhte Sensibilität: Kinderzimmer',
+          penalty: _childBedroomRiskBonus,
           isDontKnow: false,
           isBaseRisk: true,
         ),

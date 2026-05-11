@@ -92,17 +92,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
+                            SizedBox(
                               width: 64,
                               height: 64,
-                              decoration: BoxDecoration(
-                                color: colors.primaryContainer,
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              child: Icon(
-                                Icons.home_outlined,
-                                size: 36,
-                                color: colors.primary,
+                              child: Image.asset(
+                                'assets/icon/logo-simpli.png',
+                                fit: BoxFit.contain,
                               ),
                             ),
                             const SizedBox(height: 16),

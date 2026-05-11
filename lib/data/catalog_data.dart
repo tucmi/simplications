@@ -15,6 +15,7 @@ class CatalogData {
     Room(id: 'living', name: 'Wohnzimmer', icon: Icons.weekend),
     Room(id: 'kitchen', name: 'Küche', icon: Icons.kitchen),
     Room(id: 'bedroom', name: 'Schlafzimmer', icon: Icons.hotel),
+    Room(id: 'child_bedroom', name: 'Kinderzimmer', icon: Icons.child_care),
     Room(id: 'bathroom', name: 'Badezimmer', icon: Icons.bathtub),
     Room(id: 'office', name: 'Arbeitszimmer', icon: Icons.computer),
     Room(id: 'hallway', name: 'Flur / Eingang', icon: Icons.meeting_room),
@@ -347,8 +348,18 @@ class CatalogData {
     ),
   ];
 
-  static List<DeviceTemplate> devicesForRoom(String roomId) =>
-      allDeviceTemplates.where((d) => d.roomIds.contains(roomId)).toList();
+  static List<DeviceTemplate> devicesForRoom(String roomId) {
+    if (roomId == 'child_bedroom') {
+      return allDeviceTemplates
+          .where(
+            (d) =>
+                d.roomIds.contains('child_bedroom') ||
+                d.roomIds.contains('bedroom'),
+          )
+          .toList();
+    }
+    return allDeviceTemplates.where((d) => d.roomIds.contains(roomId)).toList();
+  }
 
   /// Device-specific questions based on device type and BSI recommendations
   static List<DeviceQuestion> getDeviceSpecificQuestions(

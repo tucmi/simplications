@@ -94,7 +94,7 @@ class AboutScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Simplications',
+                    localizations.aboutProjectName(),
                     style: text.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
