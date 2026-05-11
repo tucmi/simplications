@@ -69,6 +69,7 @@ class AppLocalizations {
       'start': 'Starten',
       'resume': 'Fortsetzen',
       'about': 'Über',
+      'faq': 'FAQ',
       'roomSelectionTitle': 'Raum auswählen',
       'roomQuestion': 'Welchen Raum möchten Sie jetzt prüfen?',
       'roomInstruction':
@@ -108,7 +109,32 @@ class AppLocalizations {
       'languageDialogTitle': 'Sprache wählen',
       'currentLanguage': 'Aktuelle Sprache',
       'aboutScreenTitle': 'Über die App',
-      'aboutSubtitle': 'Simplications',
+      'faqScreenTitle': 'Häufige Fragen',
+      'aboutSubtitle': 'Forschungsprojekt Smart Home Privatsphäre',
+      'faqQuestionWhatIs': 'Was ist Simplications?',
+      'faqAnswerWhatIs':
+          'Simplications ist ein Forschungsprojekt zum Smart-Home-Datenschutz. Diese App ist ein Teil des Projekts und führt Sie Raum für Raum durch Ihre Geräte mit praktischen Empfehlungen auf Basis Ihrer Antworten.',
+      'faqQuestionHowWorks': 'Wie funktioniert der Check?',
+      'faqAnswerHowWorks':
+          'Sie wählen einen Raum, erfassen Ihre smarten Geräte, beantworten gerätespezifische Fragen und erhalten ein Risikoprofil mit priorisierten Maßnahmen.',
+      'faqQuestionNoPolicy': 'Warum gibt es keine Datenschutzerklärung?',
+      'faqAnswerNoPolicy': 'Weil wir keine Daten von Ihnen erheben.',
+      'faqQuestionDataStored': 'Wo werden meine Daten gespeichert?',
+      'faqAnswerDataStored':
+          'Ihre Eingaben werden lokal auf Ihrem Gerät gespeichert. In der Über-Seite können Sie alle gespeicherten Daten jederzeit löschen.',
+      'faqQuestionNoDevice': 'Was ist, wenn mein Gerät nicht in der Liste ist?',
+      'faqAnswerNoDevice':
+          'Sie können eigene Geräte hinzufügen und den Check trotzdem durchführen. Die Empfehlungen basieren dann auf Ihrer Konfiguration und Ihren Antworten.',
+      'faqQuestionRiskMeaning':
+          'Was bedeuten niedriges, mittleres und hohes Risiko?',
+      'faqAnswerRiskMeaning':
+          'Diese Stufen zeigen, wie stark Ihre aktuelle Konfiguration Privatsphäre-Risiken begünstigen kann. Sie sind eine Orientierung und keine rechtliche oder technische Zertifizierung.',
+      'faqQuestionLegalAdvice': 'Ist das eine Rechtsberatung?',
+      'faqAnswerLegalAdvice':
+          'Nein. Simplications bietet praktische Orientierung und Empfehlungen, ersetzt aber keine rechtliche oder professionelle Sicherheitsberatung.',
+      'faqQuestionCanShare': 'Kann ich mein Ergebnis teilen?',
+      'faqAnswerCanShare':
+          'Ja. Im Ergebnisbildschirm können Sie Ihre Zusammenfassung direkt als Text oder PDF exportieren und teilen.',
       'websiteOpenFailed': 'Website konnte nicht geöffnet werden.',
       'deleteAllDataTitle': 'Alle Daten löschen?',
       'deleteAllDataBody':
@@ -206,6 +232,7 @@ class AppLocalizations {
       'start': 'Start',
       'resume': 'Resume',
       'about': 'About',
+      'faq': 'FAQ',
       'roomSelectionTitle': 'Select room',
       'roomQuestion': 'Which room would you like to check now?',
       'roomInstruction':
@@ -245,7 +272,31 @@ class AppLocalizations {
       'languageDialogTitle': 'Choose language',
       'currentLanguage': 'Current language',
       'aboutScreenTitle': 'About the app',
-      'aboutSubtitle': 'Simplications',
+      'faqScreenTitle': 'Frequently Asked Questions',
+      'aboutSubtitle': 'Research project on smart home privacy',
+      'faqQuestionWhatIs': 'What is Simplications?',
+      'faqAnswerWhatIs':
+          'Simplications is a research project on smart-home privacy. This app is one part of the project and guides you room by room through your devices with practical recommendations based on your answers.',
+      'faqQuestionHowWorks': 'How does the check work?',
+      'faqAnswerHowWorks':
+          'You select a room, add your smart devices, answer device-specific questions, and receive a risk profile with prioritized actions.',
+      'faqQuestionNoPolicy': 'Why is there no data protection policy?',
+      'faqAnswerNoPolicy': 'Because we do not collect your data.',
+      'faqQuestionDataStored': 'Where is my data stored?',
+      'faqAnswerDataStored':
+          'Your assessment data is stored locally on your device. You can delete all stored data at any time in the About screen.',
+      'faqQuestionNoDevice': 'What if my device is not listed?',
+      'faqAnswerNoDevice':
+          'You can add custom devices and still complete the check. The recommendations then rely on your provided setup and answers.',
+      'faqQuestionRiskMeaning': 'What do low, medium, and high risk mean?',
+      'faqAnswerRiskMeaning':
+          'They indicate how strongly your current configuration may expose privacy-related risks. They are guidance levels, not legal or technical certification.',
+      'faqQuestionLegalAdvice': 'Is this legal advice?',
+      'faqAnswerLegalAdvice':
+          'No. Simplications provides practical orientation and recommendations, but does not replace legal or professional security consultation.',
+      'faqQuestionCanShare': 'Can I share my results?',
+      'faqAnswerCanShare':
+          'Yes. You can export and share your summary as text or PDF directly from the results screen.',
       'websiteOpenFailed': 'Could not open website.',
       'deleteAllDataTitle': 'Delete all data?',
       'deleteAllDataBody':
@@ -609,6 +660,7 @@ class AppLocalizations {
   String start() => _value('start');
   String resume() => _value('resume');
   String about() => _value('about');
+  String faq() => _value('faq');
   String roomSelectionTitle() => _value('roomSelectionTitle');
   String roomQuestion() => _value('roomQuestion');
   String roomInstruction() => _value('roomInstruction');
@@ -642,6 +694,7 @@ class AppLocalizations {
   String languageDialogTitle() => _value('languageDialogTitle');
   String currentLanguage() => _value('currentLanguage');
   String aboutScreenTitle() => _value('aboutScreenTitle');
+  String faqScreenTitle() => _value('faqScreenTitle');
   String aboutSubtitle() => _value('aboutSubtitle');
   String websiteOpenFailed() => _value('websiteOpenFailed');
   String deleteAllDataTitle() => _value('deleteAllDataTitle');

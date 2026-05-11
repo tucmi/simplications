@@ -4,6 +4,7 @@ import '../l10n/language_controller.dart';
 import '../models/survey_state.dart';
 import '../widgets/language_switcher.dart';
 import 'about_screen.dart';
+import 'faq_screen.dart';
 import 'room_selection_screen.dart';
 
 /// App-wide route observer — provide this in [MaterialApp.navigatorObservers].
@@ -198,22 +199,46 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                               },
                             ),
                             const SizedBox(height: 4),
-                            Center(
-                              child: TextButton.icon(
-                                onPressed: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) =>
-                                        AboutScreen(state: _surveyState),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextButton.icon(
+                                  onPressed: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => const FaqScreen(),
+                                    ),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.help_outline,
+                                    size: 16,
+                                  ),
+                                  label: Text(localizations.faq()),
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: colors.onSurfaceVariant,
+                                    textStyle: const TextStyle(fontSize: 13),
+                                    visualDensity: VisualDensity.compact,
                                   ),
                                 ),
-                                icon: const Icon(Icons.info_outline, size: 16),
-                                label: Text(localizations.about()),
-                                style: TextButton.styleFrom(
-                                  foregroundColor: colors.onSurfaceVariant,
-                                  textStyle: const TextStyle(fontSize: 13),
-                                  visualDensity: VisualDensity.compact,
+                                const SizedBox(width: 4),
+                                TextButton.icon(
+                                  onPressed: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          AboutScreen(state: _surveyState),
+                                    ),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.info_outline,
+                                    size: 16,
+                                  ),
+                                  label: Text(localizations.about()),
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: colors.onSurfaceVariant,
+                                    textStyle: const TextStyle(fontSize: 13),
+                                    visualDensity: VisualDensity.compact,
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
                           ],
                         ),

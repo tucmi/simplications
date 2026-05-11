@@ -109,6 +109,24 @@ class AboutScreen extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 20),
+
+          // ── Website link ────────────────────────────────────────────
+          Text(
+            localizations.website(),
+            style: text.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 8),
+          _PartnerTile(
+            colors: colors,
+            text: text,
+            label: 'Simplications',
+            urlLabel: 'simplications.tucmi.de',
+            url: 'https://simplications.tucmi.de',
+            icon: Icons.open_in_new,
+            highlighted: true,
+            openUrl: (url) => _openUrl(context, url),
+          ),
           const SizedBox(height: 28),
 
           // ── Project partners ────────────────────────────────────────
@@ -121,19 +139,28 @@ class AboutScreen extends StatelessWidget {
             colors: colors,
             text: text,
             label: 'Technische Universität Chemnitz',
+            urlLabel: 'tu-chemnitz.de',
+            url: 'https://www.tu-chemnitz.de',
             icon: Icons.school_outlined,
+            openUrl: (url) => _openUrl(context, url),
           ),
           _PartnerTile(
             colors: colors,
             text: text,
             label: 'Hochschule Anhalt',
+            urlLabel: 'hs-anhalt.de',
+            url: 'https://www.hs-anhalt.de',
             icon: Icons.school_outlined,
+            openUrl: (url) => _openUrl(context, url),
           ),
           _PartnerTile(
             colors: colors,
             text: text,
             label: 'Verbraucherzentrale Sachsen e.V.',
+            urlLabel: 'verbraucherzentrale-sachsen.de',
+            url: 'https://www.verbraucherzentrale-sachsen.de',
             icon: Icons.groups_outlined,
+            openUrl: (url) => _openUrl(context, url),
           ),
           const SizedBox(height: 20),
 
@@ -149,75 +176,21 @@ class AboutScreen extends StatelessWidget {
             icon: Icons.manage_accounts_outlined,
             label: localizations.coordination(),
             value: localizations.platformPrivacy(),
+            urlLabel: 'plattform-privatheit.de',
+            url: 'https://www.plattform-privatheit.de',
+            openUrl: (url) => _openUrl(context, url),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.account_balance_outlined,
-                  size: 18,
-                  color: colors.onSurfaceVariant,
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        localizations.fundingAgency(),
-                        style: text.bodyMedium?.copyWith(
-                          color: colors.onSurfaceVariant,
-                        ),
-                      ),
-                      Text(
-                        localizations.fundingAgencyValue(),
-                        style: text.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          _InfoRow(
+            colors: colors,
+            text: text,
+            icon: Icons.account_balance_outlined,
+            label: localizations.fundingAgency(),
+            value: localizations.fundingAgencyValue(),
+            urlLabel: 'bmftr.bund.de',
+            url: 'https://www.bmftr.bund.de',
+            openUrl: (url) => _openUrl(context, url),
           ),
           const SizedBox(height: 20),
-
-          // ── Website link ────────────────────────────────────────────
-          Text(
-            localizations.website(),
-            style: text.titleSmall?.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 8),
-          InkWell(
-            onTap: () => _openUrl(context, 'https://simplications.tucmi.de'),
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-              decoration: BoxDecoration(
-                color: colors.primaryContainer.withAlpha(120),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: colors.primary.withAlpha(80)),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.open_in_new, size: 18, color: colors.primary),
-                  const SizedBox(width: 10),
-                  Text(
-                    'simplications.tucmi.de',
-                    style: text.bodyMedium?.copyWith(
-                      color: colors.primary,
-                      fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 28),
 
           // ── Danger zone ────────────────────────────────────────────
           Text(
@@ -298,30 +271,76 @@ class _PartnerTile extends StatelessWidget {
   final ColorScheme colors;
   final TextTheme text;
   final String label;
+  final String urlLabel;
+  final String url;
   final IconData icon;
+  final bool highlighted;
+  final Future<void> Function(String url) openUrl;
 
   const _PartnerTile({
     required this.colors,
     required this.text,
     required this.label,
+    required this.urlLabel,
+    required this.url,
     required this.icon,
+    required this.openUrl,
+    this.highlighted = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final containerColor = highlighted
+        ? colors.primaryContainer.withAlpha(120)
+        : colors.surfaceContainerHighest.withAlpha(100);
+    final borderColor = highlighted
+        ? colors.primary.withAlpha(80)
+        : colors.outlineVariant.withAlpha(120);
+    final linkColor = highlighted ? colors.primary : colors.onSurface;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        children: [
-          Icon(icon, size: 18, color: colors.onSurfaceVariant),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              label,
-              style: text.bodyMedium?.copyWith(color: colors.onSurface),
-            ),
+      child: InkWell(
+        onTap: () => openUrl(url),
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: containerColor,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: borderColor),
           ),
-        ],
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(icon, size: 18, color: colors.onSurfaceVariant),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      label,
+                      style: text.bodyMedium?.copyWith(
+                        color: colors.onSurface,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      urlLabel,
+                      style: text.bodySmall?.copyWith(
+                        color: linkColor,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.open_in_new, size: 16, color: linkColor),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -333,6 +352,9 @@ class _InfoRow extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
+  final String urlLabel;
+  final String url;
+  final Future<void> Function(String url) openUrl;
 
   const _InfoRow({
     required this.colors,
@@ -340,27 +362,61 @@ class _InfoRow extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.value,
+    required this.urlLabel,
+    required this.url,
+    required this.openUrl,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        children: [
-          Icon(icon, size: 18, color: colors.onSurfaceVariant),
-          const SizedBox(width: 10),
-          Text(
-            '$label: ',
-            style: text.bodyMedium?.copyWith(color: colors.onSurfaceVariant),
+      child: InkWell(
+        onTap: () => openUrl(url),
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: colors.surfaceContainerHighest.withAlpha(100),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: colors.outlineVariant.withAlpha(120)),
           ),
-          Expanded(
-            child: Text(
-              value,
-              style: text.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
-            ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(icon, size: 18, color: colors.onSurfaceVariant),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      label,
+                      style: text.bodyMedium?.copyWith(
+                        color: colors.onSurfaceVariant,
+                      ),
+                    ),
+                    Text(
+                      value,
+                      style: text.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      urlLabel,
+                      style: text.bodySmall?.copyWith(
+                        color: colors.onSurface,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.open_in_new, size: 16, color: colors.onSurface),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
