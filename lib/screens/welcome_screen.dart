@@ -62,13 +62,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
     }
   }
 
-  bool _hasSavedProgress(SurveyState state) {
-    return state.completedRoomIds.isNotEmpty ||
-        state.devices.isNotEmpty ||
-        state.customRooms.isNotEmpty ||
-        state.customDevices.isNotEmpty;
-  }
-
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -169,7 +162,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                                 final surveyState = _surveyState;
                                 final hasState = surveyState != null;
                                 final hasProgress =
-                                    hasState && _hasSavedProgress(surveyState);
+                                    hasState && surveyState.hasAnyData;
 
                                 return FilledButton(
                                   onPressed: hasState

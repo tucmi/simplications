@@ -12,6 +12,62 @@ enum QuestionAnswer { yes, no, dontKnow, notApplicable }
 
 class DeviceDomainI18n {
   static const Map<String, String> _deToEn = {
+    'Wohnzimmer': 'Living room',
+    'Küche': 'Kitchen',
+    'Schlafzimmer': 'Bedroom',
+    'Badezimmer': 'Bathroom',
+    'Arbeitszimmer': 'Office',
+    'Flur / Eingang': 'Hallway / Entrance',
+    'Garten / Außenbereich': 'Garden / Outdoor area',
+    'Keller / Speisekammer': 'Basement / Pantry',
+    'Ganze Wohnung': 'Entire home',
+    'Einfacher Sensor (z. B. Bewegungs- oder Türsensor)':
+        'Basic sensor (e.g., motion or door sensor)',
+    'Feuchtigkeitssensor': 'Humidity sensor',
+    'Temperatursensor': 'Temperature sensor',
+    'Lichtsensor': 'Light sensor',
+    'Smart Speaker / Sprachassistent': 'Smart speaker / voice assistant',
+    'Smart Display (z. B. Nest Hub)': 'Smart display (e.g., Nest Hub)',
+    'Smart TV': 'Smart TV',
+    'Smarte Innenkamera': 'Smart indoor camera',
+    'Smarte Außenkamera': 'Smart outdoor camera',
+    'Smarte Türklingel mit Kamera': 'Smart doorbell with camera',
+    'Babymonitor / Babykamera': 'Baby monitor / baby camera',
+    'Saugroboter': 'Robot vacuum',
+    'Smarter Kühlschrank': 'Smart fridge',
+    'Smarter Backofen / Herd': 'Smart oven / stove',
+    'Smarte Kaffeemaschine': 'Smart coffee machine',
+    'Smarte Waschmaschine / Trockner': 'Smart washer / dryer',
+    'Smarter Thermostat / Heizungssteuerung':
+        'Smart thermostat / heating control',
+    'Smarte Steckdose': 'Smart plug',
+    'Smarte Beleuchtung': 'Smart lighting',
+    'Smartes Türschloss': 'Smart door lock',
+    'Smarte Jalousie / Rolllade': 'Smart blind / shutter',
+    'Fitness-Tracker / Smartwatch': 'Fitness tracker / smartwatch',
+    'Smartes Spielzeug': 'Smart toy',
+    'Smart Router / Mesh-System': 'Smart router / mesh system',
+    'Smart-Home-Hub (z. B. Homey, Home Assistant)':
+        'Smart home hub (e.g., Homey, Home Assistant)',
+    'Intelligenter Stromzähler / Smart Meter':
+        'Intelligent electricity meter / smart meter',
+    'Smarte Bewässerungsanlage': 'Smart irrigation system',
+    'Smarte Waage': 'Smart scale',
+    'Smarter Drucker': 'Smart printer',
+    'Richten Sie ein separates WLAN nur für Smart-Home-Geräte ein (z. B. Gastnetz Ihres Routers).':
+        'Set up a separate Wi-Fi network for smart home devices (e.g., your router\'s guest network).',
+    'Nutzen Sie einen Passwortmanager und vergeben Sie für jedes Gerät ein einzigartiges, starkes Passwort.':
+        'Use a password manager and assign a unique, strong password to each device.',
+    'Aktivieren Sie Mehrfaktor-Authentifizierung (MFA) für alle Hersteller-Konten.':
+        'Enable multi-factor authentication (MFA) for all vendor accounts.',
+    'Legen Sie im Haushalt fest, wer für Updates, Backups und Konten verantwortlich ist.':
+        'Define who in your household is responsible for updates, backups, and accounts.',
+    'Überprüfen Sie regelmäßig (mind. 1× pro Quartal) alle Zugriffsberechtigungen und Konten.':
+        'Regularly review (at least once per quarter) all access permissions and accounts.',
+    'Entsorgen Sie alte Geräte datenschutzgerecht: Werksreset durchführen und aus der Hersteller-Cloud austragen.':
+        'Dispose of old devices in a privacy-safe way: perform a factory reset and remove them from vendor cloud accounts.',
+    'Nutzen Sie ein Konsens-Protokoll, bevor Sie neue Geräte kaufen - beziehen Sie alle Haushaltsmitglieder ein.':
+        'Use a household consent check before buying new devices and involve all household members.',
     'Haben Sie das Standard-Passwort des Geräts oder des zugehörigen Kontos geändert?':
         'Have you changed the default password of the device or its linked account?',
     'Voreingestellte Passwörter sind oft öffentlich bekannt und leicht zu knacken.':
@@ -378,8 +434,8 @@ class DeviceTemplate {
     this.hasCamera = false,
     this.hasMicrophone = false,
     required this.roomIds,
-    this.deviceType =
-        'general', // speaker, camera, tv, thermostat, light, lock, etc.
+    // Default falls back to the generic question set in DeviceInstance.questions.
+    this.deviceType = 'general',
     this.isCustom = false,
   });
 }
@@ -849,25 +905,50 @@ class DeviceInstance {
   int get dontKnowAnswerCount =>
       questions.where((q) => answerFor(q.id) == QuestionAnswer.dontKnow).length;
 
+  bool _hasQuestion(String questionId) =>
+      questions.any((question) => question.id == questionId);
+
   int get riskScore {
     int score = template.baseRiskScore;
-    score += _riskPenalty(passwordChanged, noPenalty: 20, dontKnowPenalty: 10);
-    score += _riskPenalty(
-      autoUpdatesEnabled,
-      noPenalty: 15,
-      dontKnowPenalty: 8,
-    );
-    score += _riskPenalty(separateNetwork, noPenalty: 10, dontKnowPenalty: 5);
-    score += _riskPenalty(householdInformed, noPenalty: 10, dontKnowPenalty: 5);
-    score += _riskPenalty(permissionsReduced, noPenalty: 5, dontKnowPenalty: 3);
-    if (template.hasCamera) {
+    if (_hasQuestion('password')) {
+      score += _riskPenalty(
+        passwordChanged,
+        noPenalty: 20,
+        dontKnowPenalty: 10,
+      );
+    }
+    if (_hasQuestion('updates')) {
+      score += _riskPenalty(
+        autoUpdatesEnabled,
+        noPenalty: 15,
+        dontKnowPenalty: 8,
+      );
+    }
+    if (_hasQuestion('network')) {
+      score += _riskPenalty(separateNetwork, noPenalty: 10, dontKnowPenalty: 5);
+    }
+    if (_hasQuestion('informed')) {
+      score += _riskPenalty(
+        householdInformed,
+        noPenalty: 10,
+        dontKnowPenalty: 5,
+      );
+    }
+    if (_hasQuestion('permissions')) {
+      score += _riskPenalty(
+        permissionsReduced,
+        noPenalty: 5,
+        dontKnowPenalty: 3,
+      );
+    }
+    if (_hasQuestion('camera_consent')) {
       score += _riskPenalty(
         cameraConsentGiven,
         noPenalty: 15,
         dontKnowPenalty: 8,
       );
     }
-    if (template.hasMicrophone) {
+    if (_hasQuestion('mic_active')) {
       score += _riskPenalty(
         micDeactivatedWhenUnused,
         noPenalty: 10,
@@ -910,29 +991,29 @@ class DeviceInstance {
 
   List<PrivacyAction> get suggestedActions {
     final actions = <PrivacyAction>[];
-    if (passwordChanged == QuestionAnswer.no) {
+    if (_hasQuestion('password') && passwordChanged == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'Standard-Passwort ändern',
           description:
               'Ersetzen Sie das voreingestellte Passwort durch ein starkes, einzigartiges Passwort. Nutzen Sie einen Passwortmanager.',
-          type: ActionType.technical,
+          type: ActionType.security,
           priority: ActionPriority.high,
         ),
       );
     }
-    if (autoUpdatesEnabled == QuestionAnswer.no) {
+    if (_hasQuestion('updates') && autoUpdatesEnabled == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'Automatische Updates aktivieren',
           description:
               'Aktivieren Sie automatische Sicherheits-Updates in den Geräte- oder App-Einstellungen.',
-          type: ActionType.technical,
+          type: ActionType.security,
           priority: ActionPriority.high,
         ),
       );
     }
-    if (separateNetwork == QuestionAnswer.no) {
+    if (_hasQuestion('network') && separateNetwork == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'Separates IoT-WLAN einrichten',
@@ -943,7 +1024,7 @@ class DeviceInstance {
         ),
       );
     }
-    if (householdInformed == QuestionAnswer.no) {
+    if (_hasQuestion('informed') && householdInformed == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'Haushaltsmitglieder informieren',
@@ -954,7 +1035,8 @@ class DeviceInstance {
         ),
       );
     }
-    if (permissionsReduced == QuestionAnswer.no) {
+    if (_hasQuestion('permissions') &&
+        permissionsReduced == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'App-Berechtigungen einschränken',
@@ -965,7 +1047,8 @@ class DeviceInstance {
         ),
       );
     }
-    if (template.hasCamera && cameraConsentGiven == QuestionAnswer.no) {
+    if (_hasQuestion('camera_consent') &&
+        cameraConsentGiven == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
           title: 'Kameraausrichtung mit Bewohnern abstimmen',
@@ -976,7 +1059,7 @@ class DeviceInstance {
         ),
       );
     }
-    if (template.hasMicrophone &&
+    if (_hasQuestion('mic_active') &&
         micDeactivatedWhenUnused == QuestionAnswer.no) {
       actions.add(
         const PrivacyAction(
@@ -1083,7 +1166,7 @@ class DeviceInstance {
             title: 'WLAN-Verschlüsselung prüfen',
             description:
                 'BSI-Empfehlung: Verwenden Sie WPA2 oder WPA3 für Ihr Heimnetz. WEP und WPA sind veraltet.',
-            type: ActionType.technical,
+            type: ActionType.security,
             priority: ActionPriority.high,
             deviceType: 'camera',
           ),
@@ -1108,7 +1191,7 @@ class DeviceInstance {
             title: 'Zwei-Faktor-Authentifizierung aktivieren',
             description:
                 'BSI-Empfehlung: Aktivieren Sie 2FA für Ihr Schlosskonto um Remote-Zugriffe zu schützen.',
-            type: ActionType.technical,
+            type: ActionType.security,
             priority: ActionPriority.high,
             deviceType: 'lock',
           ),
@@ -1155,6 +1238,9 @@ class DeviceInstance {
       int noPenalty,
       int dontKnowPenalty,
     ) {
+      if (!_hasQuestion(questionId)) {
+        return;
+      }
       final answer = answerFor(questionId);
       if (answer == QuestionAnswer.no) {
         factors.add(
@@ -1190,8 +1276,6 @@ class DeviceInstance {
     // Device-specific questions — use short labels instead of full question text.
     const Map<String, String> shortLabels = {
       // Sensor
-      'sensor_informed': 'Haushalt nicht über Sensor informiert',
-      'sensor_network': 'Sensor nicht im IoT-Netz eingebunden',
       'sensor_frequency': 'Messintervall nicht reduziert',
       'sensor_data_deletion': 'Alte Messwerte nicht gelöscht',
       'sensor_granularity': 'Daten zu fein granular gespeichert',

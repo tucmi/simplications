@@ -23,7 +23,6 @@ class DeviceQuestionnaireScreen extends StatefulWidget {
 }
 
 class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
-  Room get currentRoom => widget.room;
   DeviceInstance get device =>
       widget.state.devices.firstWhere((d) => d.instanceId == widget.instanceId);
 
@@ -79,7 +78,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          CatalogData.roomName(currentRoom),
+                          CatalogData.roomName(widget.room),
                           style: text.labelSmall?.copyWith(
                             color: colors.primary,
                             fontWeight: FontWeight.bold,

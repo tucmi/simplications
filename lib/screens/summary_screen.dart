@@ -10,7 +10,7 @@ import '../models/device.dart';
 import '../models/survey_state.dart';
 
 const String _catalogUrl =
-    'tucmi.github.io/simplications-outreach/pages/massnahmenkatalog.html';
+    'https://tucmi.github.io/simplications-outreach/pages/massnahmenkatalog.html';
 
 class SummaryScreen extends StatefulWidget {
   final SurveyState state;
@@ -408,7 +408,7 @@ String _buildShareText(_SummaryReport report, AppLocalizations localizations) {
     '${localizations.evaluatedDevices()}: ${report.devices.length}',
   );
   buffer.writeln(
-    '${localizations.overallRisk()}: ${_riskLabel(report.overallLevel)} (${report.overallScore}/100)',
+    '${localizations.overallRisk()}: ${_riskLabel(report.overallLevel, localizations)} (${report.overallScore}/100)',
   );
   buffer.writeln('${localizations.highRisk()}: ${report.highRisk.length}');
   buffer.writeln('${localizations.mediumRisk()}: ${report.mediumRisk.length}');
@@ -470,7 +470,7 @@ void _writeRiskSection(
       '- ${CatalogData.deviceName(device.template)} (${CatalogData.localizeText(device.roomName)})',
     );
     buffer.writeln(
-      '  ${localizations.risk()}: ${_riskLabel(device.riskLevel)} (${device.riskScore}/100)',
+      '  ${localizations.risk()}: ${_riskLabel(device.riskLevel, localizations)} (${device.riskScore}/100)',
     );
 
     final actions = device.suggestedActions;
@@ -519,7 +519,7 @@ Future<Uint8List> _buildSharePdf(
         ),
         pw.Bullet(
           text:
-              '${localizations.overallRisk()}: ${_riskLabel(report.overallLevel)} (${report.overallScore}/100)',
+              '${localizations.overallRisk()}: ${_riskLabel(report.overallLevel, localizations)} (${report.overallScore}/100)',
         ),
         pw.Bullet(
           text: '${localizations.highRisk()}: ${report.highRisk.length}',
@@ -601,7 +601,7 @@ List<pw.Widget> _buildPdfRiskSection(
           style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
         ),
         pw.Text(
-          '${localizations.risk()}: ${_riskLabel(device.riskLevel)} (${device.riskScore}/100)',
+          '${localizations.risk()}: ${_riskLabel(device.riskLevel, localizations)} (${device.riskScore}/100)',
         ),
         pw.SizedBox(height: 4),
       ];
@@ -655,14 +655,14 @@ Color _riskBg(RiskLevel level) {
   }
 }
 
-String _riskLabel(RiskLevel level) {
+String _riskLabel(RiskLevel level, AppLocalizations localizations) {
   switch (level) {
     case RiskLevel.high:
-      return 'Hoch';
+      return localizations.highRisk();
     case RiskLevel.medium:
-      return 'Mittel';
+      return localizations.mediumRisk();
     case RiskLevel.low:
-      return 'Niedrig';
+      return localizations.lowRisk();
   }
 }
 
@@ -853,7 +853,7 @@ class _RiskCount extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         Text(
-          '$count × ${_riskLabel(level)}',
+          '$count × ${_riskLabel(level, AppLocalizations.of(context))}',
           style: TextStyle(
             fontSize: 13,
             color: color,
@@ -1017,7 +1017,7 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          _riskLabel(level),
+                          _riskLabel(level, localizations),
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 11,

@@ -18,8 +18,6 @@ class DeviceSelectionScreen extends StatelessWidget {
     required this.room,
   });
 
-  Room get currentRoom => room;
-
   Future<void> _showAddDeviceDialog(BuildContext context) async {
     final result = await showDialog<Map<String, dynamic>>(
       context: context,
@@ -28,7 +26,7 @@ class DeviceSelectionScreen extends StatelessWidget {
 
     if (result != null && context.mounted) {
       state.addCustomDevice(
-        currentRoom.id,
+        room.id,
         result['name'] as String,
         result['icon'] as IconData,
         result['riskScore'] as int,
@@ -40,7 +38,7 @@ class DeviceSelectionScreen extends StatelessWidget {
 
   Future<void> _markNoDevice(BuildContext context) async {
     final localizations = AppLocalizations.of(context);
-    final hasExistingDevices = state.devicesForRoom(currentRoom.id).isNotEmpty;
+    final hasExistingDevices = state.devicesForRoom(room.id).isNotEmpty;
     final shouldMarkNoDevice = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -67,17 +65,17 @@ class DeviceSelectionScreen extends StatelessWidget {
       return;
     }
 
-    state.markRoomWithoutDevices(currentRoom.id);
+    state.markRoomWithoutDevices(room.id);
     Navigator.of(context).pop();
   }
 
   void _onNext(BuildContext context) {
-    state.markRoomCompleted(currentRoom.id);
+    state.markRoomCompleted(room.id);
     Navigator.of(context).pop();
   }
 
   void _onFinish(BuildContext context) {
-    state.markRoomCompleted(currentRoom.id);
+    state.markRoomCompleted(room.id);
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => SummaryScreen(state: state)),
     );
@@ -115,17 +113,15 @@ class DeviceSelectionScreen extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final localizations = AppLocalizations.of(context);
-    final isCustomRoom = state.customRooms.any(
-      (room) => room.id == currentRoom.id,
-    );
+    final isCustomRoom = state.customRooms.any((r) => r.id == room.id);
     final catalogDevices = isCustomRoom
         ? CatalogData.allDeviceTemplates
-        : CatalogData.devicesForRoom(currentRoom.id);
+        : CatalogData.devicesForRoom(room.id);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          localizations.devicesTitle(CatalogData.roomName(currentRoom)),
+          localizations.devicesTitle(CatalogData.roomName(room)),
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
@@ -133,11 +129,9 @@ class DeviceSelectionScreen extends StatelessWidget {
       body: ListenableBuilder(
         listenable: state,
         builder: (context, _) {
-          final customDevices = state.customDevicesForRoom(currentRoom.id);
+          final customDevices = state.customDevicesForRoom(room.id);
           final allDevices = [...catalogDevices, ...customDevices];
-          final isNoDeviceSelected = state.noDeviceRoomIds.contains(
-            currentRoom.id,
-          );
+          final isNoDeviceSelected = state.noDeviceRoomIds.contains(room.id);
 
           return CustomScrollView(
             slivers: [
@@ -156,7 +150,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Icon(
-                              currentRoom.icon,
+                              room.icon,
                               color: colors.primary,
                               size: 24,
                             ),
@@ -173,7 +167,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                CatalogData.roomName(currentRoom),
+                                CatalogData.roomName(room),
                                 style: text.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -238,12 +232,9 @@ class DeviceSelectionScreen extends StatelessWidget {
                     }
 
                     final device = allDevices[index];
-                    final isAdded = state.isDeviceAdded(
-                      currentRoom.id,
-                      device.id,
-                    );
+                    final isAdded = state.isDeviceAdded(room.id, device.id);
                     final instances = state
-                        .devicesForRoom(currentRoom.id)
+                        .devicesForRoom(room.id)
                         .where((i) => i.template.id == device.id);
                     final isCompleted =
                         instances.isNotEmpty && instances.first.isFullyAnswered;
@@ -257,15 +248,15 @@ class DeviceSelectionScreen extends StatelessWidget {
                       onTap: () {
                         state.addDevice(
                           device,
-                          currentRoom.id,
-                          CatalogData.roomName(currentRoom),
+                          room.id,
+                          CatalogData.roomName(room),
                         );
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) => DeviceQuestionnaireScreen(
                               state: state,
-                              room: currentRoom,
-                              instanceId: '${currentRoom.id}_${device.id}',
+                              room: room,
+                              instanceId: '${room.id}_${device.id}',
                             ),
                           ),
                         );
@@ -286,7 +277,7 @@ class DeviceSelectionScreen extends StatelessWidget {
         onNext: () => _onNext(context),
         onFinish: () => _onFinish(context),
         state: state,
-        currentRoomId: currentRoom.id,
+        currentRoomId: room.id,
       ),
     );
   }
