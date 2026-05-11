@@ -111,6 +111,22 @@ class AppLocalizations {
       'aboutScreenTitle': 'Über die App',
       'faqScreenTitle': 'Häufige Fragen',
       'aboutSubtitle': 'Forschungsprojekt Smart Home Privatsphäre',
+      'aboutProjectName': 'Simplications',
+      'aboutPartnerTuChemnitz': 'Technische Universität Chemnitz',
+      'aboutPartnerHsAnhalt': 'Hochschule Anhalt',
+      'aboutPartnerVzSachsen': 'Verbraucherzentrale Sachsen e.V.',
+      'aboutWebsiteSimplicationsLabel': 'simplications.tucmi.de',
+      'aboutWebsiteSimplicationsUrl': 'https://simplications.tucmi.de',
+      'aboutWebsiteTuChemnitzLabel': 'tu-chemnitz.de',
+      'aboutWebsiteTuChemnitzUrl': 'https://www.tu-chemnitz.de',
+      'aboutWebsiteHsAnhaltLabel': 'hs-anhalt.de',
+      'aboutWebsiteHsAnhaltUrl': 'https://www.hs-anhalt.de',
+      'aboutWebsiteVzSachsenLabel': 'verbraucherzentrale-sachsen.de',
+      'aboutWebsiteVzSachsenUrl': 'https://www.verbraucherzentrale-sachsen.de',
+      'aboutWebsitePlatformPrivacyLabel': 'plattform-privatheit.de',
+      'aboutWebsitePlatformPrivacyUrl': 'https://www.plattform-privatheit.de',
+      'aboutWebsiteFundingAgencyLabel': 'bmftr.bund.de',
+      'aboutWebsiteFundingAgencyUrl': 'https://www.bmftr.bund.de',
       'faqQuestionWhatIs': 'Was ist Simplications?',
       'faqAnswerWhatIs':
           'Simplications ist ein Forschungsprojekt zum Smart-Home-Datenschutz. Diese App ist ein Teil des Projekts und führt Sie Raum für Raum durch Ihre Geräte mit praktischen Empfehlungen auf Basis Ihrer Antworten.',
@@ -274,6 +290,22 @@ class AppLocalizations {
       'aboutScreenTitle': 'About the app',
       'faqScreenTitle': 'Frequently Asked Questions',
       'aboutSubtitle': 'Research project on smart home privacy',
+      'aboutProjectName': 'Simplications',
+      'aboutPartnerTuChemnitz': 'Chemnitz University of Technology',
+      'aboutPartnerHsAnhalt': 'Anhalt University of Applied Sciences',
+      'aboutPartnerVzSachsen': 'Consumer Center Saxony',
+      'aboutWebsiteSimplicationsLabel': 'simplications.tucmi.de',
+      'aboutWebsiteSimplicationsUrl': 'https://simplications.tucmi.de',
+      'aboutWebsiteTuChemnitzLabel': 'tu-chemnitz.de',
+      'aboutWebsiteTuChemnitzUrl': 'https://www.tu-chemnitz.de',
+      'aboutWebsiteHsAnhaltLabel': 'hs-anhalt.de',
+      'aboutWebsiteHsAnhaltUrl': 'https://www.hs-anhalt.de',
+      'aboutWebsiteVzSachsenLabel': 'verbraucherzentrale-sachsen.de',
+      'aboutWebsiteVzSachsenUrl': 'https://www.verbraucherzentrale-sachsen.de',
+      'aboutWebsitePlatformPrivacyLabel': 'plattform-privatheit.de',
+      'aboutWebsitePlatformPrivacyUrl': 'https://www.plattform-privatheit.de',
+      'aboutWebsiteFundingAgencyLabel': 'bmftr.bund.de',
+      'aboutWebsiteFundingAgencyUrl': 'https://www.bmftr.bund.de',
       'faqQuestionWhatIs': 'What is Simplications?',
       'faqAnswerWhatIs':
           'Simplications is a research project on smart-home privacy. This app is one part of the project and guides you room by room through your devices with practical recommendations based on your answers.',
@@ -393,6 +425,7 @@ class AppLocalizations {
       'start': 'Začít',
       'resume': 'Pokračovat',
       'about': 'O aplikaci',
+      'faq': 'FAQ',
       'roomSelectionTitle': 'Výběr místnosti',
       'roomQuestion': 'Kterou místnost chcete nyní zkontrolovat?',
       'roomInstruction':
@@ -431,6 +464,30 @@ class AppLocalizations {
       'notApplicableForDevice': 'Tato otázka se na moje zařízení nevztahuje',
       'languageDialogTitle': 'Vyberte jazyk',
       'currentLanguage': 'Aktuální jazyk',
+      'faqScreenTitle': 'Často kladené otázky',
+      'faqQuestionWhatIs': 'Co je Simplications?',
+      'faqAnswerWhatIs':
+          'Simplications je výzkumný projekt zaměřený na soukromí v chytré domácnosti. Tato aplikace je jednou z částí projektu a provede vás místnost po místnosti vašimi zařízeními s praktickými doporučeními na základě vašich odpovědí.',
+      'faqQuestionHowWorks': 'Jak kontrola funguje?',
+      'faqAnswerHowWorks':
+          'Vyberete místnost, přidáte chytrá zařízení, odpovíte na otázky pro konkrétní zařízení a získáte profil rizik s prioritizovanými kroky.',
+      'faqQuestionNoPolicy': 'Proč tu není zásada ochrany osobních údajů?',
+      'faqAnswerNoPolicy': 'Protože neshromažďujeme vaše data.',
+      'faqQuestionDataStored': 'Kde jsou moje data uložena?',
+      'faqAnswerDataStored':
+          'Vaše hodnocení je uloženo lokálně ve vašem zařízení. V obrazovce O aplikaci můžete všechna uložená data kdykoli smazat.',
+      'faqQuestionNoDevice': 'Co když moje zařízení není v seznamu?',
+      'faqAnswerNoDevice':
+          'Můžete přidat vlastní zařízení a kontrolu dokončit. Doporučení pak vycházejí z vaší konfigurace a odpovědí.',
+      'faqQuestionRiskMeaning': 'Co znamená nízké, střední a vysoké riziko?',
+      'faqAnswerRiskMeaning':
+          'Tyto úrovně ukazují, jak silně může vaše současné nastavení zvyšovat rizika pro soukromí. Jde o orientační úrovně, ne o právní nebo technickou certifikaci.',
+      'faqQuestionLegalAdvice': 'Jde o právní poradenství?',
+      'faqAnswerLegalAdvice':
+          'Ne. Simplications poskytuje praktickou orientaci a doporučení, nenahrazuje však právní nebo profesionální bezpečnostní poradenství.',
+      'faqQuestionCanShare': 'Mohu sdílet své výsledky?',
+      'faqAnswerCanShare':
+          'Ano. Na obrazovce výsledků můžete přehled exportovat a sdílet jako text nebo PDF.',
     },
     'pl': {
       'appTitle': 'Simplications',
@@ -444,6 +501,7 @@ class AppLocalizations {
       'start': 'Start',
       'resume': 'Wznów',
       'about': 'O aplikacji',
+      'faq': 'FAQ',
       'roomSelectionTitle': 'Wybierz pokój',
       'roomQuestion': 'Który pokój chcesz teraz sprawdzić?',
       'roomInstruction':
@@ -482,6 +540,30 @@ class AppLocalizations {
       'notApplicableForDevice': 'To pytanie nie dotyczy mojego urządzenia',
       'languageDialogTitle': 'Wybierz język',
       'currentLanguage': 'Bieżący język',
+      'faqScreenTitle': 'Najczęściej zadawane pytania',
+      'faqQuestionWhatIs': 'Czym jest Simplications?',
+      'faqAnswerWhatIs':
+          'Simplications to projekt badawczy dotyczący prywatności w inteligentnym domu. Ta aplikacja jest jedną z części projektu i prowadzi Cię pokój po pokoju przez Twoje urządzenia, oferując praktyczne zalecenia na podstawie odpowiedzi.',
+      'faqQuestionHowWorks': 'Jak działa kontrola?',
+      'faqAnswerHowWorks':
+          'Wybierasz pokój, dodajesz inteligentne urządzenia, odpowiadasz na pytania dotyczące danego urządzenia i otrzymujesz profil ryzyka z priorytetowymi działaniami.',
+      'faqQuestionNoPolicy': 'Dlaczego nie ma polityki prywatności?',
+      'faqAnswerNoPolicy': 'Ponieważ nie zbieramy Twoich danych.',
+      'faqQuestionDataStored': 'Gdzie przechowywane są moje dane?',
+      'faqAnswerDataStored':
+          'Twoje dane z oceny są przechowywane lokalnie na urządzeniu. W ekranie O aplikacji możesz w każdej chwili usunąć wszystkie zapisane dane.',
+      'faqQuestionNoDevice': 'Co jeśli mojego urządzenia nie ma na liście?',
+      'faqAnswerNoDevice':
+          'Możesz dodać własne urządzenia i nadal ukończyć kontrolę. Zalecenia będą wtedy oparte na Twojej konfiguracji i odpowiedziach.',
+      'faqQuestionRiskMeaning': 'Co oznacza niskie, średnie i wysokie ryzyko?',
+      'faqAnswerRiskMeaning':
+          'Poziomy te pokazują, jak bardzo obecna konfiguracja może zwiększać ryzyka dla prywatności. Są to poziomy orientacyjne, a nie certyfikacja prawna lub techniczna.',
+      'faqQuestionLegalAdvice': 'Czy to porada prawna?',
+      'faqAnswerLegalAdvice':
+          'Nie. Simplications zapewnia praktyczne wskazówki i rekomendacje, ale nie zastępuje porady prawnej ani profesjonalnej konsultacji bezpieczeństwa.',
+      'faqQuestionCanShare': 'Czy mogę udostępnić wyniki?',
+      'faqAnswerCanShare':
+          'Tak. Na ekranie wyników możesz wyeksportować i udostępnić podsumowanie jako tekst lub PDF.',
     },
     'fr': {
       'appTitle': 'Simplications',
@@ -495,6 +577,7 @@ class AppLocalizations {
       'start': 'Démarrer',
       'resume': 'Continuer',
       'about': 'À propos',
+      'faq': 'FAQ',
       'roomSelectionTitle': 'Sélectionner une pièce',
       'roomQuestion': 'Quelle pièce souhaitez-vous vérifier maintenant ?',
       'roomInstruction':
@@ -535,6 +618,33 @@ class AppLocalizations {
           'Cette question ne s\'applique pas à mon appareil',
       'languageDialogTitle': 'Choisir la langue',
       'currentLanguage': 'Langue actuelle',
+      'faqScreenTitle': 'Questions fréquentes',
+      'faqQuestionWhatIs': 'Qu’est-ce que Simplications ?',
+      'faqAnswerWhatIs':
+          'Simplications est un projet de recherche sur la confidentialité des maisons connectées. Cette application est une composante du projet et vous guide pièce par pièce à travers vos appareils avec des recommandations pratiques selon vos réponses.',
+      'faqQuestionHowWorks': 'Comment fonctionne le contrôle ?',
+      'faqAnswerHowWorks':
+          'Vous choisissez une pièce, ajoutez vos appareils intelligents, répondez à des questions spécifiques, puis recevez un profil de risque avec des actions priorisées.',
+      'faqQuestionNoPolicy':
+          'Pourquoi n’y a-t-il pas de politique de protection des données ?',
+      'faqAnswerNoPolicy': 'Parce que nous ne collectons pas vos données.',
+      'faqQuestionDataStored': 'Où sont stockées mes données ?',
+      'faqAnswerDataStored':
+          'Vos données d’évaluation sont stockées localement sur votre appareil. Vous pouvez supprimer toutes les données enregistrées à tout moment depuis l’écran À propos.',
+      'faqQuestionNoDevice':
+          'Que faire si mon appareil n’est pas dans la liste ?',
+      'faqAnswerNoDevice':
+          'Vous pouvez ajouter des appareils personnalisés et terminer le contrôle. Les recommandations s’appuieront alors sur votre configuration et vos réponses.',
+      'faqQuestionRiskMeaning':
+          'Que signifient risque faible, moyen et élevé ?',
+      'faqAnswerRiskMeaning':
+          'Ces niveaux indiquent dans quelle mesure votre configuration actuelle peut exposer des risques de confidentialité. Ce sont des niveaux d’orientation, pas une certification juridique ou technique.',
+      'faqQuestionLegalAdvice': 'Est-ce un conseil juridique ?',
+      'faqAnswerLegalAdvice':
+          'Non. Simplications fournit une orientation pratique et des recommandations, mais ne remplace pas un conseil juridique ou une consultation professionnelle en sécurité.',
+      'faqQuestionCanShare': 'Puis-je partager mes résultats ?',
+      'faqAnswerCanShare':
+          'Oui. Depuis l’écran des résultats, vous pouvez exporter et partager votre résumé en texte ou en PDF.',
     },
     'nl': {
       'appTitle': 'Simplications',
@@ -548,6 +658,7 @@ class AppLocalizations {
       'start': 'Starten',
       'resume': 'Doorgaan',
       'about': 'Over',
+      'faq': 'FAQ',
       'roomSelectionTitle': 'Kamer kiezen',
       'roomQuestion': 'Welke kamer wilt u nu controleren?',
       'roomInstruction':
@@ -587,6 +698,30 @@ class AppLocalizations {
           'Deze vraag is niet van toepassing op mijn apparaat',
       'languageDialogTitle': 'Taal kiezen',
       'currentLanguage': 'Huidige taal',
+      'faqScreenTitle': 'Veelgestelde vragen',
+      'faqQuestionWhatIs': 'Wat is Simplications?',
+      'faqAnswerWhatIs':
+          'Simplications is een onderzoeksproject over smart-home-privacy. Deze app is een onderdeel van het project en begeleidt je kamer voor kamer door je apparaten met praktische aanbevelingen op basis van je antwoorden.',
+      'faqQuestionHowWorks': 'Hoe werkt de check?',
+      'faqAnswerHowWorks':
+          'Je kiest een kamer, voegt je slimme apparaten toe, beantwoordt apparaatspecifieke vragen en ontvangt een risicoprofiel met geprioriteerde acties.',
+      'faqQuestionNoPolicy': 'Waarom is er geen privacybeleid?',
+      'faqAnswerNoPolicy': 'Omdat we jouw gegevens niet verzamelen.',
+      'faqQuestionDataStored': 'Waar worden mijn gegevens opgeslagen?',
+      'faqAnswerDataStored':
+          'Je beoordelingsgegevens worden lokaal op je apparaat opgeslagen. In het Over-scherm kun je alle opgeslagen gegevens op elk moment verwijderen.',
+      'faqQuestionNoDevice': 'Wat als mijn apparaat niet in de lijst staat?',
+      'faqAnswerNoDevice':
+          'Je kunt aangepaste apparaten toevoegen en de check toch voltooien. De aanbevelingen zijn dan gebaseerd op je configuratie en antwoorden.',
+      'faqQuestionRiskMeaning': 'Wat betekenen laag, gemiddeld en hoog risico?',
+      'faqAnswerRiskMeaning':
+          'Deze niveaus geven aan in hoeverre je huidige configuratie privacyrisico’s kan vergroten. Het zijn richtniveaus, geen juridische of technische certificering.',
+      'faqQuestionLegalAdvice': 'Is dit juridisch advies?',
+      'faqAnswerLegalAdvice':
+          'Nee. Simplications biedt praktische oriëntatie en aanbevelingen, maar vervangt geen juridisch advies of professionele beveiligingsconsultatie.',
+      'faqQuestionCanShare': 'Kan ik mijn resultaten delen?',
+      'faqAnswerCanShare':
+          'Ja. In het resultatenscherm kun je je samenvatting exporteren en delen als tekst of PDF.',
     },
     'da': {
       'appTitle': 'Simplications',
@@ -600,6 +735,7 @@ class AppLocalizations {
       'start': 'Start',
       'resume': 'Fortsæt',
       'about': 'Om',
+      'faq': 'FAQ',
       'roomSelectionTitle': 'Vælg rum',
       'roomQuestion': 'Hvilket rum vil du tjekke nu?',
       'roomInstruction':
@@ -638,6 +774,30 @@ class AppLocalizations {
       'notApplicableForDevice': 'Dette spørgsmål gælder ikke for min enhed',
       'languageDialogTitle': 'Vælg sprog',
       'currentLanguage': 'Nuværende sprog',
+      'faqScreenTitle': 'Ofte stillede spørgsmål',
+      'faqQuestionWhatIs': 'Hvad er Simplications?',
+      'faqAnswerWhatIs':
+          'Simplications er et forskningsprojekt om privatliv i smarte hjem. Denne app er en del af projektet og guider dig rum for rum gennem dine enheder med praktiske anbefalinger baseret på dine svar.',
+      'faqQuestionHowWorks': 'Hvordan fungerer tjekket?',
+      'faqAnswerHowWorks':
+          'Du vælger et rum, tilføjer dine smarte enheder, besvarer enhedsspecifikke spørgsmål og får en risikoprofil med prioriterede handlinger.',
+      'faqQuestionNoPolicy': 'Hvorfor er der ingen privatlivspolitik?',
+      'faqAnswerNoPolicy': 'Fordi vi ikke indsamler dine data.',
+      'faqQuestionDataStored': 'Hvor gemmes mine data?',
+      'faqAnswerDataStored':
+          'Dine vurderingsdata gemmes lokalt på din enhed. På Om-skærmen kan du til enhver tid slette alle gemte data.',
+      'faqQuestionNoDevice': 'Hvad hvis min enhed ikke er på listen?',
+      'faqAnswerNoDevice':
+          'Du kan tilføje brugerdefinerede enheder og stadig gennemføre tjekket. Anbefalingerne bygger så på din opsætning og dine svar.',
+      'faqQuestionRiskMeaning': 'Hvad betyder lav, mellem og høj risiko?',
+      'faqAnswerRiskMeaning':
+          'Disse niveauer viser, hvor meget din nuværende konfiguration kan øge privatlivsrisici. De er vejledende niveauer, ikke juridisk eller teknisk certificering.',
+      'faqQuestionLegalAdvice': 'Er dette juridisk rådgivning?',
+      'faqAnswerLegalAdvice':
+          'Nej. Simplications giver praktisk vejledning og anbefalinger, men erstatter ikke juridisk rådgivning eller professionel sikkerhedsrådgivning.',
+      'faqQuestionCanShare': 'Kan jeg dele mine resultater?',
+      'faqAnswerCanShare':
+          'Ja. På resultatskærmen kan du eksportere og dele din opsummering som tekst eller PDF.',
     },
   };
 
@@ -696,6 +856,44 @@ class AppLocalizations {
   String aboutScreenTitle() => _value('aboutScreenTitle');
   String faqScreenTitle() => _value('faqScreenTitle');
   String aboutSubtitle() => _value('aboutSubtitle');
+  String aboutProjectName() => _value('aboutProjectName');
+  String aboutPartnerTuChemnitz() => _value('aboutPartnerTuChemnitz');
+  String aboutPartnerHsAnhalt() => _value('aboutPartnerHsAnhalt');
+  String aboutPartnerVzSachsen() => _value('aboutPartnerVzSachsen');
+  String aboutWebsiteSimplicationsLabel() =>
+      _value('aboutWebsiteSimplicationsLabel');
+  String aboutWebsiteSimplicationsUrl() =>
+      _value('aboutWebsiteSimplicationsUrl');
+  String aboutWebsiteTuChemnitzLabel() => _value('aboutWebsiteTuChemnitzLabel');
+  String aboutWebsiteTuChemnitzUrl() => _value('aboutWebsiteTuChemnitzUrl');
+  String aboutWebsiteHsAnhaltLabel() => _value('aboutWebsiteHsAnhaltLabel');
+  String aboutWebsiteHsAnhaltUrl() => _value('aboutWebsiteHsAnhaltUrl');
+  String aboutWebsiteVzSachsenLabel() => _value('aboutWebsiteVzSachsenLabel');
+  String aboutWebsiteVzSachsenUrl() => _value('aboutWebsiteVzSachsenUrl');
+  String aboutWebsitePlatformPrivacyLabel() =>
+      _value('aboutWebsitePlatformPrivacyLabel');
+  String aboutWebsitePlatformPrivacyUrl() =>
+      _value('aboutWebsitePlatformPrivacyUrl');
+  String aboutWebsiteFundingAgencyLabel() =>
+      _value('aboutWebsiteFundingAgencyLabel');
+  String aboutWebsiteFundingAgencyUrl() =>
+      _value('aboutWebsiteFundingAgencyUrl');
+  String faqQuestionWhatIs() => _value('faqQuestionWhatIs');
+  String faqAnswerWhatIs() => _value('faqAnswerWhatIs');
+  String faqQuestionHowWorks() => _value('faqQuestionHowWorks');
+  String faqAnswerHowWorks() => _value('faqAnswerHowWorks');
+  String faqQuestionNoPolicy() => _value('faqQuestionNoPolicy');
+  String faqAnswerNoPolicy() => _value('faqAnswerNoPolicy');
+  String faqQuestionDataStored() => _value('faqQuestionDataStored');
+  String faqAnswerDataStored() => _value('faqAnswerDataStored');
+  String faqQuestionNoDevice() => _value('faqQuestionNoDevice');
+  String faqAnswerNoDevice() => _value('faqAnswerNoDevice');
+  String faqQuestionRiskMeaning() => _value('faqQuestionRiskMeaning');
+  String faqAnswerRiskMeaning() => _value('faqAnswerRiskMeaning');
+  String faqQuestionLegalAdvice() => _value('faqQuestionLegalAdvice');
+  String faqAnswerLegalAdvice() => _value('faqAnswerLegalAdvice');
+  String faqQuestionCanShare() => _value('faqQuestionCanShare');
+  String faqAnswerCanShare() => _value('faqAnswerCanShare');
   String websiteOpenFailed() => _value('websiteOpenFailed');
   String deleteAllDataTitle() => _value('deleteAllDataTitle');
   String deleteAllDataBody() => _value('deleteAllDataBody');
