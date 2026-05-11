@@ -214,6 +214,8 @@ class AppLocalizations {
       'summarySharePdfText': 'Simplications Ergebnisbericht als PDF',
       'overview': 'Übersicht',
       'evaluatedDevices': 'Bewertete Geräte',
+      'skippedDevicesHint':
+          '{count} Geräte übersprungen, da der Fragebogen nicht abgeschlossen wurde.',
       'overallRisk': 'Gesamtrisiko',
       'generalRecommendations': 'Allgemeine Empfehlungen',
       'generalRecommendationsHint':
@@ -403,6 +405,8 @@ class AppLocalizations {
       'summarySharePdfText': 'Simplications report as PDF',
       'overview': 'Overview',
       'evaluatedDevices': 'Evaluated devices',
+      'skippedDevicesHint':
+          '{count} devices skipped because the questionnaire was not completed.',
       'overallRisk': 'Overall risk',
       'generalRecommendations': 'General recommendations',
       'generalRecommendationsHint':
@@ -581,6 +585,8 @@ class AppLocalizations {
       'summarySharePdfText': 'Zpráva Simplications jako PDF',
       'overview': 'Přehled',
       'evaluatedDevices': 'Vyhodnocená zařízení',
+      'skippedDevicesHint':
+          '{count} zařízení přeskočeno, protože dotazník nebyl dokončen.',
       'overallRisk': 'Celkové riziko',
       'generalRecommendations': 'Obecná doporučení',
       'generalRecommendationsHint':
@@ -758,6 +764,8 @@ class AppLocalizations {
       'summarySharePdfText': 'Raport Simplications jako PDF',
       'overview': 'Przegląd',
       'evaluatedDevices': 'Ocenione urządzenia',
+      'skippedDevicesHint':
+          'Pominięto {count} urządzeń, ponieważ kwestionariusz nie został ukończony.',
       'overallRisk': 'Ryzyko całkowite',
       'generalRecommendations': 'Ogólne zalecenia',
       'generalRecommendationsHint':
@@ -941,6 +949,8 @@ class AppLocalizations {
       'summarySharePdfText': 'Rapport Simplications en PDF',
       'overview': 'Vue d’ensemble',
       'evaluatedDevices': 'Appareils évalués',
+      'skippedDevicesHint':
+          '{count} appareils ignorés car le questionnaire n\'a pas été terminé.',
       'overallRisk': 'Risque global',
       'generalRecommendations': 'Recommandations générales',
       'generalRecommendationsHint':
@@ -1119,6 +1129,8 @@ class AppLocalizations {
       'summarySharePdfText': 'Simplications-rapport als PDF',
       'overview': 'Overzicht',
       'evaluatedDevices': 'Beoordeelde apparaten',
+      'skippedDevicesHint':
+          '{count} apparaten overgeslagen omdat de vragenlijst niet is voltooid.',
       'overallRisk': 'Totaal risico',
       'generalRecommendations': 'Algemene aanbevelingen',
       'generalRecommendationsHint':
@@ -1295,6 +1307,8 @@ class AppLocalizations {
       'summarySharePdfText': 'Simplications-rapport som PDF',
       'overview': 'Oversigt',
       'evaluatedDevices': 'Vurderede enheder',
+      'skippedDevicesHint':
+          '{count} enheder er sprunget over, fordi spørgeskemaet ikke er afsluttet.',
       'overallRisk': 'Samlet risiko',
       'generalRecommendations': 'Generelle anbefalinger',
       'generalRecommendationsHint':
@@ -1480,6 +1494,8 @@ class AppLocalizations {
   String summarySharePdfText() => _value('summarySharePdfText');
   String overview() => _value('overview');
   String evaluatedDevices() => _value('evaluatedDevices');
+  String skippedDevicesHint(int count) =>
+      _value('skippedDevicesHint').replaceAll('{count}', '$count');
   String overallRisk() => _value('overallRisk');
   String generalRecommendations() => _value('generalRecommendations');
   String generalRecommendationsHint() => _value('generalRecommendationsHint');

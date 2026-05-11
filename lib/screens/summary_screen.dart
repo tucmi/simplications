@@ -102,6 +102,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
           SliverToBoxAdapter(
             child: _OverviewHeader(
               devices: devices,
+              skippedDevices: report.skippedDevices,
               overallScore: report.overallScore,
               dontKnowAnswers: report.dontKnowAnswers,
               highCount: highRisk.length,
@@ -289,6 +290,7 @@ class _SummaryReport {
   final List<DeviceInstance> highRisk;
   final List<DeviceInstance> mediumRisk;
   final List<DeviceInstance> lowRisk;
+  final int skippedDevices;
   final int overallScore;
   final RiskLevel overallLevel;
   final int dontKnowAnswers;
@@ -298,25 +300,30 @@ class _SummaryReport {
     required this.highRisk,
     required this.mediumRisk,
     required this.lowRisk,
+    required this.skippedDevices,
     required this.overallScore,
     required this.overallLevel,
     required this.dontKnowAnswers,
   });
 
   factory _SummaryReport.fromDevices(List<DeviceInstance> devices) {
+    final evaluatedDevices = devices.where((d) => d.isFullyAnswered).toList();
+    final skippedDevices = devices.length - evaluatedDevices.length;
+
     final highRisk =
-        devices.where((d) => d.riskLevel == RiskLevel.high).toList()
+        evaluatedDevices.where((d) => d.riskLevel == RiskLevel.high).toList()
           ..sort((a, b) => b.riskScore.compareTo(a.riskScore));
     final mediumRisk =
-        devices.where((d) => d.riskLevel == RiskLevel.medium).toList()
+        evaluatedDevices.where((d) => d.riskLevel == RiskLevel.medium).toList()
           ..sort((a, b) => b.riskScore.compareTo(a.riskScore));
-    final lowRisk = devices.where((d) => d.riskLevel == RiskLevel.low).toList()
-      ..sort((a, b) => b.riskScore.compareTo(a.riskScore));
+    final lowRisk =
+        evaluatedDevices.where((d) => d.riskLevel == RiskLevel.low).toList()
+          ..sort((a, b) => b.riskScore.compareTo(a.riskScore));
 
-    final overallScore = devices.isEmpty
+    final overallScore = evaluatedDevices.isEmpty
         ? 0
-        : (devices.map((d) => d.riskScore).reduce((a, b) => a + b) /
-                  devices.length)
+        : (evaluatedDevices.map((d) => d.riskScore).reduce((a, b) => a + b) /
+                  evaluatedDevices.length)
               .round();
 
     final overallLevel = overallScore <= 33
@@ -325,15 +332,16 @@ class _SummaryReport {
         ? RiskLevel.medium
         : RiskLevel.high;
 
-    final dontKnowAnswers = devices
+    final dontKnowAnswers = evaluatedDevices
         .map((d) => d.dontKnowAnswerCount)
         .fold(0, (sum, count) => sum + count);
 
     return _SummaryReport(
-      devices: List.unmodifiable(devices),
+      devices: List.unmodifiable(evaluatedDevices),
       highRisk: List.unmodifiable(highRisk),
       mediumRisk: List.unmodifiable(mediumRisk),
       lowRisk: List.unmodifiable(lowRisk),
+      skippedDevices: skippedDevices,
       overallScore: overallScore,
       overallLevel: overallLevel,
       dontKnowAnswers: dontKnowAnswers,
@@ -407,6 +415,9 @@ String _buildShareText(_SummaryReport report, AppLocalizations localizations) {
   buffer.writeln(
     '${localizations.evaluatedDevices()}: ${report.devices.length}',
   );
+  if (report.skippedDevices > 0) {
+    buffer.writeln(localizations.skippedDevicesHint(report.skippedDevices));
+  }
   buffer.writeln(
     '${localizations.overallRisk()}: ${_riskLabel(report.overallLevel, localizations)} (${report.overallScore}/100)',
   );
@@ -517,6 +528,10 @@ Future<Uint8List> _buildSharePdf(
         pw.Bullet(
           text: '${localizations.evaluatedDevices()}: ${report.devices.length}',
         ),
+        if (report.skippedDevices > 0)
+          pw.Bullet(
+            text: localizations.skippedDevicesHint(report.skippedDevices),
+          ),
         pw.Bullet(
           text:
               '${localizations.overallRisk()}: ${_riskLabel(report.overallLevel, localizations)} (${report.overallScore}/100)',
@@ -703,6 +718,7 @@ IconData _actionTypeIcon(ActionType type) {
 
 class _OverviewHeader extends StatelessWidget {
   final List<DeviceInstance> devices;
+  final int skippedDevices;
   final int overallScore;
   final int dontKnowAnswers;
   final int highCount;
@@ -714,6 +730,7 @@ class _OverviewHeader extends StatelessWidget {
 
   const _OverviewHeader({
     required this.devices,
+    required this.skippedDevices,
     required this.overallScore,
     required this.dontKnowAnswers,
     required this.highCount,
@@ -792,6 +809,15 @@ class _OverviewHeader extends StatelessWidget {
                       '${devices.length} ${localizations.devicesRated()}',
                       style: text.bodyMedium,
                     ),
+                    if (skippedDevices > 0) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        localizations.skippedDevicesHint(skippedDevices),
+                        style: text.bodySmall?.copyWith(
+                          color: colors.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 8),
                     if (highCount > 0)
                       _RiskCount(count: highCount, level: RiskLevel.high),
