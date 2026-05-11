@@ -335,6 +335,69 @@ class DeviceDomainI18n {
     'Navigation nur mit Cloud möglich': 'Navigation only possible via cloud',
     'Kamerabilder gespeichert oder übertragen':
         'Camera images stored or transmitted',
+    'Ist die Aufbewahrungsdauer Ihrer personenbezogenen Daten konkret festgelegt und auf das Notwendige begrenzt?':
+        'Is the retention duration for your personal data explicitly defined and limited to what is necessary?',
+    'Inspiriert durch CMU IoT Security & Privacy Label und Unboxing.IoT.Privacy: kurze, klare Speicherfristen reduzieren Risiken.':
+        'Inspired by the CMU IoT Security & Privacy Label and Unboxing.IoT.Privacy: short, clear retention periods reduce risk.',
+    'Können Sie Zugriffsrechte granular steuern (Rollen, getrennte Konten, keine geteilten Standard-Logins)?':
+        'Can you control access rights granularly (roles, separate accounts, no shared default logins)?',
+    'Granulare Zugriffskontrolle senkt das Risiko unbefugter Einsicht und Fehlbedienung.':
+        'Granular access control reduces the risk of unauthorized access and misuse.',
+    'Ist die Weitergabe an Dritte deaktiviert oder klar auf notwendige Dienste begrenzt?':
+        'Is third-party sharing disabled or clearly limited to necessary services?',
+    'Prüfen Sie in Datenschutz- und Kontoeinstellungen, ob Daten an Werbe-, Analyse- oder Partnerdienste fließen.':
+        'Check privacy and account settings to see whether data is sent to advertising, analytics, or partner services.',
+    'Ist der Verkauf Ihrer Daten ausgeschlossen (oder aktiv deaktiviert, falls möglich)?':
+        'Is the sale of your data excluded (or actively disabled, where possible)?',
+    'Eine ausdrückliche "kein Datenverkauf"-Option ist ein starkes Datenschutzsignal.':
+        'An explicit "no data sale" option is a strong privacy signal.',
+    'Ist bekannt, wie lange der Hersteller Sicherheitsupdates garantiert?':
+        'Is it known how long the vendor guarantees security updates?',
+    'Eine transparente Update-Zusage reduziert langfristige Sicherheits- und Privatsphärerisiken.':
+        'A transparent update commitment reduces long-term security and privacy risks.',
+    'Gibt es einen dokumentierten Prozess zur Meldung und Behebung von Sicherheitslücken?':
+        'Is there a documented process for reporting and fixing vulnerabilities?',
+    'Bevorzugen Sie Hersteller mit Responsible-Disclosure- oder Security-Contact-Informationen.':
+        'Prefer vendors that provide responsible disclosure policies or clear security contact information.',
+    'Bleibt das Gerät auch mit eingeschränkter Internetverbindung sinnvoll nutzbar?':
+        'Does the device remain meaningfully usable with limited internet connectivity?',
+    'Mehr Offline-Funktionalität bedeutet oft weniger laufende Datenübertragung in die Cloud.':
+        'More offline functionality often means less continuous data transfer to the cloud.',
+    'Werden Betroffene im Umfeld transparent informiert (z. B. Sichtbarkeit, Hinweise, klare Aufnahmeanzeige)?':
+        'Are people nearby transparently informed (for example via visibility, notices, clear recording indicators)?',
+    'Das adressiert Bystander-Privacy und wurde in Unboxing.IoT.Privacy als zentrale Herausforderung hervorgehoben.':
+        'This addresses bystander privacy and is highlighted in Unboxing.IoT.Privacy as a key challenge.',
+    'Sind Schutzmaßnahmen für Kinderdaten aktiv (Minimierung, keine Profilbildung, restriktive Freigaben)?':
+        'Are child-data protections active (minimization, no profiling, restrictive sharing)?',
+    'Geräte in kinderbezogenen Kontexten brauchen besonders strenge Datenschutzvorgaben.':
+        'Devices in child-related contexts require especially strict privacy safeguards.',
+    'Können digitale Schlüssel/Zugriffe schnell und einzeln widerrufen werden?':
+        'Can digital keys/access rights be revoked quickly and individually?',
+    'Schneller Widerruf ist zentral, wenn Geräte geteilt oder Nutzer gewechselt werden.':
+        'Fast revocation is crucial when devices are shared or users change.',
+    'Sind Funktionen zur Ableitung sensibler Gesundheits-/Verhaltensprofile eingeschränkt oder deaktivierbar?':
+        'Are features that infer sensitive health or behavior profiles restricted or disableable?',
+    'Inferenzkontrolle reduziert Risiken durch sekundäre Nutzung sensibler Daten.':
+        'Inference controls reduce risks from secondary use of sensitive data.',
+    'Aufbewahrungsdauer unklar/zu lang':
+        'Retention duration unclear or too long',
+    'Granulare Zugriffskontrolle fehlt': 'Granular access control missing',
+    'Weitergabe an Dritte nicht begrenzt': 'Third-party sharing not limited',
+    'Datenverkauf nicht ausgeschlossen': 'Data sale not excluded',
+    'Garantierter Update-Zeitraum unbekannt':
+        'Guaranteed update support window unknown',
+    'Schwachstellenprozess nicht dokumentiert':
+        'Vulnerability process not documented',
+    'Sinnvoller Betrieb ohne Internet nicht möglich':
+        'Meaningful offline operation not possible',
+    'Transparenz für Betroffene im Umfeld fehlt':
+        'Transparency for nearby bystanders missing',
+    'Schutzmaßnahmen für Kinderdaten fehlen':
+        'Child-data protection measures missing',
+    'Einzelner Zugriffswiderruf nicht möglich':
+        'Individual access revocation not possible',
+    'Kontrollen gegen sensible Inferenz fehlen':
+        'Controls against sensitive inference missing',
   };
 
   static String localize(String source) {
@@ -476,15 +539,29 @@ class DeviceInstance {
 
   // Store device-specific question answers
   final Map<String, QuestionAnswer> deviceSpecificAnswers = {};
+  bool expertModeEnabled;
 
   DeviceInstance({
     required this.instanceId,
     required this.template,
     required this.roomId,
     required this.roomName,
+    this.expertModeEnabled = false,
   });
 
   List<DeviceQuestion> get questions {
+    final baseQuestions = _baseQuestions;
+    if (!expertModeEnabled) {
+      return baseQuestions;
+    }
+    return [
+      ...baseQuestions,
+      ..._expertCommonQuestions,
+      ..._expertDeviceTypeQuestions(),
+    ];
+  }
+
+  List<DeviceQuestion> get _baseQuestions {
     // ── Base question definitions (referenced selectively per device type) ─────
     const qPassword = DeviceQuestion(
       id: 'password',
@@ -868,6 +945,107 @@ class DeviceInstance {
     ];
   }
 
+  static const List<DeviceQuestion> _expertCommonQuestions = [
+    DeviceQuestion(
+      id: 'expert_data_retention_duration',
+      text:
+          'Ist die Aufbewahrungsdauer Ihrer personenbezogenen Daten konkret festgelegt und auf das Notwendige begrenzt?',
+      hint:
+          'Inspiriert durch CMU IoT Security & Privacy Label und Unboxing.IoT.Privacy: kurze, klare Speicherfristen reduzieren Risiken.',
+    ),
+    DeviceQuestion(
+      id: 'expert_access_control_granular',
+      text:
+          'Können Sie Zugriffsrechte granular steuern (Rollen, getrennte Konten, keine geteilten Standard-Logins)?',
+      hint:
+          'Granulare Zugriffskontrolle senkt das Risiko unbefugter Einsicht und Fehlbedienung.',
+    ),
+    DeviceQuestion(
+      id: 'expert_third_party_sharing_limited',
+      text:
+          'Ist die Weitergabe an Dritte deaktiviert oder klar auf notwendige Dienste begrenzt?',
+      hint:
+          'Prüfen Sie in Datenschutz- und Kontoeinstellungen, ob Daten an Werbe-, Analyse- oder Partnerdienste fließen.',
+    ),
+    DeviceQuestion(
+      id: 'expert_data_sale_disabled',
+      text:
+          'Ist der Verkauf Ihrer Daten ausgeschlossen (oder aktiv deaktiviert, falls möglich)?',
+      hint:
+          'Eine ausdrückliche "kein Datenverkauf"-Option ist ein starkes Datenschutzsignal.',
+    ),
+    DeviceQuestion(
+      id: 'expert_update_support_window',
+      text:
+          'Ist bekannt, wie lange der Hersteller Sicherheitsupdates garantiert?',
+      hint:
+          'Eine transparente Update-Zusage reduziert langfristige Sicherheits- und Privatsphärerisiken.',
+    ),
+    DeviceQuestion(
+      id: 'expert_vulnerability_process',
+      text:
+          'Gibt es einen dokumentierten Prozess zur Meldung und Behebung von Sicherheitslücken?',
+      hint:
+          'Bevorzugen Sie Hersteller mit Responsible-Disclosure- oder Security-Contact-Informationen.',
+    ),
+    DeviceQuestion(
+      id: 'expert_offline_functionality',
+      text:
+          'Bleibt das Gerät auch mit eingeschränkter Internetverbindung sinnvoll nutzbar?',
+      hint:
+          'Mehr Offline-Funktionalität bedeutet oft weniger laufende Datenübertragung in die Cloud.',
+    ),
+  ];
+
+  List<DeviceQuestion> _expertDeviceTypeQuestions() {
+    final questions = <DeviceQuestion>[];
+    if (template.hasCamera || template.hasMicrophone) {
+      questions.add(
+        const DeviceQuestion(
+          id: 'expert_bystander_transparency',
+          text:
+              'Werden Betroffene im Umfeld transparent informiert (z. B. Sichtbarkeit, Hinweise, klare Aufnahmeanzeige)?',
+          hint:
+              'Das adressiert Bystander-Privacy und wurde in Unboxing.IoT.Privacy als zentrale Herausforderung hervorgehoben.',
+        ),
+      );
+    }
+    if (template.deviceType == 'toy' || roomId == _childBedroomRoomId) {
+      questions.add(
+        const DeviceQuestion(
+          id: 'expert_child_data_protection',
+          text:
+              'Sind Schutzmaßnahmen für Kinderdaten aktiv (Minimierung, keine Profilbildung, restriktive Freigaben)?',
+          hint:
+              'Geräte in kinderbezogenen Kontexten brauchen besonders strenge Datenschutzvorgaben.',
+        ),
+      );
+    }
+    if (template.deviceType == 'lock') {
+      questions.add(
+        const DeviceQuestion(
+          id: 'expert_access_revocation',
+          text:
+              'Können digitale Schlüssel/Zugriffe schnell und einzeln widerrufen werden?',
+          hint:
+              'Schneller Widerruf ist zentral, wenn Geräte geteilt oder Nutzer gewechselt werden.',
+        ),
+      );
+    }
+    if (template.deviceType == 'wearable') {
+      questions.add(
+        const DeviceQuestion(
+          id: 'expert_sensitive_inference_controls',
+          text:
+              'Sind Funktionen zur Ableitung sensibler Gesundheits-/Verhaltensprofile eingeschränkt oder deaktivierbar?',
+          hint:
+              'Inferenzkontrolle reduziert Risiken durch sekundäre Nutzung sensibler Daten.',
+        ),
+      );
+    }
+    return questions;
+  }
+
   QuestionAnswer? answerFor(String questionId) {
     if (questionId == 'password') return passwordChanged;
     if (questionId == 'updates') return autoUpdatesEnabled;
@@ -967,9 +1145,26 @@ class DeviceInstance {
       );
     }
 
-    // Penalties for device-specific questions
-    for (final entry in deviceSpecificAnswers.entries) {
-      score += _riskPenalty(entry.value, noPenalty: 8, dontKnowPenalty: 4);
+    const baseIds = {
+      'password',
+      'updates',
+      'network',
+      'informed',
+      'permissions',
+      'camera_consent',
+      'mic_active',
+    };
+
+    // Penalties for currently active device-specific questions.
+    for (final question in questions) {
+      if (baseIds.contains(question.id)) {
+        continue;
+      }
+      score += _riskPenalty(
+        answerFor(question.id),
+        noPenalty: 8,
+        dontKnowPenalty: 4,
+      );
     }
 
     return score.clamp(0, 100);
@@ -1340,6 +1535,23 @@ class DeviceInstance {
       // Wearable
       'health_sharing': 'Gesundheitsdaten mit Dritten geteilt',
       'location_tracking': 'Standortverfolgung aktiv',
+      // Expert mode
+      'expert_data_retention_duration': 'Aufbewahrungsdauer unklar/zu lang',
+      'expert_access_control_granular': 'Granulare Zugriffskontrolle fehlt',
+      'expert_third_party_sharing_limited':
+          'Weitergabe an Dritte nicht begrenzt',
+      'expert_data_sale_disabled': 'Datenverkauf nicht ausgeschlossen',
+      'expert_update_support_window': 'Garantierter Update-Zeitraum unbekannt',
+      'expert_vulnerability_process':
+          'Schwachstellenprozess nicht dokumentiert',
+      'expert_offline_functionality':
+          'Sinnvoller Betrieb ohne Internet nicht möglich',
+      'expert_bystander_transparency':
+          'Transparenz für Betroffene im Umfeld fehlt',
+      'expert_child_data_protection': 'Schutzmaßnahmen für Kinderdaten fehlen',
+      'expert_access_revocation': 'Einzelner Zugriffswiderruf nicht möglich',
+      'expert_sensitive_inference_controls':
+          'Kontrollen gegen sensible Inferenz fehlen',
     };
     const baseIds = {
       'password',

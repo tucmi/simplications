@@ -163,6 +163,37 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                     value: questions.isEmpty ? 0 : answered / questions.length,
                     borderRadius: BorderRadius.circular(4),
                   ),
+                  if (widget.state.expertModeEnabled) ...[
+                    const SizedBox(height: 12),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: colors.primaryContainer.withAlpha(120),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: colors.primary.withAlpha(80)),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.science_outlined,
+                            size: 18,
+                            color: colors.primary,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              localizations.expertModeQuestionnaireHint(),
+                              style: text.bodySmall?.copyWith(
+                                color: colors.onSurface,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 20),
                 ],
               ),

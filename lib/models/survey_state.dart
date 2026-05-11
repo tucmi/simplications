@@ -74,6 +74,20 @@ class SurveyState extends ChangeNotifier {
   final List<DeviceInstance> devices = [];
   final List<Room> customRooms = [];
   final List<DeviceTemplate> customDevices = [];
+  bool _expertModeEnabled = false;
+
+  bool get expertModeEnabled => _expertModeEnabled;
+
+  void setExpertModeEnabled(bool enabled) {
+    if (_expertModeEnabled == enabled) {
+      return;
+    }
+    _expertModeEnabled = enabled;
+    for (final device in devices) {
+      device.expertModeEnabled = enabled;
+    }
+    _changed();
+  }
 
   void markRoomCompleted(String roomId) {
     final changed =
@@ -116,6 +130,7 @@ class SurveyState extends ChangeNotifier {
         template: template,
         roomId: roomId,
         roomName: roomName,
+        expertModeEnabled: _expertModeEnabled,
       ),
     );
     _changed();
@@ -257,6 +272,8 @@ class SurveyState extends ChangeNotifier {
     try {
       final data = jsonDecode(jsonString) as Map<String, dynamic>;
 
+      _expertModeEnabled = data['expertModeEnabled'] as bool? ?? false;
+
       completedRoomIds
         ..clear()
         ..addAll(
@@ -371,6 +388,7 @@ class SurveyState extends ChangeNotifier {
           template: template,
           roomId: entry['roomId'] as String,
           roomName: entry['roomName'] as String,
+          expertModeEnabled: _expertModeEnabled,
         );
 
         instance.passwordChanged = questionAnswerFromStored(
@@ -438,12 +456,14 @@ class SurveyState extends ChangeNotifier {
     devices.clear();
     customRooms.clear();
     customDevices.clear();
+    _expertModeEnabled = false;
     await clearStorage();
     notifyListeners();
   }
 
   Map<String, dynamic> _toJson() {
     return {
+      'expertModeEnabled': _expertModeEnabled,
       'completedRoomIds': completedRoomIds.toList(),
       'visitedRoomIds': visitedRoomIds.toList(),
       'noDeviceRoomIds': noDeviceRoomIds.toList(),

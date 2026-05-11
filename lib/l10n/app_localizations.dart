@@ -64,7 +64,7 @@ class AppLocalizations {
           'Erfassen Sie Raum für Raum Ihre smarten Geräte und erhalten Sie eine Privatsphärebewertung mit konkreten Empfehlungen.',
       'stepSelectRooms': 'Raum auswählen',
       'stepCaptureDevices': 'Geräte erfassen',
-      'stepAnswerQuestions': 'Sicherheitsfragen beantworten',
+      'stepAnswerQuestions': 'Fragen beantworten',
       'stepGetRisk': 'Risikoprofil & Empfehlungen erhalten',
       'start': 'Starten',
       'resume': 'Fortsetzen',
@@ -82,7 +82,7 @@ class AppLocalizations {
       'roomCheck': 'Raum-Check',
       'deviceQuestion': 'Welche smarten Geräte nutzen Sie in diesem Raum?',
       'deviceQuestionHint':
-          'Tippen Sie auf ein Gerät, um die Sicherheitsfragen dafür zu beantworten.',
+          'Tippen Sie auf ein Gerät, um die Fragen dafür zu beantworten.',
       'noKnownDevices':
           'Keine bekannten Geräte für diesen Raum. Sie können ein eigenes Gerät hinzufügen.',
       'addDevice': 'Gerät\nhinzufügen',
@@ -99,7 +99,7 @@ class AppLocalizations {
           'Dieser Raum wird ohne Geräte abgeschlossen und fließt nicht in die Bewertung ein.',
       'noDeviceDialogBodyWithExisting':
           'Vorhandene Geräteauswahlen für diesen Raum werden verworfen. Dieser Raum wird ohne Geräte abgeschlossen und fließt nicht in die Bewertung ein.',
-      'questionnaireTitle': 'Sicherheitsfragen',
+      'questionnaireTitle': 'Fragen',
       'connectedDevice': 'Verbundenes Gerät',
       'done': 'Fertig',
       'yes': 'Ja',
@@ -168,6 +168,19 @@ class AppLocalizations {
       'dangerZone': 'Gefahrenbereich',
       'dangerZoneWarning':
           'Achtung: Diese Aktion entfernt alle gespeicherten App-Daten dauerhaft.',
+      'expertModeTitle': 'Expertenmodus',
+      'expertModeToggleLabel': 'Detaillierten Expertenmodus aktivieren',
+      'expertModeToggleHint':
+          'Gleicher Ablauf, aber deutlich detailliertere Fragen pro Gerät (z. B. Aufbewahrungsdauer, Zugriffskontrolle, Drittweitergabe).',
+      'expertModeSourcesHint':
+          'Methodisch angelehnt an folgende Forschungsprojekte:',
+      'expertModeSourceCmuLabel': 'CMU IoT Security & Privacy Label (CISPL)',
+      'expertModeSourceCmuUrl': 'https://iotsecurityprivacy.org/labels',
+      'expertModeSourceUnboxingLabel':
+          'Unboxing.IoT.Privacy (Community-Plattform)',
+      'expertModeSourceUnboxingUrl': 'https://iot-privacy.info/project/',
+      'expertModeQuestionnaireHint':
+          'Expertenmodus: Diese Fragen vertiefen Datenpraktiken und Governance (u. a. Speicherfristen, Zugriffskontrolle, Drittweitergabe) nach Ansätzen aus CMU IoT Label und Unboxing.IoT.Privacy.',
       'roomDeleteTitle': 'Raum löschen?',
       'roomDeleteBody':
           'Dieser benutzerdefinierte Raum wird gelöscht. Alle verknüpften Geräte werden auch entfernt.',
@@ -243,7 +256,7 @@ class AppLocalizations {
           'Capture your smart devices room by room and receive a privacy assessment with concrete recommendations.',
       'stepSelectRooms': 'Select room',
       'stepCaptureDevices': 'Capture devices',
-      'stepAnswerQuestions': 'Answer security questions',
+      'stepAnswerQuestions': 'Answer questions',
       'stepGetRisk': 'Get risk profile & recommendations',
       'start': 'Start',
       'resume': 'Resume',
@@ -260,8 +273,7 @@ class AppLocalizations {
       'deviceTitlePrefix': 'Devices',
       'roomCheck': 'Room check',
       'deviceQuestion': 'Which smart devices do you use in this room?',
-      'deviceQuestionHint':
-          'Tap a device to answer the security questions for it.',
+      'deviceQuestionHint': 'Tap a device to answer its questions.',
       'noKnownDevices':
           'No known devices for this room. You can add your own device.',
       'addDevice': 'Add\ndevice',
@@ -278,7 +290,7 @@ class AppLocalizations {
           'This room will be completed without devices and will not affect scoring.',
       'noDeviceDialogBodyWithExisting':
           'Existing device selections for this room will be discarded. This room will be completed without devices and will not affect scoring.',
-      'questionnaireTitle': 'Security questions',
+      'questionnaireTitle': 'Questions',
       'connectedDevice': 'Connected device',
       'done': 'Done',
       'yes': 'Yes',
@@ -346,6 +358,19 @@ class AppLocalizations {
       'dangerZone': 'Danger zone',
       'dangerZoneWarning':
           'Warning: This action permanently removes all saved app data.',
+      'expertModeTitle': 'Expert mode',
+      'expertModeToggleLabel': 'Enable detailed expert mode',
+      'expertModeToggleHint':
+          'Same workflow, but much more detailed device questions (e.g., retention duration, access control, third-party sharing).',
+      'expertModeSourcesHint':
+          'Methodologically inspired by the following research projects:',
+      'expertModeSourceCmuLabel': 'CMU IoT Security & Privacy Label (CISPL)',
+      'expertModeSourceCmuUrl': 'https://iotsecurityprivacy.org/labels',
+      'expertModeSourceUnboxingLabel':
+          'Unboxing.IoT.Privacy (community platform)',
+      'expertModeSourceUnboxingUrl': 'https://iot-privacy.info/project/',
+      'expertModeQuestionnaireHint':
+          'Expert mode: these questions deepen data-practice and governance coverage (including retention, access control, and third-party sharing) based on CMU IoT Label and Unboxing.IoT.Privacy approaches.',
       'roomDeleteTitle': 'Delete room?',
       'roomDeleteBody':
           'This custom room will be deleted. All linked devices will also be removed.',
@@ -420,7 +445,7 @@ class AppLocalizations {
           'Zaznamenejte svá chytrá zařízení místnost po místnosti a získejte hodnocení soukromí s konkrétními doporučeními.',
       'stepSelectRooms': 'Vyberte místnost',
       'stepCaptureDevices': 'Zaznamenejte zařízení',
-      'stepAnswerQuestions': 'Odpovězte na bezpečnostní otázky',
+      'stepAnswerQuestions': 'Odpovězte na otázky',
       'stepGetRisk': 'Získejte rizikový profil a doporučení',
       'start': 'Začít',
       'resume': 'Pokračovat',
@@ -437,8 +462,7 @@ class AppLocalizations {
       'deviceTitlePrefix': 'Zařízení',
       'roomCheck': 'Kontrola místnosti',
       'deviceQuestion': 'Která chytrá zařízení používáte v této místnosti?',
-      'deviceQuestionHint':
-          'Klepněte na zařízení a odpovězte na bezpečnostní otázky.',
+      'deviceQuestionHint': 'Klepněte na zařízení a odpovězte na otázky.',
       'noKnownDevices':
           'Pro tuto místnost nejsou známá žádná zařízení. Můžete přidat vlastní zařízení.',
       'addDevice': 'Přidat\nzařízení',
@@ -455,7 +479,7 @@ class AppLocalizations {
           'Tato místnost bude uzavřena bez zařízení a neovlivní hodnocení.',
       'noDeviceDialogBodyWithExisting':
           'Existující výběry zařízení pro tuto místnost budou zahozeny. Tato místnost bude uzavřena bez zařízení a neovlivní hodnocení.',
-      'questionnaireTitle': 'Bezpečnostní otázky',
+      'questionnaireTitle': 'Otázky',
       'connectedDevice': 'Připojené zařízení',
       'done': 'Hotovo',
       'yes': 'Ano',
@@ -599,7 +623,7 @@ class AppLocalizations {
           'Dodaj swoje inteligentne urządzenia pokój po pokoju i otrzymaj ocenę prywatności z konkretnymi zaleceniami.',
       'stepSelectRooms': 'Wybierz pokój',
       'stepCaptureDevices': 'Dodaj urządzenia',
-      'stepAnswerQuestions': 'Odpowiedz na pytania dotyczące bezpieczeństwa',
+      'stepAnswerQuestions': 'Odpowiedz na pytania',
       'stepGetRisk': 'Uzyskaj profil ryzyka i zalecenia',
       'start': 'Start',
       'resume': 'Wznów',
@@ -616,8 +640,7 @@ class AppLocalizations {
       'deviceTitlePrefix': 'Urządzenia',
       'roomCheck': 'Przegląd pokoju',
       'deviceQuestion': 'Jakich inteligentnych urządzeń używasz w tym pokoju?',
-      'deviceQuestionHint':
-          'Stuknij urządzenie, aby odpowiedzieć na pytania bezpieczeństwa.',
+      'deviceQuestionHint': 'Stuknij urządzenie, aby odpowiedzieć na pytania.',
       'noKnownDevices':
           'Brak znanych urządzeń dla tego pokoju. Możesz dodać własne urządzenie.',
       'addDevice': 'Dodaj\nurządzenie',
@@ -634,7 +657,7 @@ class AppLocalizations {
           'Ten pokój zostanie zakończony bez urządzeń i nie wpłynie na ocenę.',
       'noDeviceDialogBodyWithExisting':
           'Istniejące wybory urządzeń dla tego pokoju zostaną odrzucone. Ten pokój zostanie zakończony bez urządzeń i nie wpłynie na ocenę.',
-      'questionnaireTitle': 'Pytania bezpieczeństwa',
+      'questionnaireTitle': 'Pytania',
       'connectedDevice': 'Podłączone urządzenie',
       'done': 'Gotowe',
       'yes': 'Tak',
@@ -777,7 +800,7 @@ class AppLocalizations {
           'Renseignez vos appareils intelligents pièce par pièce et obtenez une évaluation de confidentialité avec des recommandations concrètes.',
       'stepSelectRooms': 'Choisir une pièce',
       'stepCaptureDevices': 'Recenser les appareils',
-      'stepAnswerQuestions': 'Répondre aux questions de sécurité',
+      'stepAnswerQuestions': 'Répondre aux questions',
       'stepGetRisk': 'Obtenir le profil de risque et les recommandations',
       'start': 'Démarrer',
       'resume': 'Continuer',
@@ -795,8 +818,7 @@ class AppLocalizations {
       'roomCheck': 'Vérification de la pièce',
       'deviceQuestion':
           'Quels appareils intelligents utilisez-vous dans cette pièce ?',
-      'deviceQuestionHint':
-          'Touchez un appareil pour répondre aux questions de sécurité.',
+      'deviceQuestionHint': 'Touchez un appareil pour répondre aux questions.',
       'noKnownDevices':
           'Aucun appareil connu pour cette pièce. Vous pouvez ajouter votre propre appareil.',
       'addDevice': 'Ajouter\nun appareil',
@@ -813,7 +835,7 @@ class AppLocalizations {
           'Cette pièce sera terminée sans appareil et n\'affectera pas le score.',
       'noDeviceDialogBodyWithExisting':
           'Les sélections d\'appareils existantes pour cette pièce seront ignorées. Cette pièce sera terminée sans appareil et n\'affectera pas le score.',
-      'questionnaireTitle': 'Questions de sécurité',
+      'questionnaireTitle': 'Questions',
       'connectedDevice': 'Appareil connecté',
       'done': 'Terminé',
       'yes': 'Oui',
@@ -961,7 +983,7 @@ class AppLocalizations {
           'Leg je slimme apparaten kamer voor kamer vast en ontvang een privacybeoordeling met concrete aanbevelingen.',
       'stepSelectRooms': 'Kamer kiezen',
       'stepCaptureDevices': 'Apparaten vastleggen',
-      'stepAnswerQuestions': 'Beveiligingsvragen beantwoorden',
+      'stepAnswerQuestions': 'Vragen beantwoorden',
       'stepGetRisk': 'Risicoprofiel en aanbevelingen ontvangen',
       'start': 'Starten',
       'resume': 'Doorgaan',
@@ -978,8 +1000,7 @@ class AppLocalizations {
       'deviceTitlePrefix': 'Apparaten',
       'roomCheck': 'Kamercheck',
       'deviceQuestion': 'Welke slimme apparaten gebruikt u in deze kamer?',
-      'deviceQuestionHint':
-          'Tik op een apparaat om de beveiligingsvragen te beantwoorden.',
+      'deviceQuestionHint': 'Tik op een apparaat om de vragen te beantwoorden.',
       'noKnownDevices':
           'Geen bekende apparaten voor deze kamer. U kunt een eigen apparaat toevoegen.',
       'addDevice': 'Apparaat\ntoevoegen',
@@ -996,7 +1017,7 @@ class AppLocalizations {
           'Deze kamer wordt zonder apparaten afgerond en telt niet mee in de score.',
       'noDeviceDialogBodyWithExisting':
           'Bestaande apparaatkeuzes voor deze kamer worden verwijderd. Deze kamer wordt zonder apparaten afgerond en telt niet mee in de score.',
-      'questionnaireTitle': 'Beveiligingsvragen',
+      'questionnaireTitle': 'Vragen',
       'connectedDevice': 'Verbonden apparaat',
       'done': 'Klaar',
       'yes': 'Ja',
@@ -1140,7 +1161,7 @@ class AppLocalizations {
           'Registrer dine smarte enheder rum for rum, og få en privatlivsvurdering med konkrete anbefalinger.',
       'stepSelectRooms': 'Vælg ét rum',
       'stepCaptureDevices': 'Registrer enheder',
-      'stepAnswerQuestions': 'Besvar sikkerhedsspørgsmål',
+      'stepAnswerQuestions': 'Besvar spørgsmål',
       'stepGetRisk': 'Få risikoprofil og anbefalinger',
       'start': 'Start',
       'resume': 'Fortsæt',
@@ -1157,8 +1178,7 @@ class AppLocalizations {
       'deviceTitlePrefix': 'Enheder',
       'roomCheck': 'Rumtjek',
       'deviceQuestion': 'Hvilke smarte enheder bruger du i dette rum?',
-      'deviceQuestionHint':
-          'Tryk på en enhed for at besvare sikkerhedsspørgsmålene.',
+      'deviceQuestionHint': 'Tryk på en enhed for at besvare spørgsmålene.',
       'noKnownDevices':
           'Ingen kendte enheder for dette rum. Du kan tilføje din egen enhed.',
       'addDevice': 'Tilføj\nenhed',
@@ -1175,7 +1195,7 @@ class AppLocalizations {
           'Dette rum afsluttes uden enheder og påvirker ikke scoren.',
       'noDeviceDialogBodyWithExisting':
           'Eksisterende enhedsvalg for dette rum kasseres. Dette rum afsluttes uden enheder og påvirker ikke scoren.',
-      'questionnaireTitle': 'Sikkerhedsspørgsmål',
+      'questionnaireTitle': 'Spørgsmål',
       'connectedDevice': 'Tilsluttet enhed',
       'done': 'Færdig',
       'yes': 'Ja',
@@ -1419,6 +1439,16 @@ class AppLocalizations {
   String website() => _value('website');
   String dangerZone() => _value('dangerZone');
   String dangerZoneWarning() => _value('dangerZoneWarning');
+  String expertModeTitle() => _value('expertModeTitle');
+  String expertModeToggleLabel() => _value('expertModeToggleLabel');
+  String expertModeToggleHint() => _value('expertModeToggleHint');
+  String expertModeSourcesHint() => _value('expertModeSourcesHint');
+  String expertModeSourceCmuLabel() => _value('expertModeSourceCmuLabel');
+  String expertModeSourceCmuUrl() => _value('expertModeSourceCmuUrl');
+  String expertModeSourceUnboxingLabel() =>
+      _value('expertModeSourceUnboxingLabel');
+  String expertModeSourceUnboxingUrl() => _value('expertModeSourceUnboxingUrl');
+  String expertModeQuestionnaireHint() => _value('expertModeQuestionnaireHint');
   String roomDeleteTitle() => _value('roomDeleteTitle');
   String roomDeleteBody() => _value('roomDeleteBody');
   String add() => _value('add');
