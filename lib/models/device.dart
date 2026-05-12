@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../l10n/app_localizations.dart';
-
 enum RiskLevel { low, medium, high }
 
 enum ActionType { social, technical, security }
@@ -9,404 +7,6 @@ enum ActionType { social, technical, security }
 enum ActionPriority { high, medium, low }
 
 enum QuestionAnswer { yes, no, dontKnow, notApplicable }
-
-class DeviceDomainI18n {
-  static const Map<String, String> _deToEn = {
-    'Wohnzimmer': 'Living room',
-    'Küche': 'Kitchen',
-    'Schlafzimmer': 'Bedroom',
-    'Kinderzimmer': "Child's bedroom",
-    'Badezimmer': 'Bathroom',
-    'Arbeitszimmer': 'Office',
-    'Flur / Eingang': 'Hallway / Entrance',
-    'Garten / Außenbereich': 'Garden / Outdoor area',
-    'Keller / Speisekammer': 'Basement / Pantry',
-    'Ganze Wohnung': 'Entire home',
-    'Einfacher Sensor (z. B. Bewegungs- oder Türsensor)':
-        'Basic sensor (e.g., motion or door sensor)',
-    'Feuchtigkeitssensor': 'Humidity sensor',
-    'Temperatursensor': 'Temperature sensor',
-    'Lichtsensor': 'Light sensor',
-    'Smart Speaker / Sprachassistent': 'Smart speaker / voice assistant',
-    'Smart Display (z. B. Nest Hub)': 'Smart display (e.g., Nest Hub)',
-    'Smart TV': 'Smart TV',
-    'Smarte Innenkamera': 'Smart indoor camera',
-    'Smarte Außenkamera': 'Smart outdoor camera',
-    'Smarte Türklingel mit Kamera': 'Smart doorbell with camera',
-    'Babymonitor / Babykamera': 'Baby monitor / baby camera',
-    'Saugroboter': 'Robot vacuum',
-    'Smarter Kühlschrank': 'Smart fridge',
-    'Smarter Backofen / Herd': 'Smart oven / stove',
-    'Smarte Kaffeemaschine': 'Smart coffee machine',
-    'Smarte Waschmaschine / Trockner': 'Smart washer / dryer',
-    'Smarter Thermostat / Heizungssteuerung':
-        'Smart thermostat / heating control',
-    'Smarte Steckdose': 'Smart plug',
-    'Smarte Beleuchtung': 'Smart lighting',
-    'Smartes Türschloss': 'Smart door lock',
-    'Smarte Jalousie / Rolllade': 'Smart blind / shutter',
-    'Fitness-Tracker / Smartwatch': 'Fitness tracker / smartwatch',
-    'Smartes Spielzeug': 'Smart toy',
-    'Smart Router / Mesh-System': 'Smart router / mesh system',
-    'Smart-Home-Hub (z. B. Homey, Home Assistant)':
-        'Smart home hub (e.g., Homey, Home Assistant)',
-    'Intelligenter Stromzähler / Smart Meter':
-        'Intelligent electricity meter / smart meter',
-    'Smarte Bewässerungsanlage': 'Smart irrigation system',
-    'Smarte Waage': 'Smart scale',
-    'Smarter Drucker': 'Smart printer',
-    'Richten Sie ein separates WLAN nur für Smart-Home-Geräte ein (z. B. Gastnetz Ihres Routers).':
-        'Set up a separate Wi-Fi network for smart home devices (e.g., your router\'s guest network).',
-    'Nutzen Sie einen Passwortmanager und vergeben Sie für jedes Gerät ein einzigartiges, starkes Passwort.':
-        'Use a password manager and assign a unique, strong password to each device.',
-    'Aktivieren Sie Mehrfaktor-Authentifizierung (MFA) für alle Hersteller-Konten.':
-        'Enable multi-factor authentication (MFA) for all vendor accounts.',
-    'Legen Sie im Haushalt fest, wer für Updates, Backups und Konten verantwortlich ist.':
-        'Define who in your household is responsible for updates, backups, and accounts.',
-    'Überprüfen Sie regelmäßig (mind. 1× pro Quartal) alle Zugriffsberechtigungen und Konten.':
-        'Regularly review (at least once per quarter) all access permissions and accounts.',
-    'Entsorgen Sie alte Geräte datenschutzgerecht: Werksreset durchführen und aus der Hersteller-Cloud austragen.':
-        'Dispose of old devices in a privacy-safe way: perform a factory reset and remove them from vendor cloud accounts.',
-    'Nutzen Sie ein Konsens-Protokoll, bevor Sie neue Geräte kaufen - beziehen Sie alle Haushaltsmitglieder ein.':
-        'Use a household consent check before buying new devices and involve all household members.',
-    'Haben Sie das Standard-Passwort des Geräts oder des zugehörigen Kontos geändert?':
-        'Have you changed the default password of the device or its linked account?',
-    'Voreingestellte Passwörter sind oft öffentlich bekannt und leicht zu knacken.':
-        'Default passwords are often publicly known and easy to crack.',
-    'Sind automatische Sicherheits-Updates für das Gerät aktiviert?':
-        'Are automatic security updates enabled for the device?',
-    'Updates schließen bekannte Sicherheitslücken zeitnah.':
-        'Updates close known security vulnerabilities promptly.',
-    'Ist das Gerät in einem separaten Smart-Home- oder IoT-WLAN eingebunden?':
-        'Is the device connected to a separate smart home or IoT Wi-Fi network?',
-    'Ein eigenes Netz für smarte Geräte schützt Ihr restliches Heimnetzwerk.':
-        'A dedicated network for smart devices protects your main home network.',
-    'Sind alle Personen im Haushalt über dieses Gerät und seine Funktion informiert?':
-        'Are all people in the household informed about this device and its function?',
-    'Alle Mitbewohnenden sollten wissen, welche Daten das Gerät erfasst.':
-        'All household members should know what data the device captures.',
-    'Haben Sie unnötige App-Berechtigungen (z. B. Standort, Kontakte) deaktiviert?':
-        'Have you disabled unnecessary app permissions (e.g., location, contacts)?',
-    'Nur wirklich benötigte Berechtigungen sollten aktiviert sein.':
-        'Only permissions that are truly needed should be enabled.',
-    'Deaktivieren Sie das Mikrofon, wenn Sie es nicht aktiv nutzen?':
-        'Do you deactivate the microphone when you are not actively using it?',
-    'Smarte Lautsprecher und Geräte mit Mikrofonen können versehentlich aktiviert werden.':
-        'Smart speakers and devices with microphones can be activated unintentionally.',
-    'Können Sie das Messintervall des Sensors reduzieren (z. B. seltener messen)?':
-        'Can you reduce the sensor measurement interval (e.g., measure less frequently)?',
-    'Eine niedrigere Messfrequenz erzeugt weniger Daten und schränkt Rückschlüsse auf Ihr Verhalten ein.':
-        'A lower measurement frequency produces less data and limits inferences about your behavior.',
-    'Werden ältere Messwerte automatisch oder auf Wunsch gelöscht?':
-        'Are older measurement values deleted automatically or on request?',
-    'Alte Verlaufsdaten sollten nicht dauerhaft gespeichert bleiben. Prüfen Sie die Aufbewahrungszeit in den Einstellungen.':
-        'Old historical data should not be stored permanently. Check retention settings.',
-    'Zeigt das System die Sensordaten nur in zusammengefasster Form an (z. B. Tages- statt Minutenwerte)?':
-        'Does the system show sensor data only in aggregated form (e.g., daily instead of minute values)?',
-    'Weniger granulare Anzeigen schützen vor Rückschlüssen auf genaue Anwesenheits- oder Verhaltensmuster.':
-        'Less granular views help prevent inferences about precise presence or behavior patterns.',
-    'Werden die Messdaten lokal verarbeitet und gespeichert, ohne in eine Cloud übertragen zu werden?':
-        'Is measurement data processed and stored locally without being transferred to the cloud?',
-    'Lokale Verarbeitung verhindert, dass der Hersteller Einblick in Ihre Messwerte erhält.':
-        'Local processing prevents the vendor from accessing your measurement data.',
-    'Können Sie Sprachaufnahmen aus der Geräte-Historie löschen oder diese Funktion deaktivieren?':
-        'Can you delete voice recordings from device history or disable this feature?',
-    'BSI-Empfehlung: Minimieren Sie die Speicherung von Aufnahmen oder löschen Sie sie regelmäßig.':
-        'BSI recommendation: Minimize recording retention or delete recordings regularly.',
-    'Wird die Sprachverarbeitung teilweise lokal auf dem Gerät durchgeführt?':
-        'Is voice processing performed partly on the device locally?',
-    'Lokale Verarbeitung reduziert die Menge an Daten, die in die Cloud übertragen werden.':
-        'Local processing reduces the amount of data sent to the cloud.',
-    'Überprüfen Sie regelmäßig, welche Fähigkeiten/Skills Zugriff auf Ihr Konto haben?':
-        'Do you regularly review which skills have access to your account?',
-    'Skills von Drittanbietern können sensible Daten abfangen. Nur notwendige Skills aktivieren.':
-        'Third-party skills can access sensitive data. Enable only necessary skills.',
-    'Ist die Videoaufnahme und -übertragung durchgängig verschlüsselt?':
-        'Is video recording and transmission encrypted end-to-end?',
-    'BSI-Empfehlung: Verschlüsselte Verbindung verhindert Abhören und Datenklau unterwegs.':
-        'BSI recommendation: Encrypted connections prevent interception and data theft in transit.',
-    'Werden Aufnahmen lokal gespeichert (nicht ausschließlich in der Cloud des Anbieters)?':
-        'Are recordings stored locally (not only in the vendor cloud)?',
-    'Lokale Speicherung gibt Ihnen mehr Kontrolle über Ihre Daten; bei reiner Cloud-Speicherung sind Sie auf die Sicherheit des Anbieters angewiesen.':
-        'Local storage gives you more control over your data; cloud-only storage depends on vendor security.',
-    'Können Sie steuern, wer auf die Live-View und Aufnahmen zugreifen kann?':
-        'Can you control who can access live view and recordings?',
-    'Sie sollten genau kontrollieren können, wer Zugang zu den Videoaufnahmen erhält.':
-        'You should be able to precisely control access to video recordings.',
-    'Können Sie Bewegungserkennung deaktivieren oder zeitlich begrenzen, wenn Sie zu Hause sind?':
-        'Can you disable or schedule motion detection when you are at home?',
-    'BSI-Empfehlung: Unnötige Aufnahmen vermeiden reduziert Datenmenge und Missbrauchsrisiko.':
-        'BSI recommendation: Avoiding unnecessary recordings reduces data volume and misuse risk.',
-    'Können Sie das Gerät ohne obligatorisches Online-Konto nutzen?':
-        'Can you use the device without a mandatory online account?',
-    'Pflichtkonten ermöglichen dem Hersteller Werbe-Tracking und das Speichern Ihrer Sehgewohnheiten. Ein kontoloser Betrieb schützt Ihre Privatsphäre.':
-        'Mandatory accounts enable ad tracking and storage of viewing habits. Account-free use protects privacy.',
-    'Können Sie Werbe- und Tracking-Funktionen vollständig deaktivieren?':
-        'Can you completely disable advertising and tracking features?',
-    'Smart-TVs sammeln oft Daten über Ihre Sehgewohnheiten. Suchen Sie nach Datenschutzoptionen.':
-        'Smart TVs often collect viewing habit data. Look for privacy settings.',
-    'Können Sie das Gerät über HDMI oder lokale Quellen ohne Internetverbindung nutzen?':
-        'Can you use the device via HDMI or local sources without internet?',
-    'Offline-Betrieb schützt Ihre Nutzungsdaten vor Übertragung an den Hersteller.':
-        'Offline use protects usage data from being sent to the vendor.',
-    'Bleiben Ihre Temperatur-Historien und Zeitpläne auf dem Gerät (keine Übertragung an den Hersteller)?':
-        'Do temperature history and schedules stay on-device (not sent to the vendor)?',
-    'Historien können Anwesenheitsmuster und Lebensgewohnheiten offenbaren. Lokale Speicherung schützt vor unerwünschter Auswertung.':
-        'History can reveal presence patterns and habits. Local storage reduces unwanted analysis.',
-    'Können Sie das Thermostat auch offline betreiben (ohne Internet)?':
-        'Can you operate the thermostat offline (without internet)?',
-    'Offline-Betrieb oder lokale Automatisierung schützt Ihre Daten vor Cloud-Zugriff.':
-        'Offline operation or local automation protects data from cloud access.',
-    'Können Sie steuern, wer die Heizung anpassen darf (z. B. nur Gäste einschränken)?':
-        'Can you control who may adjust heating (e.g., restrict guests)?',
-    'Haushaltsmitglieder sollten Kontrolle haben, ohne dass Besucher alles ändern können.':
-        'Household members should have control without visitors changing everything.',
-    'Können Automatisierungen lokal ohne Internetverbindung erfolgen?':
-        'Can automations run locally without internet?',
-    'Lokale Ausführung von Szenen und Zeitplänen schützt Ihre Privatsphäre besser.':
-        'Local scenes and schedules protect your privacy better.',
-    'Haben Sie die Erfassung von Schaltmustern und Nutzungszeiten durch den Hersteller deaktiviert oder eingeschränkt?':
-        'Have you disabled or limited vendor collection of switching patterns and usage times?',
-    'Nutzungsmuster können Ihre Anwesenheit und Gewohnheiten offenbaren. Prüfen Sie die Datenschutzeinstellungen der App.':
-        'Usage patterns can reveal presence and habits. Check app privacy settings.',
-    'Funktionieren die Geräte noch, wenn die Internet- oder App-Verbindung ausfällt?':
-        'Do devices still work if internet or app connection fails?',
-    'Zuverlässige lokale Funktion ist wichtig für alltägliche Nutzung und Privatsphäre.':
-        'Reliable local operation is important for daily use and privacy.',
-    'Können Sie das Schloss auch offline (z. B. mit Code oder Schlüssel) öffnen?':
-        'Can you unlock the lock offline (e.g., with code or key)?',
-    'Backup-Optionen verhindern Aussperrung bei Internet- oder Stromausfällen.':
-        'Backup options prevent lockout during internet or power outages.',
-    'Können Sie nachvollziehen, wer wann das Schloss geöffnet hat?':
-        'Can you track who opened the lock and when?',
-    'Ein Zugriffsverlauf ermöglicht Ihnen, verdächtige Aktivitäten zu erkennen.':
-        'An access log helps you detect suspicious activity.',
-    'Ist Zwei-Faktor-Authentifizierung (2FA) für das Sperr-Konto verfügbar?':
-        'Is two-factor authentication (2FA) available for the lock account?',
-    'BSI-Empfehlung: 2FA schützt Ihr Konto vor unbefugtem Fernzugriff auf das Schloss.':
-        'BSI recommendation: 2FA protects your account from unauthorized remote access.',
-    'Werden die erstellten Grundrisse ausschließlich lokal auf dem Gerät gespeichert?':
-        'Are created floor plans stored exclusively on the device locally?',
-    'Grundrisse Ihres Hauses sind sensible Informationen und sollten nicht an den Hersteller übermittelt werden.':
-        'Home floor plans are sensitive information and should not be sent to the vendor.',
-    'Funktioniert die Grundriss-Navigation auch ohne Cloud-Verbindung?':
-        'Does floor-plan navigation work without cloud connection?',
-    'Geräte mit lokaler Navigation sind datenschutzfreundlicher, da keine Raumdaten in die Cloud übertragen werden.':
-        'Devices with local navigation are more privacy-friendly because no room data is uploaded.',
-    'Wenn der Roboter Kameras nutzt: Werden die Kamerabilder ausschließlich lokal für die Navigation verwendet (kein Speichern oder Übertragen)?':
-        'If the robot uses cameras: are camera images used locally only for navigation (no storing or transfer)?',
-    'Kamerabilder sollten nur lokal für die Navigation verarbeitet und weder gespeichert noch an den Hersteller gesendet werden.':
-        'Camera images should be processed locally for navigation and neither stored nor sent to the vendor.',
-    'Gibt es Elternkontroll-Funktionen zur Verwaltung des Spielzeugs?':
-        'Are there parental control features to manage the toy?',
-    'Elternkontrolle sollte ermöglichen, Kontakte und Funktionen zu beschränken.':
-        'Parental controls should allow restricting contacts and features.',
-    'Können Sie einschränken, welche persönlichen Daten das Spielzeug sammelt?':
-        'Can you limit which personal data the toy collects?',
-    'Kinder-spezifische Geräte sollten minimale Datenmenge erfassen und speichern.':
-        'Child-focused devices should collect and store minimal data.',
-    'Können Sie Audio- und Videoaufnahmen auf dem Gerät deaktivieren?':
-        'Can you disable audio and video recording on the device?',
-    'BSI-Empfehlung: Aufnahmen von Kindern sollten nur mit expliziter Kontrolle möglich sein.':
-        'BSI recommendation: Recordings of children should only be possible with explicit control.',
-    'Können Sie steuern, welche Drittanbieter Zugriff auf Ihre Gesundheitsdaten haben?':
-        'Can you control which third parties can access your health data?',
-    'Gesundheitsdaten sind sensibel. Nur autorisierte Apps sollten Zugriff erhalten.':
-        'Health data is sensitive. Only authorized apps should have access.',
-    'Können Sie Standortverfolgung deaktivieren, wenn Sie sie nicht benötigen?':
-        'Can you disable location tracking when not needed?',
-    'GPS-Tracking verbraucht Akku und kann Ihre Bewegungsmuster offenbaren.':
-        'GPS tracking uses battery and can reveal movement patterns.',
-    'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt das Grundrisiko bei Kameras höher, weil sie besonders sensible Beobachtungsdaten erfassen und bei Fehlkonfiguration zur Überwachung genutzt werden können.':
-        'You answered all questions positively. However, baseline risk remains higher for cameras because they capture highly sensitive observation data and can be misused for surveillance if misconfigured.',
-    'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt das Grundrisiko bei Geräten mit Mikrofon erhöht, da Sprachdaten sehr sensibel sind und Fehlaktivierungen bzw. Cloud-Verarbeitung weiterhin Risiken bergen.':
-        'You answered all questions positively. However, baseline risk remains elevated for microphone devices because voice data is highly sensitive and accidental activation or cloud processing still carries risks.',
-    'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt bei smarten Schlössern ein erhöhtes Grundrisiko, da ein möglicher Missbrauch direkt den physischen Zugang zur Wohnung betrifft.':
-        'You answered all questions positively. However, smart locks still have elevated baseline risk because misuse directly affects physical access to your home.',
-    'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt im Kinderzimmer ein erhöhtes Grundrisiko, da dort häufig besonders sensible Daten zu Kindern und ihrem Alltag betroffen sind.':
-        'You answered all questions positively. However, baseline risk remains elevated in a child\'s bedroom because especially sensitive data about children and their daily life can be affected there.',
-    'Sie haben alle Fragen positiv beantwortet. Das Gerät bleibt trotzdem im mittleren/hohen Bereich, weil bereits die Art des Geräts sensible Nutzungs- und Verhaltensdaten offenlegen kann.':
-        'You answered all questions positively. The device can still remain medium/high risk because its type may reveal sensitive usage and behavior data.',
-    'Geräteeinstellungen besser kennenlernen':
-        'Get to know device settings better',
-    'Mindestens eine Frage wurde mit "Weiß ich nicht" beantwortet. Prüfen Sie die Einstellungen und Dokumentation Ihres Geräts, damit Sie Risiken künftig gezielt reduzieren können.':
-        'At least one question was answered with "I don\'t know". Review your device settings and documentation to reduce risk more effectively.',
-    'Grundrisiko des Gerätetyps': 'Baseline risk of device type',
-    'Erhöhte Sensibilität: Kinderzimmer':
-        'Increased sensitivity: child\'s bedroom',
-    'Standard-Passwort nicht geändert': 'Default password not changed',
-    'Automatische Updates nicht aktiv': 'Automatic updates not enabled',
-    'Kein separates IoT-WLAN eingerichtet': 'No separate IoT Wi-Fi configured',
-    'Haushaltsmitglieder nicht informiert': 'Household members not informed',
-    'App-Berechtigungen nicht reduziert': 'App permissions not reduced',
-    'Kein Einverständnis für Kamerabereich':
-        'No consent for camera-covered area',
-    'Mikrofon nicht bei Nichtnutzung deaktiviert':
-        'Microphone not disabled when unused',
-    'Pflichtdkonto beim Hersteller nötig': 'Mandatory vendor account required',
-    'Daten in die Cloud übertragen': 'Data transferred to cloud',
-    'Elternkontrolle nicht eingerichtet': 'Parental controls not configured',
-    'Datenmenge nicht eingeschränkt': 'Data collection not limited',
-    'Aufnahmen nicht deaktivierbar': 'Recording cannot be disabled',
-    'Gesundheitsdaten mit Dritten geteilt':
-        'Health data shared with third parties',
-    'Standortverfolgung aktiv': 'Location tracking enabled',
-    'Standard-Passwort ändern': 'Change default password',
-    'Ersetzen Sie das voreingestellte Passwort durch ein starkes, einzigartiges Passwort. Nutzen Sie einen Passwortmanager.':
-        'Replace the default password with a strong, unique password. Use a password manager.',
-    'Automatische Updates aktivieren': 'Enable automatic updates',
-    'Aktivieren Sie automatische Sicherheits-Updates in den Geräte- oder App-Einstellungen.':
-        'Enable automatic security updates in device or app settings.',
-    'Separates IoT-WLAN einrichten': 'Set up separate IoT Wi-Fi',
-    'Richten Sie ein eigenes WLAN für Smart-Home-Geräte ein, z. B. über die Gastnetz-Funktion Ihres Routers.':
-        'Set up a dedicated Wi-Fi network for smart home devices, for example with your router\'s guest network.',
-    'Haushaltsmitglieder informieren': 'Inform household members',
-    'Informieren Sie alle Bewohner: welche Daten das Gerät erfasst, wer Zugriff hat und wie es sich deaktivieren lässt.':
-        'Inform all residents about what data the device collects, who has access, and how it can be disabled.',
-    'App-Berechtigungen einschränken': 'Restrict app permissions',
-    'Prüfen Sie in den Smartphone-Einstellungen die Berechtigungen der zugehörigen App und deaktivieren Sie nicht benötigte.':
-        'Check companion-app permissions in phone settings and disable unnecessary ones.',
-    'Kameraausrichtung mit Bewohnern abstimmen':
-        'Align camera positioning with residents',
-    'Holen Sie das Einverständnis aller Betroffenen ein. Die Kamera darf keine Bereiche ohne Zustimmung erfassen.':
-        'Obtain consent from everyone affected. The camera must not record areas without consent.',
-    'Mikrofon bei Nichtnutzung deaktivieren':
-        'Disable microphone when not in use',
-    'Nutzen Sie den physischen Stummschalter oder deaktivieren Sie das Mikrofon in den Einstellungen.':
-        'Use the physical mute switch or disable the microphone in settings.',
-    'Messintervall reduzieren': 'Reduce measurement interval',
-    'Verringern Sie, wenn möglich, die Messfrequenz des Sensors. Weniger häufige Messungen erzeugen weniger Verhaltensdaten.':
-        'If possible, reduce sensor measurement frequency. Less frequent measurements produce fewer behavior data points.',
-    'Alte Messwerte löschen': 'Delete old measurement values',
-    'Prüfen Sie Aufbewahrungsfristen in App oder Weboberfläche und aktivieren Sie automatische Löschung oder löschen Sie ältere Daten regelmäßig manuell.':
-        'Review retention periods in app or web UI and enable auto deletion, or delete older data manually on a regular basis.',
-    'Daten weniger detailliert anzeigen': 'Show less detailed data',
-    'Stellen Sie, wenn möglich, eine gröbere Anzeige oder Auswertung ein, zum Beispiel Tageswerte statt Minutenwerte.':
-        'If possible, switch to less granular display or evaluation, for example daily values instead of minute values.',
-    'Lokale Verarbeitung bevorzugen': 'Prefer local processing',
-    'Prüfen Sie, ob sich Cloud-Synchronisation deaktivieren oder eine lokale Speicherung aktivieren lässt, damit Messdaten nicht an den Hersteller übertragen werden.':
-        'Check whether cloud sync can be disabled or local storage enabled so measurement data is not sent to the vendor.',
-    'Skills/Fähigkeiten überprüfen': 'Review skills/integrations',
-    'Überprüfen Sie, welche Drittanbieter-Skills Zugriff haben. Deaktivieren Sie unnötige Skills.':
-        'Review which third-party skills have access. Disable unnecessary skills.',
-    'WLAN-Verschlüsselung prüfen': 'Check Wi-Fi encryption',
-    'BSI-Empfehlung: Verwenden Sie WPA2 oder WPA3 für Ihr Heimnetz. WEP und WPA sind veraltet.':
-        'BSI recommendation: Use WPA2 or WPA3 on your home network. WEP and WPA are outdated.',
-    'Zugriffsrechte der Kamera überprüfen': 'Review camera access rights',
-    'Überprüfen Sie monatlich in der App, wer auf Live-View und Aufnahmen zugreifen kann.':
-        'Check monthly in the app who can access live view and recordings.',
-    'Zwei-Faktor-Authentifizierung aktivieren':
-        'Enable two-factor authentication',
-    'BSI-Empfehlung: Aktivieren Sie 2FA für Ihr Schlosskonto um Remote-Zugriffe zu schützen.':
-        'BSI recommendation: Enable 2FA for your lock account to protect remote access.',
-    'Grundriss-Speicherung klären': 'Clarify floor-plan storage',
-    'Überprüfen Sie: Werden Grundrisse lokal oder in der Cloud gespeichert? Bevorzugen Sie lokal.':
-        'Check whether floor plans are stored locally or in cloud storage. Prefer local storage.',
-    'Haushalt nicht über Sensor informiert':
-        'Household not informed about sensor',
-    'Sensor nicht im IoT-Netz eingebunden':
-        'Sensor not connected to IoT network',
-    'Messintervall nicht reduziert': 'Measurement interval not reduced',
-    'Alte Messwerte nicht gelöscht': 'Old measurement values not deleted',
-    'Daten zu fein granular gespeichert':
-        'Data stored with too much granularity',
-    'Sprachaufnahmen nicht löschbar': 'Voice recordings not deletable',
-    'Keine lokale Sprachverarbeitung': 'No local voice processing',
-    'Skills nicht regelmäßig geprüft': 'Skills not reviewed regularly',
-    'Videoübertragung nicht verschlüsselt': 'Video transmission not encrypted',
-    'Aufnahmen nur in Anbieter-Cloud': 'Recordings only in vendor cloud',
-    'Zugriff auf Aufnahmen nicht kontrolliert':
-        'Recording access not controlled',
-    'Bewegungserkennung immer aktiv': 'Motion detection always active',
-    'Werbe-Tracking nicht deaktiviert': 'Ad tracking not disabled',
-    'Kein Offline-Betrieb möglich': 'No offline operation possible',
-    'Temperaturverlauf an Hersteller übertragen':
-        'Temperature history sent to vendor',
-    'Zugriff nicht einschränkbar': 'Access cannot be restricted',
-    'Automatisierungen nur mit Internet':
-        'Automations require internet connection',
-    'Schaltmuster vom Hersteller erfasst':
-        'Switching patterns collected by vendor',
-    'Gerät offline nicht nutzbar': 'Device unusable offline',
-    'Kein Offline-Öffnen möglich': 'No offline unlock possible',
-    'Kein Zugriffsprotokoll verfügbar': 'No access log available',
-    '2-Faktor-Authentifizierung fehlt': 'Two-factor authentication missing',
-    'Grundriss an Hersteller übertragen': 'Floor plan transmitted to vendor',
-    'Navigation nur mit Cloud möglich': 'Navigation only possible via cloud',
-    'Kamerabilder gespeichert oder übertragen':
-        'Camera images stored or transmitted',
-    'Ist die Aufbewahrungsdauer Ihrer personenbezogenen Daten konkret festgelegt und auf das Notwendige begrenzt?':
-        'Is the retention duration for your personal data explicitly defined and limited to what is necessary?',
-    'Inspiriert durch CMU IoT Security & Privacy Label und Unboxing.IoT.Privacy: kurze, klare Speicherfristen reduzieren Risiken.':
-        'Inspired by the CMU IoT Security & Privacy Label and Unboxing.IoT.Privacy: short, clear retention periods reduce risk.',
-    'Können Sie Zugriffsrechte granular steuern (Rollen, getrennte Konten, keine geteilten Standard-Logins)?':
-        'Can you control access rights granularly (roles, separate accounts, no shared default logins)?',
-    'Granulare Zugriffskontrolle senkt das Risiko unbefugter Einsicht und Fehlbedienung.':
-        'Granular access control reduces the risk of unauthorized access and misuse.',
-    'Ist die Weitergabe an Dritte deaktiviert oder klar auf notwendige Dienste begrenzt?':
-        'Is third-party sharing disabled or clearly limited to necessary services?',
-    'Prüfen Sie in Datenschutz- und Kontoeinstellungen, ob Daten an Werbe-, Analyse- oder Partnerdienste fließen.':
-        'Check privacy and account settings to see whether data is sent to advertising, analytics, or partner services.',
-    'Ist der Verkauf Ihrer Daten ausgeschlossen (oder aktiv deaktiviert, falls möglich)?':
-        'Is the sale of your data excluded (or actively disabled, where possible)?',
-    'Eine ausdrückliche "kein Datenverkauf"-Option ist ein starkes Datenschutzsignal.':
-        'An explicit "no data sale" option is a strong privacy signal.',
-    'Ist bekannt, wie lange der Hersteller Sicherheitsupdates garantiert?':
-        'Is it known how long the vendor guarantees security updates?',
-    'Eine transparente Update-Zusage reduziert langfristige Sicherheits- und Privatsphärerisiken.':
-        'A transparent update commitment reduces long-term security and privacy risks.',
-    'Gibt es einen dokumentierten Prozess zur Meldung und Behebung von Sicherheitslücken?':
-        'Is there a documented process for reporting and fixing vulnerabilities?',
-    'Bevorzugen Sie Hersteller mit Responsible-Disclosure- oder Security-Contact-Informationen.':
-        'Prefer vendors that provide responsible disclosure policies or clear security contact information.',
-    'Bleibt das Gerät auch mit eingeschränkter Internetverbindung sinnvoll nutzbar?':
-        'Does the device remain meaningfully usable with limited internet connectivity?',
-    'Mehr Offline-Funktionalität bedeutet oft weniger laufende Datenübertragung in die Cloud.':
-        'More offline functionality often means less continuous data transfer to the cloud.',
-    'Werden Betroffene im Umfeld transparent informiert (z. B. Sichtbarkeit, Hinweise, klare Aufnahmeanzeige)?':
-        'Are people nearby transparently informed (for example via visibility, notices, clear recording indicators)?',
-    'Das adressiert Bystander-Privacy und wurde in Unboxing.IoT.Privacy als zentrale Herausforderung hervorgehoben.':
-        'This addresses bystander privacy and is highlighted in Unboxing.IoT.Privacy as a key challenge.',
-    'Sind Schutzmaßnahmen für Kinderdaten aktiv (Minimierung, keine Profilbildung, restriktive Freigaben)?':
-        'Are child-data protections active (minimization, no profiling, restrictive sharing)?',
-    'Geräte in kinderbezogenen Kontexten brauchen besonders strenge Datenschutzvorgaben.':
-        'Devices in child-related contexts require especially strict privacy safeguards.',
-    'Können digitale Schlüssel/Zugriffe schnell und einzeln widerrufen werden?':
-        'Can digital keys/access rights be revoked quickly and individually?',
-    'Schneller Widerruf ist zentral, wenn Geräte geteilt oder Nutzer gewechselt werden.':
-        'Fast revocation is crucial when devices are shared or users change.',
-    'Sind Funktionen zur Ableitung sensibler Gesundheits-/Verhaltensprofile eingeschränkt oder deaktivierbar?':
-        'Are features that infer sensitive health or behavior profiles restricted or disableable?',
-    'Inferenzkontrolle reduziert Risiken durch sekundäre Nutzung sensibler Daten.':
-        'Inference controls reduce risks from secondary use of sensitive data.',
-    'Aufbewahrungsdauer unklar/zu lang':
-        'Retention duration unclear or too long',
-    'Granulare Zugriffskontrolle fehlt': 'Granular access control missing',
-    'Weitergabe an Dritte nicht begrenzt': 'Third-party sharing not limited',
-    'Datenverkauf nicht ausgeschlossen': 'Data sale not excluded',
-    'Garantierter Update-Zeitraum unbekannt':
-        'Guaranteed update support window unknown',
-    'Schwachstellenprozess nicht dokumentiert':
-        'Vulnerability process not documented',
-    'Sinnvoller Betrieb ohne Internet nicht möglich':
-        'Meaningful offline operation not possible',
-    'Transparenz für Betroffene im Umfeld fehlt':
-        'Transparency for nearby bystanders missing',
-    'Schutzmaßnahmen für Kinderdaten fehlen':
-        'Child-data protection measures missing',
-    'Einzelner Zugriffswiderruf nicht möglich':
-        'Individual access revocation not possible',
-    'Kontrollen gegen sensible Inferenz fehlen':
-        'Controls against sensitive inference missing',
-  };
-
-  static String localize(String source) {
-    if (AppLocalizations.activeLanguageCode == 'de') {
-      return source;
-    }
-    return _deToEn[source] ?? source;
-  }
-}
 
 extension QuestionAnswerCodec on QuestionAnswer {
   String get wireValue {
@@ -565,80 +165,57 @@ class DeviceInstance {
     // ── Base question definitions (referenced selectively per device type) ─────
     const qPassword = DeviceQuestion(
       id: 'password',
-      text:
-          'Haben Sie das Standard-Passwort des Geräts oder des zugehörigen Kontos geändert?',
-      hint:
-          'Voreingestellte Passwörter sind oft öffentlich bekannt und leicht zu knacken.',
+      text: 'q_password_text',
+      hint: 'q_password_hint',
     );
     const qUpdates = DeviceQuestion(
       id: 'updates',
-      text: 'Sind automatische Sicherheits-Updates für das Gerät aktiviert?',
-      hint: 'Updates schließen bekannte Sicherheitslücken zeitnah.',
+      text: 'q_updates_text',
+      hint: 'q_updates_hint',
     );
     const qNetwork = DeviceQuestion(
       id: 'network',
-      text:
-          'Ist das Gerät in einem separaten Smart-Home- oder IoT-WLAN eingebunden?',
-      hint:
-          'Ein eigenes Netz für smarte Geräte schützt Ihr restliches Heimnetzwerk.',
+      text: 'q_network_text',
+      hint: 'q_network_hint',
     );
     const qInformed = DeviceQuestion(
       id: 'informed',
-      text:
-          'Sind alle Personen im Haushalt über dieses Gerät und seine Funktion informiert?',
-      hint:
-          'Alle Mitbewohnenden sollten wissen, welche Daten das Gerät erfasst.',
+      text: 'q_informed_text',
+      hint: 'q_informed_hint',
     );
     const qPermissions = DeviceQuestion(
       id: 'permissions',
-      text:
-          'Haben Sie unnötige App-Berechtigungen (z. B. Standort, Kontakte) deaktiviert?',
-      hint: 'Nur wirklich benötigte Berechtigungen sollten aktiviert sein.',
+      text: 'q_permissions_text',
+      hint: 'q_permissions_hint',
     );
     const qMicActive = DeviceQuestion(
       id: 'mic_active',
-      text: 'Deaktivieren Sie das Mikrofon, wenn Sie es nicht aktiv nutzen?',
-      hint:
-          'Smarte Lautsprecher und Geräte mit Mikrofonen können versehentlich aktiviert werden.',
+      text: 'q_mic_active_text',
+      hint: 'q_mic_active_hint',
     );
-    // Unused base questions kept for reference (re-enable per device type as needed):
-    // const qCameraConsent = DeviceQuestion(
-    //   id: 'camera_consent',
-    //   text: 'Filmt die Kamera nur Bereiche, für die alle Betroffenen ihr Einverständnis gegeben haben?',
-    //   hint: 'Kameras in Gemeinschafts- oder Privatbereichen bedürfen der Zustimmung aller Bewohner.',
-    // );
 
     // ── Sensor: tailored set – no app/password/update concept ─────────────────
     if (template.deviceType == 'sensor') {
       return const [
-        // DeviceQuestion(id: 'sensor_informed', ...) // removed – generic, ≈ qInformed
-        // DeviceQuestion(id: 'sensor_network', ...)  // removed – generic, ≈ qNetwork
         DeviceQuestion(
           id: 'sensor_frequency',
-          text:
-              'Können Sie das Messintervall des Sensors reduzieren (z. B. seltener messen)?',
-          hint:
-              'Eine niedrigere Messfrequenz erzeugt weniger Daten und schränkt Rückschlüsse auf Ihr Verhalten ein.',
+          text: 'q_sensor_frequency_text',
+          hint: 'q_sensor_frequency_hint',
         ),
         DeviceQuestion(
           id: 'sensor_data_deletion',
-          text: 'Werden ältere Messwerte automatisch oder auf Wunsch gelöscht?',
-          hint:
-              'Alte Verlaufsdaten sollten nicht dauerhaft gespeichert bleiben. Prüfen Sie die Aufbewahrungszeit in den Einstellungen.',
+          text: 'q_sensor_data_deletion_text',
+          hint: 'q_sensor_data_deletion_hint',
         ),
         DeviceQuestion(
           id: 'sensor_granularity',
-          text:
-              'Zeigt das System die Sensordaten nur in zusammengefasster Form an (z. B. Tages- statt Minutenwerte)?',
-          hint:
-              'Weniger granulare Anzeigen schützen vor Rückschlüssen auf genaue Anwesenheits- oder Verhaltensmuster.',
+          text: 'q_sensor_granularity_text',
+          hint: 'q_sensor_granularity_hint',
         ),
         DeviceQuestion(
           id: 'sensor_local',
-          text:
-              'Werden die Messdaten lokal verarbeitet und gespeichert, ohne in eine Cloud übertragen zu werden?',
-          hint:
-              'Lokale Verarbeitung verhindert, dass der Hersteller Einblick in Ihre Messwerte erhält.',
+          text: 'q_sensor_local_text',
+          hint: 'q_sensor_local_hint',
         ),
       ];
     }
@@ -646,31 +223,20 @@ class DeviceInstance {
     // ── Speaker ───────────────────────────────────────────────────────────────
     if (template.deviceType == 'speaker') {
       return [
-        // qPassword,    // removed – generic
-        // qUpdates,     // removed – generic
-        // qNetwork,     // removed – generic
-        // qInformed,    // removed – generic
-        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'voice_history',
-          text:
-              'Können Sie Sprachaufnahmen aus der Geräte-Historie löschen oder diese Funktion deaktivieren?',
-          hint:
-              'BSI-Empfehlung: Minimieren Sie die Speicherung von Aufnahmen oder löschen Sie sie regelmäßig.',
+          text: 'q_voice_history_text',
+          hint: 'q_voice_history_hint',
         ),
         const DeviceQuestion(
           id: 'voice_local',
-          text:
-              'Wird die Sprachverarbeitung teilweise lokal auf dem Gerät durchgeführt?',
-          hint:
-              'Lokale Verarbeitung reduziert die Menge an Daten, die in die Cloud übertragen werden.',
+          text: 'q_voice_local_text',
+          hint: 'q_voice_local_hint',
         ),
         const DeviceQuestion(
           id: 'skills_permissions',
-          text:
-              'Überprüfen Sie regelmäßig, welche Fähigkeiten/Skills Zugriff auf Ihr Konto haben?',
-          hint:
-              'Skills von Drittanbietern können sensible Daten abfangen. Nur notwendige Skills aktivieren.',
+          text: 'q_skills_permissions_text',
+          hint: 'q_skills_permissions_hint',
         ),
         qMicActive,
       ];
@@ -679,39 +245,25 @@ class DeviceInstance {
     // ── Camera ────────────────────────────────────────────────────────────────
     if (template.deviceType == 'camera') {
       return const [
-        // qPassword,      // removed – generic
-        // qUpdates,       // removed – generic
-        // qNetwork,       // removed – generic
-        // qInformed,      // removed – generic
-        // qPermissions,   // removed – generic
-        // qCameraConsent, // removed – generic hasCamera flag
         DeviceQuestion(
           id: 'video_encryption',
-          text:
-              'Ist die Videoaufnahme und -übertragung durchgängig verschlüsselt?',
-          hint:
-              'BSI-Empfehlung: Verschlüsselte Verbindung verhindert Abhören und Datenklau unterwegs.',
+          text: 'q_video_encryption_text',
+          hint: 'q_video_encryption_hint',
         ),
         DeviceQuestion(
           id: 'video_storage',
-          text:
-              'Werden Aufnahmen lokal gespeichert (nicht ausschließlich in der Cloud des Anbieters)?',
-          hint:
-              'Lokale Speicherung gibt Ihnen mehr Kontrolle über Ihre Daten; bei reiner Cloud-Speicherung sind Sie auf die Sicherheit des Anbieters angewiesen.',
+          text: 'q_video_storage_text',
+          hint: 'q_video_storage_hint',
         ),
         DeviceQuestion(
           id: 'sharing_restrictions',
-          text:
-              'Können Sie steuern, wer auf die Live-View und Aufnahmen zugreifen kann?',
-          hint:
-              'Sie sollten genau kontrollieren können, wer Zugang zu den Videoaufnahmen erhält.',
+          text: 'q_sharing_restrictions_text',
+          hint: 'q_sharing_restrictions_hint',
         ),
         DeviceQuestion(
           id: 'motion_detection',
-          text:
-              'Können Sie Bewegungserkennung deaktivieren oder zeitlich begrenzen, wenn Sie zu Hause sind?',
-          hint:
-              'BSI-Empfehlung: Unnötige Aufnahmen vermeiden reduziert Datenmenge und Missbrauchsrisiko.',
+          text: 'q_motion_detection_text',
+          hint: 'q_motion_detection_hint',
         ),
       ];
     }
@@ -719,31 +271,21 @@ class DeviceInstance {
     // ── Smart TV ──────────────────────────────────────────────────────────────
     if (template.deviceType == 'tv') {
       return [
-        // qPassword,    // removed – generic
         qUpdates,
-        // qNetwork,     // removed – generic
-        // qInformed,    // removed – generic
-        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'account_required',
-          text:
-              'Können Sie das Gerät ohne obligatorisches Online-Konto nutzen?',
-          hint:
-              'Pflichtkonten ermöglichen dem Hersteller Werbe-Tracking und das Speichern Ihrer Sehgewohnheiten. Ein kontoloser Betrieb schützt Ihre Privatsphäre.',
+          text: 'q_account_required_text',
+          hint: 'q_account_required_hint',
         ),
         const DeviceQuestion(
           id: 'tracking_disabled',
-          text:
-              'Können Sie Werbe- und Tracking-Funktionen vollständig deaktivieren?',
-          hint:
-              'Smart-TVs sammeln oft Daten über Ihre Sehgewohnheiten. Suchen Sie nach Datenschutzoptionen.',
+          text: 'q_tracking_disabled_text',
+          hint: 'q_tracking_disabled_hint',
         ),
         const DeviceQuestion(
           id: 'local_mode',
-          text:
-              'Können Sie das Gerät über HDMI oder lokale Quellen ohne Internetverbindung nutzen?',
-          hint:
-              'Offline-Betrieb schützt Ihre Nutzungsdaten vor Übertragung an den Hersteller.',
+          text: 'q_local_mode_text',
+          hint: 'q_local_mode_hint',
         ),
       ];
     }
@@ -751,31 +293,21 @@ class DeviceInstance {
     // ── Thermostat ────────────────────────────────────────────────────────────
     if (template.deviceType == 'thermostat') {
       return [
-        // qPassword,    // removed – generic
         qUpdates,
-        // qNetwork,     // removed – generic
-        // qInformed,    // removed – generic
-        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'data_collection',
-          text:
-              'Bleiben Ihre Temperatur-Historien und Zeitpläne auf dem Gerät (keine Übertragung an den Hersteller)?',
-          hint:
-              'Historien können Anwesenheitsmuster und Lebensgewohnheiten offenbaren. Lokale Speicherung schützt vor unerwünschter Auswertung.',
+          text: 'q_data_collection_text',
+          hint: 'q_data_collection_hint',
         ),
         const DeviceQuestion(
           id: 'offline_control',
-          text:
-              'Können Sie das Thermostat auch offline betreiben (ohne Internet)?',
-          hint:
-              'Offline-Betrieb oder lokale Automatisierung schützt Ihre Daten vor Cloud-Zugriff.',
+          text: 'q_offline_control_text',
+          hint: 'q_offline_control_hint',
         ),
         const DeviceQuestion(
           id: 'family_access',
-          text:
-              'Können Sie steuern, wer die Heizung anpassen darf (z. B. nur Gäste einschränken)?',
-          hint:
-              'Haushaltsmitglieder sollten Kontrolle haben, ohne dass Besucher alles ändern können.',
+          text: 'q_family_access_text',
+          hint: 'q_family_access_hint',
         ),
       ];
     }
@@ -785,31 +317,21 @@ class DeviceInstance {
         template.deviceType == 'plug' ||
         template.deviceType == 'blind') {
       return [
-        // qPassword,    // removed – generic
         qUpdates,
-        // qNetwork,     // removed – generic
-        // qInformed,    // removed – generic
-        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'local_control',
-          text:
-              'Können Automatisierungen lokal ohne Internetverbindung erfolgen?',
-          hint:
-              'Lokale Ausführung von Szenen und Zeitplänen schützt Ihre Privatsphäre besser.',
+          text: 'q_local_control_text',
+          hint: 'q_local_control_hint',
         ),
         const DeviceQuestion(
           id: 'usage_tracking',
-          text:
-              'Haben Sie die Erfassung von Schaltmustern und Nutzungszeiten durch den Hersteller deaktiviert oder eingeschränkt?',
-          hint:
-              'Nutzungsmuster können Ihre Anwesenheit und Gewohnheiten offenbaren. Prüfen Sie die Datenschutzeinstellungen der App.',
+          text: 'q_usage_tracking_text',
+          hint: 'q_usage_tracking_hint',
         ),
         const DeviceQuestion(
           id: 'offline_fallback',
-          text:
-              'Funktionieren die Geräte noch, wenn die Internet- oder App-Verbindung ausfällt?',
-          hint:
-              'Zuverlässige lokale Funktion ist wichtig für alltägliche Nutzung und Privatsphäre.',
+          text: 'q_offline_fallback_text',
+          hint: 'q_offline_fallback_hint',
         ),
       ];
     }
@@ -818,29 +340,20 @@ class DeviceInstance {
     if (template.deviceType == 'lock') {
       return [
         qPassword,
-        // qUpdates,     // removed – generic
-        // qNetwork,     // removed – generic
-        // qInformed,    // removed – generic
-        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'offline_unlock',
-          text:
-              'Können Sie das Schloss auch offline (z. B. mit Code oder Schlüssel) öffnen?',
-          hint:
-              'Backup-Optionen verhindern Aussperrung bei Internet- oder Stromausfällen.',
+          text: 'q_offline_unlock_text',
+          hint: 'q_offline_unlock_hint',
         ),
         const DeviceQuestion(
           id: 'access_logging',
-          text: 'Können Sie nachvollziehen, wer wann das Schloss geöffnet hat?',
-          hint:
-              'Ein Zugriffsverlauf ermöglicht Ihnen, verdächtige Aktivitäten zu erkennen.',
+          text: 'q_access_logging_text',
+          hint: 'q_access_logging_hint',
         ),
         const DeviceQuestion(
           id: 'two_factor',
-          text:
-              'Ist Zwei-Faktor-Authentifizierung (2FA) für das Sperr-Konto verfügbar?',
-          hint:
-              'BSI-Empfehlung: 2FA schützt Ihr Konto vor unbefugtem Fernzugriff auf das Schloss.',
+          text: 'q_two_factor_text',
+          hint: 'q_two_factor_hint',
         ),
       ];
     }
@@ -848,31 +361,21 @@ class DeviceInstance {
     // ── Robot Vacuum ──────────────────────────────────────────────────────────
     if (template.deviceType == 'robot') {
       return [
-        // qPassword,    // removed – generic
         qUpdates,
-        // qNetwork,     // removed – generic
-        // qInformed,    // removed – generic
-        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'map_privacy',
-          text:
-              'Werden die erstellten Grundrisse ausschließlich lokal auf dem Gerät gespeichert?',
-          hint:
-              'Grundrisse Ihres Hauses sind sensible Informationen und sollten nicht an den Hersteller übermittelt werden.',
+          text: 'q_map_privacy_text',
+          hint: 'q_map_privacy_hint',
         ),
         const DeviceQuestion(
           id: 'cloud_required',
-          text:
-              'Funktioniert die Grundriss-Navigation auch ohne Cloud-Verbindung?',
-          hint:
-              'Geräte mit lokaler Navigation sind datenschutzfreundlicher, da keine Raumdaten in die Cloud übertragen werden.',
+          text: 'q_cloud_required_text',
+          hint: 'q_cloud_required_hint',
         ),
         const DeviceQuestion(
           id: 'vision_data',
-          text:
-              'Wenn der Roboter Kameras nutzt: Werden die Kamerabilder ausschließlich lokal für die Navigation verwendet (kein Speichern oder Übertragen)?',
-          hint:
-              'Kamerabilder sollten nur lokal für die Navigation verarbeitet und weder gespeichert noch an den Hersteller gesendet werden.',
+          text: 'q_vision_data_text',
+          hint: 'q_vision_data_hint',
         ),
       ];
     }
@@ -880,31 +383,21 @@ class DeviceInstance {
     // ── Connected Toy ─────────────────────────────────────────────────────────
     if (template.deviceType == 'toy') {
       return [
-        // qPassword,    // removed – generic
         qUpdates,
-        // qNetwork,     // removed – generic
-        // qInformed,    // removed – generic
-        // qPermissions, // removed – generic
         const DeviceQuestion(
           id: 'parental_control',
-          text:
-              'Gibt es Elternkontroll-Funktionen zur Verwaltung des Spielzeugs?',
-          hint:
-              'Elternkontrolle sollte ermöglichen, Kontakte und Funktionen zu beschränken.',
+          text: 'q_parental_control_text',
+          hint: 'q_parental_control_hint',
         ),
         const DeviceQuestion(
           id: 'child_data_limits',
-          text:
-              'Können Sie einschränken, welche persönlichen Daten das Spielzeug sammelt?',
-          hint:
-              'Kinder-spezifische Geräte sollten minimale Datenmenge erfassen und speichern.',
+          text: 'q_child_data_limits_text',
+          hint: 'q_child_data_limits_hint',
         ),
         const DeviceQuestion(
           id: 'recording_disable',
-          text:
-              'Können Sie Audio- und Videoaufnahmen auf dem Gerät deaktivieren?',
-          hint:
-              'BSI-Empfehlung: Aufnahmen von Kindern sollten nur mit expliziter Kontrolle möglich sein.',
+          text: 'q_recording_disable_text',
+          hint: 'q_recording_disable_hint',
         ),
       ];
     }
@@ -912,88 +405,60 @@ class DeviceInstance {
     // ── Wearable / Fitness Tracker ────────────────────────────────────────────
     if (template.deviceType == 'wearable') {
       return [
-        // qPassword,    // removed – generic
         qUpdates,
-        // qNetwork,     // removed – generic
-        // qInformed,    // removed – generic
         qPermissions,
         const DeviceQuestion(
           id: 'health_sharing',
-          text:
-              'Können Sie steuern, welche Drittanbieter Zugriff auf Ihre Gesundheitsdaten haben?',
-          hint:
-              'Gesundheitsdaten sind sensibel. Nur autorisierte Apps sollten Zugriff erhalten.',
+          text: 'q_health_sharing_text',
+          hint: 'q_health_sharing_hint',
         ),
         const DeviceQuestion(
           id: 'location_tracking',
-          text:
-              'Können Sie Standortverfolgung deaktivieren, wenn Sie sie nicht benötigen?',
-          hint:
-              'GPS-Tracking verbraucht Akku und kann Ihre Bewegungsmuster offenbaren.',
+          text: 'q_location_tracking_text',
+          hint: 'q_location_tracking_hint',
         ),
       ];
     }
 
     // ── Default / custom device ───────────────────────────────────────────────
-    // Keep the 4 most universally important base questions.
-    return [
-      qPassword,
-      qUpdates,
-      qNetwork,
-      qInformed,
-      // qPermissions, // removed – only applicable when device has a companion app
-    ];
+    return [qPassword, qUpdates, qNetwork, qInformed];
   }
 
   static const List<DeviceQuestion> _expertCommonQuestions = [
     DeviceQuestion(
       id: 'expert_data_retention_duration',
-      text:
-          'Ist die Aufbewahrungsdauer Ihrer personenbezogenen Daten konkret festgelegt und auf das Notwendige begrenzt?',
-      hint:
-          'Inspiriert durch CMU IoT Security & Privacy Label und Unboxing.IoT.Privacy: kurze, klare Speicherfristen reduzieren Risiken.',
+      text: 'q_expert_data_retention_duration_text',
+      hint: 'q_expert_data_retention_duration_hint',
     ),
     DeviceQuestion(
       id: 'expert_access_control_granular',
-      text:
-          'Können Sie Zugriffsrechte granular steuern (Rollen, getrennte Konten, keine geteilten Standard-Logins)?',
-      hint:
-          'Granulare Zugriffskontrolle senkt das Risiko unbefugter Einsicht und Fehlbedienung.',
+      text: 'q_expert_access_control_granular_text',
+      hint: 'q_expert_access_control_granular_hint',
     ),
     DeviceQuestion(
       id: 'expert_third_party_sharing_limited',
-      text:
-          'Ist die Weitergabe an Dritte deaktiviert oder klar auf notwendige Dienste begrenzt?',
-      hint:
-          'Prüfen Sie in Datenschutz- und Kontoeinstellungen, ob Daten an Werbe-, Analyse- oder Partnerdienste fließen.',
+      text: 'q_expert_third_party_sharing_limited_text',
+      hint: 'q_expert_third_party_sharing_limited_hint',
     ),
     DeviceQuestion(
       id: 'expert_data_sale_disabled',
-      text:
-          'Ist der Verkauf Ihrer Daten ausgeschlossen (oder aktiv deaktiviert, falls möglich)?',
-      hint:
-          'Eine ausdrückliche "kein Datenverkauf"-Option ist ein starkes Datenschutzsignal.',
+      text: 'q_expert_data_sale_disabled_text',
+      hint: 'q_expert_data_sale_disabled_hint',
     ),
     DeviceQuestion(
       id: 'expert_update_support_window',
-      text:
-          'Ist bekannt, wie lange der Hersteller Sicherheitsupdates garantiert?',
-      hint:
-          'Eine transparente Update-Zusage reduziert langfristige Sicherheits- und Privatsphärerisiken.',
+      text: 'q_expert_update_support_window_text',
+      hint: 'q_expert_update_support_window_hint',
     ),
     DeviceQuestion(
       id: 'expert_vulnerability_process',
-      text:
-          'Gibt es einen dokumentierten Prozess zur Meldung und Behebung von Sicherheitslücken?',
-      hint:
-          'Bevorzugen Sie Hersteller mit Responsible-Disclosure- oder Security-Contact-Informationen.',
+      text: 'q_expert_vulnerability_process_text',
+      hint: 'q_expert_vulnerability_process_hint',
     ),
     DeviceQuestion(
       id: 'expert_offline_functionality',
-      text:
-          'Bleibt das Gerät auch mit eingeschränkter Internetverbindung sinnvoll nutzbar?',
-      hint:
-          'Mehr Offline-Funktionalität bedeutet oft weniger laufende Datenübertragung in die Cloud.',
+      text: 'q_expert_offline_functionality_text',
+      hint: 'q_expert_offline_functionality_hint',
     ),
   ];
 
@@ -1003,10 +468,8 @@ class DeviceInstance {
       questions.add(
         const DeviceQuestion(
           id: 'expert_bystander_transparency',
-          text:
-              'Werden Betroffene im Umfeld transparent informiert (z. B. Sichtbarkeit, Hinweise, klare Aufnahmeanzeige)?',
-          hint:
-              'Das adressiert Bystander-Privacy und wurde in Unboxing.IoT.Privacy als zentrale Herausforderung hervorgehoben.',
+          text: 'q_expert_bystander_transparency_text',
+          hint: 'q_expert_bystander_transparency_hint',
         ),
       );
     }
@@ -1014,10 +477,8 @@ class DeviceInstance {
       questions.add(
         const DeviceQuestion(
           id: 'expert_child_data_protection',
-          text:
-              'Sind Schutzmaßnahmen für Kinderdaten aktiv (Minimierung, keine Profilbildung, restriktive Freigaben)?',
-          hint:
-              'Geräte in kinderbezogenen Kontexten brauchen besonders strenge Datenschutzvorgaben.',
+          text: 'q_expert_child_data_protection_text',
+          hint: 'q_expert_child_data_protection_hint',
         ),
       );
     }
@@ -1025,10 +486,8 @@ class DeviceInstance {
       questions.add(
         const DeviceQuestion(
           id: 'expert_access_revocation',
-          text:
-              'Können digitale Schlüssel/Zugriffe schnell und einzeln widerrufen werden?',
-          hint:
-              'Schneller Widerruf ist zentral, wenn Geräte geteilt oder Nutzer gewechselt werden.',
+          text: 'q_expert_access_revocation_text',
+          hint: 'q_expert_access_revocation_hint',
         ),
       );
     }
@@ -1036,10 +495,8 @@ class DeviceInstance {
       questions.add(
         const DeviceQuestion(
           id: 'expert_sensitive_inference_controls',
-          text:
-              'Sind Funktionen zur Ableitung sensibler Gesundheits-/Verhaltensprofile eingeschränkt oder deaktivierbar?',
-          hint:
-              'Inferenzkontrolle reduziert Risiken durch sekundäre Nutzung sensibler Daten.',
+          text: 'q_expert_sensitive_inference_controls_text',
+          hint: 'q_expert_sensitive_inference_controls_hint',
         ),
       );
     }
@@ -1183,364 +640,315 @@ class DeviceInstance {
     }
 
     if (template.deviceType == 'camera' || template.hasCamera) {
-      return 'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt das Grundrisiko bei Kameras höher, weil sie besonders sensible Beobachtungsdaten erfassen und bei Fehlkonfiguration zur Überwachung genutzt werden können.';
+      return 'risk_hint_camera';
     }
     if (template.deviceType == 'speaker' || template.hasMicrophone) {
-      return 'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt das Grundrisiko bei Geräten mit Mikrofon erhöht, da Sprachdaten sehr sensibel sind und Fehlaktivierungen bzw. Cloud-Verarbeitung weiterhin Risiken bergen.';
+      return 'risk_hint_mic';
     }
     if (template.deviceType == 'lock') {
-      return 'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt bei smarten Schlössern ein erhöhtes Grundrisiko, da ein möglicher Missbrauch direkt den physischen Zugang zur Wohnung betrifft.';
+      return 'risk_hint_lock';
     }
     if (roomId == _childBedroomRoomId) {
-      return 'Sie haben alle Fragen positiv beantwortet. Dennoch bleibt im Kinderzimmer ein erhöhtes Grundrisiko, da dort häufig besonders sensible Daten zu Kindern und ihrem Alltag betroffen sind.';
+      return 'risk_hint_child_room';
     }
 
-    return 'Sie haben alle Fragen positiv beantwortet. Das Gerät bleibt trotzdem im mittleren/hohen Bereich, weil bereits die Art des Geräts sensible Nutzungs- und Verhaltensdaten offenlegen kann.';
+    return 'risk_hint_generic';
   }
 
   List<PrivacyAction> get suggestedActions {
     final actions = <PrivacyAction>[];
     const noAnswerActions = <String, PrivacyAction>{
       'password': PrivacyAction(
-        title: 'Standard-Passwort ändern',
-        description:
-            'Ersetzen Sie das voreingestellte Passwort durch ein starkes, einzigartiges Passwort. Nutzen Sie einen Passwortmanager.',
+        title: 'a_password_title',
+        description: 'a_password_desc',
         type: ActionType.security,
         priority: ActionPriority.high,
       ),
       'updates': PrivacyAction(
-        title: 'Automatische Updates aktivieren',
-        description:
-            'Aktivieren Sie automatische Sicherheits-Updates in den Geräte- oder App-Einstellungen.',
+        title: 'a_updates_title',
+        description: 'a_updates_desc',
         type: ActionType.security,
         priority: ActionPriority.high,
       ),
       'network': PrivacyAction(
-        title: 'Separates IoT-WLAN einrichten',
-        description:
-            'Richten Sie ein eigenes WLAN für Smart-Home-Geräte ein, z. B. über die Gastnetz-Funktion Ihres Routers.',
+        title: 'a_network_title',
+        description: 'a_network_desc',
         type: ActionType.technical,
         priority: ActionPriority.medium,
       ),
       'informed': PrivacyAction(
-        title: 'Haushaltsmitglieder informieren',
-        description:
-            'Informieren Sie alle Bewohner: welche Daten das Gerät erfasst, wer Zugriff hat und wie es sich deaktivieren lässt.',
+        title: 'a_informed_title',
+        description: 'a_informed_desc',
         type: ActionType.social,
         priority: ActionPriority.medium,
       ),
       'permissions': PrivacyAction(
-        title: 'App-Berechtigungen einschränken',
-        description:
-            'Prüfen Sie in den Smartphone-Einstellungen die Berechtigungen der zugehörigen App und deaktivieren Sie nicht benötigte.',
+        title: 'a_permissions_title',
+        description: 'a_permissions_desc',
         type: ActionType.technical,
         priority: ActionPriority.medium,
       ),
       'camera_consent': PrivacyAction(
-        title: 'Kameraausrichtung mit Bewohnern abstimmen',
-        description:
-            'Holen Sie das Einverständnis aller Betroffenen ein. Die Kamera darf keine Bereiche ohne Zustimmung erfassen.',
+        title: 'a_camera_consent_title',
+        description: 'a_camera_consent_desc',
         type: ActionType.social,
         priority: ActionPriority.high,
       ),
       'mic_active': PrivacyAction(
-        title: 'Mikrofon bei Nichtnutzung deaktivieren',
-        description:
-            'Nutzen Sie den physischen Stummschalter oder deaktivieren Sie das Mikrofon in den Einstellungen.',
+        title: 'a_mic_active_title',
+        description: 'a_mic_active_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'sensor_frequency': PrivacyAction(
-        title: 'Messintervall reduzieren',
-        description:
-            'Verringern Sie, wenn möglich, die Messfrequenz des Sensors. Weniger häufige Messungen erzeugen weniger Verhaltensdaten.',
+        title: 'a_sensor_frequency_title',
+        description: 'a_sensor_frequency_desc',
         type: ActionType.technical,
         priority: ActionPriority.medium,
       ),
       'sensor_data_deletion': PrivacyAction(
-        title: 'Alte Messwerte löschen',
-        description:
-            'Prüfen Sie Aufbewahrungsfristen in App oder Weboberfläche und aktivieren Sie automatische Löschung oder löschen Sie ältere Daten regelmäßig manuell.',
+        title: 'a_sensor_data_deletion_title',
+        description: 'a_sensor_data_deletion_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'sensor_granularity': PrivacyAction(
-        title: 'Daten weniger detailliert anzeigen',
-        description:
-            'Stellen Sie, wenn möglich, eine gröbere Anzeige oder Auswertung ein, zum Beispiel Tageswerte statt Minutenwerte.',
+        title: 'a_sensor_granularity_title',
+        description: 'a_sensor_granularity_desc',
         type: ActionType.technical,
         priority: ActionPriority.medium,
       ),
       'sensor_local': PrivacyAction(
-        title: 'Lokale Verarbeitung bevorzugen',
-        description:
-            'Prüfen Sie, ob sich Cloud-Synchronisation deaktivieren oder eine lokale Speicherung aktivieren lässt, damit Messdaten nicht an den Hersteller übertragen werden.',
+        title: 'a_sensor_local_title',
+        description: 'a_sensor_local_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'voice_history': PrivacyAction(
-        title: 'Sprachaufzeichnungen löschen',
-        description:
-            'BSI-Empfehlung: Löschen Sie Sprachaufzeichnungen regelmäßig und deaktivieren Sie die Speicherung von Sprachverlauf, falls die Option verfügbar ist.',
+        title: 'a_voice_history_title',
+        description: 'a_voice_history_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'voice_local': PrivacyAction(
-        title: 'Lokale Sprachverarbeitung aktivieren',
-        description:
-            'Aktivieren Sie lokale Sprachverarbeitung, falls verfügbar. Falls nicht verfügbar, minimieren Sie Cloud-Speicherung von Sprachdaten.',
+        title: 'a_voice_local_title',
+        description: 'a_voice_local_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'skills_permissions': PrivacyAction(
-        title: 'Skills/Fähigkeiten überprüfen',
-        description:
-            'Überprüfen Sie, welche Drittanbieter-Skills Zugriff haben. Deaktivieren Sie unnötige Skills.',
+        title: 'a_skills_permissions_title',
+        description: 'a_skills_permissions_desc',
         type: ActionType.technical,
         priority: ActionPriority.medium,
       ),
       'video_encryption': PrivacyAction(
-        title: 'WLAN-Verschlüsselung prüfen',
-        description:
-            'BSI-Empfehlung: Verwenden Sie WPA2 oder WPA3 für Ihr Heimnetz. WEP und WPA sind veraltet.',
+        title: 'a_video_encryption_title',
+        description: 'a_video_encryption_desc',
         type: ActionType.security,
         priority: ActionPriority.high,
       ),
       'video_storage': PrivacyAction(
-        title: 'Aufnahmen lokal speichern',
-        description:
-            'Stellen Sie, wenn möglich, lokale Speicherung ein. Falls nur Cloud-Speicherung möglich ist, reduzieren Sie die Aufbewahrungsdauer und löschen Sie Aufnahmen regelmäßig.',
+        title: 'a_video_storage_title',
+        description: 'a_video_storage_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'sharing_restrictions': PrivacyAction(
-        title: 'Kamera-Zugriffe einschränken',
-        description:
-            'Entfernen Sie in der App alle unnötigen Freigaben und erlauben Sie Live-View/Aufnahmen nur für benötigte Konten.',
+        title: 'a_sharing_restrictions_title',
+        description: 'a_sharing_restrictions_desc',
         type: ActionType.social,
         priority: ActionPriority.high,
       ),
       'motion_detection': PrivacyAction(
-        title: 'Bewegungserkennung bei Anwesenheit deaktivieren',
-        description:
-            'Deaktivieren Sie Bewegungserkennung, wenn Personen zu Hause sind, oder setzen Sie einen Zeitplan, der sie nur in Abwesenheitszeiten aktiviert.',
+        title: 'a_motion_detection_title',
+        description: 'a_motion_detection_desc',
         type: ActionType.technical,
         priority: ActionPriority.medium,
       ),
       'account_required': PrivacyAction(
-        title: 'Kontopflicht datenschutzarm umsetzen',
-        description:
-            'Falls kein kontoloser Betrieb möglich ist, verwenden Sie ein separates Konto mit minimalen Profildaten und deaktivieren Sie personalisierte Dienste.',
+        title: 'a_account_required_title',
+        description: 'a_account_required_desc',
         type: ActionType.social,
         priority: ActionPriority.medium,
       ),
       'tracking_disabled': PrivacyAction(
-        title: 'Tracking und Werbung deaktivieren',
-        description:
-            'Deaktivieren Sie in den Datenschutzoptionen Tracking, personalisierte Werbung und optionale Telemetrie.',
+        title: 'a_tracking_disabled_title',
+        description: 'a_tracking_disabled_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'local_mode': PrivacyAction(
-        title: 'Offline-Nutzung bevorzugen',
-        description:
-            'Nutzen Sie das Gerät primär über lokale Quellen (z. B. HDMI), um Datenübertragung an den Hersteller zu reduzieren.',
+        title: 'a_local_mode_title',
+        description: 'a_local_mode_desc',
         type: ActionType.social,
         priority: ActionPriority.medium,
       ),
       'data_collection': PrivacyAction(
-        title: 'Historien-Upload deaktivieren',
-        description:
-            'Deaktivieren Sie in der Thermostat-App die Übertragung von Temperaturhistorien an den Hersteller und verkürzen Sie die Speicherdauer.',
+        title: 'a_data_collection_title',
+        description: 'a_data_collection_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'offline_control': PrivacyAction(
-        title: 'Lokale Steuerung einrichten',
-        description:
-            'Konfigurieren Sie lokale Zeitpläne und eine Bedienung ohne Cloud-Abhängigkeit, falls das Gerät dies unterstützt.',
+        title: 'a_offline_control_title',
+        description: 'a_offline_control_desc',
         type: ActionType.technical,
         priority: ActionPriority.medium,
       ),
       'family_access': PrivacyAction(
-        title: 'Zugriffsrechte für Haushaltsmitglieder trennen',
-        description:
-            'Richten Sie getrennte Rollen/Konten ein, damit nur berechtigte Personen Änderungen an der Heizung vornehmen können.',
+        title: 'a_family_access_title',
+        description: 'a_family_access_desc',
         type: ActionType.social,
         priority: ActionPriority.medium,
       ),
       'local_control': PrivacyAction(
-        title: 'Lokale Automatisierungen aktivieren',
-        description:
-            'Nutzen Sie lokale Szenen/Zeitpläne statt Cloud-Automatisierungen, sofern verfügbar.',
+        title: 'a_local_control_title',
+        description: 'a_local_control_desc',
         type: ActionType.technical,
         priority: ActionPriority.medium,
       ),
       'usage_tracking': PrivacyAction(
-        title: 'Nutzungs-Tracking deaktivieren',
-        description:
-            'Schalten Sie in den App-Einstellungen Analyse-, Telemetrie- und Nutzungsdatenerfassung aus.',
+        title: 'a_usage_tracking_title',
+        description: 'a_usage_tracking_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'offline_fallback': PrivacyAction(
-        title: 'Offline-Notbetrieb sicherstellen',
-        description:
-            'Prüfen Sie lokale Schalter/Taster und richten Sie Fallback-Bedienung ein, damit das Gerät auch ohne Internet nutzbar bleibt.',
+        title: 'a_offline_fallback_title',
+        description: 'a_offline_fallback_desc',
         type: ActionType.security,
         priority: ActionPriority.medium,
       ),
       'offline_unlock': PrivacyAction(
-        title: 'Offline-Zugang absichern',
-        description:
-            'Richten Sie einen physischen Schlüssel oder einen Notfall-Code ein und testen Sie den Zugriff bei Ausfall der Internetverbindung.',
+        title: 'a_offline_unlock_title',
+        description: 'a_offline_unlock_desc',
         type: ActionType.security,
         priority: ActionPriority.high,
       ),
       'access_logging': PrivacyAction(
-        title: 'Zugriffsprotokoll aktivieren',
-        description:
-            'Aktivieren Sie Protokollierung und Benachrichtigungen für Schlossöffnungen, damit unbefugte Zugriffe auffallen.',
+        title: 'a_access_logging_title',
+        description: 'a_access_logging_desc',
         type: ActionType.security,
         priority: ActionPriority.medium,
       ),
       'two_factor': PrivacyAction(
-        title: 'Zwei-Faktor-Authentifizierung aktivieren',
-        description:
-            'BSI-Empfehlung: Aktivieren Sie 2FA für Ihr Schlosskonto um Remote-Zugriffe zu schützen.',
+        title: 'a_two_factor_title',
+        description: 'a_two_factor_desc',
         type: ActionType.security,
         priority: ActionPriority.high,
       ),
       'map_privacy': PrivacyAction(
-        title: 'Cloud-Grundrissspeicherung deaktivieren',
-        description:
-            'Stellen Sie die Speicherung auf lokal um und deaktivieren Sie Cloud-Backups von Grundrissen, falls diese Option verfügbar ist.',
+        title: 'a_map_privacy_title',
+        description: 'a_map_privacy_desc',
         type: ActionType.social,
         priority: ActionPriority.high,
       ),
       'cloud_required': PrivacyAction(
-        title: 'Cloud-Abhängigkeit reduzieren',
-        description:
-            'Aktivieren Sie lokale Navigation oder Offline-Modus, falls verfügbar. Wenn nicht verfügbar, bewerten Sie einen Wechsel zu einem datenschutzfreundlicheren Modell.',
+        title: 'a_cloud_required_title',
+        description: 'a_cloud_required_desc',
         type: ActionType.technical,
         priority: ActionPriority.medium,
       ),
       'vision_data': PrivacyAction(
-        title: 'Kameradaten nur lokal verarbeiten',
-        description:
-            'Deaktivieren Sie Upload/Speicherung von Kamerabildern und nutzen Sie, wenn möglich, ausschließlich lokale Navigationsverarbeitung.',
+        title: 'a_vision_data_title',
+        description: 'a_vision_data_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'parental_control': PrivacyAction(
-        title: 'Elternkontrolle einrichten',
-        description:
-            'Aktivieren Sie Elternkontrolle mit PIN und beschränken Sie Kontakte, Funktionen und Freigaben auf das Notwendige.',
+        title: 'a_parental_control_title',
+        description: 'a_parental_control_desc',
         type: ActionType.social,
         priority: ActionPriority.high,
       ),
       'child_data_limits': PrivacyAction(
-        title: 'Datenerfassung minimieren',
-        description:
-            'Deaktivieren Sie optionale Profildaten und erfassen Sie nur die für die Kernfunktion erforderlichen Kinderdaten.',
+        title: 'a_child_data_limits_title',
+        description: 'a_child_data_limits_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'recording_disable': PrivacyAction(
-        title: 'Audio/Video-Aufnahmen deaktivieren',
-        description:
-            'Schalten Sie Aufnahmefunktionen standardmäßig aus und aktivieren Sie sie nur bei konkretem Bedarf kurzzeitig.',
+        title: 'a_recording_disable_title',
+        description: 'a_recording_disable_desc',
         type: ActionType.security,
         priority: ActionPriority.high,
       ),
       'health_sharing': PrivacyAction(
-        title: 'Gesundheitsdaten-Freigaben einschränken',
-        description:
-            'Entziehen Sie unnötigen Drittanbieter-Apps den Zugriff auf Gesundheitsdaten in App- und Kontoeinstellungen.',
+        title: 'a_health_sharing_title',
+        description: 'a_health_sharing_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'location_tracking': PrivacyAction(
-        title: 'Standortfreigabe reduzieren',
-        description:
-            'Deaktivieren Sie Standortverfolgung außerhalb aktiver Nutzung oder erlauben Sie sie nur beim Verwenden der App.',
+        title: 'a_location_tracking_title',
+        description: 'a_location_tracking_desc',
         type: ActionType.technical,
         priority: ActionPriority.medium,
       ),
       'expert_data_retention_duration': PrivacyAction(
-        title: 'Speicherfristen festlegen',
-        description:
-            'Setzen Sie klare kurze Aufbewahrungsfristen in den Einstellungen und löschen Sie Altbestände regelmäßig.',
+        title: 'a_expert_data_retention_duration_title',
+        description: 'a_expert_data_retention_duration_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'expert_access_control_granular': PrivacyAction(
-        title: 'Granulare Rollen und Konten einführen',
-        description:
-            'Nutzen Sie getrennte Konten statt Shared-Logins und vergeben Sie nur die minimal nötigen Rechte.',
+        title: 'a_expert_access_control_granular_title',
+        description: 'a_expert_access_control_granular_desc',
         type: ActionType.security,
         priority: ActionPriority.high,
       ),
       'expert_third_party_sharing_limited': PrivacyAction(
-        title: 'Drittweitergabe begrenzen',
-        description:
-            'Deaktivieren Sie Partner-, Werbe- und Analyseweitergaben in Datenschutz- und Kontoeinstellungen.',
+        title: 'a_expert_third_party_sharing_limited_title',
+        description: 'a_expert_third_party_sharing_limited_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
       'expert_data_sale_disabled': PrivacyAction(
-        title: 'Datenverkauf widersprechen',
-        description:
-            'Aktivieren Sie vorhandene "Do not sell"-Optionen bzw. widersprechen Sie der Datenweitergabe für Vermarktung.',
+        title: 'a_expert_data_sale_disabled_title',
+        description: 'a_expert_data_sale_disabled_desc',
         type: ActionType.social,
         priority: ActionPriority.high,
       ),
       'expert_update_support_window': PrivacyAction(
-        title: 'Update-Zusage verifizieren',
-        description:
-            'Prüfen Sie die offizielle Update-Policy des Herstellers und planen Sie bei fehlender Zusage einen Gerätewechsel ein.',
+        title: 'a_expert_update_support_window_title',
+        description: 'a_expert_update_support_window_desc',
         type: ActionType.social,
         priority: ActionPriority.medium,
       ),
       'expert_vulnerability_process': PrivacyAction(
-        title: 'Hersteller-Sicherheitsprozess prüfen',
-        description:
-            'Bevorzugen Sie Hersteller mit klarer Security-Kontaktstelle und Responsible-Disclosure-Prozess.',
+        title: 'a_expert_vulnerability_process_title',
+        description: 'a_expert_vulnerability_process_desc',
         type: ActionType.social,
         priority: ActionPriority.medium,
       ),
       'expert_offline_functionality': PrivacyAction(
-        title: 'Offline-Funktionalität priorisieren',
-        description:
-            'Aktivieren Sie lokale Betriebsmodi und minimieren Sie Cloud-Pflichtfunktionen, sofern das Gerät dies erlaubt.',
+        title: 'a_expert_offline_functionality_title',
+        description: 'a_expert_offline_functionality_desc',
         type: ActionType.technical,
         priority: ActionPriority.medium,
       ),
       'expert_bystander_transparency': PrivacyAction(
-        title: 'Transparenzhinweise für Umfeld ergänzen',
-        description:
-            'Sorgen Sie für sichtbare Hinweise, Aufnahmeanzeigen und klare Information für betroffene Personen im Umfeld.',
+        title: 'a_expert_bystander_transparency_title',
+        description: 'a_expert_bystander_transparency_desc',
         type: ActionType.social,
         priority: ActionPriority.medium,
       ),
       'expert_child_data_protection': PrivacyAction(
-        title: 'Kinderdatenschutz verschärfen',
-        description:
-            'Aktivieren Sie kindgerechte Profile, minimieren Sie Datenerhebung und deaktivieren Sie Profilbildung/Weitergabe.',
+        title: 'a_expert_child_data_protection_title',
+        description: 'a_expert_child_data_protection_desc',
         type: ActionType.security,
         priority: ActionPriority.high,
       ),
       'expert_access_revocation': PrivacyAction(
-        title: 'Schnellen Zugriffswiderruf einrichten',
-        description:
-            'Stellen Sie sicher, dass digitale Schlüssel einzeln und sofort widerrufen werden können, z. B. bei Geräteverlust.',
+        title: 'a_expert_access_revocation_title',
+        description: 'a_expert_access_revocation_desc',
         type: ActionType.security,
         priority: ActionPriority.high,
       ),
       'expert_sensitive_inference_controls': PrivacyAction(
-        title: 'Inferenzfunktionen einschränken',
-        description:
-            'Deaktivieren Sie Funktionen, die sensible Gesundheits- oder Verhaltensprofile ableiten, sofern diese nicht zwingend benötigt werden.',
+        title: 'a_expert_sensitive_inference_controls_title',
+        description: 'a_expert_sensitive_inference_controls_desc',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
@@ -1560,9 +968,8 @@ class DeviceInstance {
     if (dontKnowAnswerCount > 0) {
       actions.add(
         const PrivacyAction(
-          title: 'Geräteeinstellungen besser kennenlernen',
-          description:
-              'Mindestens eine Frage wurde mit "Weiß ich nicht" beantwortet. Prüfen Sie die Einstellungen und Dokumentation Ihres Geräts, damit Sie Risiken künftig gezielt reduzieren können.',
+          title: 'a_dont_know_title',
+          description: 'a_dont_know_desc',
           type: ActionType.social,
           priority: ActionPriority.medium,
         ),
@@ -1581,7 +988,7 @@ class DeviceInstance {
     if (template.baseRiskScore > 0) {
       factors.add(
         ScoringFactor(
-          label: 'Grundrisiko des Gerätetyps',
+          label: 'sl_base_risk',
           penalty: template.baseRiskScore,
           isDontKnow: false,
           isBaseRisk: true,
@@ -1591,7 +998,7 @@ class DeviceInstance {
     if (roomId == _childBedroomRoomId) {
       factors.add(
         const ScoringFactor(
-          label: 'Erhöhte Sensibilität: Kinderzimmer',
+          label: 'sl_child_room_bonus',
           penalty: _childBedroomRiskBonus,
           isDontKnow: false,
           isBaseRisk: true,
@@ -1628,78 +1035,75 @@ class DeviceInstance {
       }
     }
 
-    check('password', 'Standard-Passwort nicht geändert', 20, 10);
-    check('updates', 'Automatische Updates nicht aktiv', 15, 8);
-    check('network', 'Kein separates IoT-WLAN eingerichtet', 10, 5);
-    check('informed', 'Haushaltsmitglieder nicht informiert', 10, 5);
-    check('permissions', 'App-Berechtigungen nicht reduziert', 5, 3);
+    check('password', 'sl_password', 20, 10);
+    check('updates', 'sl_updates', 15, 8);
+    check('network', 'sl_network', 10, 5);
+    check('informed', 'sl_informed', 10, 5);
+    check('permissions', 'sl_permissions', 5, 3);
     if (template.hasCamera) {
-      check('camera_consent', 'Kein Einverständnis für Kamerabereich', 15, 8);
+      check('camera_consent', 'sl_camera_consent', 15, 8);
     }
     if (template.hasMicrophone) {
-      check('mic_active', 'Mikrofon nicht bei Nichtnutzung deaktiviert', 10, 5);
+      check('mic_active', 'sl_mic_active', 10, 5);
     }
 
     // Device-specific questions — use short labels instead of full question text.
     const Map<String, String> shortLabels = {
       // Sensor
-      'sensor_frequency': 'Messintervall nicht reduziert',
-      'sensor_data_deletion': 'Alte Messwerte nicht gelöscht',
-      'sensor_granularity': 'Daten zu fein granular gespeichert',
-      'sensor_local': 'Daten in die Cloud übertragen',
+      'sensor_frequency': 'sl_sensor_frequency',
+      'sensor_data_deletion': 'sl_sensor_data_deletion',
+      'sensor_granularity': 'sl_sensor_granularity',
+      'sensor_local': 'sl_sensor_local',
       // Speaker
-      'voice_history': 'Sprachaufnahmen nicht löschbar',
-      'voice_local': 'Keine lokale Sprachverarbeitung',
-      'skills_permissions': 'Skills nicht regelmäßig geprüft',
+      'voice_history': 'sl_voice_history',
+      'voice_local': 'sl_voice_local',
+      'skills_permissions': 'sl_skills_permissions',
       // Camera
-      'video_encryption': 'Videoübertragung nicht verschlüsselt',
-      'video_storage': 'Aufnahmen nur in Anbieter-Cloud',
-      'sharing_restrictions': 'Zugriff auf Aufnahmen nicht kontrolliert',
-      'motion_detection': 'Bewegungserkennung immer aktiv',
+      'video_encryption': 'sl_video_encryption',
+      'video_storage': 'sl_video_storage',
+      'sharing_restrictions': 'sl_sharing_restrictions',
+      'motion_detection': 'sl_motion_detection',
       // TV
-      'account_required': 'Pflichtdkonto beim Hersteller nötig',
-      'tracking_disabled': 'Werbe-Tracking nicht deaktiviert',
-      'local_mode': 'Kein Offline-Betrieb möglich',
+      'account_required': 'sl_account_required',
+      'tracking_disabled': 'sl_tracking_disabled',
+      'local_mode': 'sl_local_mode',
       // Thermostat
-      'data_collection': 'Temperaturverlauf an Hersteller übertragen',
-      'offline_control': 'Kein Offline-Betrieb möglich',
-      'family_access': 'Zugriff nicht einschränkbar',
+      'data_collection': 'sl_data_collection',
+      'offline_control': 'sl_offline_control',
+      'family_access': 'sl_family_access',
       // Light / Plug / Blind
-      'local_control': 'Automatisierungen nur mit Internet',
-      'usage_tracking': 'Schaltmuster vom Hersteller erfasst',
-      'offline_fallback': 'Gerät offline nicht nutzbar',
+      'local_control': 'sl_local_control',
+      'usage_tracking': 'sl_usage_tracking',
+      'offline_fallback': 'sl_offline_fallback',
       // Lock
-      'offline_unlock': 'Kein Offline-Öffnen möglich',
-      'access_logging': 'Kein Zugriffsprotokoll verfügbar',
-      'two_factor': '2-Faktor-Authentifizierung fehlt',
+      'offline_unlock': 'sl_offline_unlock',
+      'access_logging': 'sl_access_logging',
+      'two_factor': 'sl_two_factor',
       // Robot
-      'map_privacy': 'Grundriss an Hersteller übertragen',
-      'cloud_required': 'Navigation nur mit Cloud möglich',
-      'vision_data': 'Kamerabilder gespeichert oder übertragen',
+      'map_privacy': 'sl_map_privacy',
+      'cloud_required': 'sl_cloud_required',
+      'vision_data': 'sl_vision_data',
       // Toy
-      'parental_control': 'Elternkontrolle nicht eingerichtet',
-      'child_data_limits': 'Datenmenge nicht eingeschränkt',
-      'recording_disable': 'Aufnahmen nicht deaktivierbar',
+      'parental_control': 'sl_parental_control',
+      'child_data_limits': 'sl_child_data_limits',
+      'recording_disable': 'sl_recording_disable',
       // Wearable
-      'health_sharing': 'Gesundheitsdaten mit Dritten geteilt',
-      'location_tracking': 'Standortverfolgung aktiv',
+      'health_sharing': 'sl_health_sharing',
+      'location_tracking': 'sl_location_tracking',
       // Expert mode
-      'expert_data_retention_duration': 'Aufbewahrungsdauer unklar/zu lang',
-      'expert_access_control_granular': 'Granulare Zugriffskontrolle fehlt',
+      'expert_data_retention_duration': 'sl_expert_data_retention_duration',
+      'expert_access_control_granular': 'sl_expert_access_control_granular',
       'expert_third_party_sharing_limited':
-          'Weitergabe an Dritte nicht begrenzt',
-      'expert_data_sale_disabled': 'Datenverkauf nicht ausgeschlossen',
-      'expert_update_support_window': 'Garantierter Update-Zeitraum unbekannt',
-      'expert_vulnerability_process':
-          'Schwachstellenprozess nicht dokumentiert',
-      'expert_offline_functionality':
-          'Sinnvoller Betrieb ohne Internet nicht möglich',
-      'expert_bystander_transparency':
-          'Transparenz für Betroffene im Umfeld fehlt',
-      'expert_child_data_protection': 'Schutzmaßnahmen für Kinderdaten fehlen',
-      'expert_access_revocation': 'Einzelner Zugriffswiderruf nicht möglich',
+          'sl_expert_third_party_sharing_limited',
+      'expert_data_sale_disabled': 'sl_expert_data_sale_disabled',
+      'expert_update_support_window': 'sl_expert_update_support_window',
+      'expert_vulnerability_process': 'sl_expert_vulnerability_process',
+      'expert_offline_functionality': 'sl_expert_offline_functionality',
+      'expert_bystander_transparency': 'sl_expert_bystander_transparency',
+      'expert_child_data_protection': 'sl_expert_child_data_protection',
+      'expert_access_revocation': 'sl_expert_access_revocation',
       'expert_sensitive_inference_controls':
-          'Kontrollen gegen sensible Inferenz fehlen',
+          'sl_expert_sensitive_inference_controls',
     };
     const baseIds = {
       'password',

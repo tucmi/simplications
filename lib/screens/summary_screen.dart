@@ -487,7 +487,7 @@ void _writeRiskSection(
     final actions = device.suggestedActions;
     final inherentRiskHint = device.inherentRiskHint == null
         ? null
-        : DeviceDomainI18n.localize(device.inherentRiskHint!);
+        : AppLocalizations.translate(device.inherentRiskHint!);
     if (actions.isEmpty) {
       buffer.writeln('  ${_noActionMessage(device.riskLevel, localizations)}');
       if (inherentRiskHint != null) {
@@ -497,9 +497,9 @@ void _writeRiskSection(
       buffer.writeln('  ${actions.length} ${localizations.recommendations()}:');
       for (final action in actions) {
         buffer.writeln(
-          '  - ${DeviceDomainI18n.localize(action.title)} [${_priorityLabel(action.priority, localizations)} | ${_actionTypeLabel(action.type, localizations)}]',
+          '  - ${AppLocalizations.translate(action.title)} [${_priorityLabel(action.priority, localizations)} | ${_actionTypeLabel(action.type, localizations)}]',
         );
-        buffer.writeln('    ${DeviceDomainI18n.localize(action.description)}');
+        buffer.writeln('    ${AppLocalizations.translate(action.description)}');
       }
     }
     buffer.writeln();
@@ -609,7 +609,7 @@ List<pw.Widget> _buildPdfRiskSection(
       final actions = device.suggestedActions;
       final inherentRiskHint = device.inherentRiskHint == null
           ? null
-          : DeviceDomainI18n.localize(device.inherentRiskHint!);
+          : AppLocalizations.translate(device.inherentRiskHint!);
       final widgets = <pw.Widget>[
         pw.Text(
           '${CatalogData.deviceName(device.template)} (${CatalogData.localizeText(device.roomName)})',
@@ -642,10 +642,10 @@ List<pw.Widget> _buildPdfRiskSection(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
                   pw.Text(
-                    '- ${DeviceDomainI18n.localize(action.title)} [${_priorityLabel(action.priority, localizations)} | ${_actionTypeLabel(action.type, localizations)}]',
+                    '- ${AppLocalizations.translate(action.title)} [${_priorityLabel(action.priority, localizations)} | ${_actionTypeLabel(action.type, localizations)}]',
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   ),
-                  pw.Text(DeviceDomainI18n.localize(action.description)),
+                  pw.Text(AppLocalizations.translate(action.description)),
                 ],
               ),
             ),
@@ -975,7 +975,7 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
     final actions = device.suggestedActions;
     final inherentRiskHint = device.inherentRiskHint == null
         ? null
-        : DeviceDomainI18n.localize(device.inherentRiskHint!);
+        : AppLocalizations.translate(device.inherentRiskHint!);
     final noActionColor = level == RiskLevel.low
         ? _riskColor(RiskLevel.low)
         : color;
@@ -1289,7 +1289,7 @@ class _FactorRow extends StatelessWidget {
           const SizedBox(width: 6),
           Expanded(
             child: Text(
-              DeviceDomainI18n.localize(factor.label),
+              AppLocalizations.translate(factor.label),
               style: text.bodySmall?.copyWith(height: 1.3),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -1353,7 +1353,7 @@ class _ActionTile extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        DeviceDomainI18n.localize(action.title),
+                        AppLocalizations.translate(action.title),
                         style: text.bodySmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -1385,7 +1385,7 @@ class _ActionTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  DeviceDomainI18n.localize(action.description),
+                  AppLocalizations.translate(action.description),
                   style: text.bodySmall?.copyWith(
                     color: colors.onSurfaceVariant,
                     height: 1.4,
