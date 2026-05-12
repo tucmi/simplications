@@ -212,7 +212,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                 sliver: SliverGrid(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 1.6,
+                    childAspectRatio: 2.2,
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
                   ),
@@ -324,7 +324,7 @@ class _DeviceCard extends StatelessWidget {
             width: 2,
           ),
         ),
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(8),
         child: Stack(
           children: [
             Column(
@@ -333,25 +333,25 @@ class _DeviceCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(device.icon, size: 22, color: contentColor),
+                    Icon(device.icon, size: 20, color: contentColor),
                     const Spacer(),
                     if (device.hasCamera && !isCompleted)
                       Tooltip(
                         message: localizations.camera(),
                         child: Icon(
                           Icons.videocam,
-                          size: 14,
+                          size: 12,
                           color: contentColor,
                         ),
                       ),
                     if (device.hasMicrophone && !isCompleted)
                       Tooltip(
                         message: localizations.microphone(),
-                        child: Icon(Icons.mic, size: 14, color: contentColor),
+                        child: Icon(Icons.mic, size: 12, color: contentColor),
                       ),
                   ],
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 Text(
                   CatalogData.deviceName(device),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -367,7 +367,7 @@ class _DeviceCard extends StatelessWidget {
               const Positioned(
                 top: 0,
                 right: 0,
-                child: Icon(Icons.check_circle, size: 18, color: Colors.green),
+                child: Icon(Icons.check_circle, size: 16, color: Colors.green),
               ),
             if (isCustom && onRemove != null)
               Positioned(
@@ -421,8 +421,8 @@ class _AddDeviceCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.add, size: 32, color: colors.primary),
-            const SizedBox(height: 6),
+            Icon(Icons.add, size: 28, color: colors.primary),
+            const SizedBox(height: 4),
             Text(
               localizations.addDevice(),
               textAlign: TextAlign.center,
@@ -467,10 +467,10 @@ class _NoDeviceCard extends StatelessWidget {
           children: [
             Icon(
               isSelected ? Icons.check_circle_outline : Icons.block_outlined,
-              size: 32,
+              size: 28,
               color: isSelected ? colors.secondary : colors.onSurfaceVariant,
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 4),
             Text(
               localizations.noDevice(),
               textAlign: TextAlign.center,
