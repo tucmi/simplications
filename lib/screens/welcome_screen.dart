@@ -96,7 +96,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                               width: 64,
                               height: 64,
                               child: Image.asset(
-                                'assets/icon/logo-simpli.png',
+                                'assets/icon/icon.png',
                                 fit: BoxFit.contain,
                               ),
                             ),
