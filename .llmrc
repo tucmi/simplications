@@ -2,11 +2,17 @@
 
 This file provides essential context for LLMs working on the Simplications project.
 
+## Instruction Priority
+
+- `AGENTS.md` is the authoritative policy file for AI agent behavior.
+- Use this `.llmrc` as implementation context and project guidance.
+- If `.llmrc` and `AGENTS.md` differ, follow `AGENTS.md`.
+
 ## Project Overview
 
 **Simplications** is a Flutter application that helps users evaluate privacy and security risks in their smart home, room-by-room. Users select a room, add devices, answer targeted security questions, and receive actionable recommendations based on BSI (German Federal Office for Information Security) guidelines.
 
-**Language**: German (Deutsch) - all UI text is in German
+**Language**: Multi-language UI with German default (`de`, `en`, `cs`, `pl`, `fr`, `nl`, `da`)
 **Framework**: Flutter 3.11.5+, Dart
 **Platform**: Cross-platform (Android, iOS, Web, macOS, Windows, Linux)
 **Target Users**: German-speaking users concerned about smart home privacy
@@ -114,8 +120,15 @@ lib/
 
 ### Data Persistence
 
-- **Current**: Transient (lost on app restart)
-- **Planned Enhancement**: SharedPreferences or local SQLite storage
+- **Current**: Local persistence via SharedPreferences (`SurveyState`)
+- **Planned Enhancement**: Optional richer local storage/migrations if needed
+
+### Build Number Policy (LLM Work)
+
+- Any LLM edit to core app files under `lib/` must bump the build number in `pubspec.yaml`.
+- Bump only the integer after `+` in `version` (for example, `1.0.0+2` -> `1.0.0+3`).
+- Changes limited to non-core paths like `test/` and platform folders do not require a bump.
+- Full policy details are in `AGENTS.md`.
 
 ## Important Code Patterns
 
@@ -138,7 +151,7 @@ lib/
 - Material Design 3
 - Primary color: Teal (#00695C)
 - Theme accessed via `Theme.of(context).colorScheme`
-- All text in German - search for `const Text` to find strings for localization
+- Keep German-first UX, but preserve and maintain all supported locales in `lib/l10n/app_localizations.dart`
 
 ### Screen Navigation
 
@@ -180,7 +193,7 @@ lib/
 
 ## Naming Conventions
 
-### German Text (All UI)
+### German Text (Primary UX)
 
 - Room names: "Wohnzimmer", "Küche", "Schlafzimmer"
 - Device names: "Sprachassistent", "Smarte Kamera", "Intelligenter Thermostat"
@@ -219,7 +232,7 @@ Before submitting changes:
 - [ ] Device-specific questions appear for tested device types
 - [ ] Risk score updates when questions are answered
 - [ ] Device-specific actions appear in evaluation screen
-- [ ] UI text is German throughout
+- [ ] German UX remains correct and localized keys are preserved across all supported locales
 - [ ] Material 3 teal theme is applied consistently
 
 ## Troubleshooting
@@ -260,8 +273,8 @@ Before submitting changes:
 - ✅ Added 30+ BSI-based security actions mapped to device types
 - ✅ Fixed all lint warnings (0 issues in `flutter analyze`)
 - ✅ Added device-specific evaluation logic
-- 🟡 Future: Add persistence layer (SharedPreferences/SQLite)
-- 🟡 Future: Add multi-language support
+- ✅ SharedPreferences-based persistence is active
+- ✅ Multi-language support is active
 
 ---
 
