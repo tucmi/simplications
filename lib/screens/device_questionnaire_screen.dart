@@ -355,7 +355,7 @@ class _QuestionCard extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    DeviceDomainI18n.localize(question.text),
+                    AppLocalizations.translate(question.text),
                     style: text.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       height: 1.4,
@@ -367,7 +367,7 @@ class _QuestionCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 34, top: 6),
               child: Text(
-                DeviceDomainI18n.localize(question.hint),
+                AppLocalizations.translate(question.hint),
                 style: text.bodySmall?.copyWith(
                   color: colors.onSurfaceVariant,
                   fontStyle: FontStyle.italic,
