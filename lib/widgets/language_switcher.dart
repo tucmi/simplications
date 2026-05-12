@@ -58,6 +58,7 @@ class LanguageSwitcher extends StatelessWidget {
       context: dialogContext,
       useRootNavigator: true,
       builder: (context) {
+        final activeLanguageCode = Localizations.localeOf(context).languageCode;
         return AlertDialog(
           title: Text(localizations.languageDialogTitle()),
           content: SizedBox(
@@ -66,13 +67,17 @@ class LanguageSwitcher extends StatelessWidget {
               shrinkWrap: true,
               children: AppLocalizations.supportedLocales.map((locale) {
                 final code = locale.languageCode;
-                final selected = controller.locale.languageCode == code;
+                final isSelected = activeLanguageCode == code;
                 final flag =
                     LanguageController.flagsByLanguageCode[code] ?? code;
                 final name =
                     LanguageController.nativeNamesByLanguageCode[code] ?? code;
                 return ListTile(
                   dense: true,
+                  selected: isSelected,
+                  selectedTileColor: Theme.of(
+                    context,
+                  ).colorScheme.surfaceContainerHighest,
                   title: Row(
                     children: [
                       SizedBox(
@@ -86,7 +91,7 @@ class LanguageSwitcher extends StatelessWidget {
                       Expanded(child: Text(name)),
                     ],
                   ),
-                  trailing: selected
+                  trailing: isSelected
                       ? const Icon(Icons.check_circle, color: Colors.green)
                       : null,
                   onTap: () => Navigator.of(context).pop(code),

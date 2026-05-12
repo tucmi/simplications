@@ -83,17 +83,12 @@ class AboutScreen extends StatelessWidget {
           // ── App identity ────────────────────────────────────────────
           Row(
             children: [
-              Container(
+              SizedBox(
                 width: 56,
                 height: 56,
-                decoration: BoxDecoration(
-                  color: colors.primaryContainer,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Icon(
-                  Icons.home_outlined,
-                  size: 30,
-                  color: colors.primary,
+                child: Image.asset(
+                  'assets/icon/logo-simpli.png',
+                  fit: BoxFit.contain,
                 ),
               ),
               const SizedBox(width: 16),
