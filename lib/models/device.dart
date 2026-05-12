@@ -1281,7 +1281,7 @@ class DeviceInstance {
       'voice_history': PrivacyAction(
         title: 'Sprachaufzeichnungen löschen',
         description:
-            'BSI-Empfehlung: Löschen Sie regelmäßig (monatlich) Ihre Sprachaufzeichnungen im Hersteller-Konto.',
+            'BSI-Empfehlung: Löschen Sie Sprachaufzeichnungen regelmäßig und deaktivieren Sie die Speicherung von Sprachverlauf, falls die Option verfügbar ist.',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
@@ -1314,16 +1314,16 @@ class DeviceInstance {
         priority: ActionPriority.high,
       ),
       'sharing_restrictions': PrivacyAction(
-        title: 'Zugriffsrechte der Kamera überprüfen',
+        title: 'Kamera-Zugriffe einschränken',
         description:
-            'Überprüfen Sie monatlich in der App, wer auf Live-View und Aufnahmen zugreifen kann.',
+            'Entfernen Sie in der App alle unnötigen Freigaben und erlauben Sie Live-View/Aufnahmen nur für benötigte Konten.',
         type: ActionType.social,
         priority: ActionPriority.high,
       ),
       'motion_detection': PrivacyAction(
-        title: 'Bewegungserkennung zeitlich begrenzen',
+        title: 'Bewegungserkennung bei Anwesenheit deaktivieren',
         description:
-            'Konfigurieren Sie Zeitpläne oder Privatzonen, damit unnötige Aufnahmen in Anwesenheitszeiten vermieden werden.',
+            'Deaktivieren Sie Bewegungserkennung, wenn Personen zu Hause sind, oder setzen Sie einen Zeitplan, der sie nur in Abwesenheitszeiten aktiviert.',
         type: ActionType.technical,
         priority: ActionPriority.medium,
       ),
@@ -1349,9 +1349,9 @@ class DeviceInstance {
         priority: ActionPriority.medium,
       ),
       'data_collection': PrivacyAction(
-        title: 'Cloud-Datenerfassung reduzieren',
+        title: 'Historien-Upload deaktivieren',
         description:
-            'Prüfen Sie in der Thermostat-App, ob Historien-Upload deaktiviert oder Speicherdauer verkürzt werden kann.',
+            'Deaktivieren Sie in der Thermostat-App die Übertragung von Temperaturhistorien an den Hersteller und verkürzen Sie die Speicherdauer.',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
@@ -1377,9 +1377,9 @@ class DeviceInstance {
         priority: ActionPriority.medium,
       ),
       'usage_tracking': PrivacyAction(
-        title: 'Nutzungs-Tracking einschränken',
+        title: 'Nutzungs-Tracking deaktivieren',
         description:
-            'Deaktivieren Sie in den App-Einstellungen Analyse- und Nutzungsdaten, soweit möglich.',
+            'Schalten Sie in den App-Einstellungen Analyse-, Telemetrie- und Nutzungsdatenerfassung aus.',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
@@ -1412,9 +1412,9 @@ class DeviceInstance {
         priority: ActionPriority.high,
       ),
       'map_privacy': PrivacyAction(
-        title: 'Grundriss-Speicherung klären',
+        title: 'Cloud-Grundrissspeicherung deaktivieren',
         description:
-            'Überprüfen Sie: Werden Grundrisse lokal oder in der Cloud gespeichert? Bevorzugen Sie lokal.',
+            'Stellen Sie die Speicherung auf lokal um und deaktivieren Sie Cloud-Backups von Grundrissen, falls diese Option verfügbar ist.',
         type: ActionType.social,
         priority: ActionPriority.high,
       ),
@@ -1484,7 +1484,7 @@ class DeviceInstance {
       'expert_third_party_sharing_limited': PrivacyAction(
         title: 'Drittweitergabe begrenzen',
         description:
-            'Deaktivieren Sie unnötige Partner- und Analysefreigaben in Datenschutz- und Kontoeinstellungen.',
+            'Deaktivieren Sie Partner-, Werbe- und Analyseweitergaben in Datenschutz- und Kontoeinstellungen.',
         type: ActionType.technical,
         priority: ActionPriority.high,
       ),
