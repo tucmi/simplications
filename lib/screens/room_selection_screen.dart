@@ -118,7 +118,7 @@ class RoomSelectionScreen extends StatelessWidget {
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              childAspectRatio: 1.55,
+                              childAspectRatio: 2.2,
                               crossAxisSpacing: 12,
                               mainAxisSpacing: 12,
                             ),
@@ -247,7 +247,7 @@ class _RoomCard extends StatelessWidget {
             width: 2,
           ),
         ),
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(8),
         child: Stack(
           children: [
             Column(
@@ -258,7 +258,7 @@ class _RoomCard extends StatelessWidget {
                   children: [
                     Icon(
                       room.icon,
-                      size: 24,
+                      size: 20,
                       color: isCompleted
                           ? colors.onSurface.withValues(alpha: 0.35)
                           : isIncomplete
@@ -269,14 +269,14 @@ class _RoomCard extends StatelessWidget {
                     if (isCompleted)
                       const Icon(
                         Icons.check_circle,
-                        size: 18,
+                        size: 16,
                         color: Colors.green,
                       )
                     else if (isIncomplete)
-                      Icon(Icons.cancel, size: 18, color: colors.error),
+                      Icon(Icons.cancel, size: 16, color: colors.error),
                   ],
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 Text(
                   CatalogData.roomName(room),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -365,8 +365,8 @@ class _AddRoomCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.add, size: 40, color: colors.primary),
-            const SizedBox(height: 8),
+            Icon(Icons.add, size: 28, color: colors.primary),
+            const SizedBox(height: 4),
             Text(
               localizations.addRoom(),
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
