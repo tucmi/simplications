@@ -86,10 +86,7 @@ class AboutScreen extends StatelessWidget {
               SizedBox(
                 width: 56,
                 height: 56,
-                child: Image.asset(
-                  'assets/icon/logo-simpli.png',
-                  fit: BoxFit.contain,
-                ),
+                child: Image.asset('assets/icon/icon.png', fit: BoxFit.contain),
               ),
               const SizedBox(width: 16),
               Column(

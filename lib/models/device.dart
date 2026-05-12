@@ -1200,85 +1200,361 @@ class DeviceInstance {
 
   List<PrivacyAction> get suggestedActions {
     final actions = <PrivacyAction>[];
-    if (_hasQuestion('password') && passwordChanged == QuestionAnswer.no) {
-      actions.add(
-        const PrivacyAction(
-          title: 'Standard-Passwort ändern',
-          description:
-              'Ersetzen Sie das voreingestellte Passwort durch ein starkes, einzigartiges Passwort. Nutzen Sie einen Passwortmanager.',
-          type: ActionType.security,
-          priority: ActionPriority.high,
-        ),
-      );
-    }
-    if (_hasQuestion('updates') && autoUpdatesEnabled == QuestionAnswer.no) {
-      actions.add(
-        const PrivacyAction(
-          title: 'Automatische Updates aktivieren',
-          description:
-              'Aktivieren Sie automatische Sicherheits-Updates in den Geräte- oder App-Einstellungen.',
-          type: ActionType.security,
-          priority: ActionPriority.high,
-        ),
-      );
-    }
-    if (_hasQuestion('network') && separateNetwork == QuestionAnswer.no) {
-      actions.add(
-        const PrivacyAction(
-          title: 'Separates IoT-WLAN einrichten',
-          description:
-              'Richten Sie ein eigenes WLAN für Smart-Home-Geräte ein, z. B. über die Gastnetz-Funktion Ihres Routers.',
-          type: ActionType.technical,
-          priority: ActionPriority.medium,
-        ),
-      );
-    }
-    if (_hasQuestion('informed') && householdInformed == QuestionAnswer.no) {
-      actions.add(
-        const PrivacyAction(
-          title: 'Haushaltsmitglieder informieren',
-          description:
-              'Informieren Sie alle Bewohner: welche Daten das Gerät erfasst, wer Zugriff hat und wie es sich deaktivieren lässt.',
-          type: ActionType.social,
-          priority: ActionPriority.medium,
-        ),
-      );
-    }
-    if (_hasQuestion('permissions') &&
-        permissionsReduced == QuestionAnswer.no) {
-      actions.add(
-        const PrivacyAction(
-          title: 'App-Berechtigungen einschränken',
-          description:
-              'Prüfen Sie in den Smartphone-Einstellungen die Berechtigungen der zugehörigen App und deaktivieren Sie nicht benötigte.',
-          type: ActionType.technical,
-          priority: ActionPriority.medium,
-        ),
-      );
-    }
-    if (_hasQuestion('camera_consent') &&
-        cameraConsentGiven == QuestionAnswer.no) {
-      actions.add(
-        const PrivacyAction(
-          title: 'Kameraausrichtung mit Bewohnern abstimmen',
-          description:
-              'Holen Sie das Einverständnis aller Betroffenen ein. Die Kamera darf keine Bereiche ohne Zustimmung erfassen.',
-          type: ActionType.social,
-          priority: ActionPriority.high,
-        ),
-      );
-    }
-    if (_hasQuestion('mic_active') &&
-        micDeactivatedWhenUnused == QuestionAnswer.no) {
-      actions.add(
-        const PrivacyAction(
-          title: 'Mikrofon bei Nichtnutzung deaktivieren',
-          description:
-              'Nutzen Sie den physischen Stummschalter oder deaktivieren Sie das Mikrofon in den Einstellungen.',
-          type: ActionType.technical,
-          priority: ActionPriority.high,
-        ),
-      );
+    const noAnswerActions = <String, PrivacyAction>{
+      'password': PrivacyAction(
+        title: 'Standard-Passwort ändern',
+        description:
+            'Ersetzen Sie das voreingestellte Passwort durch ein starkes, einzigartiges Passwort. Nutzen Sie einen Passwortmanager.',
+        type: ActionType.security,
+        priority: ActionPriority.high,
+      ),
+      'updates': PrivacyAction(
+        title: 'Automatische Updates aktivieren',
+        description:
+            'Aktivieren Sie automatische Sicherheits-Updates in den Geräte- oder App-Einstellungen.',
+        type: ActionType.security,
+        priority: ActionPriority.high,
+      ),
+      'network': PrivacyAction(
+        title: 'Separates IoT-WLAN einrichten',
+        description:
+            'Richten Sie ein eigenes WLAN für Smart-Home-Geräte ein, z. B. über die Gastnetz-Funktion Ihres Routers.',
+        type: ActionType.technical,
+        priority: ActionPriority.medium,
+      ),
+      'informed': PrivacyAction(
+        title: 'Haushaltsmitglieder informieren',
+        description:
+            'Informieren Sie alle Bewohner: welche Daten das Gerät erfasst, wer Zugriff hat und wie es sich deaktivieren lässt.',
+        type: ActionType.social,
+        priority: ActionPriority.medium,
+      ),
+      'permissions': PrivacyAction(
+        title: 'App-Berechtigungen einschränken',
+        description:
+            'Prüfen Sie in den Smartphone-Einstellungen die Berechtigungen der zugehörigen App und deaktivieren Sie nicht benötigte.',
+        type: ActionType.technical,
+        priority: ActionPriority.medium,
+      ),
+      'camera_consent': PrivacyAction(
+        title: 'Kameraausrichtung mit Bewohnern abstimmen',
+        description:
+            'Holen Sie das Einverständnis aller Betroffenen ein. Die Kamera darf keine Bereiche ohne Zustimmung erfassen.',
+        type: ActionType.social,
+        priority: ActionPriority.high,
+      ),
+      'mic_active': PrivacyAction(
+        title: 'Mikrofon bei Nichtnutzung deaktivieren',
+        description:
+            'Nutzen Sie den physischen Stummschalter oder deaktivieren Sie das Mikrofon in den Einstellungen.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'sensor_frequency': PrivacyAction(
+        title: 'Messintervall reduzieren',
+        description:
+            'Verringern Sie, wenn möglich, die Messfrequenz des Sensors. Weniger häufige Messungen erzeugen weniger Verhaltensdaten.',
+        type: ActionType.technical,
+        priority: ActionPriority.medium,
+      ),
+      'sensor_data_deletion': PrivacyAction(
+        title: 'Alte Messwerte löschen',
+        description:
+            'Prüfen Sie Aufbewahrungsfristen in App oder Weboberfläche und aktivieren Sie automatische Löschung oder löschen Sie ältere Daten regelmäßig manuell.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'sensor_granularity': PrivacyAction(
+        title: 'Daten weniger detailliert anzeigen',
+        description:
+            'Stellen Sie, wenn möglich, eine gröbere Anzeige oder Auswertung ein, zum Beispiel Tageswerte statt Minutenwerte.',
+        type: ActionType.technical,
+        priority: ActionPriority.medium,
+      ),
+      'sensor_local': PrivacyAction(
+        title: 'Lokale Verarbeitung bevorzugen',
+        description:
+            'Prüfen Sie, ob sich Cloud-Synchronisation deaktivieren oder eine lokale Speicherung aktivieren lässt, damit Messdaten nicht an den Hersteller übertragen werden.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'voice_history': PrivacyAction(
+        title: 'Sprachaufzeichnungen löschen',
+        description:
+            'BSI-Empfehlung: Löschen Sie regelmäßig (monatlich) Ihre Sprachaufzeichnungen im Hersteller-Konto.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'voice_local': PrivacyAction(
+        title: 'Lokale Sprachverarbeitung aktivieren',
+        description:
+            'Aktivieren Sie lokale Sprachverarbeitung, falls verfügbar. Falls nicht verfügbar, minimieren Sie Cloud-Speicherung von Sprachdaten.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'skills_permissions': PrivacyAction(
+        title: 'Skills/Fähigkeiten überprüfen',
+        description:
+            'Überprüfen Sie, welche Drittanbieter-Skills Zugriff haben. Deaktivieren Sie unnötige Skills.',
+        type: ActionType.technical,
+        priority: ActionPriority.medium,
+      ),
+      'video_encryption': PrivacyAction(
+        title: 'WLAN-Verschlüsselung prüfen',
+        description:
+            'BSI-Empfehlung: Verwenden Sie WPA2 oder WPA3 für Ihr Heimnetz. WEP und WPA sind veraltet.',
+        type: ActionType.security,
+        priority: ActionPriority.high,
+      ),
+      'video_storage': PrivacyAction(
+        title: 'Aufnahmen lokal speichern',
+        description:
+            'Stellen Sie, wenn möglich, lokale Speicherung ein. Falls nur Cloud-Speicherung möglich ist, reduzieren Sie die Aufbewahrungsdauer und löschen Sie Aufnahmen regelmäßig.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'sharing_restrictions': PrivacyAction(
+        title: 'Zugriffsrechte der Kamera überprüfen',
+        description:
+            'Überprüfen Sie monatlich in der App, wer auf Live-View und Aufnahmen zugreifen kann.',
+        type: ActionType.social,
+        priority: ActionPriority.high,
+      ),
+      'motion_detection': PrivacyAction(
+        title: 'Bewegungserkennung zeitlich begrenzen',
+        description:
+            'Konfigurieren Sie Zeitpläne oder Privatzonen, damit unnötige Aufnahmen in Anwesenheitszeiten vermieden werden.',
+        type: ActionType.technical,
+        priority: ActionPriority.medium,
+      ),
+      'account_required': PrivacyAction(
+        title: 'Kontopflicht datenschutzarm umsetzen',
+        description:
+            'Falls kein kontoloser Betrieb möglich ist, verwenden Sie ein separates Konto mit minimalen Profildaten und deaktivieren Sie personalisierte Dienste.',
+        type: ActionType.social,
+        priority: ActionPriority.medium,
+      ),
+      'tracking_disabled': PrivacyAction(
+        title: 'Tracking und Werbung deaktivieren',
+        description:
+            'Deaktivieren Sie in den Datenschutzoptionen Tracking, personalisierte Werbung und optionale Telemetrie.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'local_mode': PrivacyAction(
+        title: 'Offline-Nutzung bevorzugen',
+        description:
+            'Nutzen Sie das Gerät primär über lokale Quellen (z. B. HDMI), um Datenübertragung an den Hersteller zu reduzieren.',
+        type: ActionType.social,
+        priority: ActionPriority.medium,
+      ),
+      'data_collection': PrivacyAction(
+        title: 'Cloud-Datenerfassung reduzieren',
+        description:
+            'Prüfen Sie in der Thermostat-App, ob Historien-Upload deaktiviert oder Speicherdauer verkürzt werden kann.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'offline_control': PrivacyAction(
+        title: 'Lokale Steuerung einrichten',
+        description:
+            'Konfigurieren Sie lokale Zeitpläne und eine Bedienung ohne Cloud-Abhängigkeit, falls das Gerät dies unterstützt.',
+        type: ActionType.technical,
+        priority: ActionPriority.medium,
+      ),
+      'family_access': PrivacyAction(
+        title: 'Zugriffsrechte für Haushaltsmitglieder trennen',
+        description:
+            'Richten Sie getrennte Rollen/Konten ein, damit nur berechtigte Personen Änderungen an der Heizung vornehmen können.',
+        type: ActionType.social,
+        priority: ActionPriority.medium,
+      ),
+      'local_control': PrivacyAction(
+        title: 'Lokale Automatisierungen aktivieren',
+        description:
+            'Nutzen Sie lokale Szenen/Zeitpläne statt Cloud-Automatisierungen, sofern verfügbar.',
+        type: ActionType.technical,
+        priority: ActionPriority.medium,
+      ),
+      'usage_tracking': PrivacyAction(
+        title: 'Nutzungs-Tracking einschränken',
+        description:
+            'Deaktivieren Sie in den App-Einstellungen Analyse- und Nutzungsdaten, soweit möglich.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'offline_fallback': PrivacyAction(
+        title: 'Offline-Notbetrieb sicherstellen',
+        description:
+            'Prüfen Sie lokale Schalter/Taster und richten Sie Fallback-Bedienung ein, damit das Gerät auch ohne Internet nutzbar bleibt.',
+        type: ActionType.security,
+        priority: ActionPriority.medium,
+      ),
+      'offline_unlock': PrivacyAction(
+        title: 'Offline-Zugang absichern',
+        description:
+            'Richten Sie einen physischen Schlüssel oder einen Notfall-Code ein und testen Sie den Zugriff bei Ausfall der Internetverbindung.',
+        type: ActionType.security,
+        priority: ActionPriority.high,
+      ),
+      'access_logging': PrivacyAction(
+        title: 'Zugriffsprotokoll aktivieren',
+        description:
+            'Aktivieren Sie Protokollierung und Benachrichtigungen für Schlossöffnungen, damit unbefugte Zugriffe auffallen.',
+        type: ActionType.security,
+        priority: ActionPriority.medium,
+      ),
+      'two_factor': PrivacyAction(
+        title: 'Zwei-Faktor-Authentifizierung aktivieren',
+        description:
+            'BSI-Empfehlung: Aktivieren Sie 2FA für Ihr Schlosskonto um Remote-Zugriffe zu schützen.',
+        type: ActionType.security,
+        priority: ActionPriority.high,
+      ),
+      'map_privacy': PrivacyAction(
+        title: 'Grundriss-Speicherung klären',
+        description:
+            'Überprüfen Sie: Werden Grundrisse lokal oder in der Cloud gespeichert? Bevorzugen Sie lokal.',
+        type: ActionType.social,
+        priority: ActionPriority.high,
+      ),
+      'cloud_required': PrivacyAction(
+        title: 'Cloud-Abhängigkeit reduzieren',
+        description:
+            'Aktivieren Sie lokale Navigation oder Offline-Modus, falls verfügbar. Wenn nicht verfügbar, bewerten Sie einen Wechsel zu einem datenschutzfreundlicheren Modell.',
+        type: ActionType.technical,
+        priority: ActionPriority.medium,
+      ),
+      'vision_data': PrivacyAction(
+        title: 'Kameradaten nur lokal verarbeiten',
+        description:
+            'Deaktivieren Sie Upload/Speicherung von Kamerabildern und nutzen Sie, wenn möglich, ausschließlich lokale Navigationsverarbeitung.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'parental_control': PrivacyAction(
+        title: 'Elternkontrolle einrichten',
+        description:
+            'Aktivieren Sie Elternkontrolle mit PIN und beschränken Sie Kontakte, Funktionen und Freigaben auf das Notwendige.',
+        type: ActionType.social,
+        priority: ActionPriority.high,
+      ),
+      'child_data_limits': PrivacyAction(
+        title: 'Datenerfassung minimieren',
+        description:
+            'Deaktivieren Sie optionale Profildaten und erfassen Sie nur die für die Kernfunktion erforderlichen Kinderdaten.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'recording_disable': PrivacyAction(
+        title: 'Audio/Video-Aufnahmen deaktivieren',
+        description:
+            'Schalten Sie Aufnahmefunktionen standardmäßig aus und aktivieren Sie sie nur bei konkretem Bedarf kurzzeitig.',
+        type: ActionType.security,
+        priority: ActionPriority.high,
+      ),
+      'health_sharing': PrivacyAction(
+        title: 'Gesundheitsdaten-Freigaben einschränken',
+        description:
+            'Entziehen Sie unnötigen Drittanbieter-Apps den Zugriff auf Gesundheitsdaten in App- und Kontoeinstellungen.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'location_tracking': PrivacyAction(
+        title: 'Standortfreigabe reduzieren',
+        description:
+            'Deaktivieren Sie Standortverfolgung außerhalb aktiver Nutzung oder erlauben Sie sie nur beim Verwenden der App.',
+        type: ActionType.technical,
+        priority: ActionPriority.medium,
+      ),
+      'expert_data_retention_duration': PrivacyAction(
+        title: 'Speicherfristen festlegen',
+        description:
+            'Setzen Sie klare kurze Aufbewahrungsfristen in den Einstellungen und löschen Sie Altbestände regelmäßig.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'expert_access_control_granular': PrivacyAction(
+        title: 'Granulare Rollen und Konten einführen',
+        description:
+            'Nutzen Sie getrennte Konten statt Shared-Logins und vergeben Sie nur die minimal nötigen Rechte.',
+        type: ActionType.security,
+        priority: ActionPriority.high,
+      ),
+      'expert_third_party_sharing_limited': PrivacyAction(
+        title: 'Drittweitergabe begrenzen',
+        description:
+            'Deaktivieren Sie unnötige Partner- und Analysefreigaben in Datenschutz- und Kontoeinstellungen.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+      'expert_data_sale_disabled': PrivacyAction(
+        title: 'Datenverkauf widersprechen',
+        description:
+            'Aktivieren Sie vorhandene "Do not sell"-Optionen bzw. widersprechen Sie der Datenweitergabe für Vermarktung.',
+        type: ActionType.social,
+        priority: ActionPriority.high,
+      ),
+      'expert_update_support_window': PrivacyAction(
+        title: 'Update-Zusage verifizieren',
+        description:
+            'Prüfen Sie die offizielle Update-Policy des Herstellers und planen Sie bei fehlender Zusage einen Gerätewechsel ein.',
+        type: ActionType.social,
+        priority: ActionPriority.medium,
+      ),
+      'expert_vulnerability_process': PrivacyAction(
+        title: 'Hersteller-Sicherheitsprozess prüfen',
+        description:
+            'Bevorzugen Sie Hersteller mit klarer Security-Kontaktstelle und Responsible-Disclosure-Prozess.',
+        type: ActionType.social,
+        priority: ActionPriority.medium,
+      ),
+      'expert_offline_functionality': PrivacyAction(
+        title: 'Offline-Funktionalität priorisieren',
+        description:
+            'Aktivieren Sie lokale Betriebsmodi und minimieren Sie Cloud-Pflichtfunktionen, sofern das Gerät dies erlaubt.',
+        type: ActionType.technical,
+        priority: ActionPriority.medium,
+      ),
+      'expert_bystander_transparency': PrivacyAction(
+        title: 'Transparenzhinweise für Umfeld ergänzen',
+        description:
+            'Sorgen Sie für sichtbare Hinweise, Aufnahmeanzeigen und klare Information für betroffene Personen im Umfeld.',
+        type: ActionType.social,
+        priority: ActionPriority.medium,
+      ),
+      'expert_child_data_protection': PrivacyAction(
+        title: 'Kinderdatenschutz verschärfen',
+        description:
+            'Aktivieren Sie kindgerechte Profile, minimieren Sie Datenerhebung und deaktivieren Sie Profilbildung/Weitergabe.',
+        type: ActionType.security,
+        priority: ActionPriority.high,
+      ),
+      'expert_access_revocation': PrivacyAction(
+        title: 'Schnellen Zugriffswiderruf einrichten',
+        description:
+            'Stellen Sie sicher, dass digitale Schlüssel einzeln und sofort widerrufen werden können, z. B. bei Geräteverlust.',
+        type: ActionType.security,
+        priority: ActionPriority.high,
+      ),
+      'expert_sensitive_inference_controls': PrivacyAction(
+        title: 'Inferenzfunktionen einschränken',
+        description:
+            'Deaktivieren Sie Funktionen, die sensible Gesundheits- oder Verhaltensprofile ableiten, sofern diese nicht zwingend benötigt werden.',
+        type: ActionType.technical,
+        priority: ActionPriority.high,
+      ),
+    };
+
+    for (final question in questions) {
+      final answer = answerFor(question.id);
+      if (answer != QuestionAnswer.no) {
+        continue;
+      }
+      final action = noAnswerActions[question.id];
+      if (action != null) {
+        actions.add(action);
+      }
     }
 
     if (dontKnowAnswerCount > 0) {
@@ -1291,134 +1567,6 @@ class DeviceInstance {
           priority: ActionPriority.medium,
         ),
       );
-    }
-
-    // Add device-specific actions
-    if (template.deviceType == 'sensor') {
-      if (deviceSpecificAnswers['sensor_frequency'] == QuestionAnswer.no) {
-        actions.add(
-          const PrivacyAction(
-            title: 'Messintervall reduzieren',
-            description:
-                'Verringern Sie, wenn möglich, die Messfrequenz des Sensors. Weniger häufige Messungen erzeugen weniger Verhaltensdaten.',
-            type: ActionType.technical,
-            priority: ActionPriority.medium,
-            deviceType: 'sensor',
-          ),
-        );
-      }
-      if (deviceSpecificAnswers['sensor_data_deletion'] == QuestionAnswer.no) {
-        actions.add(
-          const PrivacyAction(
-            title: 'Alte Messwerte löschen',
-            description:
-                'Prüfen Sie Aufbewahrungsfristen in App oder Weboberfläche und aktivieren Sie automatische Löschung oder löschen Sie ältere Daten regelmäßig manuell.',
-            type: ActionType.technical,
-            priority: ActionPriority.high,
-            deviceType: 'sensor',
-          ),
-        );
-      }
-      if (deviceSpecificAnswers['sensor_granularity'] == QuestionAnswer.no) {
-        actions.add(
-          const PrivacyAction(
-            title: 'Daten weniger detailliert anzeigen',
-            description:
-                'Stellen Sie, wenn möglich, eine gröbere Anzeige oder Auswertung ein, zum Beispiel Tageswerte statt Minutenwerte.',
-            type: ActionType.technical,
-            priority: ActionPriority.medium,
-            deviceType: 'sensor',
-          ),
-        );
-      }
-      if (deviceSpecificAnswers['sensor_local'] == QuestionAnswer.no) {
-        actions.add(
-          const PrivacyAction(
-            title: 'Lokale Verarbeitung bevorzugen',
-            description:
-                'Prüfen Sie, ob sich Cloud-Synchronisation deaktivieren oder eine lokale Speicherung aktivieren lässt, damit Messdaten nicht an den Hersteller übertragen werden.',
-            type: ActionType.technical,
-            priority: ActionPriority.high,
-            deviceType: 'sensor',
-          ),
-        );
-      }
-    } else if (template.deviceType == 'speaker') {
-      if (deviceSpecificAnswers['voice_history'] == QuestionAnswer.no) {
-        actions.add(
-          const PrivacyAction(
-            title: 'Sprachaufzeichnungen löschen',
-            description:
-                'BSI-Empfehlung: Löschen Sie regelmäßig (monatlich) Ihre Sprachaufzeichnungen im Hersteller-Konto.',
-            type: ActionType.technical,
-            priority: ActionPriority.high,
-            deviceType: 'speaker',
-          ),
-        );
-      }
-      if (deviceSpecificAnswers['skills_permissions'] == QuestionAnswer.no) {
-        actions.add(
-          const PrivacyAction(
-            title: 'Skills/Fähigkeiten überprüfen',
-            description:
-                'Überprüfen Sie, welche Drittanbieter-Skills Zugriff haben. Deaktivieren Sie unnötige Skills.',
-            type: ActionType.technical,
-            priority: ActionPriority.medium,
-            deviceType: 'speaker',
-          ),
-        );
-      }
-    } else if (template.deviceType == 'camera') {
-      if (deviceSpecificAnswers['video_encryption'] == QuestionAnswer.no) {
-        actions.add(
-          const PrivacyAction(
-            title: 'WLAN-Verschlüsselung prüfen',
-            description:
-                'BSI-Empfehlung: Verwenden Sie WPA2 oder WPA3 für Ihr Heimnetz. WEP und WPA sind veraltet.',
-            type: ActionType.security,
-            priority: ActionPriority.high,
-            deviceType: 'camera',
-          ),
-        );
-      }
-      if (deviceSpecificAnswers['sharing_restrictions'] == QuestionAnswer.no) {
-        actions.add(
-          const PrivacyAction(
-            title: 'Zugriffsrechte der Kamera überprüfen',
-            description:
-                'Überprüfen Sie monatlich in der App, wer auf Live-View und Aufnahmen zugreifen kann.',
-            type: ActionType.social,
-            priority: ActionPriority.high,
-            deviceType: 'camera',
-          ),
-        );
-      }
-    } else if (template.deviceType == 'lock') {
-      if (deviceSpecificAnswers['two_factor'] == QuestionAnswer.no) {
-        actions.add(
-          const PrivacyAction(
-            title: 'Zwei-Faktor-Authentifizierung aktivieren',
-            description:
-                'BSI-Empfehlung: Aktivieren Sie 2FA für Ihr Schlosskonto um Remote-Zugriffe zu schützen.',
-            type: ActionType.security,
-            priority: ActionPriority.high,
-            deviceType: 'lock',
-          ),
-        );
-      }
-    } else if (template.deviceType == 'robot') {
-      if (deviceSpecificAnswers['map_privacy'] == QuestionAnswer.no) {
-        actions.add(
-          const PrivacyAction(
-            title: 'Grundriss-Speicherung klären',
-            description:
-                'Überprüfen Sie: Werden Grundrisse lokal oder in der Cloud gespeichert? Bevorzugen Sie lokal.',
-            type: ActionType.social,
-            priority: ActionPriority.high,
-            deviceType: 'robot',
-          ),
-        );
-      }
     }
 
     return actions;
