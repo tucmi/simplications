@@ -1,6 +1,8 @@
 {
     "chat.tools.terminal.autoApprove": {
-        "Set-Content": true
+        "Set-Content": true,
+        "dart": true,
+        "flutter": true
     },
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,

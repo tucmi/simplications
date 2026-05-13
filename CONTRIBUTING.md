@@ -86,7 +86,7 @@ lib/
 - `lib/models/survey_state.dart`: central assessment state and local persistence
 - `lib/screens/`: wizard flow screens and summary screen
 - `lib/widgets/`: reusable UI components
-- `lib/l10n/app_localizations.dart`: localization source of truth
+- `lib/l10n/*.arb`: localization source of truth (generated Dart files are derived from ARB)
 
 ### State and persistence
 
@@ -161,10 +161,24 @@ Target: zero analyzer errors and warnings.
 ### Localization requirements
 
 - Do not hardcode user-facing text in widgets.
-- Localization source of truth is `lib/l10n/app_localizations.dart`.
-- Add or update keys consistently across supported locales.
-- Verify fallback behavior for missing locale values.
+- Localization source of truth is the ARB files in `lib/l10n/`.
+- Add or update keys consistently across supported locale ARB files.
+- Regenerate localization code with `flutter gen-l10n` after ARB changes.
 - Ensure summary export helpers still receive localized strings.
+
+### Localization workflow
+
+When adding or changing user-facing strings:
+
+1. Add/update the key in `lib/l10n/app_en.arb`.
+2. Add/update the same key in all other locale files in `lib/l10n/` (`app_de.arb`, `app_cs.arb`, `app_pl.arb`, `app_fr.arb`, `app_nl.arb`, `app_da.arb`).
+3. Regenerate generated localization classes:
+
+   ```bash
+   flutter gen-l10n
+   ```
+
+4. Commit ARB + generated localization Dart files together.
 
 ### Comments
 
@@ -247,13 +261,14 @@ Typical changes:
 
 Primary files:
 
-- `lib/l10n/app_localizations.dart`
+- `lib/l10n/app_en.arb`
+- `lib/l10n/app_*.arb`
 - relevant UI files consuming localized strings
 
 Typical changes:
 
-- Add translation keys and values
-- Ensure fallback behavior remains correct
+- Add/update translation keys and values in all locale ARB files
+- Run `flutter gen-l10n` and commit generated files
 - Verify exports and summaries remain localized
 
 ### 5. Improve documentation

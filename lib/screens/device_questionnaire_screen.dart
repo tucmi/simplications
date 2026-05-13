@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/catalog_data.dart';
 import '../l10n/app_localizations.dart';
+import '../l10n/localization_lookup.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
@@ -65,7 +66,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
 
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     final questions = device.questions;
     final answered = questions
         .where((q) => device.answerFor(q.id) != null)
@@ -74,7 +75,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(localizations.questionnaireTitle()),
+        title: Text(localizations.questionnaireTitle),
         centerTitle: false,
       ),
       body: CustomScrollView(
@@ -148,7 +149,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                                     if (device.template.hasCamera)
                                       _FeatureChip(
                                         icon: Icons.videocam,
-                                        label: localizations.camera(),
+                                        label: localizations.camera,
                                         colors: colors,
                                       ),
                                     if (device.template.hasMicrophone)
@@ -156,14 +157,14 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                                         padding: const EdgeInsets.only(left: 6),
                                         child: _FeatureChip(
                                           icon: Icons.mic,
-                                          label: localizations.microphone(),
+                                          label: localizations.microphone,
                                           colors: colors,
                                         ),
                                       ),
                                     if (!device.template.hasCamera &&
                                         !device.template.hasMicrophone)
                                       Text(
-                                        localizations.connectedDevice(),
+                                        localizations.connectedDevice,
                                         style: text.bodySmall?.copyWith(
                                           color: colors.onSurfaceVariant,
                                         ),
@@ -204,7 +205,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              localizations.expertModeQuestionnaireHint(),
+                              localizations.expertModeQuestionnaireHint,
                               style: text.bodySmall?.copyWith(
                                 color: colors.onSurface,
                               ),
@@ -257,7 +258,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
               ),
               icon: const Icon(Icons.check_circle_outline, size: 18),
               label: Text(
-                localizations.done(),
+                localizations.done,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
             ),
@@ -323,7 +324,7 @@ class _QuestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     final answered = answer != null;
     final isNotApplicable = answer == QuestionAnswer.notApplicable;
     final accentColor = _answerAccentColor(colors, answer);
@@ -375,7 +376,7 @@ class _QuestionCard extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    AppLocalizations.translate(question.text),
+                    LocalizationLookup.translate(question.text),
                     style: text.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       height: 1.4,
@@ -387,7 +388,7 @@ class _QuestionCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 34, top: 6),
               child: Text(
-                AppLocalizations.translate(question.hint),
+                LocalizationLookup.translate(question.hint),
                 style: text.bodySmall?.copyWith(
                   color: colors.onSurfaceVariant,
                   fontStyle: FontStyle.italic,
@@ -399,7 +400,7 @@ class _QuestionCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: _AnswerButton(
-                    label: localizations.yes(),
+                    label: localizations.yes,
                     icon: Icons.check,
                     isSelected: answer == QuestionAnswer.yes,
                     tone: _AnswerButtonTone.positive,
@@ -410,7 +411,7 @@ class _QuestionCard extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: _AnswerButton(
-                    label: localizations.no(),
+                    label: localizations.no,
                     icon: Icons.close,
                     isSelected: answer == QuestionAnswer.no,
                     tone: _AnswerButtonTone.negative,
@@ -424,7 +425,7 @@ class _QuestionCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: _AnswerButton(
-                label: localizations.dontKnow(),
+                label: localizations.dontKnow,
                 icon: Icons.help_outline,
                 isSelected: answer == QuestionAnswer.dontKnow,
                 tone: _AnswerButtonTone.neutral,
@@ -453,7 +454,7 @@ class _QuestionCard extends StatelessWidget {
                   vertical: 0,
                 ),
                 title: Text(
-                  localizations.notApplicableForDevice(),
+                  localizations.notApplicableForDevice,
                   style: text.labelSmall?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ),

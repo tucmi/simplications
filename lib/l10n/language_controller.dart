@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_localizations.dart';
+import 'localization_lookup.dart';
 
 class LanguageController extends ChangeNotifier {
   static const _storageKey = 'selected_language_code';
@@ -38,6 +39,7 @@ class LanguageController extends ChangeNotifier {
       final storedCode = prefs.getString(_storageKey);
       if (storedCode != null && _isSupportedLanguage(storedCode)) {
         _locale = Locale(storedCode);
+        LocalizationLookup.activate(_locale);
         return;
       }
     } catch (_) {
@@ -49,6 +51,7 @@ class LanguageController extends ChangeNotifier {
         ? deviceLocale.languageCode
         : 'de';
     _locale = Locale(inferredCode);
+    LocalizationLookup.activate(_locale);
   }
 
   Future<void> setLocale(Locale locale) async {
@@ -60,6 +63,7 @@ class LanguageController extends ChangeNotifier {
     }
 
     _locale = Locale(locale.languageCode);
+    LocalizationLookup.activate(_locale);
     notifyListeners();
 
     try {

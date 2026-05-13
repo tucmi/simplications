@@ -37,16 +37,16 @@ class RoomSelectionScreen extends StatelessWidget {
   }
 
   void _removeCustomRoom(BuildContext context, String roomId) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(localizations.roomDeleteTitle()),
-        content: Text(localizations.roomDeleteBody()),
+        title: Text(localizations.roomDeleteTitle),
+        content: Text(localizations.roomDeleteBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(localizations.cancel()),
+            child: Text(localizations.cancel),
           ),
           TextButton(
             onPressed: () {
@@ -54,7 +54,7 @@ class RoomSelectionScreen extends StatelessWidget {
               Navigator.pop(context);
             },
             child: Text(
-              localizations.delete(),
+              localizations.delete,
               style: const TextStyle(color: Colors.red),
             ),
           ),
@@ -73,11 +73,11 @@ class RoomSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(localizations.roomSelectionTitle()),
+        title: Text(localizations.roomSelectionTitle),
         centerTitle: false,
       ),
       body: ListenableBuilder(
@@ -95,14 +95,14 @@ class RoomSelectionScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              localizations.roomQuestion(),
+                              localizations.roomQuestion,
                               style: text.titleLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              localizations.roomInstruction(),
+                              localizations.roomInstruction,
                               style: text.bodyMedium?.copyWith(
                                 color: colors.onSurfaceVariant,
                               ),
@@ -186,7 +186,7 @@ class RoomSelectionScreen extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              localizations.results(),
+                              localizations.results,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -227,7 +227,7 @@ class _RoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return GestureDetector(
       onTap: onTap,
@@ -293,7 +293,7 @@ class _RoomCard extends StatelessWidget {
                 if (isCompleted) ...[
                   const SizedBox(height: 2),
                   Text(
-                    localizations.alreadyEvaluated(),
+                    localizations.alreadyEvaluated,
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
                       color: colors.onSurface.withValues(alpha: 0.35),
                     ),
@@ -303,7 +303,7 @@ class _RoomCard extends StatelessWidget {
                 ] else if (isIncomplete) ...[
                   const SizedBox(height: 2),
                   Text(
-                    localizations.notCompleted(),
+                    localizations.notCompleted,
                     style: Theme.of(
                       context,
                     ).textTheme.labelSmall?.copyWith(color: colors.error),
@@ -348,7 +348,7 @@ class _AddRoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return GestureDetector(
       onTap: onTap,
@@ -368,7 +368,7 @@ class _AddRoomCard extends StatelessWidget {
             Icon(Icons.add, size: 28, color: colors.primary),
             const SizedBox(height: 4),
             Text(
-              localizations.addRoom(),
+              localizations.addRoom,
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 color: colors.primary,
                 fontWeight: FontWeight.w600,

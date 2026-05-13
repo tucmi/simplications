@@ -7,13 +7,13 @@ class FaqScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     final text = Theme.of(context).textTheme;
 
     final entries = _faqEntries(localizations);
 
     return Scaffold(
-      appBar: AppBar(title: Text(localizations.faqScreenTitle())),
+      appBar: AppBar(title: Text(localizations.faqScreenTitle)),
       body: ListView.separated(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         itemCount: entries.length,
@@ -52,36 +52,36 @@ class FaqScreen extends StatelessWidget {
   List<_FaqEntry> _faqEntries(AppLocalizations localizations) {
     return [
       _FaqEntry(
-        question: localizations.faqQuestionWhatIs(),
-        answer: localizations.faqAnswerWhatIs(),
+        question: localizations.faqQuestionWhatIs,
+        answer: localizations.faqAnswerWhatIs,
       ),
       _FaqEntry(
-        question: localizations.faqQuestionHowWorks(),
-        answer: localizations.faqAnswerHowWorks(),
+        question: localizations.faqQuestionHowWorks,
+        answer: localizations.faqAnswerHowWorks,
       ),
       _FaqEntry(
-        question: localizations.faqQuestionNoPolicy(),
-        answer: localizations.faqAnswerNoPolicy(),
+        question: localizations.faqQuestionNoPolicy,
+        answer: localizations.faqAnswerNoPolicy,
       ),
       _FaqEntry(
-        question: localizations.faqQuestionDataStored(),
-        answer: localizations.faqAnswerDataStored(),
+        question: localizations.faqQuestionDataStored,
+        answer: localizations.faqAnswerDataStored,
       ),
       _FaqEntry(
-        question: localizations.faqQuestionNoDevice(),
-        answer: localizations.faqAnswerNoDevice(),
+        question: localizations.faqQuestionNoDevice,
+        answer: localizations.faqAnswerNoDevice,
       ),
       _FaqEntry(
-        question: localizations.faqQuestionRiskMeaning(),
-        answer: localizations.faqAnswerRiskMeaning(),
+        question: localizations.faqQuestionRiskMeaning,
+        answer: localizations.faqAnswerRiskMeaning,
       ),
       _FaqEntry(
-        question: localizations.faqQuestionLegalAdvice(),
-        answer: localizations.faqAnswerLegalAdvice(),
+        question: localizations.faqQuestionLegalAdvice,
+        answer: localizations.faqAnswerLegalAdvice,
       ),
       _FaqEntry(
-        question: localizations.faqQuestionCanShare(),
-        answer: localizations.faqAnswerCanShare(),
+        question: localizations.faqQuestionCanShare,
+        answer: localizations.faqAnswerCanShare,
       ),
     ];
   }

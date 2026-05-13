@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'l10n/app_localizations.dart';
 import 'l10n/language_controller.dart';
@@ -31,17 +30,12 @@ class _SimplicationsAppState extends State<SimplicationsApp> {
       builder: (context, _) {
         return MaterialApp(
           navigatorKey: _navigatorKey,
-          onGenerateTitle: (context) => AppLocalizations.of(context).appTitle(),
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
           debugShowCheckedModeBanner: false,
           navigatorObservers: [appRouteObserver],
           locale: widget.languageController.locale,
           supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
               seedColor: const Color(0xFF00695C),
