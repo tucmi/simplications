@@ -23,10 +23,20 @@ class DeviceQuestionnaireScreen extends StatefulWidget {
 }
 
 class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
-  DeviceInstance get device =>
-      widget.state.devices.firstWhere((d) => d.instanceId == widget.instanceId);
+  DeviceInstance? get _deviceOrNull {
+    for (final d in widget.state.devices) {
+      if (d.instanceId == widget.instanceId) {
+        return d;
+      }
+    }
+    return null;
+  }
 
-  void _onAnswer(String questionId, QuestionAnswer? value) {
+  void _onAnswer(
+    DeviceInstance device,
+    String questionId,
+    QuestionAnswer? value,
+  ) {
     if (device.answerFor(questionId) == value) {
       return;
     }
@@ -36,13 +46,23 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
     });
   }
 
-  void _onNext() {
+  void _onNext(DeviceInstance device) {
     if (!device.isFullyAnswered) return;
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    final device = _deviceOrNull;
+    if (device == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          Navigator.of(context).maybePop();
+        }
+      });
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final localizations = AppLocalizations.of(context);
@@ -212,7 +232,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                   child: _QuestionCard(
                     question: question,
                     answer: answer,
-                    onAnswer: (v) => _onAnswer(question.id, v),
+                    onAnswer: (v) => _onAnswer(device, question.id, v),
                     number: index + 1,
                   ),
                 );
@@ -228,7 +248,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
           child: SizedBox(
             width: double.infinity,
             child: FilledButton.icon(
-              onPressed: allAnswered ? _onNext : null,
+              onPressed: allAnswered ? () => _onNext(device) : null,
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
