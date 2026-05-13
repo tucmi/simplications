@@ -93,6 +93,22 @@ lib/
 - Assessment flow is state-driven via `SurveyState`.
 - Progress and selected settings are persisted locally with SharedPreferences.
 
+## Build Number Policy
+
+Every change — by a human contributor or an AI agent — to any **core app file**
+(`lib/` and its subdirectories) must include a build number increment in
+`pubspec.yaml` as part of the same commit.
+
+```yaml
+# Increment the integer after +
+version: 1.0.0+3   →   version: 1.0.0+4
+```
+
+Files outside `lib/` (`test/`, platform directories, `pubspec.yaml` itself
+when only bumping the build number, docs) do not require a bump.
+
+> AI agents: this rule is also enforced in `AGENTS.md` at the repo root.
+
 ## Workflow
 
 1. Create a feature branch:
