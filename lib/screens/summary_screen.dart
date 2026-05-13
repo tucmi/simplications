@@ -322,9 +322,15 @@ class _SummaryReport {
 
     final overallScore = evaluatedDevices.isEmpty
         ? 0
-        : (evaluatedDevices.map((d) => d.riskScore).reduce((a, b) => a + b) /
-                  evaluatedDevices.length)
-              .round();
+        : (() {
+            final scores = evaluatedDevices.map((d) => d.riskScore);
+            final mean =
+                scores.reduce((a, b) => a + b) / evaluatedDevices.length;
+            final max = scores.reduce((a, b) => a > b ? a : b);
+            // Blend 40 % max + 60 % mean so a single high-risk device cannot
+            // be fully diluted by many low-risk ones.
+            return (0.4 * max + 0.6 * mean).round();
+          })();
 
     final overallLevel = overallScore <= 33
         ? RiskLevel.low
