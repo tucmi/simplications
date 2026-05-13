@@ -116,6 +116,11 @@ test/
 - Group imports: dart → flutter → package → relative.
 - Zero analyzer errors and warnings required.
 
+### Pull request titles
+- Pull request titles should follow this template: `<type>: <short description>`.
+- Use a lowercase type prefix such as `feat`, `fix`, `docs`, `refactor`, `test`, or `chore`.
+- Examples: `feat: add summary export`, `fix: preserve selected room state`.
+
 ---
 
 ## Checklist Before Finishing Any Task
