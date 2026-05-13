@@ -21,22 +21,27 @@ class FaqScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final entry = entries[index];
           return Card(
-            child: ExpansionTile(
-              tilePadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 4,
-              ),
-              title: Text(
-                entry.question,
-                style: text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-              ),
-              childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(entry.answer, style: text.bodyMedium),
+            child: Theme(
+              data: Theme.of(
+                context,
+              ).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                tilePadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 4,
                 ),
-              ],
+                title: Text(
+                  entry.question,
+                  style: text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                ),
+                childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(entry.answer, style: text.bodyMedium),
+                  ),
+                ],
+              ),
             ),
           );
         },

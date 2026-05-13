@@ -565,9 +565,9 @@ class AppLocalizations {
       'a_skills_permissions_title': 'Skills/Fähigkeiten überprüfen',
       'a_skills_permissions_desc':
           'Überprüfen Sie, welche Drittanbieter-Skills Zugriff haben. Deaktivieren Sie unnötige Skills.',
-      'a_video_encryption_title': 'WLAN-Verschlüsselung prüfen',
+      'a_video_encryption_title': 'Ende-zu-Ende-Verschlüsselung aktivieren',
       'a_video_encryption_desc':
-          'BSI-Empfehlung: Verwenden Sie WPA2 oder WPA3 für Ihr Heimnetz. WEP und WPA sind veraltet.',
+          'Aktivieren Sie in den Kamera-Einstellungen eine Ende-zu-Ende-verschlüsselte Übertragung für Livebild und Aufnahmen.',
       'a_video_storage_title': 'Aufnahmen lokal speichern',
       'a_video_storage_desc':
           'Stellen Sie, wenn möglich, lokale Speicherung ein. Falls nur Cloud-Speicherung möglich ist, reduzieren Sie die Aufbewahrungsdauer und löschen Sie Aufnahmen regelmäßig.',
@@ -1235,9 +1235,9 @@ class AppLocalizations {
       'a_skills_permissions_title': 'Review skills/integrations',
       'a_skills_permissions_desc':
           'Review which third-party skills have access. Disable unnecessary skills.',
-      'a_video_encryption_title': 'Check Wi-Fi encryption',
+      'a_video_encryption_title': 'Enable end-to-end video encryption',
       'a_video_encryption_desc':
-          'BSI recommendation: Use WPA2 or WPA3 on your home network. WEP and WPA are outdated.',
+          'Enable end-to-end encrypted transmission for live view and recordings in your camera app/settings.',
       'a_video_storage_title': 'Store recordings locally',
       'a_video_storage_desc':
           'Configure local storage if possible. If cloud-only storage is unavoidable, shorten the retention period and delete recordings regularly.',
