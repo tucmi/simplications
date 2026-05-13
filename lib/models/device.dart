@@ -123,6 +123,310 @@ class DeviceQuestion {
 class DeviceInstance {
   static const String _childBedroomRoomId = 'child_bedroom';
   static const int _childBedroomRiskBonus = 10;
+  static const Set<String> genericQuestionIds = {
+    'password',
+    'updates',
+    'network',
+    'informed',
+    'permissions',
+  };
+
+  static const Map<String, PrivacyAction> _noAnswerActions = {
+    'password': PrivacyAction(
+      title: 'a_password_title',
+      description: 'a_password_desc',
+      type: ActionType.security,
+      priority: ActionPriority.high,
+    ),
+    'updates': PrivacyAction(
+      title: 'a_updates_title',
+      description: 'a_updates_desc',
+      type: ActionType.security,
+      priority: ActionPriority.high,
+    ),
+    'network': PrivacyAction(
+      title: 'a_network_title',
+      description: 'a_network_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.medium,
+    ),
+    'informed': PrivacyAction(
+      title: 'a_informed_title',
+      description: 'a_informed_desc',
+      type: ActionType.social,
+      priority: ActionPriority.medium,
+    ),
+    'permissions': PrivacyAction(
+      title: 'a_permissions_title',
+      description: 'a_permissions_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.medium,
+    ),
+    'camera_consent': PrivacyAction(
+      title: 'a_camera_consent_title',
+      description: 'a_camera_consent_desc',
+      type: ActionType.social,
+      priority: ActionPriority.high,
+    ),
+    'mic_active': PrivacyAction(
+      title: 'a_mic_active_title',
+      description: 'a_mic_active_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'sensor_frequency': PrivacyAction(
+      title: 'a_sensor_frequency_title',
+      description: 'a_sensor_frequency_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.medium,
+    ),
+    'sensor_data_deletion': PrivacyAction(
+      title: 'a_sensor_data_deletion_title',
+      description: 'a_sensor_data_deletion_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'sensor_granularity': PrivacyAction(
+      title: 'a_sensor_granularity_title',
+      description: 'a_sensor_granularity_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.medium,
+    ),
+    'sensor_local': PrivacyAction(
+      title: 'a_sensor_local_title',
+      description: 'a_sensor_local_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'voice_history': PrivacyAction(
+      title: 'a_voice_history_title',
+      description: 'a_voice_history_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'voice_local': PrivacyAction(
+      title: 'a_voice_local_title',
+      description: 'a_voice_local_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'skills_permissions': PrivacyAction(
+      title: 'a_skills_permissions_title',
+      description: 'a_skills_permissions_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.medium,
+    ),
+    'video_encryption': PrivacyAction(
+      title: 'a_video_encryption_title',
+      description: 'a_video_encryption_desc',
+      type: ActionType.security,
+      priority: ActionPriority.high,
+    ),
+    'video_storage': PrivacyAction(
+      title: 'a_video_storage_title',
+      description: 'a_video_storage_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'sharing_restrictions': PrivacyAction(
+      title: 'a_sharing_restrictions_title',
+      description: 'a_sharing_restrictions_desc',
+      type: ActionType.social,
+      priority: ActionPriority.high,
+    ),
+    'motion_detection': PrivacyAction(
+      title: 'a_motion_detection_title',
+      description: 'a_motion_detection_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.medium,
+    ),
+    'account_required': PrivacyAction(
+      title: 'a_account_required_title',
+      description: 'a_account_required_desc',
+      type: ActionType.social,
+      priority: ActionPriority.medium,
+    ),
+    'tracking_disabled': PrivacyAction(
+      title: 'a_tracking_disabled_title',
+      description: 'a_tracking_disabled_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'local_mode': PrivacyAction(
+      title: 'a_local_mode_title',
+      description: 'a_local_mode_desc',
+      type: ActionType.social,
+      priority: ActionPriority.medium,
+    ),
+    'data_collection': PrivacyAction(
+      title: 'a_data_collection_title',
+      description: 'a_data_collection_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'offline_control': PrivacyAction(
+      title: 'a_offline_control_title',
+      description: 'a_offline_control_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.medium,
+    ),
+    'family_access': PrivacyAction(
+      title: 'a_family_access_title',
+      description: 'a_family_access_desc',
+      type: ActionType.social,
+      priority: ActionPriority.medium,
+    ),
+    'local_control': PrivacyAction(
+      title: 'a_local_control_title',
+      description: 'a_local_control_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.medium,
+    ),
+    'usage_tracking': PrivacyAction(
+      title: 'a_usage_tracking_title',
+      description: 'a_usage_tracking_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'offline_fallback': PrivacyAction(
+      title: 'a_offline_fallback_title',
+      description: 'a_offline_fallback_desc',
+      type: ActionType.security,
+      priority: ActionPriority.medium,
+    ),
+    'offline_unlock': PrivacyAction(
+      title: 'a_offline_unlock_title',
+      description: 'a_offline_unlock_desc',
+      type: ActionType.security,
+      priority: ActionPriority.high,
+    ),
+    'access_logging': PrivacyAction(
+      title: 'a_access_logging_title',
+      description: 'a_access_logging_desc',
+      type: ActionType.security,
+      priority: ActionPriority.medium,
+    ),
+    'two_factor': PrivacyAction(
+      title: 'a_two_factor_title',
+      description: 'a_two_factor_desc',
+      type: ActionType.security,
+      priority: ActionPriority.high,
+    ),
+    'map_privacy': PrivacyAction(
+      title: 'a_map_privacy_title',
+      description: 'a_map_privacy_desc',
+      type: ActionType.social,
+      priority: ActionPriority.high,
+    ),
+    'cloud_required': PrivacyAction(
+      title: 'a_cloud_required_title',
+      description: 'a_cloud_required_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.medium,
+    ),
+    'vision_data': PrivacyAction(
+      title: 'a_vision_data_title',
+      description: 'a_vision_data_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'parental_control': PrivacyAction(
+      title: 'a_parental_control_title',
+      description: 'a_parental_control_desc',
+      type: ActionType.social,
+      priority: ActionPriority.high,
+    ),
+    'child_data_limits': PrivacyAction(
+      title: 'a_child_data_limits_title',
+      description: 'a_child_data_limits_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'recording_disable': PrivacyAction(
+      title: 'a_recording_disable_title',
+      description: 'a_recording_disable_desc',
+      type: ActionType.security,
+      priority: ActionPriority.high,
+    ),
+    'health_sharing': PrivacyAction(
+      title: 'a_health_sharing_title',
+      description: 'a_health_sharing_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'location_tracking': PrivacyAction(
+      title: 'a_location_tracking_title',
+      description: 'a_location_tracking_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.medium,
+    ),
+    'expert_data_retention_duration': PrivacyAction(
+      title: 'a_expert_data_retention_duration_title',
+      description: 'a_expert_data_retention_duration_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'expert_access_control_granular': PrivacyAction(
+      title: 'a_expert_access_control_granular_title',
+      description: 'a_expert_access_control_granular_desc',
+      type: ActionType.security,
+      priority: ActionPriority.high,
+    ),
+    'expert_third_party_sharing_limited': PrivacyAction(
+      title: 'a_expert_third_party_sharing_limited_title',
+      description: 'a_expert_third_party_sharing_limited_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+    'expert_data_sale_disabled': PrivacyAction(
+      title: 'a_expert_data_sale_disabled_title',
+      description: 'a_expert_data_sale_disabled_desc',
+      type: ActionType.social,
+      priority: ActionPriority.high,
+    ),
+    'expert_update_support_window': PrivacyAction(
+      title: 'a_expert_update_support_window_title',
+      description: 'a_expert_update_support_window_desc',
+      type: ActionType.social,
+      priority: ActionPriority.medium,
+    ),
+    'expert_vulnerability_process': PrivacyAction(
+      title: 'a_expert_vulnerability_process_title',
+      description: 'a_expert_vulnerability_process_desc',
+      type: ActionType.social,
+      priority: ActionPriority.medium,
+    ),
+    'expert_offline_functionality': PrivacyAction(
+      title: 'a_expert_offline_functionality_title',
+      description: 'a_expert_offline_functionality_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.medium,
+    ),
+    'expert_bystander_transparency': PrivacyAction(
+      title: 'a_expert_bystander_transparency_title',
+      description: 'a_expert_bystander_transparency_desc',
+      type: ActionType.social,
+      priority: ActionPriority.medium,
+    ),
+    'expert_child_data_protection': PrivacyAction(
+      title: 'a_expert_child_data_protection_title',
+      description: 'a_expert_child_data_protection_desc',
+      type: ActionType.security,
+      priority: ActionPriority.high,
+    ),
+    'expert_access_revocation': PrivacyAction(
+      title: 'a_expert_access_revocation_title',
+      description: 'a_expert_access_revocation_desc',
+      type: ActionType.security,
+      priority: ActionPriority.high,
+    ),
+    'expert_sensitive_inference_controls': PrivacyAction(
+      title: 'a_expert_sensitive_inference_controls_title',
+      description: 'a_expert_sensitive_inference_controls_desc',
+      type: ActionType.technical,
+      priority: ActionPriority.high,
+    ),
+  };
 
   final String instanceId;
   final DeviceTemplate template;
@@ -655,311 +959,19 @@ class DeviceInstance {
     return 'risk_hint_generic';
   }
 
+  static PrivacyAction? remedyForNegativeAnswer(String questionId) {
+    return _noAnswerActions[questionId];
+  }
+
   List<PrivacyAction> get suggestedActions {
     final actions = <PrivacyAction>[];
-    const noAnswerActions = <String, PrivacyAction>{
-      'password': PrivacyAction(
-        title: 'a_password_title',
-        description: 'a_password_desc',
-        type: ActionType.security,
-        priority: ActionPriority.high,
-      ),
-      'updates': PrivacyAction(
-        title: 'a_updates_title',
-        description: 'a_updates_desc',
-        type: ActionType.security,
-        priority: ActionPriority.high,
-      ),
-      'network': PrivacyAction(
-        title: 'a_network_title',
-        description: 'a_network_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.medium,
-      ),
-      'informed': PrivacyAction(
-        title: 'a_informed_title',
-        description: 'a_informed_desc',
-        type: ActionType.social,
-        priority: ActionPriority.medium,
-      ),
-      'permissions': PrivacyAction(
-        title: 'a_permissions_title',
-        description: 'a_permissions_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.medium,
-      ),
-      'camera_consent': PrivacyAction(
-        title: 'a_camera_consent_title',
-        description: 'a_camera_consent_desc',
-        type: ActionType.social,
-        priority: ActionPriority.high,
-      ),
-      'mic_active': PrivacyAction(
-        title: 'a_mic_active_title',
-        description: 'a_mic_active_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'sensor_frequency': PrivacyAction(
-        title: 'a_sensor_frequency_title',
-        description: 'a_sensor_frequency_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.medium,
-      ),
-      'sensor_data_deletion': PrivacyAction(
-        title: 'a_sensor_data_deletion_title',
-        description: 'a_sensor_data_deletion_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'sensor_granularity': PrivacyAction(
-        title: 'a_sensor_granularity_title',
-        description: 'a_sensor_granularity_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.medium,
-      ),
-      'sensor_local': PrivacyAction(
-        title: 'a_sensor_local_title',
-        description: 'a_sensor_local_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'voice_history': PrivacyAction(
-        title: 'a_voice_history_title',
-        description: 'a_voice_history_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'voice_local': PrivacyAction(
-        title: 'a_voice_local_title',
-        description: 'a_voice_local_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'skills_permissions': PrivacyAction(
-        title: 'a_skills_permissions_title',
-        description: 'a_skills_permissions_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.medium,
-      ),
-      'video_encryption': PrivacyAction(
-        title: 'a_video_encryption_title',
-        description: 'a_video_encryption_desc',
-        type: ActionType.security,
-        priority: ActionPriority.high,
-      ),
-      'video_storage': PrivacyAction(
-        title: 'a_video_storage_title',
-        description: 'a_video_storage_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'sharing_restrictions': PrivacyAction(
-        title: 'a_sharing_restrictions_title',
-        description: 'a_sharing_restrictions_desc',
-        type: ActionType.social,
-        priority: ActionPriority.high,
-      ),
-      'motion_detection': PrivacyAction(
-        title: 'a_motion_detection_title',
-        description: 'a_motion_detection_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.medium,
-      ),
-      'account_required': PrivacyAction(
-        title: 'a_account_required_title',
-        description: 'a_account_required_desc',
-        type: ActionType.social,
-        priority: ActionPriority.medium,
-      ),
-      'tracking_disabled': PrivacyAction(
-        title: 'a_tracking_disabled_title',
-        description: 'a_tracking_disabled_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'local_mode': PrivacyAction(
-        title: 'a_local_mode_title',
-        description: 'a_local_mode_desc',
-        type: ActionType.social,
-        priority: ActionPriority.medium,
-      ),
-      'data_collection': PrivacyAction(
-        title: 'a_data_collection_title',
-        description: 'a_data_collection_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'offline_control': PrivacyAction(
-        title: 'a_offline_control_title',
-        description: 'a_offline_control_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.medium,
-      ),
-      'family_access': PrivacyAction(
-        title: 'a_family_access_title',
-        description: 'a_family_access_desc',
-        type: ActionType.social,
-        priority: ActionPriority.medium,
-      ),
-      'local_control': PrivacyAction(
-        title: 'a_local_control_title',
-        description: 'a_local_control_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.medium,
-      ),
-      'usage_tracking': PrivacyAction(
-        title: 'a_usage_tracking_title',
-        description: 'a_usage_tracking_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'offline_fallback': PrivacyAction(
-        title: 'a_offline_fallback_title',
-        description: 'a_offline_fallback_desc',
-        type: ActionType.security,
-        priority: ActionPriority.medium,
-      ),
-      'offline_unlock': PrivacyAction(
-        title: 'a_offline_unlock_title',
-        description: 'a_offline_unlock_desc',
-        type: ActionType.security,
-        priority: ActionPriority.high,
-      ),
-      'access_logging': PrivacyAction(
-        title: 'a_access_logging_title',
-        description: 'a_access_logging_desc',
-        type: ActionType.security,
-        priority: ActionPriority.medium,
-      ),
-      'two_factor': PrivacyAction(
-        title: 'a_two_factor_title',
-        description: 'a_two_factor_desc',
-        type: ActionType.security,
-        priority: ActionPriority.high,
-      ),
-      'map_privacy': PrivacyAction(
-        title: 'a_map_privacy_title',
-        description: 'a_map_privacy_desc',
-        type: ActionType.social,
-        priority: ActionPriority.high,
-      ),
-      'cloud_required': PrivacyAction(
-        title: 'a_cloud_required_title',
-        description: 'a_cloud_required_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.medium,
-      ),
-      'vision_data': PrivacyAction(
-        title: 'a_vision_data_title',
-        description: 'a_vision_data_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'parental_control': PrivacyAction(
-        title: 'a_parental_control_title',
-        description: 'a_parental_control_desc',
-        type: ActionType.social,
-        priority: ActionPriority.high,
-      ),
-      'child_data_limits': PrivacyAction(
-        title: 'a_child_data_limits_title',
-        description: 'a_child_data_limits_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'recording_disable': PrivacyAction(
-        title: 'a_recording_disable_title',
-        description: 'a_recording_disable_desc',
-        type: ActionType.security,
-        priority: ActionPriority.high,
-      ),
-      'health_sharing': PrivacyAction(
-        title: 'a_health_sharing_title',
-        description: 'a_health_sharing_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'location_tracking': PrivacyAction(
-        title: 'a_location_tracking_title',
-        description: 'a_location_tracking_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.medium,
-      ),
-      'expert_data_retention_duration': PrivacyAction(
-        title: 'a_expert_data_retention_duration_title',
-        description: 'a_expert_data_retention_duration_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'expert_access_control_granular': PrivacyAction(
-        title: 'a_expert_access_control_granular_title',
-        description: 'a_expert_access_control_granular_desc',
-        type: ActionType.security,
-        priority: ActionPriority.high,
-      ),
-      'expert_third_party_sharing_limited': PrivacyAction(
-        title: 'a_expert_third_party_sharing_limited_title',
-        description: 'a_expert_third_party_sharing_limited_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-      'expert_data_sale_disabled': PrivacyAction(
-        title: 'a_expert_data_sale_disabled_title',
-        description: 'a_expert_data_sale_disabled_desc',
-        type: ActionType.social,
-        priority: ActionPriority.high,
-      ),
-      'expert_update_support_window': PrivacyAction(
-        title: 'a_expert_update_support_window_title',
-        description: 'a_expert_update_support_window_desc',
-        type: ActionType.social,
-        priority: ActionPriority.medium,
-      ),
-      'expert_vulnerability_process': PrivacyAction(
-        title: 'a_expert_vulnerability_process_title',
-        description: 'a_expert_vulnerability_process_desc',
-        type: ActionType.social,
-        priority: ActionPriority.medium,
-      ),
-      'expert_offline_functionality': PrivacyAction(
-        title: 'a_expert_offline_functionality_title',
-        description: 'a_expert_offline_functionality_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.medium,
-      ),
-      'expert_bystander_transparency': PrivacyAction(
-        title: 'a_expert_bystander_transparency_title',
-        description: 'a_expert_bystander_transparency_desc',
-        type: ActionType.social,
-        priority: ActionPriority.medium,
-      ),
-      'expert_child_data_protection': PrivacyAction(
-        title: 'a_expert_child_data_protection_title',
-        description: 'a_expert_child_data_protection_desc',
-        type: ActionType.security,
-        priority: ActionPriority.high,
-      ),
-      'expert_access_revocation': PrivacyAction(
-        title: 'a_expert_access_revocation_title',
-        description: 'a_expert_access_revocation_desc',
-        type: ActionType.security,
-        priority: ActionPriority.high,
-      ),
-      'expert_sensitive_inference_controls': PrivacyAction(
-        title: 'a_expert_sensitive_inference_controls_title',
-        description: 'a_expert_sensitive_inference_controls_desc',
-        type: ActionType.technical,
-        priority: ActionPriority.high,
-      ),
-    };
 
     for (final question in questions) {
       final answer = answerFor(question.id);
       if (answer != QuestionAnswer.no) {
         continue;
       }
-      final action = noAnswerActions[question.id];
+      final action = remedyForNegativeAnswer(question.id);
       if (action != null) {
         actions.add(action);
       }

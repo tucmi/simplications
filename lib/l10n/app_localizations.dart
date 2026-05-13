@@ -16,6 +16,33 @@ class AppLocalizations {
     Locale('da'),
   ];
 
+  static final Map<String, Map<String, String>> _completeLocalizedValues =
+      _buildCompleteLocalizedValues();
+
+  static Map<String, Map<String, String>> _buildCompleteLocalizedValues() {
+    final enMap = _localizedValues['en'] ?? const <String, String>{};
+    final completed = <String, Map<String, String>>{};
+
+    for (final locale in supportedLocales) {
+      final languageCode = locale.languageCode;
+      final currentMap =
+          _localizedValues[languageCode] ?? const <String, String>{};
+      completed[languageCode] = Map<String, String>.unmodifiable({
+        ...enMap,
+        ...currentMap,
+      });
+    }
+
+    for (final entry in _localizedValues.entries) {
+      completed.putIfAbsent(
+        entry.key,
+        () => Map<String, String>.unmodifiable({...enMap, ...entry.value}),
+      );
+    }
+
+    return Map<String, Map<String, String>>.unmodifiable(completed);
+  }
+
   static AppLocalizations of(BuildContext context) {
     final localizations = Localizations.of<AppLocalizations>(
       context,
@@ -35,9 +62,9 @@ class AppLocalizations {
     Map<String, String>? params,
   }) {
     final lang = (locale ?? _activeLocale).languageCode;
-    final langMap = _localizedValues[lang];
-    final enMap = _localizedValues['en'];
-    final deMap = _localizedValues['de'];
+    final langMap = _completeLocalizedValues[lang];
+    final enMap = _completeLocalizedValues['en'];
+    final deMap = _completeLocalizedValues['de'];
 
     var value = langMap?[key] ?? enMap?[key] ?? deMap?[key] ?? fallback ?? key;
     if (params != null && params.isNotEmpty) {
@@ -55,6 +82,13 @@ class AppLocalizations {
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
       _AppLocalizationsDelegate();
+
+  static Map<String, Set<String>> localizationKeysByLocale() {
+    return {
+      for (final entry in _completeLocalizedValues.entries)
+        entry.key: Set<String>.from(entry.value.keys),
+    };
+  }
 
   static const Map<String, Map<String, String>> _localizedValues = {
     'de': {

@@ -28,8 +28,112 @@ void _answerAll(DeviceInstance instance, QuestionAnswer answer) {
   }
 }
 
+Set<String> _allQuestionIds({required bool expertMode}) {
+  final ids = <String>{};
+  for (final template in CatalogData.allDeviceTemplates) {
+    final instance = DeviceInstance(
+      instanceId: 'scan_${template.id}_${expertMode ? 'expert' : 'basic'}',
+      template: template,
+      roomId: 'living',
+      roomName: 'living',
+      expertModeEnabled: expertMode,
+    );
+    ids.addAll(instance.questions.map((q) => q.id));
+  }
+
+  if (expertMode) {
+    final childRoomExpertInstance = DeviceInstance(
+      instanceId: 'scan_child_expert',
+      template: _template('smart_router'),
+      roomId: 'child_bedroom',
+      roomName: 'child_bedroom',
+      expertModeEnabled: true,
+    );
+    ids.addAll(childRoomExpertInstance.questions.map((q) => q.id));
+  }
+
+  return ids;
+}
+
+DeviceInstance _instanceWithQuestionId(
+  String questionId, {
+  required bool expertMode,
+}) {
+  for (final template in CatalogData.allDeviceTemplates) {
+    final instance = DeviceInstance(
+      instanceId: 'candidate_${template.id}_${expertMode ? 'expert' : 'basic'}',
+      template: template,
+      roomId: 'living',
+      roomName: 'living',
+      expertModeEnabled: expertMode,
+    );
+    if (instance.questions.any((q) => q.id == questionId)) {
+      return instance;
+    }
+  }
+
+  if (expertMode) {
+    final childRoomExpertInstance = DeviceInstance(
+      instanceId: 'candidate_child_expert',
+      template: _template('smart_router'),
+      roomId: 'child_bedroom',
+      roomName: 'child_bedroom',
+      expertModeEnabled: true,
+    );
+    if (childRoomExpertInstance.questions.any((q) => q.id == questionId)) {
+      return childRoomExpertInstance;
+    }
+  }
+
+  throw StateError('No instance found containing question id: $questionId');
+}
+
 void main() {
   group('Device risk scoring', () {
+    test('all non-generic questions have dedicated no-answer remedies', () {
+      final ids = {
+        ..._allQuestionIds(expertMode: false),
+        ..._allQuestionIds(expertMode: true),
+      };
+
+      for (final id in ids) {
+        if (DeviceInstance.genericQuestionIds.contains(id)) {
+          continue;
+        }
+        expect(
+          DeviceInstance.remedyForNegativeAnswer(id),
+          isNotNull,
+          reason: 'Missing dedicated remedy for question: $id',
+        );
+      }
+    });
+
+    test('dont know answers only trigger the generic learning action', () {
+      final ids = {
+        ..._allQuestionIds(expertMode: false),
+        ..._allQuestionIds(expertMode: true),
+      };
+
+      for (final id in ids) {
+        final instance = _instanceWithQuestionId(
+          id,
+          expertMode: id.startsWith('expert_'),
+        );
+        _answerAll(instance, QuestionAnswer.yes);
+        instance.setAnswer(id, QuestionAnswer.dontKnow);
+
+        final actionTitles = instance.suggestedActions
+            .map((action) => action.title)
+            .toSet();
+
+        expect(
+          actionTitles,
+          equals({'a_dont_know_title'}),
+          reason: 'Question $id should only trigger dont-know generic action',
+        );
+      }
+    });
+
     test('sensor with all no answers applies expected penalties', () {
       final sensor = _instance('humidity_sensor');
       _answerAll(sensor, QuestionAnswer.no);

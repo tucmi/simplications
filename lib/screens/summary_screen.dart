@@ -270,9 +270,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${localizations.exportFailed()}: $error')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(localizations.exportFailed())));
     } finally {
       if (mounted) {
         setState(() => _isSharing = false);
