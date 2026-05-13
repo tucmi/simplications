@@ -92,6 +92,7 @@ test/
 ## Key Conventions
 
 ### Localization
+
 - Never hardcode user-visible strings in widgets.
 - All strings live in `lib/l10n/app_localizations.dart` in the
   `_localizedValues` map, under every supported locale.
@@ -99,6 +100,7 @@ test/
 - The fallback chain is: requested locale → `en` → `de` → fallback param → key.
 
 ### Risk scoring
+
 - Base risk is set per `DeviceTemplate.baseRiskScore` in `catalog_data.dart`.
 - Per-question penalties are defined in `DeviceInstance.riskScore` (device.dart).
 - Score is clamped to `[0, 100]`.
@@ -106,17 +108,20 @@ test/
 - Dont-know answers use a reduced penalty (roughly half of the "no" penalty).
 
 ### Testing
+
 - Run `flutter test` before finishing any task involving core files.
 - Run `flutter analyze` to catch static issues.
 - When changing risk scoring logic, update `test/device_risk_scoring_test.dart`
   with the new expected values.
 
 ### Code style
+
 - 2-space indentation, Dart conventions (PascalCase classes, camelCase members).
 - Group imports: dart → flutter → package → relative.
 - Zero analyzer errors and warnings required.
 
 ### Pull request titles
+
 - Pull request titles should follow this template: `<type>: <short description>`.
 - Use a lowercase type prefix such as `feat`, `fix`, `docs`, `refactor`, `test`, or `chore`.
 - Examples: `feat: add summary export`, `fix: preserve selected room state`.
