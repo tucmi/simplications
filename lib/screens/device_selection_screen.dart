@@ -37,25 +37,25 @@ class DeviceSelectionScreen extends StatelessWidget {
   }
 
   Future<void> _markNoDevice(BuildContext context) async {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     final hasExistingDevices = state.devicesForRoom(room.id).isNotEmpty;
     final shouldMarkNoDevice = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(localizations.noDeviceDialogTitle()),
+        title: Text(localizations.noDeviceDialogTitle),
         content: Text(
           hasExistingDevices
-              ? localizations.noDeviceDialogBodyWithExisting()
-              : localizations.noDeviceDialogBody(),
+              ? localizations.noDeviceDialogBodyWithExisting
+              : localizations.noDeviceDialogBody,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(localizations.cancel()),
+            child: Text(localizations.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text(localizations.confirm()),
+            child: Text(localizations.confirm),
           ),
         ],
       ),
@@ -82,16 +82,16 @@ class DeviceSelectionScreen extends StatelessWidget {
   }
 
   void _removeCustomDevice(BuildContext context, String deviceId) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(localizations.deleteDeviceTitle()),
-        content: Text(localizations.deleteDeviceBody()),
+        title: Text(localizations.deleteDeviceTitle),
+        content: Text(localizations.deleteDeviceBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(localizations.cancel()),
+            child: Text(localizations.cancel),
           ),
           TextButton(
             onPressed: () {
@@ -99,7 +99,7 @@ class DeviceSelectionScreen extends StatelessWidget {
               Navigator.pop(context);
             },
             child: Text(
-              localizations.delete(),
+              localizations.delete,
               style: const TextStyle(color: Colors.red),
             ),
           ),
@@ -112,7 +112,7 @@ class DeviceSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     final isCustomRoom = state.customRooms.any((r) => r.id == room.id);
     final catalogDevices = isCustomRoom
         ? CatalogData.allDeviceTemplates
@@ -121,7 +121,7 @@ class DeviceSelectionScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          localizations.devicesTitle(CatalogData.roomName(room)),
+          '${localizations.deviceTitlePrefix}: ${CatalogData.roomName(room)}',
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
@@ -160,7 +160,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                localizations.roomCheck(),
+                                localizations.roomCheck,
                                 style: text.labelMedium?.copyWith(
                                   color: colors.primary,
                                   fontWeight: FontWeight.w600,
@@ -178,14 +178,14 @@ class DeviceSelectionScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        localizations.deviceQuestion(),
+                        localizations.deviceQuestion,
                         style: text.titleSmall?.copyWith(
                           color: colors.onSurfaceVariant,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        localizations.deviceQuestionHint(),
+                        localizations.deviceQuestionHint,
                         style: text.bodySmall?.copyWith(
                           color: colors.onSurfaceVariant,
                         ),
@@ -200,7 +200,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
                   sliver: SliverToBoxAdapter(
                     child: Text(
-                      localizations.noKnownDevices(),
+                      localizations.noKnownDevices,
                       style: text.bodyMedium?.copyWith(
                         color: colors.onSurfaceVariant,
                       ),
@@ -303,7 +303,7 @@ class _DeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     final contentColor = isCompleted
         ? colors.onSurface.withValues(alpha: 0.35)
         : colors.onSurfaceVariant;
@@ -337,7 +337,7 @@ class _DeviceCard extends StatelessWidget {
                     const Spacer(),
                     if (device.hasCamera && !isCompleted)
                       Tooltip(
-                        message: localizations.camera(),
+                        message: localizations.camera,
                         child: Icon(
                           Icons.videocam,
                           size: 12,
@@ -346,7 +346,7 @@ class _DeviceCard extends StatelessWidget {
                       ),
                     if (device.hasMicrophone && !isCompleted)
                       Tooltip(
-                        message: localizations.microphone(),
+                        message: localizations.microphone,
                         child: Icon(Icons.mic, size: 12, color: contentColor),
                       ),
                   ],
@@ -404,7 +404,7 @@ class _AddDeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return GestureDetector(
       onTap: onTap,
@@ -424,7 +424,7 @@ class _AddDeviceCard extends StatelessWidget {
             Icon(Icons.add, size: 28, color: colors.primary),
             const SizedBox(height: 4),
             Text(
-              localizations.addDevice(),
+              localizations.addDevice,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: colors.primary,
@@ -447,7 +447,7 @@ class _NoDeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return GestureDetector(
       onTap: onTap,
@@ -472,7 +472,7 @@ class _NoDeviceCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              localizations.noDevice(),
+              localizations.noDevice,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: isSelected ? colors.secondary : colors.onSurfaceVariant,
@@ -504,7 +504,7 @@ class _BottomBar extends StatelessWidget {
     return ListenableBuilder(
       listenable: state,
       builder: (context, _) {
-        final localizations = AppLocalizations.of(context);
+        final localizations = AppLocalizations.of(context)!;
         final hasResultsAvailable =
             state.hasResultsAvailable ||
             state.hasFinishedDeviceInRoom(currentRoomId);
@@ -523,7 +523,7 @@ class _BottomBar extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      localizations.nextRoom(),
+                      localizations.nextRoom,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -542,7 +542,7 @@ class _BottomBar extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      localizations.results(),
+                      localizations.results,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,

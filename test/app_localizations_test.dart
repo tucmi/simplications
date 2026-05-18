@@ -2,11 +2,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:simplications/l10n/app_localizations.dart';
+import 'package:simplications/l10n/localization_lookup.dart';
 
 void main() {
-  group('AppLocalizations key coverage', () {
+  group('Localization key coverage', () {
     test('all supported locales keep parity with English keys', () {
-      final keyCoverage = AppLocalizations.localizationKeysByLocale();
+      final keyCoverage = LocalizationLookup.localizationKeysByLocale();
       final enKeys = keyCoverage['en'];
 
       expect(enKeys, isNotNull);
@@ -30,9 +31,9 @@ void main() {
     });
   });
 
-  group('AppLocalizations.translate', () {
+  group('LocalizationLookup.translate', () {
     test('falls back to English when locale is unsupported', () {
-      final value = AppLocalizations.translate(
+      final value = LocalizationLookup.translate(
         'start',
         locale: const Locale('xx'),
       );
@@ -41,7 +42,7 @@ void main() {
     });
 
     test('replaces parameter placeholders', () {
-      final value = AppLocalizations.translate(
+      final value = LocalizationLookup.translate(
         'dontKnowHint',
         locale: const Locale('en'),
         params: {'count': '2', 'suffix': 's'},
@@ -52,7 +53,7 @@ void main() {
     });
 
     test('uses explicit fallback for unknown keys', () {
-      final value = AppLocalizations.translate(
+      final value = LocalizationLookup.translate(
         'missing_key_example',
         locale: const Locale('en'),
         fallback: 'fallback-value',
@@ -62,7 +63,7 @@ void main() {
     });
 
     test('returns key when unknown key has no fallback', () {
-      final value = AppLocalizations.translate(
+      final value = LocalizationLookup.translate(
         'missing_key_example',
         locale: const Locale('en'),
       );
@@ -71,13 +72,13 @@ void main() {
     });
   });
 
-  group('AppLocalizations.activate', () {
+  group('LocalizationLookup.activate', () {
     test('updates active language code', () {
-      AppLocalizations.activate(const Locale('pl'));
-      expect(AppLocalizations.activeLanguageCode, 'pl');
+      LocalizationLookup.activate(const Locale('pl'));
+      expect(LocalizationLookup.activeLanguageCode, 'pl');
 
-      AppLocalizations.activate(const Locale('de'));
-      expect(AppLocalizations.activeLanguageCode, 'de');
+      LocalizationLookup.activate(const Locale('de'));
+      expect(LocalizationLookup.activeLanguageCode, 'de');
     });
   });
 }

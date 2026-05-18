@@ -10,12 +10,12 @@ class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key, required this.state});
 
   Future<void> _openUrl(BuildContext context, String url) async {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(localizations.websiteOpenFailed())),
+        SnackBar(content: Text(localizations.websiteOpenFailed)),
       );
     }
   }
@@ -25,22 +25,22 @@ class AboutScreen extends StatelessWidget {
       return;
     }
 
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         icon: const Icon(Icons.warning_amber_rounded),
-        title: Text(localizations.deleteAllDataTitle()),
-        content: Text(localizations.deleteAllDataBody()),
+        title: Text(localizations.deleteAllDataTitle),
+        content: Text(localizations.deleteAllDataBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(localizations.cancel()),
+            child: Text(localizations.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             child: Text(
-              localizations.deleteAllDataButton(),
+              localizations.deleteAllDataButton,
               style: const TextStyle(color: Colors.red),
             ),
           ),
@@ -59,7 +59,7 @@ class AboutScreen extends StatelessWidget {
     }
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text(localizations.allDataDeleted())));
+    ).showSnackBar(SnackBar(content: Text(localizations.allDataDeleted)));
   }
 
   void _setExpertMode(bool enabled) {
@@ -73,10 +73,10 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(localizations.aboutScreenTitle())),
+      appBar: AppBar(title: Text(localizations.aboutScreenTitle)),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         children: [
@@ -93,13 +93,13 @@ class AboutScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    localizations.aboutProjectName(),
+                    localizations.aboutProjectName,
                     style: text.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    localizations.aboutSubtitle(),
+                    localizations.aboutSubtitle,
                     style: text.bodyMedium?.copyWith(
                       color: colors.onSurfaceVariant,
                     ),
@@ -112,16 +112,16 @@ class AboutScreen extends StatelessWidget {
 
           // ── Website link ────────────────────────────────────────────
           Text(
-            localizations.website(),
+            localizations.website,
             style: text.titleSmall?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 8),
           _PartnerTile(
             colors: colors,
             text: text,
-            label: localizations.aboutProjectName(),
-            urlLabel: localizations.aboutWebsiteSimplicationsLabel(),
-            url: localizations.aboutWebsiteSimplicationsUrl(),
+            label: localizations.aboutProjectName,
+            urlLabel: localizations.aboutWebsiteSimplicationsLabel,
+            url: localizations.aboutWebsiteSimplicationsUrl,
             icon: Icons.open_in_new,
             highlighted: true,
             openUrl: (url) => _openUrl(context, url),
@@ -130,34 +130,34 @@ class AboutScreen extends StatelessWidget {
 
           // ── Project partners ────────────────────────────────────────
           Text(
-            localizations.projectPartners(),
+            localizations.projectPartners,
             style: text.titleSmall?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 10),
           _PartnerTile(
             colors: colors,
             text: text,
-            label: localizations.aboutPartnerTuChemnitz(),
-            urlLabel: localizations.aboutWebsiteTuChemnitzLabel(),
-            url: localizations.aboutWebsiteTuChemnitzUrl(),
+            label: localizations.aboutPartnerTuChemnitz,
+            urlLabel: localizations.aboutWebsiteTuChemnitzLabel,
+            url: localizations.aboutWebsiteTuChemnitzUrl,
             icon: Icons.school_outlined,
             openUrl: (url) => _openUrl(context, url),
           ),
           _PartnerTile(
             colors: colors,
             text: text,
-            label: localizations.aboutPartnerHsAnhalt(),
-            urlLabel: localizations.aboutWebsiteHsAnhaltLabel(),
-            url: localizations.aboutWebsiteHsAnhaltUrl(),
+            label: localizations.aboutPartnerHsAnhalt,
+            urlLabel: localizations.aboutWebsiteHsAnhaltLabel,
+            url: localizations.aboutWebsiteHsAnhaltUrl,
             icon: Icons.school_outlined,
             openUrl: (url) => _openUrl(context, url),
           ),
           _PartnerTile(
             colors: colors,
             text: text,
-            label: localizations.aboutPartnerVzSachsen(),
-            urlLabel: localizations.aboutWebsiteVzSachsenLabel(),
-            url: localizations.aboutWebsiteVzSachsenUrl(),
+            label: localizations.aboutPartnerVzSachsen,
+            urlLabel: localizations.aboutWebsiteVzSachsenLabel,
+            url: localizations.aboutWebsiteVzSachsenUrl,
             icon: Icons.groups_outlined,
             openUrl: (url) => _openUrl(context, url),
           ),
@@ -165,7 +165,7 @@ class AboutScreen extends StatelessWidget {
 
           // ── Coordination & funding ──────────────────────────────────
           Text(
-            localizations.coordinationFunding(),
+            localizations.coordinationFunding,
             style: text.titleSmall?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 10),
@@ -173,27 +173,27 @@ class AboutScreen extends StatelessWidget {
             colors: colors,
             text: text,
             icon: Icons.manage_accounts_outlined,
-            label: localizations.coordination(),
-            value: localizations.platformPrivacy(),
-            urlLabel: localizations.aboutWebsitePlatformPrivacyLabel(),
-            url: localizations.aboutWebsitePlatformPrivacyUrl(),
+            label: localizations.coordination,
+            value: localizations.platformPrivacy,
+            urlLabel: localizations.aboutWebsitePlatformPrivacyLabel,
+            url: localizations.aboutWebsitePlatformPrivacyUrl,
             openUrl: (url) => _openUrl(context, url),
           ),
           _InfoRow(
             colors: colors,
             text: text,
             icon: Icons.account_balance_outlined,
-            label: localizations.fundingAgency(),
-            value: localizations.fundingAgencyValue(),
-            urlLabel: localizations.aboutWebsiteFundingAgencyLabel(),
-            url: localizations.aboutWebsiteFundingAgencyUrl(),
+            label: localizations.fundingAgency,
+            value: localizations.fundingAgencyValue,
+            urlLabel: localizations.aboutWebsiteFundingAgencyLabel,
+            url: localizations.aboutWebsiteFundingAgencyUrl,
             openUrl: (url) => _openUrl(context, url),
           ),
           const SizedBox(height: 20),
 
           // ── Expert mode ───────────────────────────────────────────
           Text(
-            localizations.expertModeTitle(),
+            localizations.expertModeTitle,
             style: text.titleSmall?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 8),
@@ -211,12 +211,12 @@ class AboutScreen extends StatelessWidget {
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(Icons.science_outlined, color: colors.primary),
                   title: Text(
-                    localizations.expertModeToggleLabel(),
+                    localizations.expertModeToggleLabel,
                     style: text.titleSmall?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  subtitle: Text(localizations.expertModeToggleHint()),
+                  subtitle: Text(localizations.expertModeToggleHint),
                   trailing: state == null
                       ? const Switch(value: false, onChanged: null)
                       : ListenableBuilder(
@@ -229,7 +229,7 @@ class AboutScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  localizations.expertModeSourcesHint(),
+                  localizations.expertModeSourcesHint,
                   style: text.bodySmall?.copyWith(
                     color: colors.onSurfaceVariant,
                   ),
@@ -238,18 +238,18 @@ class AboutScreen extends StatelessWidget {
                 _PartnerTile(
                   colors: colors,
                   text: text,
-                  label: localizations.expertModeSourceCmuLabel(),
-                  urlLabel: localizations.expertModeSourceCmuUrl(),
-                  url: localizations.expertModeSourceCmuUrl(),
+                  label: localizations.expertModeSourceCmuLabel,
+                  urlLabel: localizations.expertModeSourceCmuUrl,
+                  url: localizations.expertModeSourceCmuUrl,
                   icon: Icons.open_in_new,
                   openUrl: (url) => _openUrl(context, url),
                 ),
                 _PartnerTile(
                   colors: colors,
                   text: text,
-                  label: localizations.expertModeSourceUnboxingLabel(),
-                  urlLabel: localizations.expertModeSourceUnboxingUrl(),
-                  url: localizations.expertModeSourceUnboxingUrl(),
+                  label: localizations.expertModeSourceUnboxingLabel,
+                  urlLabel: localizations.expertModeSourceUnboxingUrl,
+                  url: localizations.expertModeSourceUnboxingUrl,
                   icon: Icons.open_in_new,
                   openUrl: (url) => _openUrl(context, url),
                 ),
@@ -260,7 +260,7 @@ class AboutScreen extends StatelessWidget {
 
           // ── Danger zone ────────────────────────────────────────────
           Text(
-            localizations.dangerZone(),
+            localizations.dangerZone,
             style: text.titleSmall?.copyWith(
               fontWeight: FontWeight.w700,
               color: colors.error,
@@ -284,7 +284,7 @@ class AboutScreen extends StatelessWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        localizations.dangerZoneWarning(),
+                        localizations.dangerZoneWarning,
                         style: text.bodyMedium?.copyWith(
                           color: colors.onErrorContainer,
                           fontWeight: FontWeight.w600,
@@ -300,7 +300,7 @@ class AboutScreen extends StatelessWidget {
                       ? FilledButton.tonalIcon(
                           onPressed: null,
                           icon: const Icon(Icons.delete_forever_outlined),
-                          label: Text(localizations.deleteAllDataButton()),
+                          label: Text(localizations.deleteAllDataButton),
                           style: FilledButton.styleFrom(
                             backgroundColor: colors.error,
                             foregroundColor: colors.onError,
@@ -315,7 +315,7 @@ class AboutScreen extends StatelessWidget {
                                   ? () => _deleteAllData(context)
                                   : null,
                               icon: const Icon(Icons.delete_forever_outlined),
-                              label: Text(localizations.deleteAllDataButton()),
+                              label: Text(localizations.deleteAllDataButton),
                               style: FilledButton.styleFrom(
                                 backgroundColor: colors.error,
                                 foregroundColor: colors.onError,

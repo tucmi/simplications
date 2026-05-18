@@ -48,7 +48,7 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     return Dialog(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 500),
@@ -59,7 +59,7 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                localizations.addRoomDialogTitle(),
+                localizations.addRoomDialogTitle,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 16),
@@ -67,13 +67,13 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
                 controller: _nameController,
                 onChanged: (_) => setState(() {}),
                 decoration: InputDecoration(
-                  labelText: localizations.roomName(),
-                  hintText: localizations.roomNameHint(),
+                  labelText: localizations.roomName,
+                  hintText: localizations.roomNameHint,
                   prefixIcon: Icon(_selectedIcon),
                 ),
               ),
               const SizedBox(height: 16),
-              Text(localizations.chooseIcon()),
+              Text(localizations.chooseIcon),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
@@ -113,7 +113,7 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
                 children: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: Text(localizations.cancel()),
+                    child: Text(localizations.cancel),
                   ),
                   const SizedBox(width: 8),
                   ElevatedButton(
@@ -125,7 +125,7 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
                               'icon': _selectedIcon,
                             });
                           },
-                    child: Text(localizations.add()),
+                    child: Text(localizations.add),
                   ),
                 ],
               ),
@@ -188,7 +188,7 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     return Dialog(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 520),
@@ -199,7 +199,7 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                localizations.addDeviceDialogTitle(),
+                localizations.addDeviceDialogTitle,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 16),
@@ -207,8 +207,8 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
                 controller: _nameController,
                 onChanged: (_) => setState(() {}),
                 decoration: InputDecoration(
-                  labelText: localizations.deviceName(),
-                  hintText: localizations.deviceNameHint(),
+                  labelText: localizations.deviceName,
+                  hintText: localizations.deviceNameHint,
                   prefixIcon: Icon(_selectedIcon),
                 ),
               ),
@@ -218,14 +218,14 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
                 onChanged: (_) => setState(() {}),
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  labelText: localizations.baseRiskLabel(),
-                  hintText: localizations.baseRiskHint(),
+                  labelText: localizations.baseRiskLabel,
+                  hintText: localizations.baseRiskHint,
                 ),
               ),
               const SizedBox(height: 16),
               CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
-                title: Text(localizations.hasCamera()),
+                title: Text(localizations.hasCamera),
                 value: _hasCamera,
                 onChanged: (value) {
                   setState(() {
@@ -235,7 +235,7 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
               ),
               CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
-                title: Text(localizations.hasMicrophone()),
+                title: Text(localizations.hasMicrophone),
                 value: _hasMicrophone,
                 onChanged: (value) {
                   setState(() {
@@ -244,7 +244,7 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
                 },
               ),
               const SizedBox(height: 16),
-              Text(localizations.chooseIcon()),
+              Text(localizations.chooseIcon),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
@@ -284,7 +284,7 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
                 children: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: Text(localizations.cancel()),
+                    child: Text(localizations.cancel),
                   ),
                   const SizedBox(width: 8),
                   ElevatedButton(
@@ -303,7 +303,7 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
                               'hasMicrophone': _hasMicrophone,
                             });
                           },
-                    child: Text(localizations.add()),
+                    child: Text(localizations.add),
                   ),
                 ],
               ),

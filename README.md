@@ -58,6 +58,18 @@ The app targets Android, iOS, Web, Windows, macOS, and Linux.
 
 All developer setup, architecture notes, code standards, and contribution workflow are documented in [CONTRIBUTING.md](CONTRIBUTING.md).
 
+### Localization workflow (contributors)
+
+1. Add the new key in `lib/l10n/app_en.arb`.
+2. Add translations for the same key in every other ARB file in `lib/l10n/` (`app_de.arb`, `app_cs.arb`, `app_pl.arb`, `app_fr.arb`, `app_nl.arb`, `app_da.arb`).
+3. Regenerate localization code:
+
+    ```bash
+    flutter gen-l10n
+    ```
+
+4. Commit the ARB changes and generated `lib/l10n/app_localizations*.dart` files together.
+
 Risk scoring details (formula, thresholds, weights, and rationale) are documented in [lib/models/RISK_SCORING_README.md](lib/models/RISK_SCORING_README.md).
 
 ## License

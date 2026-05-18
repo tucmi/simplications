@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../l10n/app_localizations.dart';
+import '../l10n/localization_lookup.dart';
 import '../models/room.dart';
 import '../models/device.dart';
 
 class CatalogData {
   static String localizeText(String source) =>
-      AppLocalizations.translate(source);
+      LocalizationLookup.translate(source);
 
   static String roomName(Room room) => localizeText(room.name);
 

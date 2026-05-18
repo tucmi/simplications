@@ -5,6 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:simplications/l10n/app_localizations.dart';
@@ -18,10 +19,10 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    final context = tester.element(find.byType(SimplicationsApp));
-    final localizations = AppLocalizations.of(context);
-    final hasStart = find.text(localizations.start()).evaluate().isNotEmpty;
-    final hasResume = find.text(localizations.resume()).evaluate().isNotEmpty;
+    final context = tester.element(find.byType(Scaffold).first);
+    final localizations = AppLocalizations.of(context)!;
+    final hasStart = find.text(localizations.start).evaluate().isNotEmpty;
+    final hasResume = find.text(localizations.resume).evaluate().isNotEmpty;
 
     expect(hasStart || hasResume, isTrue);
   });

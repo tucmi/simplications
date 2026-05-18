@@ -67,7 +67,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: colors.surface,
@@ -102,7 +102,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              localizations.welcomeTitle(),
+                              localizations.welcomeTitle,
                               style: text.headlineMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 height: 1.2,
@@ -110,7 +110,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              localizations.welcomeDescription(),
+                              localizations.welcomeDescription,
                               style: text.bodyMedium?.copyWith(
                                 color: colors.onSurfaceVariant,
                                 height: 1.4,
@@ -126,25 +126,25 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                               _StepRow(
                                 number: '1',
                                 icon: Icons.room,
-                                label: localizations.stepSelectRooms(),
+                                label: localizations.stepSelectRooms,
                                 colors: colors,
                               ),
                               _StepRow(
                                 number: '2',
                                 icon: Icons.devices,
-                                label: localizations.stepCaptureDevices(),
+                                label: localizations.stepCaptureDevices,
                                 colors: colors,
                               ),
                               _StepRow(
                                 number: '3',
                                 icon: Icons.quiz_outlined,
-                                label: localizations.stepAnswerQuestions(),
+                                label: localizations.stepAnswerQuestions,
                                 colors: colors,
                               ),
                               _StepRow(
                                 number: '4',
                                 icon: Icons.shield_outlined,
-                                label: localizations.stepGetRisk(),
+                                label: localizations.stepGetRisk,
                                 colors: colors,
                               ),
                             ],
@@ -183,8 +183,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                                   ),
                                   child: Text(
                                     hasProgress
-                                        ? localizations.resume()
-                                        : localizations.start(),
+                                        ? localizations.resume
+                                        : localizations.start,
                                     style: const TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.w600,
@@ -207,7 +207,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                                     Icons.help_outline,
                                     size: 16,
                                   ),
-                                  label: Text(localizations.faq()),
+                                  label: Text(localizations.faq),
                                   style: TextButton.styleFrom(
                                     foregroundColor: colors.onSurfaceVariant,
                                     textStyle: const TextStyle(fontSize: 13),
@@ -226,7 +226,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                                     Icons.info_outline,
                                     size: 16,
                                   ),
-                                  label: Text(localizations.about()),
+                                  label: Text(localizations.about),
                                   style: TextButton.styleFrom(
                                     foregroundColor: colors.onSurfaceVariant,
                                     textStyle: const TextStyle(fontSize: 13),

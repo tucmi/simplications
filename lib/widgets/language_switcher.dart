@@ -53,14 +53,14 @@ class LanguageSwitcher extends StatelessWidget {
 
   Future<void> _showLanguageDialog(BuildContext context) async {
     final dialogContext = navigatorKey?.currentContext ?? context;
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     final selected = await showDialog<String>(
       context: dialogContext,
       useRootNavigator: true,
       builder: (context) {
         final activeLanguageCode = Localizations.localeOf(context).languageCode;
         return AlertDialog(
-          title: Text(localizations.languageDialogTitle()),
+          title: Text(localizations.languageDialogTitle),
           content: SizedBox(
             width: 320,
             child: ListView(
