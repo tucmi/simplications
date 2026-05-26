@@ -73,5 +73,23 @@ void main() {
         );
       }
     });
+
+    test('dontKnowHint uses locale-aware pluralization', () {
+      final english = lookupAppLocalizations(const Locale('en'));
+      final german = lookupAppLocalizations(const Locale('de'));
+
+      expect(
+        english.dontKnowHint(1),
+        contains('1 answer was marked as "I don\'t know"'),
+      );
+      expect(
+        english.dontKnowHint(2),
+        contains('2 answers were marked as "I don\'t know"'),
+      );
+      expect(
+        german.dontKnowHint(2),
+        contains('Es wurden 2 Antworten mit "Weiß ich nicht" gegeben'),
+      );
+    });
   });
 }

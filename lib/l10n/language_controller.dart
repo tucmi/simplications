@@ -9,26 +9,6 @@ import 'app_localizations.dart';
 class LanguageController extends ChangeNotifier {
   static const _storageKey = 'selected_language_code';
 
-  static const Map<String, String> flagsByLanguageCode = {
-    'de': 'DE',
-    'cs': 'CZ',
-    'en': 'EN',
-    'pl': 'PL',
-    'fr': 'FR',
-    'nl': 'NL',
-    'da': 'DK',
-  };
-
-  static const Map<String, String> nativeNamesByLanguageCode = {
-    'de': 'Deutsch',
-    'cs': 'Čeština',
-    'en': 'English',
-    'pl': 'Polski',
-    'fr': 'Français',
-    'nl': 'Nederlands',
-    'da': 'Dansk',
-  };
-
   Locale _locale = const Locale('de');
   Locale get locale => _locale;
 

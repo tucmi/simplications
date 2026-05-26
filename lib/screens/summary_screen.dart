@@ -260,7 +260,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
               XFile.fromData(
                 pdfBytes,
                 mimeType: 'application/pdf',
-                name: 'simplications-ergebnis.pdf',
+                name: localizations.summaryPdfFileName,
               ),
             ],
             sharePositionOrigin: origin,
@@ -357,10 +357,7 @@ class _SummaryReport {
 
   String overallMessage(AppLocalizations localizations) {
     final learnHint = dontKnowAnswers > 0
-        ? localizations.dontKnowHint(
-            dontKnowAnswers,
-            dontKnowAnswers == 1 ? '' : 'en',
-          )
+        ? localizations.dontKnowHint(dontKnowAnswers)
         : '';
     if (overallLevel == RiskLevel.low) {
       return '${localizations.overallLow}$learnHint';
@@ -415,7 +412,7 @@ String _buildShareText(_SummaryReport report, AppLocalizations localizations) {
   final buffer = StringBuffer();
   final generatedAt = _formatDate(DateTime.now());
 
-  buffer.writeln('Simplications - ${localizations.summaryTitle}');
+  buffer.writeln('${localizations.appTitle} - ${localizations.summaryTitle}');
   buffer.writeln('${localizations.reportExportedAt}: $generatedAt');
   buffer.writeln();
   buffer.writeln(localizations.overview);
@@ -530,7 +527,7 @@ Future<Uint8List> _buildSharePdf(
       margin: const pw.EdgeInsets.all(32),
       build: (context) => [
         pw.Text(
-          'Simplications - ${localizations.summaryTitle}',
+          '${localizations.appTitle} - ${localizations.summaryTitle}',
           style: pw.TextStyle(fontSize: 22, fontWeight: pw.FontWeight.bold),
         ),
         pw.SizedBox(height: 6),
@@ -865,10 +862,7 @@ class _OverviewHeader extends StatelessWidget {
 
   String _overallMessage(RiskLevel level, int dontKnowCount) {
     final learnHint = dontKnowCount > 0
-        ? localizations.dontKnowHint(
-            dontKnowCount,
-            dontKnowCount == 1 ? '' : 'en',
-          )
+        ? localizations.dontKnowHint(dontKnowCount)
         : '';
     if (level == RiskLevel.low) {
       return '${localizations.overallLow}$learnHint';

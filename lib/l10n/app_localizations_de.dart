@@ -145,6 +145,27 @@ class AppLocalizationsDe extends AppLocalizations {
   String get languageDialogTitle => 'Sprache wählen';
 
   @override
+  String get languageNameDe => 'Deutsch';
+
+  @override
+  String get languageNameCs => 'Čeština';
+
+  @override
+  String get languageNameEn => 'English';
+
+  @override
+  String get languageNamePl => 'Polski';
+
+  @override
+  String get languageNameFr => 'Français';
+
+  @override
+  String get languageNameNl => 'Nederlands';
+
+  @override
+  String get languageNameDa => 'Dansk';
+
+  @override
   String get currentLanguage => 'Aktuelle Sprache';
 
   @override
@@ -430,6 +451,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get summarySharePdfText => 'Simplications Ergebnisbericht als PDF';
 
   @override
+  String get summaryPdfFileName => 'simplications-ergebnis.pdf';
+
+  @override
   String get overview => 'Übersicht';
 
   @override
@@ -525,8 +549,16 @@ class AppLocalizationsDe extends AppLocalizations {
       'Mehrere Geräte haben erhebliche Privatsphäre-/Datenschutzrisiken. Bitte setzen Sie die Maßnahmen mit hoher Priorität zeitnah um.';
 
   @override
-  String dontKnowHint(Object count, Object suffix) {
-    return ' Es wurden $count Antwort$suffix mit \"Weiß ich nicht\" gegeben - nehmen Sie sich Zeit, die Einstellungen Ihrer Geräte besser kennenzulernen.';
+  String dontKnowHint(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Es wurden $count Antworten mit \"Weiß ich nicht\" gegeben - nehmen Sie sich Zeit, die Einstellungen Ihrer Geräte besser kennenzulernen.',
+      one:
+          'Es wurde 1 Antwort mit \"Weiß ich nicht\" gegeben - nehmen Sie sich Zeit, die Einstellungen Ihrer Geräte besser kennenzulernen.',
+    );
+    return ' $_temp0';
   }
 
   @override

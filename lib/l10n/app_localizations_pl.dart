@@ -144,6 +144,27 @@ class AppLocalizationsPl extends AppLocalizations {
   String get languageDialogTitle => 'Wybierz język';
 
   @override
+  String get languageNameDe => 'Deutsch';
+
+  @override
+  String get languageNameCs => 'Čeština';
+
+  @override
+  String get languageNameEn => 'English';
+
+  @override
+  String get languageNamePl => 'Polski';
+
+  @override
+  String get languageNameFr => 'Français';
+
+  @override
+  String get languageNameNl => 'Nederlands';
+
+  @override
+  String get languageNameDa => 'Dansk';
+
+  @override
   String get currentLanguage => 'Bieżący język';
 
   @override
@@ -309,18 +330,18 @@ class AppLocalizationsPl extends AppLocalizations {
       'Uwaga: Ta operacja trwale usunie wszystkie zapisane dane aplikacji.';
 
   @override
-  String get expertModeTitle => 'Expert mode';
+  String get expertModeTitle => 'Tryb ekspercki';
 
   @override
-  String get expertModeToggleLabel => 'Enable detailed expert mode';
+  String get expertModeToggleLabel => 'Włącz szczegółowy tryb ekspercki';
 
   @override
   String get expertModeToggleHint =>
-      'Same workflow, but much more detailed device questions (e.g., retention duration, access control, third-party sharing).';
+      'Ten sam przebieg, ale ze znacznie bardziej szczegółowymi pytaniami o urządzenia (np. czas przechowywania, kontrola dostępu, udostępnianie stronom trzecim).';
 
   @override
   String get expertModeSourcesHint =>
-      'Methodologically inspired by the following research projects:';
+      'Metodologicznie inspirowane następującymi projektami badawczymi:';
 
   @override
   String get expertModeSourceCmuLabel =>
@@ -338,7 +359,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get expertModeQuestionnaireHint =>
-      'Expert mode: these questions deepen data-practice and governance coverage (including retention, access control, and third-party sharing) based on CMU IoT Label and Unboxing.IoT.Privacy approaches.';
+      'Tryb ekspercki: te pytania głębiej obejmują praktyki związane z danymi i zarządzanie nimi (w tym okres przechowywania, kontrolę dostępu i udostępnianie stronom trzecim) w oparciu o podejścia CMU IoT Label i Unboxing.IoT.Privacy.';
 
   @override
   String get roomDeleteTitle => 'Usunąć pokój?';
@@ -428,6 +449,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get summarySharePdfText => 'Raport Simplications jako PDF';
+
+  @override
+  String get summaryPdfFileName => 'simplications-wynik.pdf';
 
   @override
   String get overview => 'Przegląd';
@@ -526,8 +550,16 @@ class AppLocalizationsPl extends AppLocalizations {
       'Kilka urządzeń ma istotne ryzyka prywatności/ochrony danych. Prosimy jak najszybciej wdrożyć działania o wysokim priorytecie.';
 
   @override
-  String dontKnowHint(Object count, Object suffix) {
-    return ' $count odpowiedź$suffix oznaczono jako \"Nie wiem\" - poświęć czas na lepsze poznanie ustawień swoich urządzeń.';
+  String dontKnowHint(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count odpowiedzi oznaczono jako \"Nie wiem\" - poświęć czas na lepsze poznanie ustawień swoich urządzeń.',
+      one:
+          '1 odpowiedź oznaczono jako \"Nie wiem\" - poświęć czas na lepsze poznanie ustawień swoich urządzeń.',
+    );
+    return ' $_temp0';
   }
 
   @override
@@ -1589,29 +1621,29 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get gen_rec_0 =>
-      'Set up a separate Wi-Fi network for smart home devices (e.g., your router\'s guest network).';
+      'Skonfiguruj oddzielną sieć Wi-Fi dla urządzeń smart home (np. sieć gościnną routera).';
 
   @override
   String get gen_rec_1 =>
-      'Use a password manager and assign a unique, strong password to each device.';
+      'Używaj menedżera haseł i przypisz każdemu urządzeniu unikalne, silne hasło.';
 
   @override
   String get gen_rec_2 =>
-      'Enable multi-factor authentication (MFA) for all vendor accounts.';
+      'Włącz uwierzytelnianie wieloskładnikowe (MFA) dla wszystkich kont dostawców.';
 
   @override
   String get gen_rec_3 =>
-      'Define who in your household is responsible for updates, backups, and accounts.';
+      'Ustal, kto w Twoim gospodarstwie domowym odpowiada za aktualizacje, kopie zapasowe i konta.';
 
   @override
   String get gen_rec_4 =>
-      'Regularly review (at least once per quarter) all access permissions and accounts.';
+      'Regularnie przeglądaj (co najmniej raz na kwartał) wszystkie uprawnienia dostępu i konta.';
 
   @override
   String get gen_rec_5 =>
-      'Dispose of old devices in a privacy-safe way: perform a factory reset and remove them from vendor cloud accounts.';
+      'Pozbywaj się starych urządzeń w sposób bezpieczny dla prywatności: wykonaj reset fabryczny i usuń je z chmurowych kont dostawcy.';
 
   @override
   String get gen_rec_6 =>
-      'Use a household consent check before buying new devices and involve all household members.';
+      'Przed zakupem nowych urządzeń przeprowadź w domu kontrolę zgody i zaangażuj wszystkich domowników.';
 }

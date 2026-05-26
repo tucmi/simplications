@@ -145,6 +145,27 @@ class AppLocalizationsCs extends AppLocalizations {
   String get languageDialogTitle => 'Vyberte jazyk';
 
   @override
+  String get languageNameDe => 'Deutsch';
+
+  @override
+  String get languageNameCs => 'Čeština';
+
+  @override
+  String get languageNameEn => 'English';
+
+  @override
+  String get languageNamePl => 'Polski';
+
+  @override
+  String get languageNameFr => 'Français';
+
+  @override
+  String get languageNameNl => 'Nederlands';
+
+  @override
+  String get languageNameDa => 'Dansk';
+
+  @override
   String get currentLanguage => 'Aktuální jazyk';
 
   @override
@@ -310,18 +331,18 @@ class AppLocalizationsCs extends AppLocalizations {
       'Pozor: Tato akce trvale odstraní všechna uložená data aplikace.';
 
   @override
-  String get expertModeTitle => 'Expert mode';
+  String get expertModeTitle => 'Expertní režim';
 
   @override
-  String get expertModeToggleLabel => 'Enable detailed expert mode';
+  String get expertModeToggleLabel => 'Zapnout podrobný expertní režim';
 
   @override
   String get expertModeToggleHint =>
-      'Same workflow, but much more detailed device questions (e.g., retention duration, access control, third-party sharing).';
+      'Stejný postup, ale mnohem podrobnější otázky k zařízením (např. doba uchování, řízení přístupu, sdílení se třetími stranami).';
 
   @override
   String get expertModeSourcesHint =>
-      'Methodologically inspired by the following research projects:';
+      'Metodicky inspirováno následujícími výzkumnými projekty:';
 
   @override
   String get expertModeSourceCmuLabel =>
@@ -339,7 +360,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get expertModeQuestionnaireHint =>
-      'Expert mode: these questions deepen data-practice and governance coverage (including retention, access control, and third-party sharing) based on CMU IoT Label and Unboxing.IoT.Privacy approaches.';
+      'Expertní režim: tyto otázky jdou hlouběji do práce s daty a řízení ochrany soukromí (včetně doby uchování, řízení přístupu a sdílení se třetími stranami) na základě přístupů CMU IoT Label a Unboxing.IoT.Privacy.';
 
   @override
   String get roomDeleteTitle => 'Smazat místnost?';
@@ -429,6 +450,9 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get summarySharePdfText => 'Zpráva Simplications jako PDF';
+
+  @override
+  String get summaryPdfFileName => 'simplications-vysledek.pdf';
 
   @override
   String get overview => 'Přehled';
@@ -526,8 +550,16 @@ class AppLocalizationsCs extends AppLocalizations {
       'Několik zařízení má významná rizika pro soukromí/ochranu dat. Prosím co nejdříve zaveďte opatření s vysokou prioritou.';
 
   @override
-  String dontKnowHint(Object count, Object suffix) {
-    return ' $count odpověď$suffix byla označena jako \"Nevím\" - věnujte čas lepšímu poznání nastavení svých zařízení.';
+  String dontKnowHint(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count odpovědi byly označeny jako \"Nevím\" - věnujte čas lepšímu poznání nastavení svých zařízení.',
+      one:
+          '1 odpověď byla označena jako \"Nevím\" - věnujte čas lepšímu poznání nastavení svých zařízení.',
+    );
+    return ' $_temp0';
   }
 
   @override
@@ -1589,29 +1621,29 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get gen_rec_0 =>
-      'Set up a separate Wi-Fi network for smart home devices (e.g., your router\'s guest network).';
+      'Nastavte oddělenou síť Wi-Fi pro zařízení chytré domácnosti (např. síť pro hosty na routeru).';
 
   @override
   String get gen_rec_1 =>
-      'Use a password manager and assign a unique, strong password to each device.';
+      'Používejte správce hesel a každému zařízení přiřaďte jedinečné silné heslo.';
 
   @override
   String get gen_rec_2 =>
-      'Enable multi-factor authentication (MFA) for all vendor accounts.';
+      'Zapněte vícefaktorové ověřování (MFA) pro všechny účty u dodavatelů.';
 
   @override
   String get gen_rec_3 =>
-      'Define who in your household is responsible for updates, backups, and accounts.';
+      'Určete, kdo ve vaší domácnosti odpovídá za aktualizace, zálohy a účty.';
 
   @override
   String get gen_rec_4 =>
-      'Regularly review (at least once per quarter) all access permissions and accounts.';
+      'Pravidelně kontrolujte (alespoň jednou za čtvrt roku) všechna přístupová oprávnění a účty.';
 
   @override
   String get gen_rec_5 =>
-      'Dispose of old devices in a privacy-safe way: perform a factory reset and remove them from vendor cloud accounts.';
+      'Starých zařízení se zbavujte způsobem bezpečným pro soukromí: proveďte tovární reset a odeberte je z cloudových účtů dodavatele.';
 
   @override
   String get gen_rec_6 =>
-      'Use a household consent check before buying new devices and involve all household members.';
+      'Před nákupem nových zařízení si v domácnosti potvrďte souhlas a zapojte všechny členy domácnosti.';
 }

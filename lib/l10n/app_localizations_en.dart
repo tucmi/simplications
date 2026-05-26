@@ -142,6 +142,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageDialogTitle => 'Choose language';
 
   @override
+  String get languageNameDe => 'Deutsch';
+
+  @override
+  String get languageNameCs => 'Čeština';
+
+  @override
+  String get languageNameEn => 'English';
+
+  @override
+  String get languageNamePl => 'Polski';
+
+  @override
+  String get languageNameFr => 'Français';
+
+  @override
+  String get languageNameNl => 'Nederlands';
+
+  @override
+  String get languageNameDa => 'Dansk';
+
+  @override
   String get currentLanguage => 'Current language';
 
   @override
@@ -426,6 +447,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get summarySharePdfText => 'Simplications report as PDF';
 
   @override
+  String get summaryPdfFileName => 'simplications-result.pdf';
+
+  @override
   String get overview => 'Overview';
 
   @override
@@ -521,8 +545,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Several devices have significant privacy/data-protection risks. Please implement high-priority measures promptly.';
 
   @override
-  String dontKnowHint(Object count, Object suffix) {
-    return ' $count answer$suffix were marked as \"I don\'t know\" - take time to understand your device settings better.';
+  String dontKnowHint(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count answers were marked as \"I don\'t know\" - take time to understand your device settings better.',
+      one:
+          '1 answer was marked as \"I don\'t know\" - take time to understand your device settings better.',
+    );
+    return ' $_temp0';
   }
 
   @override

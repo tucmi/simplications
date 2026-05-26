@@ -360,6 +360,48 @@ abstract class AppLocalizations {
   /// **'Choose language'**
   String get languageDialogTitle;
 
+  /// No description provided for @languageNameDe.
+  ///
+  /// In en, this message translates to:
+  /// **'Deutsch'**
+  String get languageNameDe;
+
+  /// No description provided for @languageNameCs.
+  ///
+  /// In en, this message translates to:
+  /// **'Čeština'**
+  String get languageNameCs;
+
+  /// No description provided for @languageNameEn.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageNameEn;
+
+  /// No description provided for @languageNamePl.
+  ///
+  /// In en, this message translates to:
+  /// **'Polski'**
+  String get languageNamePl;
+
+  /// No description provided for @languageNameFr.
+  ///
+  /// In en, this message translates to:
+  /// **'Français'**
+  String get languageNameFr;
+
+  /// No description provided for @languageNameNl.
+  ///
+  /// In en, this message translates to:
+  /// **'Nederlands'**
+  String get languageNameNl;
+
+  /// No description provided for @languageNameDa.
+  ///
+  /// In en, this message translates to:
+  /// **'Dansk'**
+  String get languageNameDa;
+
   /// No description provided for @currentLanguage.
   ///
   /// In en, this message translates to:
@@ -888,6 +930,12 @@ abstract class AppLocalizations {
   /// **'Simplications report as PDF'**
   String get summarySharePdfText;
 
+  /// No description provided for @summaryPdfFileName.
+  ///
+  /// In en, this message translates to:
+  /// **'simplications-result.pdf'**
+  String get summaryPdfFileName;
+
   /// No description provided for @overview.
   ///
   /// In en, this message translates to:
@@ -1065,8 +1113,8 @@ abstract class AppLocalizations {
   /// No description provided for @dontKnowHint.
   ///
   /// In en, this message translates to:
-  /// **' {count} answer{suffix} were marked as \"I don\'t know\" - take time to understand your device settings better.'**
-  String dontKnowHint(Object count, Object suffix);
+  /// **' {count, plural, one {1 answer was marked as \"I don\'t know\" - take time to understand your device settings better.} other {{count} answers were marked as \"I don\'t know\" - take time to understand your device settings better.}}'**
+  String dontKnowHint(num count);
 
   /// No description provided for @room_living.
   ///
