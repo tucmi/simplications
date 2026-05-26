@@ -182,7 +182,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get faqScreenTitle => 'Häufige Fragen';
 
   @override
-  String get aboutSubtitle => 'Forschungsprojekt Smart Home Privatsphäre';
+  String get aboutSubtitle => 'Forschungsprojekt zu Privatsphäre im Smart Home';
 
   @override
   String get aboutProjectName => 'Simplications';
@@ -239,7 +239,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get faqAnswerWhatIs =>
-      'Simplications ist ein Forschungsprojekt zum Smart-Home-Datenschutz. Diese App ist ein Teil des Projekts und führt Sie Raum für Raum durch Ihre Geräte mit praktischen Empfehlungen auf Basis Ihrer Antworten.';
+      'Simplications ist ein Forschungsprojekt zu Privatsphäre im Smart Home. Diese App ist ein Teil des Projekts und führt Sie Raum für Raum durch Ihre Geräte mit praktischen Empfehlungen auf Basis Ihrer Antworten.';
 
   @override
   String get faqQuestionHowWorks => 'Wie funktioniert der Check?';

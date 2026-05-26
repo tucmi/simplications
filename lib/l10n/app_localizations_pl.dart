@@ -182,7 +182,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get aboutSubtitle =>
-      'Projekt badawczy dotyczący prywatności smart home';
+      'Projekt badawczy dotyczący prywatności w inteligentnym domu';
 
   @override
   String get aboutProjectName => 'Simplications';
@@ -239,7 +239,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get faqAnswerWhatIs =>
-      'Simplications to projekt badawczy dotyczący prywatności w inteligentnym domu. Ta aplikacja jest jedną z części projektu i prowadzi Cię pokój po pokoju przez Twoje urządzenia, oferując praktyczne zalecenia na podstawie odpowiedzi.';
+      'Simplications to projekt badawczy dotyczący prywatności w inteligentnym domu. Ta aplikacja jest częścią projektu i prowadzi Cię pokój po pokoju przez Twoje urządzenia, oferując praktyczne zalecenia na podstawie odpowiedzi.';
 
   @override
   String get faqQuestionHowWorks => 'Jak działa kontrola?';

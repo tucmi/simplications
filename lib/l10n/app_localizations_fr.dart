@@ -185,7 +185,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get aboutSubtitle =>
-      'Projet de recherche sur la confidentialité des maisons connectées';
+      'Projet de recherche sur la confidentialité dans la maison connectée';
 
   @override
   String get aboutProjectName => 'Simplications';
@@ -242,7 +242,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get faqAnswerWhatIs =>
-      'Simplications est un projet de recherche sur la confidentialité des maisons connectées. Cette application est une composante du projet et vous guide pièce par pièce à travers vos appareils avec des recommandations pratiques selon vos réponses.';
+      'Simplications est un projet de recherche sur la confidentialité dans la maison connectée. Cette application fait partie du projet et vous guide pièce par pièce à travers vos appareils avec des recommandations pratiques selon vos réponses.';
 
   @override
   String get faqQuestionHowWorks => 'Comment fonctionne le contrôle ?';

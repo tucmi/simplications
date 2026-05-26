@@ -435,7 +435,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Research project on smart home privacy'**
+  /// **'Research project on privacy in the smart home'**
   String get aboutSubtitle;
 
   /// No description provided for @aboutProjectName.
@@ -543,7 +543,7 @@ abstract class AppLocalizations {
   /// No description provided for @faqAnswerWhatIs.
   ///
   /// In en, this message translates to:
-  /// **'Simplications is a research project on smart-home privacy. This app is one part of the project and guides you room by room through your devices with practical recommendations based on your answers.'**
+  /// **'Simplications is a research project on privacy in the smart home. This app is one part of the project and guides you room by room through your devices with practical recommendations based on your answers.'**
   String get faqAnswerWhatIs;
 
   /// No description provided for @faqQuestionHowWorks.

@@ -183,7 +183,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get aboutSubtitle =>
-      'Výzkumný projekt zaměřený na soukromí chytré domácnosti';
+      'Výzkumný projekt zaměřený na soukromí v chytré domácnosti';
 
   @override
   String get aboutProjectName => 'Simplications';
@@ -240,7 +240,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get faqAnswerWhatIs =>
-      'Simplications je výzkumný projekt zaměřený na soukromí v chytré domácnosti. Tato aplikace je jednou z částí projektu a provede vás místnost po místnosti vašimi zařízeními s praktickými doporučeními na základě vašich odpovědí.';
+      'Simplications je výzkumný projekt zaměřený na soukromí v chytré domácnosti. Tato aplikace je součástí projektu a provede vás místnost po místnosti vašimi zařízeními s praktickými doporučeními na základě vašich odpovědí.';
 
   @override
   String get faqQuestionHowWorks => 'Jak kontrola funguje?';

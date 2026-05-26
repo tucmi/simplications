@@ -181,7 +181,8 @@ class AppLocalizationsNl extends AppLocalizations {
   String get faqScreenTitle => 'Veelgestelde vragen';
 
   @override
-  String get aboutSubtitle => 'Onderzoeksproject over smart-home-privacy';
+  String get aboutSubtitle =>
+      'Onderzoeksproject over privacy in het slimme huis';
 
   @override
   String get aboutProjectName => 'Simplications';
@@ -238,7 +239,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get faqAnswerWhatIs =>
-      'Simplications is een onderzoeksproject over smart-home-privacy. Deze app is een onderdeel van het project en begeleidt je kamer voor kamer door je apparaten met praktische aanbevelingen op basis van je antwoorden.';
+      'Simplications is een onderzoeksproject over privacy in het slimme huis. Deze app is een onderdeel van het project en begeleidt je kamer voor kamer door je apparaten met praktische aanbevelingen op basis van je antwoorden.';
 
   @override
   String get faqQuestionHowWorks => 'Hoe werkt de check?';
