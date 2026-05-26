@@ -666,10 +666,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get device_smart_blind => 'Store/volet intelligent';
 
   @override
-  String get device_fitness_tracker =>
-      'Suivi de la forme physique / smartwatch';
-
-  @override
   String get device_smart_toy => 'Jouet intelligent';
 
   @override
@@ -685,9 +681,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get device_smart_irrigation => 'Système d\'irrigation intelligent';
-
-  @override
-  String get device_smart_scale => 'Balance intelligente';
 
   @override
   String get device_smart_printer => 'Imprimante intelligente';
@@ -981,22 +974,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Recommandation du BSI : Les enregistrements d\'enfants ne doivent être possibles qu\'avec un contrôle explicite.';
 
   @override
-  String get q_health_sharing_text =>
-      'Pouvez-vous contrôler quels tiers peuvent accéder à vos données de santé ?';
-
-  @override
-  String get q_health_sharing_hint =>
-      'Les données de santé sont sensibles. Seules les applications autorisées devraient y avoir accès.';
-
-  @override
-  String get q_location_tracking_text =>
-      'Pouvez-vous désactiver le suivi de localisation lorsqu\'il n\'est pas nécessaire ?';
-
-  @override
-  String get q_location_tracking_hint =>
-      'Le suivi GPS consomme de la batterie et peut révéler les modèles de mouvement.';
-
-  @override
   String get q_expert_data_retention_duration_text =>
       'La durée de conservation de vos données personnelles est-elle explicitement définie et limitée au nécessaire ?';
 
@@ -1075,14 +1052,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get q_expert_access_revocation_hint =>
       'La révocation rapide est essentielle lorsque les appareils sont partagés ou que les utilisateurs changent.';
-
-  @override
-  String get q_expert_sensitive_inference_controls_text =>
-      'Les fonctionnalités qui déduisent des profils de santé ou de comportement sensibles sont-elles restreintes ou désactivables ?';
-
-  @override
-  String get q_expert_sensitive_inference_controls_hint =>
-      'Le contrôle de l\'inférence réduit les risques provenant de l\'utilisation secondaire de données sensibles.';
 
   @override
   String get a_password_title => 'Changez le mot de passe par défaut';
@@ -1351,21 +1320,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Désactivez les fonctionnalités d\'enregistrement par défaut et activez-les uniquement brièvement lorsque spécifiquement nécessaire.';
 
   @override
-  String get a_health_sharing_title =>
-      'Restreignez le partage des données de santé';
-
-  @override
-  String get a_health_sharing_desc =>
-      'Révoquez l\'accès aux données de santé des applications tierces inutiles dans les paramètres de l\'application et du compte.';
-
-  @override
-  String get a_location_tracking_title => 'Réduisez le partage de localisation';
-
-  @override
-  String get a_location_tracking_desc =>
-      'Désactivez le suivi de localisation hors de l\'utilisation active ou autorisez-le uniquement pendant l\'utilisation de l\'application.';
-
-  @override
   String get a_expert_data_retention_duration_title =>
       'Définissez les périodes de rétention';
 
@@ -1443,14 +1397,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get a_expert_access_revocation_desc =>
       'Assurez-vous que les clés numériques peuvent être révoquées individuellement et immédiatement, par exemple en cas de perte d\'appareil.';
-
-  @override
-  String get a_expert_sensitive_inference_controls_title =>
-      'Restreignez les fonctionnalités d\'inférence';
-
-  @override
-  String get a_expert_sensitive_inference_controls_desc =>
-      'Désactivez les fonctionnalités qui déduisent des profils de santé ou de comportement sensibles sauf si strictement nécessaire.';
 
   @override
   String get a_dont_know_title =>
@@ -1584,12 +1530,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'L\'enregistrement ne peut pas être désactivé';
 
   @override
-  String get sl_health_sharing => 'Données de santé partagées avec des tiers';
-
-  @override
-  String get sl_location_tracking => 'Suivi de localisation activé';
-
-  @override
   String get sl_expert_data_retention_duration =>
       'Durée de conservation non claire ou trop longue';
 
@@ -1627,10 +1567,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get sl_expert_access_revocation =>
       'Révocation d\'accès individuel impossible';
-
-  @override
-  String get sl_expert_sensitive_inference_controls =>
-      'Contrôles contre l\'inférence sensible manquants';
 
   @override
   String get risk_hint_camera =>

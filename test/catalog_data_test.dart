@@ -46,8 +46,6 @@ void main() {
           'robot_vacuum',
           'simple_sensor',
           'smart_blind',
-          'fitness_tracker',
-          'smart_scale',
           'baby_monitor',
           'smart_toy',
         ]),

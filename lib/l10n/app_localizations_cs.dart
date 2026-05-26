@@ -657,9 +657,6 @@ class AppLocalizationsCs extends AppLocalizations {
   String get device_smart_blind => 'Chytrá žaluzie / roleta';
 
   @override
-  String get device_fitness_tracker => 'Fitness náramek / chytré hodinky';
-
-  @override
   String get device_smart_toy => 'Chytrá hračka';
 
   @override
@@ -674,9 +671,6 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get device_smart_irrigation => 'Chytrý zavlažovací systém';
-
-  @override
-  String get device_smart_scale => 'Chytrá váha';
 
   @override
   String get device_smart_printer => 'Chytrá tiskárna';
@@ -970,22 +964,6 @@ class AppLocalizationsCs extends AppLocalizations {
       'Doporučení BSI: Nahrávky dětí by měly být možné pouze s explicitní kontrolou.';
 
   @override
-  String get q_health_sharing_text =>
-      'Můžete řídit, které třetí strany mají přístup k vašim údajům o zdraví?';
-
-  @override
-  String get q_health_sharing_hint =>
-      'Údaje o zdraví jsou citlivé. Přístup by měly mít pouze autorizované aplikace.';
-
-  @override
-  String get q_location_tracking_text =>
-      'Můžete zakázat sledování polohy, když jej nepotřebujete?';
-
-  @override
-  String get q_location_tracking_hint =>
-      'Sledování GPS využívá baterii a může odhalit vzorce pohybu.';
-
-  @override
   String get q_expert_data_retention_duration_text =>
       'Je doba uchování vašich osobních údajů explicitně definována a omezena na nutné?';
 
@@ -1064,14 +1042,6 @@ class AppLocalizationsCs extends AppLocalizations {
   @override
   String get q_expert_access_revocation_hint =>
       'Rychlé odvolání je zásadní při sdílení zařízení nebo při změně uživatelů.';
-
-  @override
-  String get q_expert_sensitive_inference_controls_text =>
-      'Jsou funkce, které odvodují citlivé profily zdraví nebo chování, omezené nebo vypínatelné?';
-
-  @override
-  String get q_expert_sensitive_inference_controls_hint =>
-      'Ovládání inferenční snižuje rizika ze sekundárního použití citlivých dat.';
 
   @override
   String get a_password_title => 'Změnit výchozí heslo';
@@ -1329,20 +1299,6 @@ class AppLocalizationsCs extends AppLocalizations {
       'Zakažte funkce nahrávání ve výchozím nastavení a povolte je pouze krátce, když je to konkrétně potřeba.';
 
   @override
-  String get a_health_sharing_title => 'Omezit sdílení údajů o zdraví';
-
-  @override
-  String get a_health_sharing_desc =>
-      'Zrušit přístup ke zdravotním údajům od zbytečných aplikací třetích stran v nastavení aplikace a účtu.';
-
-  @override
-  String get a_location_tracking_title => 'Snížit sdílení polohy';
-
-  @override
-  String get a_location_tracking_desc =>
-      'Zakažte sledování polohy mimo aktivní použití nebo jej povolte pouze během používání aplikace.';
-
-  @override
   String get a_expert_data_retention_duration_title =>
       'Definovat doby uchování';
 
@@ -1420,14 +1376,6 @@ class AppLocalizationsCs extends AppLocalizations {
   @override
   String get a_expert_access_revocation_desc =>
       'Zajistěte, aby digitální klíče mohly být odvolány jednotlivě a okamžitě, např. v případě ztráty zařízení.';
-
-  @override
-  String get a_expert_sensitive_inference_controls_title =>
-      'Omezit funkce inferenční';
-
-  @override
-  String get a_expert_sensitive_inference_controls_desc =>
-      'Zakažte funkce, které usuzují na citlivé zdravotní nebo behaviorální profily, pokud nejsou přísně nutné.';
 
   @override
   String get a_dont_know_title => 'Lépe se seznámit s nastavením zařízení';
@@ -1553,12 +1501,6 @@ class AppLocalizationsCs extends AppLocalizations {
   String get sl_recording_disable => 'Nahrávání nelze zakázat';
 
   @override
-  String get sl_health_sharing => 'Údaje o zdraví sdíleny s třetími stranami';
-
-  @override
-  String get sl_location_tracking => 'Sledování polohy je povoleno';
-
-  @override
   String get sl_expert_data_retention_duration =>
       'Doba uchování nejasná nebo příliš dlouhá';
 
@@ -1596,10 +1538,6 @@ class AppLocalizationsCs extends AppLocalizations {
   @override
   String get sl_expert_access_revocation =>
       'Individuální odvolání přístupu není možné';
-
-  @override
-  String get sl_expert_sensitive_inference_controls =>
-      'Ovládání proti citlivé inferenci chybí';
 
   @override
   String get risk_hint_camera =>

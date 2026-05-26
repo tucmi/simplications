@@ -65,8 +65,6 @@ extension AppLocalizationsKeyResolver on AppLocalizations {
         return device_smart_lock;
       case 'device_smart_blind':
         return device_smart_blind;
-      case 'device_fitness_tracker':
-        return device_fitness_tracker;
       case 'device_smart_toy':
         return device_smart_toy;
       case 'device_smart_router':
@@ -77,8 +75,6 @@ extension AppLocalizationsKeyResolver on AppLocalizations {
         return device_smart_meter;
       case 'device_smart_irrigation':
         return device_smart_irrigation;
-      case 'device_smart_scale':
-        return device_smart_scale;
       case 'device_smart_printer':
         return device_smart_printer;
       case 'q_password_text':
@@ -225,14 +221,6 @@ extension AppLocalizationsKeyResolver on AppLocalizations {
         return q_recording_disable_text;
       case 'q_recording_disable_hint':
         return q_recording_disable_hint;
-      case 'q_health_sharing_text':
-        return q_health_sharing_text;
-      case 'q_health_sharing_hint':
-        return q_health_sharing_hint;
-      case 'q_location_tracking_text':
-        return q_location_tracking_text;
-      case 'q_location_tracking_hint':
-        return q_location_tracking_hint;
       case 'q_expert_data_retention_duration_text':
         return q_expert_data_retention_duration_text;
       case 'q_expert_data_retention_duration_hint':
@@ -273,10 +261,6 @@ extension AppLocalizationsKeyResolver on AppLocalizations {
         return q_expert_access_revocation_text;
       case 'q_expert_access_revocation_hint':
         return q_expert_access_revocation_hint;
-      case 'q_expert_sensitive_inference_controls_text':
-        return q_expert_sensitive_inference_controls_text;
-      case 'q_expert_sensitive_inference_controls_hint':
-        return q_expert_sensitive_inference_controls_hint;
       case 'a_password_title':
         return a_password_title;
       case 'a_password_desc':
@@ -421,14 +405,6 @@ extension AppLocalizationsKeyResolver on AppLocalizations {
         return a_recording_disable_title;
       case 'a_recording_disable_desc':
         return a_recording_disable_desc;
-      case 'a_health_sharing_title':
-        return a_health_sharing_title;
-      case 'a_health_sharing_desc':
-        return a_health_sharing_desc;
-      case 'a_location_tracking_title':
-        return a_location_tracking_title;
-      case 'a_location_tracking_desc':
-        return a_location_tracking_desc;
       case 'a_expert_data_retention_duration_title':
         return a_expert_data_retention_duration_title;
       case 'a_expert_data_retention_duration_desc':
@@ -469,10 +445,6 @@ extension AppLocalizationsKeyResolver on AppLocalizations {
         return a_expert_access_revocation_title;
       case 'a_expert_access_revocation_desc':
         return a_expert_access_revocation_desc;
-      case 'a_expert_sensitive_inference_controls_title':
-        return a_expert_sensitive_inference_controls_title;
-      case 'a_expert_sensitive_inference_controls_desc':
-        return a_expert_sensitive_inference_controls_desc;
       case 'a_dont_know_title':
         return a_dont_know_title;
       case 'a_dont_know_desc':
@@ -553,10 +525,6 @@ extension AppLocalizationsKeyResolver on AppLocalizations {
         return sl_child_data_limits;
       case 'sl_recording_disable':
         return sl_recording_disable;
-      case 'sl_health_sharing':
-        return sl_health_sharing;
-      case 'sl_location_tracking':
-        return sl_location_tracking;
       case 'sl_expert_data_retention_duration':
         return sl_expert_data_retention_duration;
       case 'sl_expert_access_control_granular':
@@ -577,8 +545,6 @@ extension AppLocalizationsKeyResolver on AppLocalizations {
         return sl_expert_child_data_protection;
       case 'sl_expert_access_revocation':
         return sl_expert_access_revocation;
-      case 'sl_expert_sensitive_inference_controls':
-        return sl_expert_sensitive_inference_controls;
       case 'risk_hint_camera':
         return risk_hint_camera;
       case 'risk_hint_mic':

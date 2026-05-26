@@ -24,8 +24,6 @@ class CatalogData {
     'smart_oven',
     'smart_washing',
     'smart_blind',
-    'fitness_tracker',
-    'smart_scale',
     'outdoor_camera',
     'baby_monitor',
     'smart_toy',
@@ -291,16 +289,6 @@ class CatalogData {
       deviceType: 'blind',
     ),
 
-    // ── Wearables ─────────────────────────────────────────────────────
-    DeviceTemplate(
-      id: 'fitness_tracker',
-      name: 'device_fitness_tracker',
-      icon: Icons.watch,
-      baseRiskScore: 40,
-      roomIds: ['bedroom', 'bathroom', 'whole_home'],
-      deviceType: 'wearable',
-    ),
-
     // ── Kids ──────────────────────────────────────────────────────────
     DeviceTemplate(
       id: 'smart_toy',
@@ -346,16 +334,6 @@ class CatalogData {
       baseRiskScore: 15,
       roomIds: ['garden'],
       deviceType: 'outdoor',
-    ),
-
-    // ── Health & Bathroom ─────────────────────────────────────────────
-    DeviceTemplate(
-      id: 'smart_scale',
-      name: 'device_smart_scale',
-      icon: Icons.monitor_weight,
-      baseRiskScore: 35,
-      roomIds: ['bathroom', 'bedroom'],
-      deviceType: 'wearable',
     ),
 
     // ── Office ────────────────────────────────────────────────────────

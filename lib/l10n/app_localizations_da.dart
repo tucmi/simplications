@@ -653,9 +653,6 @@ class AppLocalizationsDa extends AppLocalizations {
   String get device_smart_blind => 'Smart blind / persienne';
 
   @override
-  String get device_fitness_tracker => 'Fitnesstracke / smartwatch';
-
-  @override
   String get device_smart_toy => 'Smart legetøj';
 
   @override
@@ -670,9 +667,6 @@ class AppLocalizationsDa extends AppLocalizations {
 
   @override
   String get device_smart_irrigation => 'Smart irrigationssystem';
-
-  @override
-  String get device_smart_scale => 'Smart vægt';
 
   @override
   String get device_smart_printer => 'Smart printer';
@@ -966,22 +960,6 @@ class AppLocalizationsDa extends AppLocalizations {
       'BSI anbefaling: Optagelser af børn bør kun være mulige med eksplicit kontrol.';
 
   @override
-  String get q_health_sharing_text =>
-      'Kan du kontrollere, hvilke tredjeparter der kan få adgang til dine sundhedsdata?';
-
-  @override
-  String get q_health_sharing_hint =>
-      'Sundhedsdata er følsomme. Kun autoriserede apps bør have adgang.';
-
-  @override
-  String get q_location_tracking_text =>
-      'Kan du deaktivere lokationssporing, når det ikke er nødvendigt?';
-
-  @override
-  String get q_location_tracking_hint =>
-      'GPS-sporing bruger batteri og kan afsløre bevægelsesmønstre.';
-
-  @override
   String get q_expert_data_retention_duration_text =>
       'Er opbevaringsperioden for dine personlige data eksplicit defineret og begrænset til det nødvendige?';
 
@@ -1060,14 +1038,6 @@ class AppLocalizationsDa extends AppLocalizations {
   @override
   String get q_expert_access_revocation_hint =>
       'Hurtig tilbagekaldelse er vigtig, når enheder deles eller brugere skifter.';
-
-  @override
-  String get q_expert_sensitive_inference_controls_text =>
-      'Er funktioner, der udleder følsomme sundhedsprofilerings- eller adfærdsprofiler, begrænsede eller deaktiverede?';
-
-  @override
-  String get q_expert_sensitive_inference_controls_hint =>
-      'Inferenskontrol reducerer risici fra sekundær brug af følsomme data.';
 
   @override
   String get a_password_title => 'Skift standardkodeord';
@@ -1327,20 +1297,6 @@ class AppLocalizationsDa extends AppLocalizations {
       'Deaktivér optagefunktioner som standard og aktivér dem kun kortvarigt, når det er specifikt nødvendigt.';
 
   @override
-  String get a_health_sharing_title => 'Begræns sundhedsdatadeling';
-
-  @override
-  String get a_health_sharing_desc =>
-      'Tilbagekald sundhedsdataadgang fra unødvendige tredjeparts-apps i app- og kontoindstillinger.';
-
-  @override
-  String get a_location_tracking_title => 'Reducér placerings­deling';
-
-  @override
-  String get a_location_tracking_desc =>
-      'Deaktivér placeringsopsporing uden for aktiv brug eller tillad det kun, mens appen er i brug.';
-
-  @override
   String get a_expert_data_retention_duration_title =>
       'Definer opbevaringsperioder';
 
@@ -1418,14 +1374,6 @@ class AppLocalizationsDa extends AppLocalizations {
   @override
   String get a_expert_access_revocation_desc =>
       'Sikr, at digitale nøgler kan tilbagekaldes individuelt og øjeblikkeligt, f.eks. i tilfælde af enhedstab.';
-
-  @override
-  String get a_expert_sensitive_inference_controls_title =>
-      'Begræns slutningsfeatures';
-
-  @override
-  String get a_expert_sensitive_inference_controls_desc =>
-      'Deaktivér funktioner, der udleder følsomme sundheds- eller adfærdsprofiler, medmindre de er strengt nødvendige.';
 
   @override
   String get a_dont_know_title => 'Lær dine enhedsindstillinger bedre at kende';
@@ -1551,12 +1499,6 @@ class AppLocalizationsDa extends AppLocalizations {
   String get sl_recording_disable => 'Optagelse kan ikke deaktiveres';
 
   @override
-  String get sl_health_sharing => 'Sundhedsdata delt med tredjeparter';
-
-  @override
-  String get sl_location_tracking => 'Placeringsopsporing aktiveret';
-
-  @override
   String get sl_expert_data_retention_duration =>
       'Opbevaringsvarighed uklart eller for lang';
 
@@ -1594,10 +1536,6 @@ class AppLocalizationsDa extends AppLocalizations {
   @override
   String get sl_expert_access_revocation =>
       'Individuel adgangstilbagekaldelse ikke mulig';
-
-  @override
-  String get sl_expert_sensitive_inference_controls =>
-      'Kontroller mod følsomme slutninger mangler';
 
   @override
   String get risk_hint_camera =>

@@ -652,9 +652,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get device_smart_blind => 'Smart blind / shutter';
 
   @override
-  String get device_fitness_tracker => 'Fitness tracker / smartwatch';
-
-  @override
   String get device_smart_toy => 'Smart toy';
 
   @override
@@ -669,9 +666,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get device_smart_irrigation => 'Smart irrigation system';
-
-  @override
-  String get device_smart_scale => 'Smart scale';
 
   @override
   String get device_smart_printer => 'Smart printer';
@@ -965,22 +959,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'BSI recommendation: Recordings of children should only be possible with explicit control.';
 
   @override
-  String get q_health_sharing_text =>
-      'Can you control which third parties can access your health data?';
-
-  @override
-  String get q_health_sharing_hint =>
-      'Health data is sensitive. Only authorized apps should have access.';
-
-  @override
-  String get q_location_tracking_text =>
-      'Can you disable location tracking when not needed?';
-
-  @override
-  String get q_location_tracking_hint =>
-      'GPS tracking uses battery and can reveal movement patterns.';
-
-  @override
   String get q_expert_data_retention_duration_text =>
       'Is the retention duration for your personal data explicitly defined and limited to what is necessary?';
 
@@ -1059,14 +1037,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get q_expert_access_revocation_hint =>
       'Fast revocation is crucial when devices are shared or users change.';
-
-  @override
-  String get q_expert_sensitive_inference_controls_text =>
-      'Are features that infer sensitive health or behavior profiles restricted or disableable?';
-
-  @override
-  String get q_expert_sensitive_inference_controls_hint =>
-      'Inference controls reduce risks from secondary use of sensitive data.';
 
   @override
   String get a_password_title => 'Change default password';
@@ -1325,20 +1295,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Disable recording features by default and enable them only briefly when specifically needed.';
 
   @override
-  String get a_health_sharing_title => 'Restrict health data sharing';
-
-  @override
-  String get a_health_sharing_desc =>
-      'Revoke health data access from unnecessary third-party apps in app and account settings.';
-
-  @override
-  String get a_location_tracking_title => 'Reduce location sharing';
-
-  @override
-  String get a_location_tracking_desc =>
-      'Disable location tracking outside active use or allow it only while the app is in use.';
-
-  @override
   String get a_expert_data_retention_duration_title =>
       'Define retention periods';
 
@@ -1415,14 +1371,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get a_expert_access_revocation_desc =>
       'Ensure that digital keys can be revoked individually and immediately, e.g., in case of device loss.';
-
-  @override
-  String get a_expert_sensitive_inference_controls_title =>
-      'Restrict inference features';
-
-  @override
-  String get a_expert_sensitive_inference_controls_desc =>
-      'Disable features that infer sensitive health or behavioral profiles unless strictly necessary.';
 
   @override
   String get a_dont_know_title => 'Get to know device settings better';
@@ -1546,12 +1494,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sl_recording_disable => 'Recording cannot be disabled';
 
   @override
-  String get sl_health_sharing => 'Health data shared with third parties';
-
-  @override
-  String get sl_location_tracking => 'Location tracking enabled';
-
-  @override
   String get sl_expert_data_retention_duration =>
       'Retention duration unclear or too long';
 
@@ -1589,10 +1531,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get sl_expert_access_revocation =>
       'Individual access revocation not possible';
-
-  @override
-  String get sl_expert_sensitive_inference_controls =>
-      'Controls against sensitive inference missing';
 
   @override
   String get risk_hint_camera =>

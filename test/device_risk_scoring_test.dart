@@ -199,22 +199,17 @@ void main() {
     });
 
     test('expert mode adds expert questions and expert scoring factors', () {
-      final wearable = _instance('fitness_tracker', expertMode: true);
+      final toy = _instance('smart_toy', expertMode: true, roomId: 'bedroom');
 
-      final ids = wearable.questions.map((q) => q.id).toSet();
+      final ids = toy.questions.map((q) => q.id).toSet();
       expect(ids.contains('expert_data_retention_duration'), isTrue);
-      expect(ids.contains('expert_sensitive_inference_controls'), isTrue);
+      expect(ids.contains('expert_child_data_protection'), isTrue);
 
-      _answerAll(wearable, QuestionAnswer.yes);
-      wearable.setAnswer(
-        'expert_sensitive_inference_controls',
-        QuestionAnswer.no,
-      );
+      _answerAll(toy, QuestionAnswer.yes);
+      toy.setAnswer('expert_child_data_protection', QuestionAnswer.no);
 
-      final hasExpertFactor = wearable.scoringFactors.any(
-        (f) =>
-            f.label == 'sl_expert_sensitive_inference_controls' &&
-            f.penalty == 8,
+      final hasExpertFactor = toy.scoringFactors.any(
+        (f) => f.label == 'sl_expert_child_data_protection' && f.penalty == 8,
       );
       expect(hasExpertFactor, isTrue);
     });

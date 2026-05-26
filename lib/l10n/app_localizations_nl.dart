@@ -656,9 +656,6 @@ class AppLocalizationsNl extends AppLocalizations {
   String get device_smart_blind => 'Slim rolgordijn / zonnescherm';
 
   @override
-  String get device_fitness_tracker => 'Fitnesstracker / smartwatch';
-
-  @override
   String get device_smart_toy => 'Slim speelgoed';
 
   @override
@@ -672,9 +669,6 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get device_smart_irrigation => 'Slim irrigatiesysteem';
-
-  @override
-  String get device_smart_scale => 'Slimme weegschaal';
 
   @override
   String get device_smart_printer => 'Slimme printer';
@@ -968,22 +962,6 @@ class AppLocalizationsNl extends AppLocalizations {
       'BSI-aanbeveling: Opnames van kinderen mogen alleen met expliciete controle mogelijk zijn.';
 
   @override
-  String get q_health_sharing_text =>
-      'Kunt u bepalen welke derden toegang tot uw gezondheidsgegevens kunnen hebben?';
-
-  @override
-  String get q_health_sharing_hint =>
-      'Gezondheidsgegevens zijn gevoelig. Alleen geautoriseerde apps moeten toegang hebben.';
-
-  @override
-  String get q_location_tracking_text =>
-      'Kunt u locatiebijhoudkunde uitschakelen wanneer deze niet nodig is?';
-
-  @override
-  String get q_location_tracking_hint =>
-      'GPS-tracking verbruikt batteryijvermogen en kan verplaatsingspatronen onthullen.';
-
-  @override
   String get q_expert_data_retention_duration_text =>
       'Is de retentieduur voor uw persoonlijke gegevens expliciet bepaald en beperkt tot wat nodig is?';
 
@@ -1062,14 +1040,6 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get q_expert_access_revocation_hint =>
       'Snelle intrekking is cruciaal wanneer apparaten gedeeld worden of gebruikers veranderen.';
-
-  @override
-  String get q_expert_sensitive_inference_controls_text =>
-      'Zijn functies die gevoelige gezondheids- of gedragsprofielen afleiden beperkt of uit te schakelen?';
-
-  @override
-  String get q_expert_sensitive_inference_controls_hint =>
-      'Inferentiecontroles verminderen risico\'s van secundair gebruik van gevoelige gegevens.';
 
   @override
   String get a_password_title => 'Standaardwachtwoord wijzigen';
@@ -1334,20 +1304,6 @@ class AppLocalizationsNl extends AppLocalizations {
       'Schakel opnamefuncties standaard uit en schakel deze alleen kortstondig in wanneer specifiek nodig.';
 
   @override
-  String get a_health_sharing_title => 'Gezondheidsgegevensdeling beperken';
-
-  @override
-  String get a_health_sharing_desc =>
-      'Trek toegang tot gezondheidsgegevens in van onnodige apps van derden in app- en accountinstellingen.';
-
-  @override
-  String get a_location_tracking_title => 'Locatiebijhoudkunde verminderen';
-
-  @override
-  String get a_location_tracking_desc =>
-      'Schakel locatiebijhoudkunde uit buiten actief gebruik of sta deze alleen toe terwijl de app in gebruik is.';
-
-  @override
   String get a_expert_data_retention_duration_title =>
       'Retentieperiodes bepalen';
 
@@ -1425,14 +1381,6 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get a_expert_access_revocation_desc =>
       'Zorg ervoor dat digitale sleutels individueel en onmiddellijk kunnen worden ingetrokken, bijv. bij apparaatverlies.';
-
-  @override
-  String get a_expert_sensitive_inference_controls_title =>
-      'Inferencefuncties beperken';
-
-  @override
-  String get a_expert_sensitive_inference_controls_desc =>
-      'Schakel functies uit die gevoelige gezondheids- of gedragsprofielen afleiden, tenzij strikt noodzakelijk.';
 
   @override
   String get a_dont_know_title => 'Apparaatinstellingen beter leren kennen';
@@ -1560,12 +1508,6 @@ class AppLocalizationsNl extends AppLocalizations {
   String get sl_recording_disable => 'Opname kan niet worden uitgeschakeld';
 
   @override
-  String get sl_health_sharing => 'Gezondheidsgegevens gedeeld met derden';
-
-  @override
-  String get sl_location_tracking => 'Locatietracking ingeschakeld';
-
-  @override
   String get sl_expert_data_retention_duration =>
       'Bewaartermijn onduidelijk of te lang';
 
@@ -1604,10 +1546,6 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get sl_expert_access_revocation =>
       'Individuele intrekking van toegang niet mogelijk';
-
-  @override
-  String get sl_expert_sensitive_inference_controls =>
-      'Beperkingen tegen gevoelige afleidingen ontbreken';
 
   @override
   String get risk_hint_camera =>

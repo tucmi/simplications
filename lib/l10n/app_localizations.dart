@@ -1302,12 +1302,6 @@ abstract class AppLocalizations {
   /// **'Smart blind / shutter'**
   String get device_smart_blind;
 
-  /// No description provided for @device_fitness_tracker.
-  ///
-  /// In en, this message translates to:
-  /// **'Fitness tracker / smartwatch'**
-  String get device_fitness_tracker;
-
   /// No description provided for @device_smart_toy.
   ///
   /// In en, this message translates to:
@@ -1337,12 +1331,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Smart irrigation system'**
   String get device_smart_irrigation;
-
-  /// No description provided for @device_smart_scale.
-  ///
-  /// In en, this message translates to:
-  /// **'Smart scale'**
-  String get device_smart_scale;
 
   /// No description provided for @device_smart_printer.
   ///
@@ -1782,30 +1770,6 @@ abstract class AppLocalizations {
   /// **'BSI recommendation: Recordings of children should only be possible with explicit control.'**
   String get q_recording_disable_hint;
 
-  /// No description provided for @q_health_sharing_text.
-  ///
-  /// In en, this message translates to:
-  /// **'Can you control which third parties can access your health data?'**
-  String get q_health_sharing_text;
-
-  /// No description provided for @q_health_sharing_hint.
-  ///
-  /// In en, this message translates to:
-  /// **'Health data is sensitive. Only authorized apps should have access.'**
-  String get q_health_sharing_hint;
-
-  /// No description provided for @q_location_tracking_text.
-  ///
-  /// In en, this message translates to:
-  /// **'Can you disable location tracking when not needed?'**
-  String get q_location_tracking_text;
-
-  /// No description provided for @q_location_tracking_hint.
-  ///
-  /// In en, this message translates to:
-  /// **'GPS tracking uses battery and can reveal movement patterns.'**
-  String get q_location_tracking_hint;
-
   /// No description provided for @q_expert_data_retention_duration_text.
   ///
   /// In en, this message translates to:
@@ -1925,18 +1889,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fast revocation is crucial when devices are shared or users change.'**
   String get q_expert_access_revocation_hint;
-
-  /// No description provided for @q_expert_sensitive_inference_controls_text.
-  ///
-  /// In en, this message translates to:
-  /// **'Are features that infer sensitive health or behavior profiles restricted or disableable?'**
-  String get q_expert_sensitive_inference_controls_text;
-
-  /// No description provided for @q_expert_sensitive_inference_controls_hint.
-  ///
-  /// In en, this message translates to:
-  /// **'Inference controls reduce risks from secondary use of sensitive data.'**
-  String get q_expert_sensitive_inference_controls_hint;
 
   /// No description provided for @a_password_title.
   ///
@@ -2370,30 +2322,6 @@ abstract class AppLocalizations {
   /// **'Disable recording features by default and enable them only briefly when specifically needed.'**
   String get a_recording_disable_desc;
 
-  /// No description provided for @a_health_sharing_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Restrict health data sharing'**
-  String get a_health_sharing_title;
-
-  /// No description provided for @a_health_sharing_desc.
-  ///
-  /// In en, this message translates to:
-  /// **'Revoke health data access from unnecessary third-party apps in app and account settings.'**
-  String get a_health_sharing_desc;
-
-  /// No description provided for @a_location_tracking_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Reduce location sharing'**
-  String get a_location_tracking_title;
-
-  /// No description provided for @a_location_tracking_desc.
-  ///
-  /// In en, this message translates to:
-  /// **'Disable location tracking outside active use or allow it only while the app is in use.'**
-  String get a_location_tracking_desc;
-
   /// No description provided for @a_expert_data_retention_duration_title.
   ///
   /// In en, this message translates to:
@@ -2513,18 +2441,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ensure that digital keys can be revoked individually and immediately, e.g., in case of device loss.'**
   String get a_expert_access_revocation_desc;
-
-  /// No description provided for @a_expert_sensitive_inference_controls_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Restrict inference features'**
-  String get a_expert_sensitive_inference_controls_title;
-
-  /// No description provided for @a_expert_sensitive_inference_controls_desc.
-  ///
-  /// In en, this message translates to:
-  /// **'Disable features that infer sensitive health or behavioral profiles unless strictly necessary.'**
-  String get a_expert_sensitive_inference_controls_desc;
 
   /// No description provided for @a_dont_know_title.
   ///
@@ -2766,18 +2682,6 @@ abstract class AppLocalizations {
   /// **'Recording cannot be disabled'**
   String get sl_recording_disable;
 
-  /// No description provided for @sl_health_sharing.
-  ///
-  /// In en, this message translates to:
-  /// **'Health data shared with third parties'**
-  String get sl_health_sharing;
-
-  /// No description provided for @sl_location_tracking.
-  ///
-  /// In en, this message translates to:
-  /// **'Location tracking enabled'**
-  String get sl_location_tracking;
-
   /// No description provided for @sl_expert_data_retention_duration.
   ///
   /// In en, this message translates to:
@@ -2837,12 +2741,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Individual access revocation not possible'**
   String get sl_expert_access_revocation;
-
-  /// No description provided for @sl_expert_sensitive_inference_controls.
-  ///
-  /// In en, this message translates to:
-  /// **'Controls against sensitive inference missing'**
-  String get sl_expert_sensitive_inference_controls;
 
   /// No description provided for @risk_hint_camera.
   ///

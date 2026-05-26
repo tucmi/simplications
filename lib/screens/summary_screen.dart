@@ -819,30 +819,32 @@ class _OverviewHeader extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 18),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${devices.length} ${localizations.devicesRated}',
-                      style: text.bodyMedium,
-                    ),
-                    if (skippedDevices > 0) ...[
-                      const SizedBox(height: 4),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        localizations.skippedDevicesHint(skippedDevices),
-                        style: text.bodySmall?.copyWith(
-                          color: colors.onSurfaceVariant,
-                        ),
+                        '${devices.length} ${localizations.devicesRated}',
+                        style: text.bodyMedium,
                       ),
+                      if (skippedDevices > 0) ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          localizations.skippedDevicesHint(skippedDevices),
+                          style: text.bodySmall?.copyWith(
+                            color: colors.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 8),
+                      if (highCount > 0)
+                        _RiskCount(count: highCount, level: RiskLevel.high),
+                      if (medCount > 0)
+                        _RiskCount(count: medCount, level: RiskLevel.medium),
+                      if (lowCount > 0)
+                        _RiskCount(count: lowCount, level: RiskLevel.low),
                     ],
-                    const SizedBox(height: 8),
-                    if (highCount > 0)
-                      _RiskCount(count: highCount, level: RiskLevel.high),
-                    if (medCount > 0)
-                      _RiskCount(count: medCount, level: RiskLevel.medium),
-                    if (lowCount > 0)
-                      _RiskCount(count: lowCount, level: RiskLevel.low),
-                  ],
+                  ),
                 ),
               ],
             ),

@@ -658,9 +658,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get device_smart_blind => 'Inteligentne żaluzje / roleta';
 
   @override
-  String get device_fitness_tracker => 'Opaska fitness / smartwatch';
-
-  @override
   String get device_smart_toy => 'Inteligentna zabawka';
 
   @override
@@ -675,9 +672,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get device_smart_irrigation => 'Inteligentny system nawadniający';
-
-  @override
-  String get device_smart_scale => 'Inteligentna waga';
 
   @override
   String get device_smart_printer => 'Inteligentna drukarka';
@@ -971,22 +965,6 @@ class AppLocalizationsPl extends AppLocalizations {
       'Rekomendacja BSI: Nagrywanie dzieci powinno być możliwe tylko z wyraźną kontrolą.';
 
   @override
-  String get q_health_sharing_text =>
-      'Czy możesz kontrolować, które strony trzecie mogą uzyskać dostęp do Twoich danych zdrowotnych?';
-
-  @override
-  String get q_health_sharing_hint =>
-      'Dane zdrowotne są wrażliwe. Dostęp powinny mieć tylko autoryzowane aplikacje.';
-
-  @override
-  String get q_location_tracking_text =>
-      'Czy możesz wyłączyć śledzenie lokalizacji, gdy nie jest potrzebne?';
-
-  @override
-  String get q_location_tracking_hint =>
-      'Śledzenie GPS zużywa baterię i może ujawnić wzorce ruchu.';
-
-  @override
   String get q_expert_data_retention_duration_text =>
       'Czy czas przechowywania Twoich danych osobowych jest wyraźnie zdefiniowany i ograniczony do niezbędnego?';
 
@@ -1065,14 +1043,6 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get q_expert_access_revocation_hint =>
       'Szybkie odwołanie jest kluczowe, gdy urządzenia są współdzielone lub zmieniają się użytkownicy.';
-
-  @override
-  String get q_expert_sensitive_inference_controls_text =>
-      'Czy funkcje wnioskujące wrażliwe profile zdrowotne lub behawioralne są ograniczone lub można je wyłączyć?';
-
-  @override
-  String get q_expert_sensitive_inference_controls_hint =>
-      'Kontrole inferencji zmniejszają ryzyka z wtórnego wykorzystania wrażliwych danych.';
 
   @override
   String get a_password_title => 'Zmień hasło domyślne';
@@ -1331,21 +1301,6 @@ class AppLocalizationsPl extends AppLocalizations {
       'Wyłącz funkcje nagrywania domyślnie i włączaj je tylko krótko, gdy jest to specjalnie potrzebne.';
 
   @override
-  String get a_health_sharing_title =>
-      'Ogranicz udostępnianie danych zdrowotnych';
-
-  @override
-  String get a_health_sharing_desc =>
-      'Odwołaj dostęp do danych zdrowotnych od niepotrzebnych aplikacji stron trzecich w ustawieniach aplikacji i konta.';
-
-  @override
-  String get a_location_tracking_title => 'Zmniejsz udostępnianie lokalizacji';
-
-  @override
-  String get a_location_tracking_desc =>
-      'Wyłącz śledzenie lokalizacji poza aktywnym użytkowaniem lub pozwól na to tylko, gdy aplikacja jest używana.';
-
-  @override
   String get a_expert_data_retention_duration_title =>
       'Zdefiniuj okresy przechowywania';
 
@@ -1424,14 +1379,6 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get a_expert_access_revocation_desc =>
       'Upewnij się, że klucze cyfrowe mogą być szybko i indywidualnie odwołane, np. w przypadku utraty urządzenia.';
-
-  @override
-  String get a_expert_sensitive_inference_controls_title =>
-      'Ograniczy funkcje wnioskowania';
-
-  @override
-  String get a_expert_sensitive_inference_controls_desc =>
-      'Wyłącz funkcje, które wnioskują wrażliwe profile zdrowotne lub behawioralne, o ile nie są absolutnie konieczne.';
 
   @override
   String get a_dont_know_title => 'Lepiej poznaj ustawienia urządzenia';
@@ -1563,12 +1510,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get sl_recording_disable => 'Nagrywanie nie może być wyłączone';
 
   @override
-  String get sl_health_sharing => 'Dane zdrowotne udostępniane stronom trzecim';
-
-  @override
-  String get sl_location_tracking => 'Śledzenie lokalizacji włączone';
-
-  @override
   String get sl_expert_data_retention_duration =>
       'Okres przechowywania nieznany lub zbyt długi';
 
@@ -1607,10 +1548,6 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get sl_expert_access_revocation =>
       'Niemożliwe indywidualne odwołanie dostępu';
-
-  @override
-  String get sl_expert_sensitive_inference_controls =>
-      'Brakuje kontroli przed wrażliwym wnioskowaniem';
 
   @override
   String get risk_hint_camera =>
