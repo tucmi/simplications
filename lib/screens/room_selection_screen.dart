@@ -278,7 +278,7 @@ class _RoomCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  CatalogData.roomName(room),
+                  CatalogData.roomName(localizations, room),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w500,
                     color: isCompleted

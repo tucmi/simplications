@@ -17,7 +17,7 @@ class FaqScreen extends StatelessWidget {
       body: ListView.separated(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         itemCount: entries.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 10),
+        separatorBuilder: (a, b) => const SizedBox(height: 10),
         itemBuilder: (context, index) {
           final entry = entries[index];
           return Card(

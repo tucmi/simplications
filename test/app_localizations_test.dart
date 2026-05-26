@@ -2,83 +2,94 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:simplications/l10n/app_localizations.dart';
-import 'package:simplications/l10n/localization_lookup.dart';
+import 'package:simplications/l10n/app_localizations_key_resolver.dart';
 
 void main() {
-  group('Localization key coverage', () {
-    test('all supported locales keep parity with English keys', () {
-      final keyCoverage = LocalizationLookup.localizationKeysByLocale();
-      final enKeys = keyCoverage['en'];
+  group('AppLocalizations key resolver', () {
+    test('resolves runtime device, question, action and result keys', () {
+      final localizations = lookupAppLocalizations(const Locale('en'));
 
-      expect(enKeys, isNotNull);
-      expect(enKeys, isNotEmpty);
+      expect(
+        localizations.resolveKey('device_simple_sensor'),
+        equals(localizations.device_simple_sensor),
+      );
+      expect(
+        localizations.resolveKey('q_sensor_frequency_text'),
+        equals(localizations.q_sensor_frequency_text),
+      );
+      expect(
+        localizations.resolveKey('a_password_title'),
+        equals(localizations.a_password_title),
+      );
+      expect(
+        localizations.resolveKey('sl_base_risk'),
+        equals(localizations.sl_base_risk),
+      );
+      expect(
+        localizations.resolveKey('risk_hint_camera'),
+        equals(localizations.risk_hint_camera),
+      );
+    });
 
+    test('falls back for unknown keys', () {
+      final localizations = lookupAppLocalizations(const Locale('en'));
+
+      expect(
+        localizations.resolveKey(
+          'missing_key_example',
+          fallback: 'fallback-value',
+        ),
+        equals('fallback-value'),
+      );
+      expect(
+        localizations.resolveKey('missing_key_example'),
+        equals('missing_key_example'),
+      );
+    });
+
+    test('supported locales resolve core runtime keys', () {
       for (final locale in AppLocalizations.supportedLocales) {
-        final languageCode = locale.languageCode;
-        final localeKeys = keyCoverage[languageCode];
+        final localizations = lookupAppLocalizations(locale);
+
         expect(
-          localeKeys,
-          isNotNull,
-          reason: 'Missing locale map: $languageCode',
+          localizations.resolveKey('device_simple_sensor'),
+          isNotEmpty,
+          reason: 'Missing device key for ${locale.languageCode}',
         );
         expect(
-          localeKeys,
-          equals(enKeys),
-          reason:
-              'Locale $languageCode must contain exactly the same keys as en',
+          localizations.resolveKey('q_sensor_data_deletion_hint'),
+          isNotEmpty,
+          reason: 'Missing question key for ${locale.languageCode}',
+        );
+        expect(
+          localizations.resolveKey('a_dont_know_desc'),
+          isNotEmpty,
+          reason: 'Missing action key for ${locale.languageCode}',
+        );
+        expect(
+          localizations.resolveKey('sl_child_room_bonus'),
+          isNotEmpty,
+          reason: 'Missing scoring key for ${locale.languageCode}',
         );
       }
     });
-  });
 
-  group('LocalizationLookup.translate', () {
-    test('falls back to English when locale is unsupported', () {
-      final value = LocalizationLookup.translate(
-        'start',
-        locale: const Locale('xx'),
+    test('dontKnowHint uses locale-aware pluralization', () {
+      final english = lookupAppLocalizations(const Locale('en'));
+      final german = lookupAppLocalizations(const Locale('de'));
+
+      expect(
+        english.dontKnowHint(1),
+        contains('1 answer was marked as "I don\'t know"'),
       );
-
-      expect(value, 'Start');
-    });
-
-    test('replaces parameter placeholders', () {
-      final value = LocalizationLookup.translate(
-        'dontKnowHint',
-        locale: const Locale('en'),
-        params: {'count': '2', 'suffix': 's'},
+      expect(
+        english.dontKnowHint(2),
+        contains('2 answers were marked as "I don\'t know"'),
       );
-
-      expect(value.contains('2 answer'), isTrue);
-      expect(value.contains('"I don\'t know"'), isTrue);
-    });
-
-    test('uses explicit fallback for unknown keys', () {
-      final value = LocalizationLookup.translate(
-        'missing_key_example',
-        locale: const Locale('en'),
-        fallback: 'fallback-value',
+      expect(
+        german.dontKnowHint(2),
+        contains('Es wurden 2 Antworten mit "Weiß ich nicht" gegeben'),
       );
-
-      expect(value, 'fallback-value');
-    });
-
-    test('returns key when unknown key has no fallback', () {
-      final value = LocalizationLookup.translate(
-        'missing_key_example',
-        locale: const Locale('en'),
-      );
-
-      expect(value, 'missing_key_example');
-    });
-  });
-
-  group('LocalizationLookup.activate', () {
-    test('updates active language code', () {
-      LocalizationLookup.activate(const Locale('pl'));
-      expect(LocalizationLookup.activeLanguageCode, 'pl');
-
-      LocalizationLookup.activate(const Locale('de'));
-      expect(LocalizationLookup.activeLanguageCode, 'de');
     });
   });
 }

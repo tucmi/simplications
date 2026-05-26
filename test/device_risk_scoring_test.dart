@@ -134,20 +134,29 @@ void main() {
       }
     });
 
-    test('sensor with all no answers applies expected penalties', () {
-      final sensor = _instance('humidity_sensor');
-      _answerAll(sensor, QuestionAnswer.no);
+    test(
+      'merged sensor uses three shared questions and expected penalties',
+      () {
+        final sensor = _instance('simple_sensor');
 
-      expect(sensor.riskScore, 47);
-      expect(sensor.riskLevel, RiskLevel.medium);
+        expect(
+          sensor.questions.map((q) => q.id).toList(),
+          equals(['sensor_frequency', 'sensor_data_deletion', 'sensor_local']),
+        );
 
-      final labels = sensor.scoringFactors.map((f) => f.label).toSet();
-      expect(labels.contains('sl_base_risk'), isTrue);
-      expect(labels.contains('sl_sensor_frequency'), isTrue);
-      expect(labels.contains('sl_sensor_data_deletion'), isTrue);
-      expect(labels.contains('sl_sensor_granularity'), isTrue);
-      expect(labels.contains('sl_sensor_local'), isTrue);
-    });
+        _answerAll(sensor, QuestionAnswer.no);
+
+        expect(sensor.riskScore, 44);
+        expect(sensor.riskLevel, RiskLevel.medium);
+
+        final labels = sensor.scoringFactors.map((f) => f.label).toSet();
+        expect(labels.contains('sl_base_risk'), isTrue);
+        expect(labels.contains('sl_sensor_frequency'), isTrue);
+        expect(labels.contains('sl_sensor_data_deletion'), isTrue);
+        expect(labels.contains('sl_sensor_local'), isTrue);
+        expect(labels.contains('sl_sensor_granularity'), isFalse);
+      },
+    );
 
     test('score is clamped to 100 and child room bonus is applied', () {
       final lockInChildRoom = _instance('smart_lock', roomId: 'child_bedroom');
@@ -190,22 +199,17 @@ void main() {
     });
 
     test('expert mode adds expert questions and expert scoring factors', () {
-      final wearable = _instance('fitness_tracker', expertMode: true);
+      final toy = _instance('smart_toy', expertMode: true, roomId: 'bedroom');
 
-      final ids = wearable.questions.map((q) => q.id).toSet();
+      final ids = toy.questions.map((q) => q.id).toSet();
       expect(ids.contains('expert_data_retention_duration'), isTrue);
-      expect(ids.contains('expert_sensitive_inference_controls'), isTrue);
+      expect(ids.contains('expert_child_data_protection'), isTrue);
 
-      _answerAll(wearable, QuestionAnswer.yes);
-      wearable.setAnswer(
-        'expert_sensitive_inference_controls',
-        QuestionAnswer.no,
-      );
+      _answerAll(toy, QuestionAnswer.yes);
+      toy.setAnswer('expert_child_data_protection', QuestionAnswer.no);
 
-      final hasExpertFactor = wearable.scoringFactors.any(
-        (f) =>
-            f.label == 'sl_expert_sensitive_inference_controls' &&
-            f.penalty == 8,
+      final hasExpertFactor = toy.scoringFactors.any(
+        (f) => f.label == 'sl_expert_child_data_protection' && f.penalty == 8,
       );
       expect(hasExpertFactor, isTrue);
     });

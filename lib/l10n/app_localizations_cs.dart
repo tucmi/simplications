@@ -20,6 +20,13 @@ class AppLocalizationsCs extends AppLocalizations {
       'Zaznamenejte svá chytrá zařízení místnost po místnosti a získejte hodnocení soukromí s konkrétními doporučeními.';
 
   @override
+  String get welcomePrivacyTitle => 'Soukromí bez cloudu';
+
+  @override
+  String get welcomePrivacyDescription =>
+      'Nejsou shromažďovány žádné osobní údaje. Vaše odpovědi zůstávají v tomto zařízení a nic se neodesílá na server ani do cloudu.';
+
+  @override
   String get stepSelectRooms => 'Vyberte místnost';
 
   @override
@@ -145,6 +152,27 @@ class AppLocalizationsCs extends AppLocalizations {
   String get languageDialogTitle => 'Vyberte jazyk';
 
   @override
+  String get languageNameDe => 'Deutsch';
+
+  @override
+  String get languageNameCs => 'Čeština';
+
+  @override
+  String get languageNameEn => 'English';
+
+  @override
+  String get languageNamePl => 'Polski';
+
+  @override
+  String get languageNameFr => 'Français';
+
+  @override
+  String get languageNameNl => 'Nederlands';
+
+  @override
+  String get languageNameDa => 'Dansk';
+
+  @override
   String get currentLanguage => 'Aktuální jazyk';
 
   @override
@@ -155,7 +183,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get aboutSubtitle =>
-      'Výzkumný projekt zaměřený na soukromí chytré domácnosti';
+      'Výzkumný projekt zaměřený na soukromí v chytré domácnosti';
 
   @override
   String get aboutProjectName => 'Simplications';
@@ -212,7 +240,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get faqAnswerWhatIs =>
-      'Simplications je výzkumný projekt zaměřený na soukromí v chytré domácnosti. Tato aplikace je jednou z částí projektu a provede vás místnost po místnosti vašimi zařízeními s praktickými doporučeními na základě vašich odpovědí.';
+      'Simplications je výzkumný projekt zaměřený na soukromí v chytré domácnosti. Tato aplikace je součástí projektu a provede vás místnost po místnosti vašimi zařízeními s praktickými doporučeními na základě vašich odpovědí.';
 
   @override
   String get faqQuestionHowWorks => 'Jak kontrola funguje?';
@@ -310,18 +338,18 @@ class AppLocalizationsCs extends AppLocalizations {
       'Pozor: Tato akce trvale odstraní všechna uložená data aplikace.';
 
   @override
-  String get expertModeTitle => 'Expert mode';
+  String get expertModeTitle => 'Expertní režim';
 
   @override
-  String get expertModeToggleLabel => 'Enable detailed expert mode';
+  String get expertModeToggleLabel => 'Zapnout podrobný expertní režim';
 
   @override
   String get expertModeToggleHint =>
-      'Same workflow, but much more detailed device questions (e.g., retention duration, access control, third-party sharing).';
+      'Stejný postup, ale mnohem podrobnější otázky k zařízením (např. doba uchování, řízení přístupu, sdílení se třetími stranami).';
 
   @override
   String get expertModeSourcesHint =>
-      'Methodologically inspired by the following research projects:';
+      'Metodicky inspirováno následujícími výzkumnými projekty:';
 
   @override
   String get expertModeSourceCmuLabel =>
@@ -339,7 +367,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get expertModeQuestionnaireHint =>
-      'Expert mode: these questions deepen data-practice and governance coverage (including retention, access control, and third-party sharing) based on CMU IoT Label and Unboxing.IoT.Privacy approaches.';
+      'Expertní režim: tyto otázky jdou hlouběji do práce s daty a řízení ochrany soukromí (včetně doby uchování, řízení přístupu a sdílení se třetími stranami) na základě přístupů CMU IoT Label a Unboxing.IoT.Privacy.';
 
   @override
   String get roomDeleteTitle => 'Smazat místnost?';
@@ -429,6 +457,9 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get summarySharePdfText => 'Zpráva Simplications jako PDF';
+
+  @override
+  String get summaryPdfFileName => 'simplications-vysledek.pdf';
 
   @override
   String get overview => 'Přehled';
@@ -526,1092 +557,1040 @@ class AppLocalizationsCs extends AppLocalizations {
       'Několik zařízení má významná rizika pro soukromí/ochranu dat. Prosím co nejdříve zaveďte opatření s vysokou prioritou.';
 
   @override
-  String dontKnowHint(Object count, Object suffix) {
-    return ' $count odpověď$suffix byla označena jako \"Nevím\" - věnujte čas lepšímu poznání nastavení svých zařízení.';
+  String dontKnowHint(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count odpovědi byly označeny jako \"Nevím\" - věnujte čas lepšímu poznání nastavení svých zařízení.',
+      one:
+          '1 odpověď byla označena jako \"Nevím\" - věnujte čas lepšímu poznání nastavení svých zařízení.',
+    );
+    return ' $_temp0';
   }
 
   @override
-  String get room_living => 'Living room';
+  String get room_living => 'Obývací pokoj';
 
   @override
-  String get room_kitchen => 'Kitchen';
+  String get room_kitchen => 'Kuchyně';
 
   @override
-  String get room_bedroom => 'Bedroom';
+  String get room_bedroom => 'Ložnice';
 
   @override
-  String get room_child_bedroom => 'Child\'s bedroom';
+  String get room_child_bedroom => 'Dětský pokoj';
 
   @override
-  String get room_bathroom => 'Bathroom';
+  String get room_bathroom => 'Koupelna';
 
   @override
-  String get room_office => 'Office';
+  String get room_office => 'Pracovna';
 
   @override
-  String get room_hallway => 'Hallway / Entrance';
+  String get room_hallway => 'Chodba / vstup';
 
   @override
-  String get room_garden => 'Garden / Outdoor area';
+  String get room_garden => 'Zahrada / venkovní prostor';
 
   @override
-  String get room_basement => 'Basement / Pantry';
+  String get room_basement => 'Sklep / spíž';
 
   @override
-  String get room_whole_home => 'Entire home';
+  String get room_whole_home => 'Celý domov';
 
   @override
   String get device_simple_sensor =>
-      'Basic sensor (e.g., motion or door sensor)';
+      'Senzor (např. dveřní, pohybový, teplotní, vlhkostní nebo světelný)';
 
   @override
-  String get device_humidity_sensor => 'Humidity sensor';
+  String get device_humidity_sensor => 'Senzor vlhkosti';
 
   @override
-  String get device_temperature_sensor => 'Temperature sensor';
+  String get device_temperature_sensor => 'Teplotní senzor';
 
   @override
-  String get device_light_sensor => 'Light sensor';
+  String get device_light_sensor => 'Světelný senzor';
 
   @override
-  String get device_smart_speaker => 'Smart speaker / voice assistant';
+  String get device_smart_speaker => 'Chytrý reproduktor / hlasový asistent';
 
   @override
-  String get device_smart_display => 'Smart display (e.g., Nest Hub)';
+  String get device_smart_display => 'Chytrý displej (např. Nest Hub)';
 
   @override
-  String get device_smart_tv => 'Smart TV';
+  String get device_smart_tv => 'Chytrá televize';
 
   @override
-  String get device_indoor_camera => 'Smart indoor camera';
+  String get device_indoor_camera => 'Chytrá vnitřní kamera';
 
   @override
-  String get device_outdoor_camera => 'Smart outdoor camera';
+  String get device_outdoor_camera => 'Chytrá venkovní kamera';
 
   @override
-  String get device_doorbell_camera => 'Smart doorbell with camera';
+  String get device_doorbell_camera => 'Chytrý zvonek s kamerou';
 
   @override
-  String get device_baby_monitor => 'Baby monitor / baby camera';
+  String get device_baby_monitor => 'Dětská chůvička / kamera pro miminko';
 
   @override
-  String get device_robot_vacuum => 'Robot vacuum';
+  String get device_robot_vacuum => 'Robotický vysavač';
 
   @override
-  String get device_smart_fridge => 'Smart fridge';
+  String get device_smart_fridge => 'Chytrá lednice';
 
   @override
-  String get device_smart_oven => 'Smart oven / stove';
+  String get device_smart_oven => 'Chytrá trouba / sporák';
 
   @override
-  String get device_smart_coffee => 'Smart coffee machine';
+  String get device_smart_coffee => 'Chytrý kávovar';
 
   @override
-  String get device_smart_washing => 'Smart washer / dryer';
+  String get device_smart_washing => 'Chytrá pračka / sušička';
 
   @override
-  String get device_smart_thermostat => 'Smart thermostat / heating control';
+  String get device_smart_thermostat => 'Chytrý termostat / řízení vytápění';
 
   @override
-  String get device_smart_plug => 'Smart plug';
+  String get device_smart_plug => 'Chytrá zásuvka';
 
   @override
-  String get device_smart_light => 'Smart lighting';
+  String get device_smart_light => 'Chytré osvětlení';
 
   @override
-  String get device_smart_lock => 'Smart door lock';
+  String get device_smart_lock => 'Chytrý dveřní zámek';
 
   @override
-  String get device_smart_blind => 'Smart blind / shutter';
+  String get device_smart_blind => 'Chytrá žaluzie / roleta';
 
   @override
-  String get device_fitness_tracker => 'Fitness tracker / smartwatch';
+  String get device_smart_toy => 'Chytrá hračka';
 
   @override
-  String get device_smart_toy => 'Smart toy';
+  String get device_smart_router => 'Chytrý router / mesh systém';
 
   @override
-  String get device_smart_router => 'Smart router / mesh system';
+  String get device_smart_hub =>
+      'Centrum chytré domácnosti (např. Homey, Home Assistant)';
 
   @override
-  String get device_smart_hub => 'Smart home hub (e.g., Homey, Home Assistant)';
+  String get device_smart_meter => 'Inteligentní elektroměr / smart meter';
 
   @override
-  String get device_smart_meter =>
-      'Intelligent electricity meter / smart meter';
+  String get device_smart_irrigation => 'Chytrý zavlažovací systém';
 
   @override
-  String get device_smart_irrigation => 'Smart irrigation system';
-
-  @override
-  String get device_smart_scale => 'Smart scale';
-
-  @override
-  String get device_smart_printer => 'Smart printer';
+  String get device_smart_printer => 'Chytrá tiskárna';
 
   @override
   String get q_password_text =>
-      'Have you changed the default password of the device or its linked account?';
+      'Změnili jste výchozí heslo zařízení nebo jeho propojeného účtu?';
 
   @override
   String get q_password_hint =>
-      'Default passwords are often publicly known and easy to crack.';
+      'Výchozí hesla jsou často veřejně známá a snadno se hackují.';
 
   @override
   String get q_updates_text =>
-      'Are automatic security updates enabled for the device?';
+      'Jsou pro zařízení povoleny automatické bezpečnostní aktualizace?';
 
   @override
   String get q_updates_hint =>
-      'Updates close known security vulnerabilities promptly.';
+      'Aktualizace zavírají známé bezpečnostní chyby bez problémů.';
 
   @override
   String get q_network_text =>
-      'Is the device connected to a separate smart home or IoT Wi-Fi network?';
+      'Je zařízení připojeno k oddělené síti chytré domácnosti nebo IoT Wi-Fi?';
 
   @override
   String get q_network_hint =>
-      'A dedicated network for smart devices protects your main home network.';
+      'Vyhrazená síť pro chytrá zařízení chrání vaši hlavní domácí síť.';
 
   @override
   String get q_informed_text =>
-      'Are all people in the household informed about this device and its function?';
+      'Jsou všechny osoby v domácnosti informovány o tomto zařízení a jeho funkci?';
 
   @override
   String get q_informed_hint =>
-      'All household members should know what data the device captures.';
+      'Všichni členové domácnosti by měli vědět, jaká data zařízení sbírá.';
 
   @override
   String get q_permissions_text =>
-      'Have you disabled unnecessary app permissions (e.g., location, contacts)?';
+      'Zablokovali jste zbytečná oprávnění aplikace (např. polohu, kontakty)?';
 
   @override
   String get q_permissions_hint =>
-      'Only permissions that are truly needed should be enabled.';
+      'Měla by být povolena pouze oprávnění, která jsou skutečně potřeba.';
 
   @override
   String get q_mic_active_text =>
-      'Do you deactivate the microphone when you are not actively using it?';
+      'Deaktivujete mikrofon, když ho nepoužíváte aktivně?';
 
   @override
   String get q_mic_active_hint =>
-      'Smart speakers and devices with microphones can be activated unintentionally.';
+      'Chytré reproduktory a zařízení s mikrofony mohou být aktivovány neúmyslně.';
 
   @override
   String get q_camera_consent_text =>
-      'Does the camera only record areas for which everyone affected has given their consent?';
+      'Kamera nahrává pouze oblasti, ke kterým všichni dotčení dali svůj souhlas?';
 
   @override
   String get q_camera_consent_hint =>
-      'Cameras in communal or private areas require the consent of all residents.';
+      'Kamery v společných nebo soukromých prostorech vyžadují souhlas všech rezidentů.';
 
   @override
   String get q_sensor_frequency_text =>
-      'Can you reduce the sensor measurement interval (e.g., measure less frequently)?';
+      'Můžete snížit interval měření senzoru (např. měřit méně často)?';
 
   @override
   String get q_sensor_frequency_hint =>
-      'A lower measurement frequency produces less data and limits inferences about your behavior.';
+      'Nižší frekvence měření vytváří méně dat a omezuje závěry o vašem chování.';
 
   @override
   String get q_sensor_data_deletion_text =>
-      'Are older measurement values deleted automatically or on request?';
+      'Jsou starší naměřené hodnoty automaticky nebo na žádost smazány?';
 
   @override
   String get q_sensor_data_deletion_hint =>
-      'Old historical data should not be stored permanently. Check retention settings.';
+      'Stará historická data by neměla být ukládána trvale. Zkontrolujte nastavení uchovávání.';
 
   @override
   String get q_sensor_granularity_text =>
-      'Does the system show sensor data only in aggregated form (e.g., daily instead of minute values)?';
+      'Systém zobrazuje data senzoru pouze v agregované podobě (např. denní místo minutové)?';
 
   @override
   String get q_sensor_granularity_hint =>
-      'Less granular views help prevent inferences about precise presence or behavior patterns.';
+      'Méně podrobná zobrazení pomáhají zabránit závěrům o přesných vzorcích přítomnosti nebo chování.';
 
   @override
   String get q_sensor_local_text =>
-      'Is measurement data processed and stored locally without being transferred to the cloud?';
+      'Jsou data měření zpracována a ukládána místně bez přenosu do cloudu?';
 
   @override
   String get q_sensor_local_hint =>
-      'Local processing prevents the vendor from accessing your measurement data.';
+      'Místní zpracování brání dodavateli v přístupu k vašim datům měření.';
 
   @override
   String get q_voice_history_text =>
-      'Can you delete voice recordings from device history or disable this feature?';
+      'Můžete smazat hlasové nahrávky z historie zařízení nebo tuto funkci zakázat?';
 
   @override
   String get q_voice_history_hint =>
-      'BSI recommendation: Minimize recording retention or delete recordings regularly.';
+      'Doporučení BSI: Minimalizujte dobu uchování nahrávek nebo je pravidelně odstraňujte.';
 
   @override
   String get q_voice_local_text =>
-      'Is voice processing performed partly on the device locally?';
+      'Je zpracování hlasu částečně prováděno místně na zařízení?';
 
   @override
   String get q_voice_local_hint =>
-      'Local processing reduces the amount of data sent to the cloud.';
+      'Místní zpracování snižuje množství dat odeslaných do cloudu.';
 
   @override
   String get q_skills_permissions_text =>
-      'Do you regularly review which skills have access to your account?';
+      'Pravidelně kontrolujete, které dovednosti mají přístup k vašemu účtu?';
 
   @override
   String get q_skills_permissions_hint =>
-      'Third-party skills can access sensitive data. Enable only necessary skills.';
+      'Dovednosti třetích stran mohou přistupovat k citlivým datům. Povolte pouze nezbytné dovednosti.';
 
   @override
   String get q_video_encryption_text =>
-      'Is video recording and transmission encrypted end-to-end?';
+      'Je video nahrávání a přenos šifrováno end-to-end?';
 
   @override
   String get q_video_encryption_hint =>
-      'BSI recommendation: Encrypted connections prevent interception and data theft in transit.';
+      'Doporučení BSI: Šifrovaná připojení zabraňují zachycení a krádeži dat při přenosu.';
 
   @override
   String get q_video_storage_text =>
-      'Are recordings stored locally (not only in the vendor cloud)?';
+      'Jsou nahrávky uloženy místně (ne pouze v cloudovém úložišti dodavatele)?';
 
   @override
   String get q_video_storage_hint =>
-      'Local storage gives you more control over your data; cloud-only storage depends on vendor security.';
+      'Místní úložiště vám dává větší kontrolu nad vašimi daty; cloudové úložiště závisí na bezpečnosti dodavatele.';
 
   @override
   String get q_sharing_restrictions_text =>
-      'Can you control who can access live view and recordings?';
+      'Můžete řídit, kdo má přístup k živému přenosu a nahrávkám?';
 
   @override
   String get q_sharing_restrictions_hint =>
-      'You should be able to precisely control access to video recordings.';
+      'Měli byste moci přesně řídit přístup k video nahrávkám.';
 
   @override
   String get q_motion_detection_text =>
-      'Can you disable or schedule motion detection when you are at home?';
+      'Můžete zakázat nebo naplánovat detekci pohybu, když jste doma?';
 
   @override
   String get q_motion_detection_hint =>
-      'BSI recommendation: Avoiding unnecessary recordings reduces data volume and misuse risk.';
+      'Doporučení BSI: Vyhnutí se zbytečným nahrávkám snižuje objem dat a riziko zneužití.';
 
   @override
   String get q_account_required_text =>
-      'Can you use the device without a mandatory online account?';
+      'Můžete zařízení používat bez povinného online účtu?';
 
   @override
   String get q_account_required_hint =>
-      'Mandatory accounts enable ad tracking and storage of viewing habits. Account-free use protects privacy.';
+      'Povinné účty umožňují sledování reklam a ukládání historii sledování. Bezúčetné použití chrání soukromí.';
 
   @override
   String get q_tracking_disabled_text =>
-      'Can you completely disable advertising and tracking features?';
+      'Můžete zcela zakázat reklamu a funkce sledování?';
 
   @override
   String get q_tracking_disabled_hint =>
-      'Smart TVs often collect viewing habit data. Look for privacy settings.';
+      'Chytré televize často sbírají data o zvyklostech sledování. Vyhledejte nastavení soukromí.';
 
   @override
   String get q_local_mode_text =>
-      'Can you use the device via HDMI or local sources without internet?';
+      'Můžete zařízení používat přes HDMI nebo místní zdroje bez internetu?';
 
   @override
   String get q_local_mode_hint =>
-      'Offline use protects usage data from being sent to the vendor.';
+      'Offline použití chrání data o použití před odesláním dodavateli.';
 
   @override
   String get q_data_collection_text =>
-      'Do temperature history and schedules stay on-device (not sent to the vendor)?';
+      'Zůstává historie teplot a plány na zařízení (nejsou odesílány dodavateli)?';
 
   @override
   String get q_data_collection_hint =>
-      'History can reveal presence patterns and habits. Local storage reduces unwanted analysis.';
+      'Historie může odhalit vzorce přítomnosti a zvyky. Místní ukládání snižuje nežádoucí analýzu.';
 
   @override
   String get q_offline_control_text =>
-      'Can you operate the thermostat offline (without internet)?';
+      'Můžete termostat provozovat offline (bez internetu)?';
 
   @override
   String get q_offline_control_hint =>
-      'Offline operation or local automation protects data from cloud access.';
+      'Offline provoz nebo místní automatizace chrání data před přístupem ke cloudu.';
 
   @override
   String get q_family_access_text =>
-      'Can you control who may adjust heating (e.g., restrict guests)?';
+      'Můžete řídit, kdo může nastavit topení (např. omezit hosty)?';
 
   @override
   String get q_family_access_hint =>
-      'Household members should have control without visitors changing everything.';
+      'Členové domácnosti by měli mít kontrolu bez návštěv, které by měnily vše.';
 
   @override
   String get q_local_control_text =>
-      'Can automations run locally without internet?';
+      'Mohou se automatizace spouštět místně bez internetu?';
 
   @override
   String get q_local_control_hint =>
-      'Local scenes and schedules protect your privacy better.';
+      'Místní scény a plány lépe chrání vaše soukromí.';
 
   @override
   String get q_usage_tracking_text =>
-      'Have you disabled or limited vendor collection of switching patterns and usage times?';
+      'Zablokovali jste nebo omezili sběr vzorců přepínání a doby používání dodavatelem?';
 
   @override
   String get q_usage_tracking_hint =>
-      'Usage patterns can reveal presence and habits. Check app privacy settings.';
+      'Vzorce používání mohou odhalit přítomnost a zvyky. Zkontrolujte nastavení soukromí aplikace.';
 
   @override
   String get q_offline_fallback_text =>
-      'Do devices still work if internet or app connection fails?';
+      'Zařízení stále fungují, když selže internetové nebo aplikační připojení?';
 
   @override
   String get q_offline_fallback_hint =>
-      'Reliable local operation is important for daily use and privacy.';
+      'Spolehlivý místní provoz je důležitý pro denní použití a soukromí.';
 
   @override
   String get q_offline_unlock_text =>
-      'Can you unlock the lock offline (e.g., with code or key)?';
+      'Můžete zámek odemknout offline (např. kódem nebo klíčem)?';
 
   @override
   String get q_offline_unlock_hint =>
-      'Backup options prevent lockout during internet or power outages.';
+      'Záložní možnosti zabraňují uzamčení během výpadku internetu nebo elektřiny.';
 
   @override
   String get q_access_logging_text =>
-      'Can you track who opened the lock and when?';
+      'Můžete sledovat, kdo zámek otevřel a kdy?';
 
   @override
   String get q_access_logging_hint =>
-      'An access log helps you detect suspicious activity.';
+      'Přístupový protokol vám pomůže zjistit podezřelou aktivitu.';
 
   @override
   String get q_two_factor_text =>
-      'Is two-factor authentication (2FA) available for the lock account?';
+      'Je pro účet zámku dostupné dvoufaktorové ověřování (2FA)?';
 
   @override
   String get q_two_factor_hint =>
-      'BSI recommendation: 2FA protects your account from unauthorized remote access.';
+      'Doporučení BSI: 2FA chrání váš účet před neoprávněným vzdáleným přístupem.';
 
   @override
   String get q_map_privacy_text =>
-      'Are created floor plans stored exclusively on the device locally?';
+      'Jsou vytvořené plány podlaží uloženy výhradně místně na zařízení?';
 
   @override
   String get q_map_privacy_hint =>
-      'Home floor plans are sensitive information and should not be sent to the vendor.';
+      'Domácí plány podlaží jsou citlivé informace a neměly by být odesílány dodavateli.';
 
   @override
   String get q_cloud_required_text =>
-      'Does floor-plan navigation work without cloud connection?';
+      'Funguje navigace podlahy bez připojení ke cloudu?';
 
   @override
   String get q_cloud_required_hint =>
-      'Devices with local navigation are more privacy-friendly because no room data is uploaded.';
+      'Zařízení s místní navigací jsou přátelštější k soukromí, protože se data místnosti nenahrávají.';
 
   @override
   String get q_vision_data_text =>
-      'If the robot uses cameras: are camera images used locally only for navigation (no storing or transfer)?';
+      'Pokud robot používá kamery: jsou obrazy z kamer používány místně pouze pro navigaci (bez ukládání nebo přenosu)?';
 
   @override
   String get q_vision_data_hint =>
-      'Camera images should be processed locally for navigation and neither stored nor sent to the vendor.';
+      'Obrazy z kamery by měly být zpracovány místně pro navigaci a neměly by být ukládány ani odesílány dodavateli.';
 
   @override
   String get q_parental_control_text =>
-      'Are there parental control features to manage the toy?';
+      'Existují funkce rodičovského ovládání ke správě hračky?';
 
   @override
   String get q_parental_control_hint =>
-      'Parental controls should allow restricting contacts and features.';
+      'Rodičovské ovládání by mělo umožňovat omezení kontaktů a funkcí.';
 
   @override
   String get q_child_data_limits_text =>
-      'Can you limit which personal data the toy collects?';
+      'Můžete omezit, která osobní data si hračka sbírá?';
 
   @override
   String get q_child_data_limits_hint =>
-      'Child-focused devices should collect and store minimal data.';
+      'Zařízení zaměřená na děti by měla sbírat a ukládat minimální data.';
 
   @override
   String get q_recording_disable_text =>
-      'Can you disable audio and video recording on the device?';
+      'Můžete zakázat zvukové a video nahrávání na zařízení?';
 
   @override
   String get q_recording_disable_hint =>
-      'BSI recommendation: Recordings of children should only be possible with explicit control.';
-
-  @override
-  String get q_health_sharing_text =>
-      'Can you control which third parties can access your health data?';
-
-  @override
-  String get q_health_sharing_hint =>
-      'Health data is sensitive. Only authorized apps should have access.';
-
-  @override
-  String get q_location_tracking_text =>
-      'Can you disable location tracking when not needed?';
-
-  @override
-  String get q_location_tracking_hint =>
-      'GPS tracking uses battery and can reveal movement patterns.';
+      'Doporučení BSI: Nahrávky dětí by měly být možné pouze s explicitní kontrolou.';
 
   @override
   String get q_expert_data_retention_duration_text =>
-      'Is the retention duration for your personal data explicitly defined and limited to what is necessary?';
+      'Je doba uchování vašich osobních údajů explicitně definována a omezena na nutné?';
 
   @override
   String get q_expert_data_retention_duration_hint =>
-      'Inspired by the CMU IoT Security & Privacy Label and Unboxing.IoT.Privacy: short, clear retention periods reduce risk.';
+      'Inspirováno etiketu CMU IoT Security & Privacy a Unboxing.IoT.Privacy: krátké, jasné periody uchování snižují riziko.';
 
   @override
   String get q_expert_access_control_granular_text =>
-      'Can you control access rights granularly (roles, separate accounts, no shared default logins)?';
+      'Můžete řídit přístupová práva podrobně (role, samostatné účty, bez sdílených výchozích přihlášení)?';
 
   @override
   String get q_expert_access_control_granular_hint =>
-      'Granular access control reduces the risk of unauthorized access and misuse.';
+      'Podrobné řízení přístupu snižuje riziko neoprávněného přístupu a zneužití.';
 
   @override
   String get q_expert_third_party_sharing_limited_text =>
-      'Is third-party sharing disabled or clearly limited to necessary services?';
+      'Je sdílení třetích stran vypnuto nebo jasně omezeno na potřebné služby?';
 
   @override
   String get q_expert_third_party_sharing_limited_hint =>
-      'Check privacy and account settings to see whether data is sent to advertising, analytics, or partner services.';
+      'Zkontrolujte nastavení soukromí a účtu, abyste zjistili, zda jsou data odesílána do služeb reklamy, analýzy nebo partnerům.';
 
   @override
   String get q_expert_data_sale_disabled_text =>
-      'Is the sale of your data excluded (or actively disabled, where possible)?';
+      'Je prodej vašich dat vyloučen (nebo je-li to možné, aktivně vypnut)?';
 
   @override
   String get q_expert_data_sale_disabled_hint =>
-      'An explicit \"no data sale\" option is a strong privacy signal.';
+      'Explicitní možnost \"prodej dat vypnut\" je silný signál ochrany soukromí.';
 
   @override
   String get q_expert_update_support_window_text =>
-      'Is it known how long the vendor guarantees security updates?';
+      'Je známo, jak dlouho dodavatel garantuje bezpečnostní aktualizace?';
 
   @override
   String get q_expert_update_support_window_hint =>
-      'A transparent update commitment reduces long-term security and privacy risks.';
+      'Transparentní závazek k aktualizacím snižuje dlouhodobá bezpečnostní rizika a rizika soukromí.';
 
   @override
   String get q_expert_vulnerability_process_text =>
-      'Is there a documented process for reporting and fixing vulnerabilities?';
+      'Existuje zdokumentovaný proces pro hlášení a opravu chyb zabezpečení?';
 
   @override
   String get q_expert_vulnerability_process_hint =>
-      'Prefer vendors that provide responsible disclosure policies or clear security contact information.';
+      'Upřednostňujte dodavatele, kteří poskytují odpovědné zásady zveřejňování nebo jasné informace o bezpečnostním kontaktu.';
 
   @override
   String get q_expert_offline_functionality_text =>
-      'Does the device remain meaningfully usable with limited internet connectivity?';
+      'Zůstává zařízení smysluplně použitelné s omezeným připojením k internetu?';
 
   @override
   String get q_expert_offline_functionality_hint =>
-      'More offline functionality often means less continuous data transfer to the cloud.';
+      'Více funkcí offline často znamená menší nepřetržitý přenos dat do cloudu.';
 
   @override
   String get q_expert_bystander_transparency_text =>
-      'Are people nearby transparently informed (for example via visibility, notices, clear recording indicators)?';
+      'Jsou osoby v okolí transparentně informovány (např. prostřednictvím viditelnosti, oznámení, jasných indikátorů nahrávání)?';
 
   @override
   String get q_expert_bystander_transparency_hint =>
-      'This addresses bystander privacy and is highlighted in Unboxing.IoT.Privacy as a key challenge.';
+      'Toto se týká soukromí okolostojících osob a je zdůrazňováno v Unboxing.IoT.Privacy jako klíčová výzva.';
 
   @override
   String get q_expert_child_data_protection_text =>
-      'Are child-data protections active (minimization, no profiling, restrictive sharing)?';
+      'Jsou aktivní ochranné prvky údajů o dětech (minimalizace, bez profilování, omezené sdílení)?';
 
   @override
   String get q_expert_child_data_protection_hint =>
-      'Devices in child-related contexts require especially strict privacy safeguards.';
+      'Zařízení v kontextu související s dětmi vyžadují zvláště přísné ochranné prvky soukromí.';
 
   @override
   String get q_expert_access_revocation_text =>
-      'Can digital keys/access rights be revoked quickly and individually?';
+      'Lze digitální klíče/přístupová práva odvolat rychle a jednotlivě?';
 
   @override
   String get q_expert_access_revocation_hint =>
-      'Fast revocation is crucial when devices are shared or users change.';
+      'Rychlé odvolání je zásadní při sdílení zařízení nebo při změně uživatelů.';
 
   @override
-  String get q_expert_sensitive_inference_controls_text =>
-      'Are features that infer sensitive health or behavior profiles restricted or disableable?';
-
-  @override
-  String get q_expert_sensitive_inference_controls_hint =>
-      'Inference controls reduce risks from secondary use of sensitive data.';
-
-  @override
-  String get a_password_title => 'Change default password';
+  String get a_password_title => 'Změnit výchozí heslo';
 
   @override
   String get a_password_desc =>
-      'Replace the default password with a strong, unique password. Use a password manager.';
+      'Nahraďte výchozí heslo silným, jedinečným heslem. Používejte správce hesel.';
 
   @override
-  String get a_updates_title => 'Enable automatic updates';
+  String get a_updates_title => 'Povolit automatické aktualizace';
 
   @override
   String get a_updates_desc =>
-      'Enable automatic security updates in device or app settings.';
+      'Povolte automatické bezpečnostní aktualizace v nastavení zařízení nebo aplikace.';
 
   @override
-  String get a_network_title => 'Set up separate IoT Wi-Fi';
+  String get a_network_title => 'Nastavit oddělené IoT Wi-Fi';
 
   @override
   String get a_network_desc =>
-      'Set up a dedicated Wi-Fi network for smart home devices, for example with your router\'s guest network.';
+      'Nastavte vyhrazenou síť Wi-Fi pro zařízení chytré domácnosti, například pomocí síti pro hosty na routeru.';
 
   @override
-  String get a_informed_title => 'Inform household members';
+  String get a_informed_title => 'Informovat členy domácnosti';
 
   @override
   String get a_informed_desc =>
-      'Inform all residents about what data the device collects, who has access, and how it can be disabled.';
+      'Informujte všechny rezidenty o tom, jaká data zařízení sbírá, kdo má přístup a jak jej lze zakázat.';
 
   @override
-  String get a_permissions_title => 'Restrict app permissions';
+  String get a_permissions_title => 'Omezit oprávnění aplikace';
 
   @override
   String get a_permissions_desc =>
-      'Check companion-app permissions in phone settings and disable unnecessary ones.';
+      'Zkontrolujte oprávnění doprovodné aplikace v nastavení telefonu a zakažte zbytečná.';
 
   @override
-  String get a_camera_consent_title =>
-      'Align camera positioning with residents';
+  String get a_camera_consent_title => 'Slaďte pozici kamery s rezidenty';
 
   @override
   String get a_camera_consent_desc =>
-      'Obtain consent from everyone affected. The camera must not record areas without consent.';
+      'Získejte souhlas všech dotčených osob. Kamera nesmí nahrávat oblasti bez souhlasu.';
 
   @override
-  String get a_mic_active_title => 'Disable microphone when not in use';
+  String get a_mic_active_title => 'Deaktivovat mikrofon, když se nepoužívá';
 
   @override
   String get a_mic_active_desc =>
-      'Use the physical mute switch or disable the microphone in settings.';
+      'Použijte fyzický přepínač ztišení nebo zakažte mikrofon v nastavení.';
 
   @override
-  String get a_sensor_frequency_title => 'Reduce measurement interval';
+  String get a_sensor_frequency_title => 'Snížit interval měření';
 
   @override
   String get a_sensor_frequency_desc =>
-      'If possible, reduce sensor measurement frequency. Less frequent measurements produce fewer behavior data points.';
+      'Pokud je to možné, snižte frekvenci měření senzoru. Méně časté měření vytváří méně datových bodů chování.';
 
   @override
-  String get a_sensor_data_deletion_title => 'Delete old measurement values';
+  String get a_sensor_data_deletion_title => 'Smazat staré naměřené hodnoty';
 
   @override
   String get a_sensor_data_deletion_desc =>
-      'Review retention periods in app or web UI and enable auto deletion, or delete older data manually on a regular basis.';
+      'Zkontrolujte doby uchování v aplikaci nebo webovém rozhraní a povolte automatické mazání nebo pravidelně ručně smažte starší data.';
 
   @override
-  String get a_sensor_granularity_title => 'Show less detailed data';
+  String get a_sensor_granularity_title => 'Zobrazit méně podrobná data';
 
   @override
   String get a_sensor_granularity_desc =>
-      'If possible, switch to less granular display or evaluation, for example daily values instead of minute values.';
+      'Pokud je to možné, přepněte na méně podrobné zobrazení nebo vyhodnocení, například denní hodnoty místo minutových.';
 
   @override
-  String get a_sensor_local_title => 'Prefer local processing';
+  String get a_sensor_local_title => 'Upřednostňovat místní zpracování';
 
   @override
   String get a_sensor_local_desc =>
-      'Check whether cloud sync can be disabled or local storage enabled so measurement data is not sent to the vendor.';
+      'Zkontrolujte, zda lze zakázat cloudovou synchronizaci nebo zapnout místní úložiště tak, aby data měření nebyla odesílána dodavateli.';
 
   @override
-  String get a_voice_history_title => 'Delete voice recordings';
+  String get a_voice_history_title => 'Smazat hlasové nahrávky';
 
   @override
   String get a_voice_history_desc =>
-      'BSI recommendation: Regularly delete voice recordings and disable voice history storage if the option is available.';
+      'Doporučení BSI: Pravidelně mažte hlasové nahrávky a zakažte ukládání historie hlasu, pokud je tato možnost dostupná.';
 
   @override
-  String get a_voice_local_title => 'Enable local voice processing';
+  String get a_voice_local_title => 'Povolit místní zpracování hlasu';
 
   @override
   String get a_voice_local_desc =>
-      'Enable local voice processing if available. If not, minimize cloud storage of voice data.';
+      'Povolte místní zpracování hlasu, pokud je dostupné. Pokud ne, minimalizujte cloudové úložiště hlasových dat.';
 
   @override
-  String get a_skills_permissions_title => 'Review skills/integrations';
+  String get a_skills_permissions_title => 'Zkontrolovat dovednosti/integrace';
 
   @override
   String get a_skills_permissions_desc =>
-      'Review which third-party skills have access. Disable unnecessary skills.';
+      'Zkontrolujte, které dovednosti třetích stran mají přístup. Zakažte zbytečné dovednosti.';
 
   @override
-  String get a_video_encryption_title => 'Enable end-to-end video encryption';
+  String get a_video_encryption_title => 'Povolit end-to-end šifrování videa';
 
   @override
   String get a_video_encryption_desc =>
-      'Enable end-to-end encrypted transmission for live view and recordings in your camera app/settings.';
+      'Povolte end-to-end šifrovaný přenos pro live view a nahrávky v nastavení aplikace/kamery.';
 
   @override
-  String get a_video_storage_title => 'Store recordings locally';
+  String get a_video_storage_title => 'Uložit nahrávky místně';
 
   @override
   String get a_video_storage_desc =>
-      'Configure local storage if possible. If cloud-only storage is unavoidable, shorten the retention period and delete recordings regularly.';
+      'Pokud je to možné, nakonfigurujte místní úložiště. Pokud je cloudové úložiště nevyhnutelné, zkraťte dobu uchování a pravidelně mažte nahrávky.';
 
   @override
-  String get a_sharing_restrictions_title => 'Restrict camera access';
+  String get a_sharing_restrictions_title => 'Omezit přístup k kameře';
 
   @override
   String get a_sharing_restrictions_desc =>
-      'Remove all unnecessary shares in the app and allow live view/recordings only for required accounts.';
+      'Odeberte veškeré zbytečné sdílení v aplikaci a povolte live view/nahrávky pouze pro požadované účty.';
 
   @override
   String get a_motion_detection_title =>
-      'Disable motion detection when at home';
+      'Zakázat detekci pohybu, když jste doma';
 
   @override
   String get a_motion_detection_desc =>
-      'Disable motion detection when people are home, or set a schedule that activates it only during absence.';
+      'Zakažte detekci pohybu, když jsou lidé doma, nebo nastavte plán, který ji aktivuje pouze během nepřítomnosti.';
 
   @override
   String get a_account_required_title =>
-      'Minimize privacy impact of required account';
+      'Minimalizujte dopad na soukromí povinného účtu';
 
   @override
   String get a_account_required_desc =>
-      'If account-free operation is not possible, use a separate account with minimal profile data and disable personalized services.';
+      'Pokud není možné provozování bez účtu, použijte samostatný účet s minimálními údaji profilu a zakažte personalizované služby.';
 
   @override
-  String get a_tracking_disabled_title => 'Disable tracking and advertising';
+  String get a_tracking_disabled_title => 'Zakázat sledování a reklamu';
 
   @override
   String get a_tracking_disabled_desc =>
-      'Disable tracking, personalized advertising, and optional telemetry in privacy settings.';
+      'Zakažte sledování, personalizovanou reklamu a volitelnou telemetrii v nastavení soukromí.';
 
   @override
-  String get a_local_mode_title => 'Prefer offline use';
+  String get a_local_mode_title => 'Upřednostňovat offline použití';
 
   @override
   String get a_local_mode_desc =>
-      'Use the device primarily via local sources (e.g., HDMI) to reduce data transfer to the vendor.';
+      'Zařízení používejte především prostřednictvím místních zdrojů (např. HDMI), abyste snížili přenos dat dodavateli.';
 
   @override
-  String get a_data_collection_title => 'Disable history upload';
+  String get a_data_collection_title => 'Zakázat nahrávání historie';
 
   @override
   String get a_data_collection_desc =>
-      'Disable transmission of temperature history to the vendor in the thermostat app and shorten the retention period.';
+      'Zakažte přenos historie teplot dodavateli v aplikaci termostatu a zkraťte dobu uchování.';
 
   @override
-  String get a_offline_control_title => 'Set up local control';
+  String get a_offline_control_title => 'Nastavit místní ovládání';
 
   @override
   String get a_offline_control_desc =>
-      'Configure local schedules and control without cloud dependency if the device supports it.';
+      'Konfigurujte místní plány a ovládání bez závislosti na cloudu, pokud je to zařízením podporováno.';
 
   @override
   String get a_family_access_title =>
-      'Separate access rights for household members';
+      'Oddělená přístupová práva pro členy domácnosti';
 
   @override
   String get a_family_access_desc =>
-      'Set up separate roles/accounts so that only authorized people can adjust the heating.';
+      'Nastavte oddělené role/účty tak, aby bylo možné topení nastavovat pouze oprávněné osoby.';
 
   @override
-  String get a_local_control_title => 'Enable local automations';
+  String get a_local_control_title => 'Povolit místní automatizace';
 
   @override
   String get a_local_control_desc =>
-      'Use local scenes/schedules instead of cloud automations where available.';
+      'Používejte místní scény/plány namísto cloudových automatizací, kde je to dostupné.';
 
   @override
-  String get a_usage_tracking_title => 'Disable usage tracking';
+  String get a_usage_tracking_title => 'Zakázat sledování použití';
 
   @override
   String get a_usage_tracking_desc =>
-      'Disable analytics, telemetry, and usage data collection in app settings.';
+      'Zakažte analýzu, telemetrii a sběr dat o používání v nastavení aplikace.';
 
   @override
-  String get a_offline_fallback_title => 'Ensure offline fallback';
+  String get a_offline_fallback_title => 'Zajistit offline zálohu';
 
   @override
   String get a_offline_fallback_desc =>
-      'Check local switches/buttons and set up fallback controls so the device remains usable without internet.';
+      'Zkontrolujte místní přepínače/tlačítka a nastavte záložní ovládání tak, aby zařízení zůstalo použitelné bez internetu.';
 
   @override
-  String get a_offline_unlock_title => 'Secure offline access';
+  String get a_offline_unlock_title => 'Bezpečný offline přístup';
 
   @override
   String get a_offline_unlock_desc =>
-      'Set up a physical key or emergency code and test access when internet is unavailable.';
+      'Nastavte fyzický klíč nebo nouzový kód a otestujte přístup bez internetu.';
 
   @override
-  String get a_access_logging_title => 'Enable access log';
+  String get a_access_logging_title => 'Povolit přístupový protokol';
 
   @override
   String get a_access_logging_desc =>
-      'Enable logging and notifications for lock openings so unauthorized access can be detected.';
+      'Povolte protokolování a oznámení pro otevření zámku, aby bylo možné detekovat neoprávněný přístup.';
 
   @override
-  String get a_two_factor_title => 'Enable two-factor authentication';
+  String get a_two_factor_title => 'Povolit dvoufaktorové ověřování';
 
   @override
   String get a_two_factor_desc =>
-      'BSI recommendation: Enable 2FA for your lock account to protect remote access.';
+      'Doporučení BSI: Povolte 2FA pro váš účet zámku, abyste chránili vzdálený přístup.';
 
   @override
-  String get a_map_privacy_title => 'Disable cloud floor-plan storage';
+  String get a_map_privacy_title => 'Zakázat cloudové ukládání plánu podlaží';
 
   @override
   String get a_map_privacy_desc =>
-      'Switch storage to local and disable cloud backups of floor plans if the option is available.';
+      'Přepněte úložiště na místní a zakažte zálohování plánu podlaží do cloudu, pokud je tato možnost dostupná.';
 
   @override
-  String get a_cloud_required_title => 'Reduce cloud dependency';
+  String get a_cloud_required_title => 'Snížit závislost na cloudu';
 
   @override
   String get a_cloud_required_desc =>
-      'Enable local navigation or offline mode if available. If not, consider switching to a more privacy-friendly model.';
+      'Povolte místní navigaci nebo offline režim, je-li dostupný. Pokud ne, zvažte přechod na model více přátelský k soukromí.';
 
   @override
-  String get a_vision_data_title => 'Process camera data locally only';
+  String get a_vision_data_title => 'Zpracovat data kamery pouze místně';
 
   @override
   String get a_vision_data_desc =>
-      'Disable upload/storage of camera images and use exclusively local navigation processing where possible.';
+      'Zakažte nahrávání/ukládání obrazů z kamery a používejte výhradně místní zpracování navigace, kde je to možné.';
 
   @override
-  String get a_parental_control_title => 'Set up parental controls';
+  String get a_parental_control_title => 'Nastavit rodičovské ovládání';
 
   @override
   String get a_parental_control_desc =>
-      'Enable parental controls with a PIN and restrict contacts, features, and sharing to what is necessary.';
+      'Povolte rodičovské ovládání s PIN kódem a omezte kontakty, funkce a sdílení na to, co je nezbytné.';
 
   @override
-  String get a_child_data_limits_title => 'Minimize data collection';
+  String get a_child_data_limits_title => 'Minimalizujte sběr dat';
 
   @override
   String get a_child_data_limits_desc =>
-      'Disable optional profile data and collect only the child data required for core functionality.';
+      'Zakažte volitelné údaje profilu a sbírejte pouze data dítěte potřebná pro základní funkce.';
 
   @override
-  String get a_recording_disable_title => 'Disable audio/video recordings';
+  String get a_recording_disable_title => 'Zakázat zvukové/video nahrávky';
 
   @override
   String get a_recording_disable_desc =>
-      'Disable recording features by default and enable them only briefly when specifically needed.';
-
-  @override
-  String get a_health_sharing_title => 'Restrict health data sharing';
-
-  @override
-  String get a_health_sharing_desc =>
-      'Revoke health data access from unnecessary third-party apps in app and account settings.';
-
-  @override
-  String get a_location_tracking_title => 'Reduce location sharing';
-
-  @override
-  String get a_location_tracking_desc =>
-      'Disable location tracking outside active use or allow it only while the app is in use.';
+      'Zakažte funkce nahrávání ve výchozím nastavení a povolte je pouze krátce, když je to konkrétně potřeba.';
 
   @override
   String get a_expert_data_retention_duration_title =>
-      'Define retention periods';
+      'Definovat doby uchování';
 
   @override
   String get a_expert_data_retention_duration_desc =>
-      'Set short, clear retention periods in settings and regularly delete old data.';
+      'Nastavte krátké, jasné periody uchování v nastavení a pravidelně odstraňujte stará data.';
 
   @override
   String get a_expert_access_control_granular_title =>
-      'Introduce granular roles and accounts';
+      'Zavést podrobné role a účty';
 
   @override
   String get a_expert_access_control_granular_desc =>
-      'Use separate accounts instead of shared logins and grant only the minimum necessary permissions.';
+      'Místo sdílených přihlášení používejte samostatné účty a udělujte pouze minimálně potřebná oprávnění.';
 
   @override
   String get a_expert_third_party_sharing_limited_title =>
-      'Limit third-party sharing';
+      'Omezit sdílení třetích stran';
 
   @override
   String get a_expert_third_party_sharing_limited_desc =>
-      'Disable partner, advertising, and analytics sharing in privacy and account settings.';
+      'Zakažte sdílení s partnery, reklamami a analytikou v nastavení soukromí a účtu.';
 
   @override
-  String get a_expert_data_sale_disabled_title => 'Opt out of data sale';
+  String get a_expert_data_sale_disabled_title => 'Odhlásit se z prodeje dat';
 
   @override
   String get a_expert_data_sale_disabled_desc =>
-      'Enable available \"Do not sell\" options or object to data sharing for commercial purposes.';
+      'Povolte dostupné možnosti \"Neprodávat\" nebo namítejte proti sdílení dat pro komerční účely.';
 
   @override
-  String get a_expert_update_support_window_title => 'Verify update commitment';
+  String get a_expert_update_support_window_title =>
+      'Ověřit závazek k aktualizacím';
 
   @override
   String get a_expert_update_support_window_desc =>
-      'Review the vendor\'s official update policy and plan a device replacement if no commitment is given.';
+      'Zkontrolujte oficiální zásadu aktualizací dodavatele a naplánujte náhradu zařízení, není-li závazek uveden.';
 
   @override
   String get a_expert_vulnerability_process_title =>
-      'Review vendor security process';
+      'Zkontrolovat proces bezpečnosti dodavatele';
 
   @override
   String get a_expert_vulnerability_process_desc =>
-      'Prefer vendors with a clear security contact and responsible disclosure process.';
+      'Upřednostňujte dodavatele s jasným bezpečnostním kontaktem a procesem odpovědného zveřejňování.';
 
   @override
   String get a_expert_offline_functionality_title =>
-      'Prioritize offline functionality';
+      'Upřednostnit offline funkčnost';
 
   @override
   String get a_expert_offline_functionality_desc =>
-      'Enable local operating modes and minimize mandatory cloud features where the device allows.';
+      'Povolte místní provozní režimy a minimalizujte povinné funkce cloudu, kde je to možné.';
 
   @override
   String get a_expert_bystander_transparency_title =>
-      'Add transparency notices for bystanders';
+      'Přidat transparentní upozornění pro okolostojící';
 
   @override
   String get a_expert_bystander_transparency_desc =>
-      'Provide visible notices, recording indicators, and clear information for people in the surrounding area.';
+      'Poskytněte viditelná upozornění, indikátory nahrávání a jasné informace pro osoby v okolí.';
 
   @override
   String get a_expert_child_data_protection_title =>
-      'Strengthen child data protection';
+      'Posílit ochranu údajů o dětech';
 
   @override
   String get a_expert_child_data_protection_desc =>
-      'Enable child-appropriate profiles, minimize data collection, and disable profiling/sharing.';
+      'Povolte profily vhodné pro děti, minimalizujte sběr dat a zakažte profilování/sdílení.';
 
   @override
   String get a_expert_access_revocation_title =>
-      'Set up rapid access revocation';
+      'Nastavit rychlé odvolání přístupu';
 
   @override
   String get a_expert_access_revocation_desc =>
-      'Ensure that digital keys can be revoked individually and immediately, e.g., in case of device loss.';
+      'Zajistěte, aby digitální klíče mohly být odvolány jednotlivě a okamžitě, např. v případě ztráty zařízení.';
 
   @override
-  String get a_expert_sensitive_inference_controls_title =>
-      'Restrict inference features';
-
-  @override
-  String get a_expert_sensitive_inference_controls_desc =>
-      'Disable features that infer sensitive health or behavioral profiles unless strictly necessary.';
-
-  @override
-  String get a_dont_know_title => 'Get to know device settings better';
+  String get a_dont_know_title => 'Lépe se seznámit s nastavením zařízení';
 
   @override
   String get a_dont_know_desc =>
-      'At least one question was answered with \"I don\'t know\". Review your device settings and documentation to reduce risk more effectively.';
+      'Alespoň jedna otázka byla zodpovězena s \"Nevím\". Zkontrolujte nastavení zařízení a dokumentaci, abyste efektivněji snížili riziko.';
 
   @override
-  String get sl_base_risk => 'Baseline risk of device type';
+  String get sl_base_risk => 'Základní riziko typu zařízení';
 
   @override
-  String get sl_child_room_bonus => 'Increased sensitivity: child\'s bedroom';
+  String get sl_child_room_bonus => 'Zvýšená citlivost: dětský pokoj';
 
   @override
-  String get sl_password => 'Default password not changed';
+  String get sl_password => 'Výchozí heslo není změněno';
 
   @override
-  String get sl_updates => 'Automatic updates not enabled';
+  String get sl_updates => 'Automatické aktualizace nejsou povoleny';
 
   @override
-  String get sl_network => 'No separate IoT Wi-Fi configured';
+  String get sl_network => 'Samostatné IoT Wi-Fi není nakonfigurováno';
 
   @override
-  String get sl_informed => 'Household members not informed';
+  String get sl_informed => 'Členové domácnosti nejsou informováni';
 
   @override
-  String get sl_permissions => 'App permissions not reduced';
+  String get sl_permissions => 'Oprávnění aplikace nejsou snížena';
 
   @override
-  String get sl_camera_consent => 'No consent for camera-covered area';
+  String get sl_camera_consent => 'Bez souhlasu pro nahrávané oblasti';
 
   @override
-  String get sl_mic_active => 'Microphone not disabled when unused';
+  String get sl_mic_active => 'Mikrofon není vypnut, když se nepoužívá';
 
   @override
-  String get sl_sensor_frequency => 'Measurement interval not reduced';
+  String get sl_sensor_frequency => 'Interval měření není snížen';
 
   @override
-  String get sl_sensor_data_deletion => 'Old measurement values not deleted';
+  String get sl_sensor_data_deletion => 'Staré naměřené hodnoty nejsou smazány';
 
   @override
-  String get sl_sensor_granularity => 'Data stored with too much granularity';
+  String get sl_sensor_granularity =>
+      'Data ukládána s příliš velkou granularitou';
 
   @override
-  String get sl_sensor_local => 'Data transferred to cloud';
+  String get sl_sensor_local => 'Data přenesena do cloudu';
 
   @override
-  String get sl_voice_history => 'Voice recordings not deletable';
+  String get sl_voice_history => 'Hlasové nahrávky nejsou smazatelné';
 
   @override
-  String get sl_voice_local => 'No local voice processing';
+  String get sl_voice_local => 'Žádné místní zpracování hlasu';
 
   @override
-  String get sl_skills_permissions => 'Skills not reviewed regularly';
+  String get sl_skills_permissions =>
+      'Dovednosti nejsou pravidelně kontrolovány';
 
   @override
-  String get sl_video_encryption => 'Video transmission not encrypted';
+  String get sl_video_encryption => 'Přenos videa není šifrován';
 
   @override
-  String get sl_video_storage => 'Recordings only in vendor cloud';
+  String get sl_video_storage => 'Nahrávky pouze v cloudovém úložišti prodejce';
 
   @override
-  String get sl_sharing_restrictions => 'Recording access not controlled';
+  String get sl_sharing_restrictions => 'Přístup k nahrávce není kontrolován';
 
   @override
-  String get sl_motion_detection => 'Motion detection always active';
+  String get sl_motion_detection => 'Detekce pohybu je vždy aktivní';
 
   @override
-  String get sl_account_required => 'Mandatory vendor account required';
+  String get sl_account_required => 'Vyžadován povinný účet u prodejce';
 
   @override
-  String get sl_tracking_disabled => 'Ad tracking not disabled';
+  String get sl_tracking_disabled => 'Sledování reklam není zakázáno';
 
   @override
-  String get sl_local_mode => 'No offline operation possible';
+  String get sl_local_mode => 'Offline provoz není možný';
 
   @override
-  String get sl_data_collection => 'Temperature history sent to vendor';
+  String get sl_data_collection => 'Historie teplot odesílána dodavateli';
 
   @override
-  String get sl_offline_control => 'No offline operation possible';
+  String get sl_offline_control => 'Offline provoz není možný';
 
   @override
-  String get sl_family_access => 'Access cannot be restricted';
+  String get sl_family_access => 'Přístup nelze omezit';
 
   @override
-  String get sl_local_control => 'Automations require internet connection';
+  String get sl_local_control => 'Automatizace vyžaduje připojení k internetu';
 
   @override
-  String get sl_usage_tracking => 'Switching patterns collected by vendor';
+  String get sl_usage_tracking => 'Vzorce přepínání shromažďovány dodavatelem';
 
   @override
-  String get sl_offline_fallback => 'Device unusable offline';
+  String get sl_offline_fallback => 'Zařízení nepoužitelné offline';
 
   @override
-  String get sl_offline_unlock => 'No offline unlock possible';
+  String get sl_offline_unlock => 'Offline odemknutí není možné';
 
   @override
-  String get sl_access_logging => 'No access log available';
+  String get sl_access_logging => 'Přístupový protokol není k dispozici';
 
   @override
-  String get sl_two_factor => 'Two-factor authentication missing';
+  String get sl_two_factor => 'Dvoufaktorové ověřování chybí';
 
   @override
-  String get sl_map_privacy => 'Floor plan transmitted to vendor';
+  String get sl_map_privacy => 'Plán podlaží odeslan dodavateli';
 
   @override
-  String get sl_cloud_required => 'Navigation only possible via cloud';
+  String get sl_cloud_required => 'Navigace pouze možná prostřednictvím cloudu';
 
   @override
-  String get sl_vision_data => 'Camera images stored or transmitted';
+  String get sl_vision_data => 'Obrazy z kamer jsou uloženy nebo přeneseny';
 
   @override
-  String get sl_parental_control => 'Parental controls not configured';
+  String get sl_parental_control => 'Rodičovské ovládání není nakonfigurováno';
 
   @override
-  String get sl_child_data_limits => 'Data collection not limited';
+  String get sl_child_data_limits => 'Sběr dat není omezen';
 
   @override
-  String get sl_recording_disable => 'Recording cannot be disabled';
-
-  @override
-  String get sl_health_sharing => 'Health data shared with third parties';
-
-  @override
-  String get sl_location_tracking => 'Location tracking enabled';
+  String get sl_recording_disable => 'Nahrávání nelze zakázat';
 
   @override
   String get sl_expert_data_retention_duration =>
-      'Retention duration unclear or too long';
+      'Doba uchování nejasná nebo příliš dlouhá';
 
   @override
   String get sl_expert_access_control_granular =>
-      'Granular access control missing';
+      'Podrobné řízení přístupu chybí';
 
   @override
   String get sl_expert_third_party_sharing_limited =>
-      'Third-party sharing not limited';
+      'Sdílení třetích stran není omezeno';
 
   @override
-  String get sl_expert_data_sale_disabled => 'Data sale not excluded';
+  String get sl_expert_data_sale_disabled => 'Prodej dat není vyloučen';
 
   @override
   String get sl_expert_update_support_window =>
-      'Guaranteed update support window unknown';
+      'Garantovaná doba podpory aktualizací neznámá';
 
   @override
   String get sl_expert_vulnerability_process =>
-      'Vulnerability process not documented';
+      'Proces zranitelnosti není zdokumentován';
 
   @override
   String get sl_expert_offline_functionality =>
-      'Meaningful offline operation not possible';
+      'Smysluplný offline provoz není možný';
 
   @override
   String get sl_expert_bystander_transparency =>
-      'Transparency for nearby bystanders missing';
+      'Transparentnost pro blízké osoby chybí';
 
   @override
   String get sl_expert_child_data_protection =>
-      'Child-data protection measures missing';
+      'Opatření pro ochranu údajů dětí chybí';
 
   @override
   String get sl_expert_access_revocation =>
-      'Individual access revocation not possible';
-
-  @override
-  String get sl_expert_sensitive_inference_controls =>
-      'Controls against sensitive inference missing';
+      'Individuální odvolání přístupu není možné';
 
   @override
   String get risk_hint_camera =>
-      'You answered all questions positively. However, baseline risk remains higher for cameras because they capture highly sensitive observation data and can be misused for surveillance if misconfigured.';
+      'Odpověděli jste kladně na všechny otázky. Základní riziko však zůstává vyšší pro kamery, protože zachycují velmi citlivá data pozorování a lze je zneužít ke sledování, pokud jsou nesprávně nakonfigurované.';
 
   @override
   String get risk_hint_mic =>
-      'You answered all questions positively. However, baseline risk remains elevated for microphone devices because voice data is highly sensitive and accidental activation or cloud processing still carries risks.';
+      'Odpověděli jste kladně na všechny otázky. Základní riziko však zůstává zvýšeno pro zařízení s mikrofony, protože hlasová data jsou velmi citlivá a náhodná aktivace nebo cloudové zpracování stále nese rizika.';
 
   @override
   String get risk_hint_lock =>
-      'You answered all questions positively. However, smart locks still have elevated baseline risk because misuse directly affects physical access to your home.';
+      'Odpověděli jste kladně na všechny otázky. Chytré zámky však mají stále zvýšené základní riziko, protože zneužití přímo ovlivňuje fyzický přístup do vašeho domu.';
 
   @override
   String get risk_hint_child_room =>
-      'You answered all questions positively. However, baseline risk remains elevated in a child\'s bedroom because especially sensitive data about children and their daily life can be affected there.';
+      'Odpověděli jste kladně na všechny otázky. Základní riziko však zůstává zvýšeno v dětském pokoji, protože zvlášť citlivá data o dětech a jejich každodenní život tam mohou být ovlivněna.';
 
   @override
   String get risk_hint_generic =>
-      'You answered all questions positively. The device can still remain medium/high risk because its type may reveal sensitive usage and behavior data.';
+      'Odpověděli jste kladně na všechny otázky. Zařízení však může zůstat se středním/vysokým rizikem, protože jeho typ může odhalit citlivá data o používání a chování.';
 
   @override
   String get gen_rec_0 =>
-      'Set up a separate Wi-Fi network for smart home devices (e.g., your router\'s guest network).';
+      'Nastavte oddělené Wi-Fi sítě pro zařízení chytré domácnosti (např. síť pro hosty na routeru).';
 
   @override
   String get gen_rec_1 =>
-      'Use a password manager and assign a unique, strong password to each device.';
+      'Používejte správce hesel a přiřaďte každému zařízení jedinečné silné heslo.';
 
   @override
   String get gen_rec_2 =>
-      'Enable multi-factor authentication (MFA) for all vendor accounts.';
+      'Povolte vícefaktorové ověřování (MFA) pro všechny účty u prodejců.';
 
   @override
   String get gen_rec_3 =>
-      'Define who in your household is responsible for updates, backups, and accounts.';
+      'Určete, kdo ve vaší domácnosti je odpovědný za aktualizace, zálohy a účty.';
 
   @override
   String get gen_rec_4 =>
-      'Regularly review (at least once per quarter) all access permissions and accounts.';
+      'Pravidelně kontrolujte (alespoň jednou za čtvrt roku) všechna přístupová oprávnění a účty.';
 
   @override
   String get gen_rec_5 =>
-      'Dispose of old devices in a privacy-safe way: perform a factory reset and remove them from vendor cloud accounts.';
+      'Starých zařízení se zbavujte způsobem bezpečným pro soukromí: proveďte tovární reset a odeberte je z cloudových účtů dodavatele.';
 
   @override
   String get gen_rec_6 =>
-      'Use a household consent check before buying new devices and involve all household members.';
+      'Před nákupem nových zařízení si v domácnosti potvrďte souhlas a zapojte všechny členy domácnosti.';
 }

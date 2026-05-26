@@ -20,6 +20,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Erfassen Sie Raum für Raum Ihre smarten Geräte und erhalten Sie eine Privatsphärebewertung mit konkreten Empfehlungen.';
 
   @override
+  String get welcomePrivacyTitle => 'Datenschutz ohne Cloud';
+
+  @override
+  String get welcomePrivacyDescription =>
+      'Es werden keine personenbezogenen Daten erhoben. Ihre Antworten bleiben auf diesem Gerät und nichts wird an einen Server oder in die Cloud gesendet.';
+
+  @override
   String get stepSelectRooms => 'Raum auswählen';
 
   @override
@@ -145,6 +152,27 @@ class AppLocalizationsDe extends AppLocalizations {
   String get languageDialogTitle => 'Sprache wählen';
 
   @override
+  String get languageNameDe => 'Deutsch';
+
+  @override
+  String get languageNameCs => 'Čeština';
+
+  @override
+  String get languageNameEn => 'English';
+
+  @override
+  String get languageNamePl => 'Polski';
+
+  @override
+  String get languageNameFr => 'Français';
+
+  @override
+  String get languageNameNl => 'Nederlands';
+
+  @override
+  String get languageNameDa => 'Dansk';
+
+  @override
   String get currentLanguage => 'Aktuelle Sprache';
 
   @override
@@ -154,7 +182,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get faqScreenTitle => 'Häufige Fragen';
 
   @override
-  String get aboutSubtitle => 'Forschungsprojekt Smart Home Privatsphäre';
+  String get aboutSubtitle => 'Forschungsprojekt zu Privatsphäre im Smart Home';
 
   @override
   String get aboutProjectName => 'Simplications';
@@ -211,7 +239,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get faqAnswerWhatIs =>
-      'Simplications ist ein Forschungsprojekt zum Smart-Home-Datenschutz. Diese App ist ein Teil des Projekts und führt Sie Raum für Raum durch Ihre Geräte mit praktischen Empfehlungen auf Basis Ihrer Antworten.';
+      'Simplications ist ein Forschungsprojekt zu Privatsphäre im Smart Home. Diese App ist ein Teil des Projekts und führt Sie Raum für Raum durch Ihre Geräte mit praktischen Empfehlungen auf Basis Ihrer Antworten.';
 
   @override
   String get faqQuestionHowWorks => 'Wie funktioniert der Check?';
@@ -430,6 +458,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get summarySharePdfText => 'Simplications Ergebnisbericht als PDF';
 
   @override
+  String get summaryPdfFileName => 'simplications-ergebnis.pdf';
+
+  @override
   String get overview => 'Übersicht';
 
   @override
@@ -525,8 +556,16 @@ class AppLocalizationsDe extends AppLocalizations {
       'Mehrere Geräte haben erhebliche Privatsphäre-/Datenschutzrisiken. Bitte setzen Sie die Maßnahmen mit hoher Priorität zeitnah um.';
 
   @override
-  String dontKnowHint(Object count, Object suffix) {
-    return ' Es wurden $count Antwort$suffix mit \"Weiß ich nicht\" gegeben - nehmen Sie sich Zeit, die Einstellungen Ihrer Geräte besser kennenzulernen.';
+  String dontKnowHint(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Es wurden $count Antworten mit \"Weiß ich nicht\" gegeben - nehmen Sie sich Zeit, die Einstellungen Ihrer Geräte besser kennenzulernen.',
+      one:
+          'Es wurde 1 Antwort mit \"Weiß ich nicht\" gegeben - nehmen Sie sich Zeit, die Einstellungen Ihrer Geräte besser kennenzulernen.',
+    );
+    return ' $_temp0';
   }
 
   @override
@@ -561,7 +600,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get device_simple_sensor =>
-      'Einfacher Sensor (z. B. Bewegungs- oder Türsensor)';
+      'Sensor (z. B. Tür-, Bewegungs-, Temperatur-, Feuchtigkeits- oder Lichtsensor)';
 
   @override
   String get device_humidity_sensor => 'Feuchtigkeitssensor';
@@ -625,9 +664,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get device_smart_blind => 'Smarte Jalousie / Rolllade';
 
   @override
-  String get device_fitness_tracker => 'Fitness-Tracker / Smartwatch';
-
-  @override
   String get device_smart_toy => 'Smartes Spielzeug';
 
   @override
@@ -641,9 +677,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get device_smart_irrigation => 'Smarte Bewässerungsanlage';
-
-  @override
-  String get device_smart_scale => 'Smarte Waage';
 
   @override
   String get device_smart_printer => 'Smarter Drucker';
@@ -937,22 +970,6 @@ class AppLocalizationsDe extends AppLocalizations {
       'BSI-Empfehlung: Aufnahmen von Kindern sollten nur mit expliziter Kontrolle möglich sein.';
 
   @override
-  String get q_health_sharing_text =>
-      'Können Sie steuern, welche Drittanbieter Zugriff auf Ihre Gesundheitsdaten haben?';
-
-  @override
-  String get q_health_sharing_hint =>
-      'Gesundheitsdaten sind sensibel. Nur autorisierte Apps sollten Zugriff erhalten.';
-
-  @override
-  String get q_location_tracking_text =>
-      'Können Sie Standortverfolgung deaktivieren, wenn Sie sie nicht benötigen?';
-
-  @override
-  String get q_location_tracking_hint =>
-      'GPS-Tracking verbraucht Akku und kann Ihre Bewegungsmuster offenbaren.';
-
-  @override
   String get q_expert_data_retention_duration_text =>
       'Ist die Aufbewahrungsdauer Ihrer personenbezogenen Daten konkret festgelegt und auf das Notwendige begrenzt?';
 
@@ -1031,14 +1048,6 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get q_expert_access_revocation_hint =>
       'Schneller Widerruf ist zentral, wenn Geräte geteilt oder Nutzer gewechselt werden.';
-
-  @override
-  String get q_expert_sensitive_inference_controls_text =>
-      'Sind Funktionen zur Ableitung sensibler Gesundheits-/Verhaltensprofile eingeschränkt oder deaktivierbar?';
-
-  @override
-  String get q_expert_sensitive_inference_controls_hint =>
-      'Inferenzkontrolle reduziert Risiken durch sekundäre Nutzung sensibler Daten.';
 
   @override
   String get a_password_title => 'Standard-Passwort ändern';
@@ -1297,21 +1306,6 @@ class AppLocalizationsDe extends AppLocalizations {
       'Schalten Sie Aufnahmefunktionen standardmäßig aus und aktivieren Sie sie nur bei konkretem Bedarf kurzzeitig.';
 
   @override
-  String get a_health_sharing_title =>
-      'Gesundheitsdaten-Freigaben einschränken';
-
-  @override
-  String get a_health_sharing_desc =>
-      'Entziehen Sie unnötigen Drittanbieter-Apps den Zugriff auf Gesundheitsdaten in App- und Kontoeinstellungen.';
-
-  @override
-  String get a_location_tracking_title => 'Standortfreigabe reduzieren';
-
-  @override
-  String get a_location_tracking_desc =>
-      'Deaktivieren Sie Standortverfolgung außerhalb aktiver Nutzung oder erlauben Sie sie nur beim Verwenden der App.';
-
-  @override
   String get a_expert_data_retention_duration_title =>
       'Speicherfristen festlegen';
 
@@ -1389,14 +1383,6 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get a_expert_access_revocation_desc =>
       'Stellen Sie sicher, dass digitale Schlüssel einzeln und sofort widerrufen werden können, z. B. bei Geräteverlust.';
-
-  @override
-  String get a_expert_sensitive_inference_controls_title =>
-      'Inferenzfunktionen einschränken';
-
-  @override
-  String get a_expert_sensitive_inference_controls_desc =>
-      'Deaktivieren Sie Funktionen, die sensible Gesundheits- oder Verhaltensprofile ableiten, sofern diese nicht zwingend benötigt werden.';
 
   @override
   String get a_dont_know_title => 'Geräteeinstellungen besser kennenlernen';
@@ -1521,12 +1507,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get sl_recording_disable => 'Aufnahmen nicht deaktivierbar';
 
   @override
-  String get sl_health_sharing => 'Gesundheitsdaten mit Dritten geteilt';
-
-  @override
-  String get sl_location_tracking => 'Standortverfolgung aktiv';
-
-  @override
   String get sl_expert_data_retention_duration =>
       'Aufbewahrungsdauer unklar/zu lang';
 
@@ -1565,10 +1545,6 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get sl_expert_access_revocation =>
       'Einzelner Zugriffswiderruf nicht möglich';
-
-  @override
-  String get sl_expert_sensitive_inference_controls =>
-      'Kontrollen gegen sensible Inferenz fehlen';
 
   @override
   String get risk_hint_camera =>

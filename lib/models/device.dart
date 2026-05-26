@@ -186,12 +186,6 @@ class DeviceInstance {
       type: ActionType.technical,
       priority: ActionPriority.high,
     ),
-    'sensor_granularity': PrivacyAction(
-      title: 'a_sensor_granularity_title',
-      description: 'a_sensor_granularity_desc',
-      type: ActionType.technical,
-      priority: ActionPriority.medium,
-    ),
     'sensor_local': PrivacyAction(
       title: 'a_sensor_local_title',
       description: 'a_sensor_local_desc',
@@ -348,18 +342,6 @@ class DeviceInstance {
       type: ActionType.security,
       priority: ActionPriority.high,
     ),
-    'health_sharing': PrivacyAction(
-      title: 'a_health_sharing_title',
-      description: 'a_health_sharing_desc',
-      type: ActionType.technical,
-      priority: ActionPriority.high,
-    ),
-    'location_tracking': PrivacyAction(
-      title: 'a_location_tracking_title',
-      description: 'a_location_tracking_desc',
-      type: ActionType.technical,
-      priority: ActionPriority.medium,
-    ),
     'expert_data_retention_duration': PrivacyAction(
       title: 'a_expert_data_retention_duration_title',
       description: 'a_expert_data_retention_duration_desc',
@@ -418,12 +400,6 @@ class DeviceInstance {
       title: 'a_expert_access_revocation_title',
       description: 'a_expert_access_revocation_desc',
       type: ActionType.security,
-      priority: ActionPriority.high,
-    ),
-    'expert_sensitive_inference_controls': PrivacyAction(
-      title: 'a_expert_sensitive_inference_controls_title',
-      description: 'a_expert_sensitive_inference_controls_desc',
-      type: ActionType.technical,
       priority: ActionPriority.high,
     ),
   };
@@ -487,11 +463,6 @@ class DeviceInstance {
       text: 'q_informed_text',
       hint: 'q_informed_hint',
     );
-    const qPermissions = DeviceQuestion(
-      id: 'permissions',
-      text: 'q_permissions_text',
-      hint: 'q_permissions_hint',
-    );
     const qMicActive = DeviceQuestion(
       id: 'mic_active',
       text: 'q_mic_active_text',
@@ -510,11 +481,6 @@ class DeviceInstance {
           id: 'sensor_data_deletion',
           text: 'q_sensor_data_deletion_text',
           hint: 'q_sensor_data_deletion_hint',
-        ),
-        DeviceQuestion(
-          id: 'sensor_granularity',
-          text: 'q_sensor_granularity_text',
-          hint: 'q_sensor_granularity_hint',
         ),
         DeviceQuestion(
           id: 'sensor_local',
@@ -706,24 +672,6 @@ class DeviceInstance {
       ];
     }
 
-    // ── Wearable / Fitness Tracker ────────────────────────────────────────────
-    if (template.deviceType == 'wearable') {
-      return [
-        qUpdates,
-        qPermissions,
-        const DeviceQuestion(
-          id: 'health_sharing',
-          text: 'q_health_sharing_text',
-          hint: 'q_health_sharing_hint',
-        ),
-        const DeviceQuestion(
-          id: 'location_tracking',
-          text: 'q_location_tracking_text',
-          hint: 'q_location_tracking_hint',
-        ),
-      ];
-    }
-
     // ── Default / custom device ───────────────────────────────────────────────
     return [qPassword, qUpdates, qNetwork, qInformed];
   }
@@ -792,15 +740,6 @@ class DeviceInstance {
           id: 'expert_access_revocation',
           text: 'q_expert_access_revocation_text',
           hint: 'q_expert_access_revocation_hint',
-        ),
-      );
-    }
-    if (template.deviceType == 'wearable') {
-      questions.add(
-        const DeviceQuestion(
-          id: 'expert_sensitive_inference_controls',
-          text: 'q_expert_sensitive_inference_controls_text',
-          hint: 'q_expert_sensitive_inference_controls_hint',
         ),
       );
     }
@@ -1064,7 +1003,6 @@ class DeviceInstance {
       // Sensor
       'sensor_frequency': 'sl_sensor_frequency',
       'sensor_data_deletion': 'sl_sensor_data_deletion',
-      'sensor_granularity': 'sl_sensor_granularity',
       'sensor_local': 'sl_sensor_local',
       // Speaker
       'voice_history': 'sl_voice_history',
@@ -1099,9 +1037,6 @@ class DeviceInstance {
       'parental_control': 'sl_parental_control',
       'child_data_limits': 'sl_child_data_limits',
       'recording_disable': 'sl_recording_disable',
-      // Wearable
-      'health_sharing': 'sl_health_sharing',
-      'location_tracking': 'sl_location_tracking',
       // Expert mode
       'expert_data_retention_duration': 'sl_expert_data_retention_duration',
       'expert_access_control_granular': 'sl_expert_access_control_granular',
@@ -1114,8 +1049,6 @@ class DeviceInstance {
       'expert_bystander_transparency': 'sl_expert_bystander_transparency',
       'expert_child_data_protection': 'sl_expert_child_data_protection',
       'expert_access_revocation': 'sl_expert_access_revocation',
-      'expert_sensitive_inference_controls':
-          'sl_expert_sensitive_inference_controls',
     };
     const baseIds = {
       'password',

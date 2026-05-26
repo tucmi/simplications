@@ -2,7 +2,11 @@
     "chat.tools.terminal.autoApprove": {
         "Set-Content": true,
         "dart": true,
-        "flutter": true
+        "flutter": true,
+        "/^function Parse-JsonBlock\\(\\[string\\]\\$path\\) \\{ \\$text = Get-Content \\$path -Raw; \\$start = \\$text\\.IndexOf\\('\\{'\\); \\$end = \\$text\\.LastIndexOf\\('\\}'\\); if \\(\\$start -lt 0 -or \\$end -lt \\$start\\) \\{ throw \"No JSON object found in \\$path\" \\}; \\$json = \\$text\\.Substring\\(\\$start, \\$end - \\$start \\+ 1\\); return \\(\\$json \\| ConvertFrom-Json -AsHashtable\\) \\}; \\$p1='c:\\\\Users\\\\andyb\\\\AppData\\\\Roaming\\\\Code\\\\User\\\\workspaceStorage\\\\afa6a0fc31385c7fe07b57f0f484a507\\\\GitHub\\.copilot-chat\\\\chat-session-resources\\\\54a7827d-e311-4599-ae0c-f2b61e9fb19b\\\\call_UDOcfb4k7U2fRW5HGpC0V7cb__vscode-1779795132298\\\\content\\.txt'; \\$p2='c:\\\\Users\\\\andyb\\\\AppData\\\\Roaming\\\\Code\\\\User\\\\workspaceStorage\\\\afa6a0fc31385c7fe07b57f0f484a507\\\\GitHub\\.copilot-chat\\\\chat-session-resources\\\\54a7827d-e311-4599-ae0c-f2b61e9fb19b\\\\call_iaOxAUj2jrlJJh34hKuQkspV__vscode-1779795132303\\\\content\\.txt'; \\$src1 = Parse-JsonBlock \\$p1; \\$src2 = Parse-JsonBlock \\$p2; \\$map = @\\{\\}; foreach \\(\\$src in @\\(\\$src1, \\$src2\\)\\) \\{ foreach \\(\\$k in \\$src\\.Keys\\) \\{ \\$key = if \\(\\$k -eq 'languageNameCz'\\) \\{ 'languageNameCs' \\} else \\{ \\$k \\}; \\$map\\[\\$key\\] = \\$src\\[\\$k\\] \\} \\}; \\$arb = Get-Content lib/l10n/app_fr\\.arb -Raw \\| ConvertFrom-Json -AsHashtable; foreach \\(\\$k in \\$map\\.Keys\\) \\{ if \\(\\$arb\\.ContainsKey\\(\\$k\\)\\) \\{ \\$arb\\[\\$k\\] = \\$map\\[\\$k\\] \\} \\}; \\$ordered = \\[ordered\\]@\\{\\}; foreach \\(\\$k in \\(\\$arb\\.Keys \\| Sort-Object\\)\\) \\{ \\$ordered\\[\\$k\\] = \\$arb\\[\\$k\\] \\}; \\$json = \\$ordered \\| ConvertTo-Json -Depth 5; Set-Content tmp-l10n/app_fr\\.new\\.arb \\$json$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
     },
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,

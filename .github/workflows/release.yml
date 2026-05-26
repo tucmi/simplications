@@ -1,4 +1,4 @@
-name: Release Android APK
+name: Release Artifacts
 
 on:
   release:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  build-android:
     runs-on: ubuntu-latest
 
     steps:
@@ -42,8 +42,10 @@ jobs:
       - name: Prepare versioned APK filename
         id: apk
         shell: bash
+        env:
+          VERSION: ${{ github.event.release.tag_name || github.ref_name }}
         run: |
-          VERSION="${{ github.event.release.tag_name }}"
+          VERSION="${VERSION}"
           VERSION="${VERSION#v}"
           APK_SRC="build/app/outputs/flutter-apk/app-release.apk"
           APK_NAME="simplications-${VERSION}-android-release.apk"
@@ -55,3 +57,46 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.apk.outputs.apk_path }}
+
+  build-windows-msix:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate localization files
+        run: flutter gen-l10n
+
+      - name: Build release Windows app
+        run: flutter build windows --release
+
+      - name: Build MSIX installer
+        id: msix
+        shell: pwsh
+        env:
+          VERSION: ${{ github.event.release.tag_name || github.ref_name }}
+        run: |
+          $version = $env:VERSION.TrimStart('v')
+          $outputDir = 'build/windows/msix'
+          New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+          dart run msix:create --build-windows false --install-certificate false --output-path $outputDir --output-name "simplications-$version-windows-installer"
+          $msixPath = (Get-ChildItem -Path $outputDir -Filter '*.msix' | Select-Object -First 1).FullName
+          if (-not $msixPath) {
+            throw 'MSIX output was not created.'
+          }
+          "msix_path=$msixPath" >> $env:GITHUB_OUTPUT
+
+      - name: Attach MSIX to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.msix.outputs.msix_path }}

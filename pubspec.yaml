@@ -17,7 +17,7 @@ publish_to: 'none'
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+10
+version: 1.0.0+26
 
 environment:
   sdk: ^3.11.5
@@ -38,7 +38,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   pdf: ^3.11.3
-  share_plus: ^11.0.0
+  share_plus: ^13.1.0
   shared_preferences: ^2.5.3
   intl: any
   url_launcher: ^6.3.1
@@ -47,8 +47,17 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.14.3
+  msix: ^3.16.13
+
+msix_config:
+  display_name: Simplications
+  publisher_display_name: Professur Medieninformatik (TU Chemnitz)
+  identity_name: de.tu-chemnitz.mi.simplications
+  msix_version: 1.0.0.23
+  logo_path: assets/icon/icon.png
+  # No capabilities are declared for the Windows package.
 
 flutter_launcher_icons:
   android: true

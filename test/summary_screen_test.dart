@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:simplications/data/catalog_data.dart';
 import 'package:simplications/l10n/app_localizations.dart';
@@ -29,6 +30,7 @@ DeviceTemplate _template(String id) {
 void main() {
   setUp(() {
     TestWidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences.setMockInitialValues({});
   });
 
   testWidgets('shows empty-state text when there are no evaluated devices', (
@@ -79,5 +81,30 @@ void main() {
       ),
       findsOneWidget,
     );
+  });
+
+  testWidgets('overview header fits narrow phone width', (tester) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    final state = SurveyState();
+
+    final highRiskTemplate = _template('indoor_camera');
+    state.addDevice(highRiskTemplate, 'hallway', 'Hallway');
+    final highRiskDevice = state.devices.first;
+    for (final question in highRiskDevice.questions) {
+      highRiskDevice.setAnswer(question.id, QuestionAnswer.no);
+    }
+
+    final skippedTemplate = _template('smart_tv');
+    state.addDevice(skippedTemplate, 'living', 'Living room');
+
+    await tester.pumpWidget(_buildTestApp(SummaryScreen(state: state)));
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    expect(find.byType(SummaryScreen), findsOneWidget);
   });
 }
