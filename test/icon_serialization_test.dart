@@ -222,5 +222,37 @@ void main() {
       expect(reloaded.hasFinishedDeviceInRoom(room.id), isTrue);
       expect(reloaded.hasResultsAvailable, isTrue);
     });
+
+    test('legacy sensor template ids restore as the merged sensor', () async {
+      SharedPreferences.setMockInitialValues({
+        'survey_state_v1': jsonEncode({
+          'completedRoomIds': <String>[],
+          'customRooms': <Map>[],
+          'customDevices': <Map>[],
+          'devices': [
+            {
+              'instanceId': 'living_humidity_sensor',
+              'templateId': 'humidity_sensor',
+              'roomId': 'living',
+              'roomName': 'living',
+              'deviceSpecificAnswers': {
+                'sensor_frequency': 'yes',
+                'sensor_data_deletion': 'no',
+              },
+            },
+          ],
+        }),
+      });
+
+      final state = SurveyState();
+      await state.loadFromStorage();
+
+      expect(state.devices, hasLength(1));
+      expect(state.devices.single.template.id, equals('simple_sensor'));
+      expect(
+        state.devices.single.answerFor('sensor_data_deletion'),
+        equals(QuestionAnswer.no),
+      );
+    });
   });
 }

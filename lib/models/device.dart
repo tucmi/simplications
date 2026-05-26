@@ -186,12 +186,6 @@ class DeviceInstance {
       type: ActionType.technical,
       priority: ActionPriority.high,
     ),
-    'sensor_granularity': PrivacyAction(
-      title: 'a_sensor_granularity_title',
-      description: 'a_sensor_granularity_desc',
-      type: ActionType.technical,
-      priority: ActionPriority.medium,
-    ),
     'sensor_local': PrivacyAction(
       title: 'a_sensor_local_title',
       description: 'a_sensor_local_desc',
@@ -510,11 +504,6 @@ class DeviceInstance {
           id: 'sensor_data_deletion',
           text: 'q_sensor_data_deletion_text',
           hint: 'q_sensor_data_deletion_hint',
-        ),
-        DeviceQuestion(
-          id: 'sensor_granularity',
-          text: 'q_sensor_granularity_text',
-          hint: 'q_sensor_granularity_hint',
         ),
         DeviceQuestion(
           id: 'sensor_local',
@@ -1064,7 +1053,6 @@ class DeviceInstance {
       // Sensor
       'sensor_frequency': 'sl_sensor_frequency',
       'sensor_data_deletion': 'sl_sensor_data_deletion',
-      'sensor_granularity': 'sl_sensor_granularity',
       'sensor_local': 'sl_sensor_local',
       // Speaker
       'voice_history': 'sl_voice_history',

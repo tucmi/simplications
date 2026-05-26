@@ -561,7 +561,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get device_simple_sensor =>
-      'Einfacher Sensor (z. B. Bewegungs- oder Türsensor)';
+      'Sensor (z. B. Tür-, Bewegungs-, Temperatur-, Feuchtigkeits- oder Lichtsensor)';
 
   @override
   String get device_humidity_sensor => 'Feuchtigkeitssensor';

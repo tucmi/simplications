@@ -1131,7 +1131,7 @@ abstract class AppLocalizations {
   /// No description provided for @device_simple_sensor.
   ///
   /// In en, this message translates to:
-  /// **'Basic sensor (e.g., motion or door sensor)'**
+  /// **'Sensor (e.g., door, motion, temperature, humidity, or light sensor)'**
   String get device_simple_sensor;
 
   /// No description provided for @device_humidity_sensor.

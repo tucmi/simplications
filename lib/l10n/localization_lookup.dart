@@ -592,7 +592,7 @@ class LocalizationLookup {
       "device_outdoor_camera": "Smarte Außenkamera",
       "device_robot_vacuum": "Saugroboter",
       "device_simple_sensor":
-          "Einfacher Sensor (z. B. Bewegungs- oder Türsensor)",
+          "Sensor (z. B. Tür-, Bewegungs-, Temperatur-, Feuchtigkeits- oder Lichtsensor)",
       "device_smart_blind": "Smarte Jalousie / Rolllade",
       "device_smart_coffee": "Smarte Kaffeemaschine",
       "device_smart_display": "Smart Display (z. B. Nest Hub)",
@@ -1256,7 +1256,8 @@ class LocalizationLookup {
       "device_light_sensor": "Light sensor",
       "device_outdoor_camera": "Smart outdoor camera",
       "device_robot_vacuum": "Robot vacuum",
-      "device_simple_sensor": "Basic sensor (e.g., motion or door sensor)",
+      "device_simple_sensor":
+          "Sensor (e.g., door, motion, temperature, humidity, or light sensor)",
       "device_smart_blind": "Smart blind / shutter",
       "device_smart_coffee": "Smart coffee machine",
       "device_smart_display": "Smart display (e.g., Nest Hub)",

@@ -67,6 +67,11 @@ final Map<String, String> _iconKeyByFingerprint = {
 
 class SurveyState extends ChangeNotifier {
   static const String _storageKey = 'survey_state_v1';
+  static const Map<String, String> _legacyTemplateIdAliases = {
+    'humidity_sensor': 'simple_sensor',
+    'temperature_sensor': 'simple_sensor',
+    'light_sensor': 'simple_sensor',
+  };
 
   final Set<String> completedRoomIds = {};
   final Set<String> visitedRoomIds = {};
@@ -368,6 +373,7 @@ class SurveyState extends ChangeNotifier {
       };
 
       devices.clear();
+      final restoredDeviceKeys = <String>{};
       for (final dynamic item
           in (data['devices'] as List<dynamic>? ?? const [])) {
         if (item is! Map) {
@@ -378,15 +384,22 @@ class SurveyState extends ChangeNotifier {
         if (templateId == null) {
           continue;
         }
-        final template = templateById[templateId];
+        final normalizedTemplateId =
+            _legacyTemplateIdAliases[templateId] ?? templateId;
+        final template = templateById[normalizedTemplateId];
         if (template == null) {
+          continue;
+        }
+        final roomId = entry['roomId'] as String;
+        final restoredDeviceKey = '$roomId:${template.id}';
+        if (!restoredDeviceKeys.add(restoredDeviceKey)) {
           continue;
         }
 
         final instance = DeviceInstance(
           instanceId: entry['instanceId'] as String,
           template: template,
-          roomId: entry['roomId'] as String,
+          roomId: roomId,
           roomName: entry['roomName'] as String,
           expertModeEnabled: _expertModeEnabled,
         );

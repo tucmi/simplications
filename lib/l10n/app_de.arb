@@ -170,7 +170,7 @@
   "room_garden": "Garten / Außenbereich",
   "room_basement": "Keller / Speisekammer",
   "room_whole_home": "Ganze Wohnung",
-  "device_simple_sensor": "Einfacher Sensor (z. B. Bewegungs- oder Türsensor)",
+  "device_simple_sensor": "Sensor (z. B. Tür-, Bewegungs-, Temperatur-, Feuchtigkeits- oder Lichtsensor)",
   "device_humidity_sensor": "Feuchtigkeitssensor",
   "device_temperature_sensor": "Temperatursensor",
   "device_light_sensor": "Lichtsensor",

@@ -170,7 +170,7 @@
   "room_garden": "Garden / Outdoor area",
   "room_basement": "Basement / Pantry",
   "room_whole_home": "Entire home",
-  "device_simple_sensor": "Basic sensor (e.g., motion or door sensor)",
+  "device_simple_sensor": "Sensor (e.g., door, motion, temperature, humidity, or light sensor)",
   "device_humidity_sensor": "Humidity sensor",
   "device_temperature_sensor": "Temperature sensor",
   "device_light_sensor": "Light sensor",

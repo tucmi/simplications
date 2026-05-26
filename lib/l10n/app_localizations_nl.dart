@@ -560,7 +560,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get device_simple_sensor =>
-      'Basic sensor (e.g., motion or door sensor)';
+      'Sensor (e.g., door, motion, temperature, humidity, or light sensor)';
 
   @override
   String get device_humidity_sensor => 'Humidity sensor';

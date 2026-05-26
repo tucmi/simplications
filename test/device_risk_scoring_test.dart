@@ -134,20 +134,29 @@ void main() {
       }
     });
 
-    test('sensor with all no answers applies expected penalties', () {
-      final sensor = _instance('humidity_sensor');
-      _answerAll(sensor, QuestionAnswer.no);
+    test(
+      'merged sensor uses three shared questions and expected penalties',
+      () {
+        final sensor = _instance('simple_sensor');
 
-      expect(sensor.riskScore, 47);
-      expect(sensor.riskLevel, RiskLevel.medium);
+        expect(
+          sensor.questions.map((q) => q.id).toList(),
+          equals(['sensor_frequency', 'sensor_data_deletion', 'sensor_local']),
+        );
 
-      final labels = sensor.scoringFactors.map((f) => f.label).toSet();
-      expect(labels.contains('sl_base_risk'), isTrue);
-      expect(labels.contains('sl_sensor_frequency'), isTrue);
-      expect(labels.contains('sl_sensor_data_deletion'), isTrue);
-      expect(labels.contains('sl_sensor_granularity'), isTrue);
-      expect(labels.contains('sl_sensor_local'), isTrue);
-    });
+        _answerAll(sensor, QuestionAnswer.no);
+
+        expect(sensor.riskScore, 44);
+        expect(sensor.riskLevel, RiskLevel.medium);
+
+        final labels = sensor.scoringFactors.map((f) => f.label).toSet();
+        expect(labels.contains('sl_base_risk'), isTrue);
+        expect(labels.contains('sl_sensor_frequency'), isTrue);
+        expect(labels.contains('sl_sensor_data_deletion'), isTrue);
+        expect(labels.contains('sl_sensor_local'), isTrue);
+        expect(labels.contains('sl_sensor_granularity'), isFalse);
+      },
+    );
 
     test('score is clamped to 100 and child room bonus is applied', () {
       final lockInChildRoom = _instance('smart_lock', roomId: 'child_bedroom');
