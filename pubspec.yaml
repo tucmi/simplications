@@ -53,7 +53,7 @@ dev_dependencies:
 
 msix_config:
   display_name: Simplications
-  publisher_display_name: Technische Universitat Chemnitz
+  publisher_display_name: Professur Medieninformatik (TU Chemnitz)
   identity_name: de.tu-chemnitz.mi.simplications
   msix_version: 1.0.0.23
   logo_path: assets/icon/icon.png
