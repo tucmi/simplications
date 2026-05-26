@@ -569,1087 +569,1114 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get room_living => 'Living room';
+  String get room_living => 'Salon';
 
   @override
-  String get room_kitchen => 'Kitchen';
+  String get room_kitchen => 'Cuisine';
 
   @override
-  String get room_bedroom => 'Bedroom';
+  String get room_bedroom => 'Chambre à coucher';
 
   @override
-  String get room_child_bedroom => 'Child\'s bedroom';
+  String get room_child_bedroom => 'Chambre d\'enfant';
 
   @override
-  String get room_bathroom => 'Bathroom';
+  String get room_bathroom => 'Salle de bain';
 
   @override
-  String get room_office => 'Office';
+  String get room_office => 'Bureau';
 
   @override
-  String get room_hallway => 'Hallway / Entrance';
+  String get room_hallway => 'Couloir / Entrée';
 
   @override
-  String get room_garden => 'Garden / Outdoor area';
+  String get room_garden => 'Jardin / Espace extérieur';
 
   @override
-  String get room_basement => 'Basement / Pantry';
+  String get room_basement => 'Sous-sol / Garde-manger';
 
   @override
-  String get room_whole_home => 'Entire home';
+  String get room_whole_home => 'Maison complète';
 
   @override
   String get device_simple_sensor =>
-      'Sensor (e.g., door, motion, temperature, humidity, or light sensor)';
+      'Capteur (par exemple, porte, mouvement, température, humidité ou capteur de lumière)';
 
   @override
-  String get device_humidity_sensor => 'Humidity sensor';
+  String get device_humidity_sensor => 'Capteur d\'humidité';
 
   @override
-  String get device_temperature_sensor => 'Temperature sensor';
+  String get device_temperature_sensor => 'Capteur de température';
 
   @override
-  String get device_light_sensor => 'Light sensor';
+  String get device_light_sensor => 'Capteur de lumière';
 
   @override
-  String get device_smart_speaker => 'Smart speaker / voice assistant';
+  String get device_smart_speaker =>
+      'Haut-parleur intelligent / assistant vocal';
 
   @override
-  String get device_smart_display => 'Smart display (e.g., Nest Hub)';
+  String get device_smart_display =>
+      'Écran intelligent (par exemple, Nest Hub)';
 
   @override
-  String get device_smart_tv => 'Smart TV';
+  String get device_smart_tv => 'Télévision intelligente';
 
   @override
-  String get device_indoor_camera => 'Smart indoor camera';
+  String get device_indoor_camera => 'Caméra intelligente intérieure';
 
   @override
-  String get device_outdoor_camera => 'Smart outdoor camera';
+  String get device_outdoor_camera => 'Caméra intelligente extérieure';
 
   @override
-  String get device_doorbell_camera => 'Smart doorbell with camera';
+  String get device_doorbell_camera => 'Sonnette intelligente avec caméra';
 
   @override
-  String get device_baby_monitor => 'Baby monitor / baby camera';
+  String get device_baby_monitor => 'Moniteur bébé / caméra pour bébé';
 
   @override
-  String get device_robot_vacuum => 'Robot vacuum';
+  String get device_robot_vacuum => 'Aspirateur robot';
 
   @override
-  String get device_smart_fridge => 'Smart fridge';
+  String get device_smart_fridge => 'Réfrigérateur intelligent';
 
   @override
-  String get device_smart_oven => 'Smart oven / stove';
+  String get device_smart_oven => 'Four/cuisinière intelligent(e)';
 
   @override
-  String get device_smart_coffee => 'Smart coffee machine';
+  String get device_smart_coffee => 'Machine à café intelligente';
 
   @override
-  String get device_smart_washing => 'Smart washer / dryer';
+  String get device_smart_washing => 'Lave-linge/sèche-linge intelligent(e)';
 
   @override
-  String get device_smart_thermostat => 'Smart thermostat / heating control';
+  String get device_smart_thermostat =>
+      'Thermostat intelligent / contrôle de chauffage';
 
   @override
-  String get device_smart_plug => 'Smart plug';
+  String get device_smart_plug => 'Prise intelligente';
 
   @override
-  String get device_smart_light => 'Smart lighting';
+  String get device_smart_light => 'Éclairage intelligent';
 
   @override
-  String get device_smart_lock => 'Smart door lock';
+  String get device_smart_lock => 'Serrure de porte intelligente';
 
   @override
-  String get device_smart_blind => 'Smart blind / shutter';
+  String get device_smart_blind => 'Store/volet intelligent';
 
   @override
-  String get device_fitness_tracker => 'Fitness tracker / smartwatch';
+  String get device_fitness_tracker =>
+      'Suivi de la forme physique / smartwatch';
 
   @override
-  String get device_smart_toy => 'Smart toy';
+  String get device_smart_toy => 'Jouet intelligent';
 
   @override
-  String get device_smart_router => 'Smart router / mesh system';
+  String get device_smart_router => 'Routeur/système maillé intelligent';
 
   @override
-  String get device_smart_hub => 'Smart home hub (e.g., Homey, Home Assistant)';
+  String get device_smart_hub =>
+      'Hub de maison connectée (par exemple, Homey, Home Assistant)';
 
   @override
   String get device_smart_meter =>
-      'Intelligent electricity meter / smart meter';
+      'Compteur d\'électricité intelligent / compteur intelligent';
 
   @override
-  String get device_smart_irrigation => 'Smart irrigation system';
+  String get device_smart_irrigation => 'Système d\'irrigation intelligent';
 
   @override
-  String get device_smart_scale => 'Smart scale';
+  String get device_smart_scale => 'Balance intelligente';
 
   @override
-  String get device_smart_printer => 'Smart printer';
+  String get device_smart_printer => 'Imprimante intelligente';
 
   @override
   String get q_password_text =>
-      'Have you changed the default password of the device or its linked account?';
+      'Avez-vous changé le mot de passe par défaut de l\'appareil ou de son compte associé ?';
 
   @override
   String get q_password_hint =>
-      'Default passwords are often publicly known and easy to crack.';
+      'Les mots de passe par défaut sont souvent publiquement connus et faciles à casser.';
 
   @override
   String get q_updates_text =>
-      'Are automatic security updates enabled for the device?';
+      'Les mises à jour de sécurité automatiques sont-elles activées pour l\'appareil ?';
 
   @override
   String get q_updates_hint =>
-      'Updates close known security vulnerabilities promptly.';
+      'Les mises à jour ferment les vulnérabilités de sécurité connues rapidement.';
 
   @override
   String get q_network_text =>
-      'Is the device connected to a separate smart home or IoT Wi-Fi network?';
+      'L\'appareil est-il connecté à un réseau Wi-Fi distinct pour la maison intelligente ou l\'IoT ?';
 
   @override
   String get q_network_hint =>
-      'A dedicated network for smart devices protects your main home network.';
+      'Un réseau dédié pour les appareils intelligents protège votre réseau domestique principal.';
 
   @override
   String get q_informed_text =>
-      'Are all people in the household informed about this device and its function?';
+      'Tous les membres du ménage sont-ils informés de cet appareil et de sa fonction ?';
 
   @override
   String get q_informed_hint =>
-      'All household members should know what data the device captures.';
+      'Tous les membres du ménage devraient savoir quelles données l\'appareil capture.';
 
   @override
   String get q_permissions_text =>
-      'Have you disabled unnecessary app permissions (e.g., location, contacts)?';
+      'Avez-vous désactivé les autorisations d\'application inutiles (par exemple, localisation, contacts) ?';
 
   @override
   String get q_permissions_hint =>
-      'Only permissions that are truly needed should be enabled.';
+      'Seules les autorisations vraiment nécessaires doivent être activées.';
 
   @override
   String get q_mic_active_text =>
-      'Do you deactivate the microphone when you are not actively using it?';
+      'Désactivez-vous le microphone lorsque vous ne l\'utilisez pas activement ?';
 
   @override
   String get q_mic_active_hint =>
-      'Smart speakers and devices with microphones can be activated unintentionally.';
+      'Les haut-parleurs intelligents et les appareils avec microphones peuvent être activés involontairement.';
 
   @override
   String get q_camera_consent_text =>
-      'Does the camera only record areas for which everyone affected has given their consent?';
+      'La caméra n\'enregistre-t-elle que les zones pour lesquelles tout le monde a donné son consentement ?';
 
   @override
   String get q_camera_consent_hint =>
-      'Cameras in communal or private areas require the consent of all residents.';
+      'Les caméras dans les zones communes ou privées nécessitent le consentement de tous les résidents.';
 
   @override
   String get q_sensor_frequency_text =>
-      'Can you reduce the sensor measurement interval (e.g., measure less frequently)?';
+      'Pouvez-vous réduire l\'intervalle de mesure du capteur (par exemple, mesurer moins fréquemment) ?';
 
   @override
   String get q_sensor_frequency_hint =>
-      'A lower measurement frequency produces less data and limits inferences about your behavior.';
+      'Une fréquence de mesure inférieure produit moins de données et limite les inférences sur votre comportement.';
 
   @override
   String get q_sensor_data_deletion_text =>
-      'Are older measurement values deleted automatically or on request?';
+      'Les anciennes valeurs de mesure sont-elles supprimées automatiquement ou sur demande ?';
 
   @override
   String get q_sensor_data_deletion_hint =>
-      'Old historical data should not be stored permanently. Check retention settings.';
+      'Les anciennes données historiques ne devraient pas être stockées en permanence. Vérifiez les paramètres de conservation.';
 
   @override
   String get q_sensor_granularity_text =>
-      'Does the system show sensor data only in aggregated form (e.g., daily instead of minute values)?';
+      'Le système affiche-t-il les données des capteurs uniquement sous forme agrégée (par exemple, quotidienne au lieu de valeurs à la minute) ?';
 
   @override
   String get q_sensor_granularity_hint =>
-      'Less granular views help prevent inferences about precise presence or behavior patterns.';
+      'Les vues moins granulaires aident à prévenir les inférences sur les modèles de présence ou de comportement précis.';
 
   @override
   String get q_sensor_local_text =>
-      'Is measurement data processed and stored locally without being transferred to the cloud?';
+      'Les données de mesure sont-elles traitées et stockées localement sans être transférées au cloud ?';
 
   @override
   String get q_sensor_local_hint =>
-      'Local processing prevents the vendor from accessing your measurement data.';
+      'Le traitement local empêche le fournisseur d\'accéder à vos données de mesure.';
 
   @override
   String get q_voice_history_text =>
-      'Can you delete voice recordings from device history or disable this feature?';
+      'Pouvez-vous supprimer les enregistrements vocaux de l\'historique de l\'appareil ou désactiver cette fonction ?';
 
   @override
   String get q_voice_history_hint =>
-      'BSI recommendation: Minimize recording retention or delete recordings regularly.';
+      'Recommandation du BSI : Minimisez la rétention des enregistrements ou supprimez régulièrement les enregistrements.';
 
   @override
   String get q_voice_local_text =>
-      'Is voice processing performed partly on the device locally?';
+      'Le traitement vocal est-il effectué en partie sur l\'appareil localement ?';
 
   @override
   String get q_voice_local_hint =>
-      'Local processing reduces the amount of data sent to the cloud.';
+      'Le traitement local réduit la quantité de données envoyées au cloud.';
 
   @override
   String get q_skills_permissions_text =>
-      'Do you regularly review which skills have access to your account?';
+      'Vérifiez-vous régulièrement quelles compétences ont accès à votre compte ?';
 
   @override
   String get q_skills_permissions_hint =>
-      'Third-party skills can access sensitive data. Enable only necessary skills.';
+      'Les compétences tierces peuvent accéder à des données sensibles. N\'activez que les compétences nécessaires.';
 
   @override
   String get q_video_encryption_text =>
-      'Is video recording and transmission encrypted end-to-end?';
+      'L\'enregistrement et la transmission vidéo sont-ils chiffrés de bout en bout ?';
 
   @override
   String get q_video_encryption_hint =>
-      'BSI recommendation: Encrypted connections prevent interception and data theft in transit.';
+      'Recommandation du BSI : Les connexions chiffrées préviennent l\'interception et le vol de données en transit.';
 
   @override
   String get q_video_storage_text =>
-      'Are recordings stored locally (not only in the vendor cloud)?';
+      'Les enregistrements sont-ils stockés localement (pas seulement dans le cloud du fournisseur) ?';
 
   @override
   String get q_video_storage_hint =>
-      'Local storage gives you more control over your data; cloud-only storage depends on vendor security.';
+      'Le stockage local vous donne plus de contrôle sur vos données ; le stockage cloud uniquement dépend de la sécurité du fournisseur.';
 
   @override
   String get q_sharing_restrictions_text =>
-      'Can you control who can access live view and recordings?';
+      'Pouvez-vous contrôler qui peut accéder à la visualisation en direct et aux enregistrements ?';
 
   @override
   String get q_sharing_restrictions_hint =>
-      'You should be able to precisely control access to video recordings.';
+      'Vous devriez pouvoir contrôler précisément l\'accès aux enregistrements vidéo.';
 
   @override
   String get q_motion_detection_text =>
-      'Can you disable or schedule motion detection when you are at home?';
+      'Pouvez-vous désactiver ou programmer la détection de mouvement lorsque vous êtes à la maison ?';
 
   @override
   String get q_motion_detection_hint =>
-      'BSI recommendation: Avoiding unnecessary recordings reduces data volume and misuse risk.';
+      'Recommandation du BSI : Éviter les enregistrements inutiles réduit le volume de données et le risque d\'abus.';
 
   @override
   String get q_account_required_text =>
-      'Can you use the device without a mandatory online account?';
+      'Pouvez-vous utiliser l\'appareil sans compte en ligne obligatoire ?';
 
   @override
   String get q_account_required_hint =>
-      'Mandatory accounts enable ad tracking and storage of viewing habits. Account-free use protects privacy.';
+      'Les comptes obligatoires permettent le suivi publicitaire et l\'enregistrement des habitudes de visualisation. L\'utilisation sans compte protège la confidentialité.';
 
   @override
   String get q_tracking_disabled_text =>
-      'Can you completely disable advertising and tracking features?';
+      'Pouvez-vous désactiver complètement les fonctionnalités de publicité et de suivi ?';
 
   @override
   String get q_tracking_disabled_hint =>
-      'Smart TVs often collect viewing habit data. Look for privacy settings.';
+      'Les téléviseurs intelligents collectent souvent des données sur les habitudes de visionnage. Recherchez les paramètres de confidentialité.';
 
   @override
   String get q_local_mode_text =>
-      'Can you use the device via HDMI or local sources without internet?';
+      'Pouvez-vous utiliser l\'appareil via HDMI ou des sources locales sans Internet ?';
 
   @override
   String get q_local_mode_hint =>
-      'Offline use protects usage data from being sent to the vendor.';
+      'L\'utilisation hors ligne protège les données d\'utilisation d\'être envoyées au fournisseur.';
 
   @override
   String get q_data_collection_text =>
-      'Do temperature history and schedules stay on-device (not sent to the vendor)?';
+      'L\'historique de température et les horaires restent-ils sur l\'appareil (non envoyés au fournisseur) ?';
 
   @override
   String get q_data_collection_hint =>
-      'History can reveal presence patterns and habits. Local storage reduces unwanted analysis.';
+      'L\'historique peut révéler les habitudes et les modèles de présence. Le stockage local réduit les analyses non souhaitées.';
 
   @override
   String get q_offline_control_text =>
-      'Can you operate the thermostat offline (without internet)?';
+      'Pouvez-vous faire fonctionner le thermostat hors ligne (sans Internet) ?';
 
   @override
   String get q_offline_control_hint =>
-      'Offline operation or local automation protects data from cloud access.';
+      'L\'opération hors ligne ou l\'automatisation locale protègent les données de l\'accès au cloud.';
 
   @override
   String get q_family_access_text =>
-      'Can you control who may adjust heating (e.g., restrict guests)?';
+      'Pouvez-vous contrôler qui peut ajuster le chauffage (par exemple, restreindre les invités) ?';
 
   @override
   String get q_family_access_hint =>
-      'Household members should have control without visitors changing everything.';
+      'Les membres du ménage devraient pouvoir contrôler sans que les invités ne changent tout.';
 
   @override
   String get q_local_control_text =>
-      'Can automations run locally without internet?';
+      'Les automations peuvent-elles s\'exécuter localement sans Internet ?';
 
   @override
   String get q_local_control_hint =>
-      'Local scenes and schedules protect your privacy better.';
+      'Les scènes et horaires locaux protègent mieux votre confidentialité.';
 
   @override
   String get q_usage_tracking_text =>
-      'Have you disabled or limited vendor collection of switching patterns and usage times?';
+      'Avez-vous désactivé ou limité la collecte par le fournisseur des modèles de commutation et des heures d\'utilisation ?';
 
   @override
   String get q_usage_tracking_hint =>
-      'Usage patterns can reveal presence and habits. Check app privacy settings.';
+      'Les modèles d\'utilisation peuvent révéler la présence et les habitudes. Vérifiez les paramètres de confidentialité de l\'application.';
 
   @override
   String get q_offline_fallback_text =>
-      'Do devices still work if internet or app connection fails?';
+      'Les appareils fonctionnent-ils encore si la connexion Internet ou l\'application échoue ?';
 
   @override
   String get q_offline_fallback_hint =>
-      'Reliable local operation is important for daily use and privacy.';
+      'Le fonctionnement local fiable est important pour l\'utilisation quotidienne et la confidentialité.';
 
   @override
   String get q_offline_unlock_text =>
-      'Can you unlock the lock offline (e.g., with code or key)?';
+      'Pouvez-vous déverrouiller la serrure hors ligne (par exemple avec un code ou une clé) ?';
 
   @override
   String get q_offline_unlock_hint =>
-      'Backup options prevent lockout during internet or power outages.';
+      'Les options de secours préviennent le verrouillage lors de pannes Internet ou électriques.';
 
   @override
   String get q_access_logging_text =>
-      'Can you track who opened the lock and when?';
+      'Pouvez-vous suivre qui a ouvert la serrure et quand ?';
 
   @override
   String get q_access_logging_hint =>
-      'An access log helps you detect suspicious activity.';
+      'Un journal d\'accès vous aide à détecter les activités suspectes.';
 
   @override
   String get q_two_factor_text =>
-      'Is two-factor authentication (2FA) available for the lock account?';
+      'L\'authentification à deux facteurs (2FA) est-elle disponible pour le compte de la serrure ?';
 
   @override
   String get q_two_factor_hint =>
-      'BSI recommendation: 2FA protects your account from unauthorized remote access.';
+      'Recommandation du BSI : 2FA protège votre compte contre l\'accès à distance non autorisé.';
 
   @override
   String get q_map_privacy_text =>
-      'Are created floor plans stored exclusively on the device locally?';
+      'Les plans d\'étage créés sont-ils stockés exclusivement sur l\'appareil localement ?';
 
   @override
   String get q_map_privacy_hint =>
-      'Home floor plans are sensitive information and should not be sent to the vendor.';
+      'Les plans d\'étage des maisons sont des informations sensibles et ne doivent pas être envoyés au fournisseur.';
 
   @override
   String get q_cloud_required_text =>
-      'Does floor-plan navigation work without cloud connection?';
+      'La navigation du plan d\'étage fonctionne-t-elle sans connexion cloud ?';
 
   @override
   String get q_cloud_required_hint =>
-      'Devices with local navigation are more privacy-friendly because no room data is uploaded.';
+      'Les appareils avec navigation locale sont plus respectueux de la vie privée car aucune donnée de pièce n\'est téléchargée.';
 
   @override
   String get q_vision_data_text =>
-      'If the robot uses cameras: are camera images used locally only for navigation (no storing or transfer)?';
+      'Si le robot utilise des caméras : les images de caméra sont-elles utilisées localement uniquement pour la navigation (pas de stockage ou de transfert) ?';
 
   @override
   String get q_vision_data_hint =>
-      'Camera images should be processed locally for navigation and neither stored nor sent to the vendor.';
+      'Les images de caméra doivent être traitées localement pour la navigation et ni stockées ni envoyées au fournisseur.';
 
   @override
   String get q_parental_control_text =>
-      'Are there parental control features to manage the toy?';
+      'Y a-t-il des fonctionnalités de contrôle parental pour gérer le jouet ?';
 
   @override
   String get q_parental_control_hint =>
-      'Parental controls should allow restricting contacts and features.';
+      'Les contrôles parentaux devraient permettre de restreindre les contacts et les fonctionnalités.';
 
   @override
   String get q_child_data_limits_text =>
-      'Can you limit which personal data the toy collects?';
+      'Pouvez-vous limiter les données personnelles collectées par le jouet ?';
 
   @override
   String get q_child_data_limits_hint =>
-      'Child-focused devices should collect and store minimal data.';
+      'Les appareils destinés aux enfants devraient collecter et stocker un minimum de données.';
 
   @override
   String get q_recording_disable_text =>
-      'Can you disable audio and video recording on the device?';
+      'Pouvez-vous désactiver l\'enregistrement audio et vidéo sur l\'appareil ?';
 
   @override
   String get q_recording_disable_hint =>
-      'BSI recommendation: Recordings of children should only be possible with explicit control.';
+      'Recommandation du BSI : Les enregistrements d\'enfants ne doivent être possibles qu\'avec un contrôle explicite.';
 
   @override
   String get q_health_sharing_text =>
-      'Can you control which third parties can access your health data?';
+      'Pouvez-vous contrôler quels tiers peuvent accéder à vos données de santé ?';
 
   @override
   String get q_health_sharing_hint =>
-      'Health data is sensitive. Only authorized apps should have access.';
+      'Les données de santé sont sensibles. Seules les applications autorisées devraient y avoir accès.';
 
   @override
   String get q_location_tracking_text =>
-      'Can you disable location tracking when not needed?';
+      'Pouvez-vous désactiver le suivi de localisation lorsqu\'il n\'est pas nécessaire ?';
 
   @override
   String get q_location_tracking_hint =>
-      'GPS tracking uses battery and can reveal movement patterns.';
+      'Le suivi GPS consomme de la batterie et peut révéler les modèles de mouvement.';
 
   @override
   String get q_expert_data_retention_duration_text =>
-      'Is the retention duration for your personal data explicitly defined and limited to what is necessary?';
+      'La durée de conservation de vos données personnelles est-elle explicitement définie et limitée au nécessaire ?';
 
   @override
   String get q_expert_data_retention_duration_hint =>
-      'Inspired by the CMU IoT Security & Privacy Label and Unboxing.IoT.Privacy: short, clear retention periods reduce risk.';
+      'Inspiré par le label CMU IoT Security & Privacy et Unboxing.IoT.Privacy : les périodes de conservation courtes et claires réduisent les risques.';
 
   @override
   String get q_expert_access_control_granular_text =>
-      'Can you control access rights granularly (roles, separate accounts, no shared default logins)?';
+      'Pouvez-vous contrôler les droits d\'accès de manière granulaire (rôles, comptes séparés, pas de connexions par défaut partagées) ?';
 
   @override
   String get q_expert_access_control_granular_hint =>
-      'Granular access control reduces the risk of unauthorized access and misuse.';
+      'Le contrôle granulaire des accès réduit les risques d\'accès non autorisé et d\'abus.';
 
   @override
   String get q_expert_third_party_sharing_limited_text =>
-      'Is third-party sharing disabled or clearly limited to necessary services?';
+      'Le partage avec des tiers est-il désactivé ou clairement limité aux services nécessaires ?';
 
   @override
   String get q_expert_third_party_sharing_limited_hint =>
-      'Check privacy and account settings to see whether data is sent to advertising, analytics, or partner services.';
+      'Vérifiez les paramètres de confidentialité et de compte pour voir si les données sont envoyées à la publicité, à l\'analyse ou aux services partenaires.';
 
   @override
   String get q_expert_data_sale_disabled_text =>
-      'Is the sale of your data excluded (or actively disabled, where possible)?';
+      'La vente de vos données est-elle exclue (ou activement désactivée, si possible) ?';
 
   @override
   String get q_expert_data_sale_disabled_hint =>
-      'An explicit \"no data sale\" option is a strong privacy signal.';
+      'Une option explicite « pas de vente de données » est un signal de confidentialité fort.';
 
   @override
   String get q_expert_update_support_window_text =>
-      'Is it known how long the vendor guarantees security updates?';
+      'Est-il connu combien de temps le fournisseur garantit les mises à jour de sécurité ?';
 
   @override
   String get q_expert_update_support_window_hint =>
-      'A transparent update commitment reduces long-term security and privacy risks.';
+      'Un engagement transparent en matière de mise à jour réduit les risques de sécurité et de confidentialité à long terme.';
 
   @override
   String get q_expert_vulnerability_process_text =>
-      'Is there a documented process for reporting and fixing vulnerabilities?';
+      'Existe-t-il un processus documenté pour signaler et corriger les vulnérabilités ?';
 
   @override
   String get q_expert_vulnerability_process_hint =>
-      'Prefer vendors that provide responsible disclosure policies or clear security contact information.';
+      'Préférez les fournisseurs qui offrent des politiques de divulgation responsable ou des informations de contact de sécurité claires.';
 
   @override
   String get q_expert_offline_functionality_text =>
-      'Does the device remain meaningfully usable with limited internet connectivity?';
+      'L\'appareil reste-t-il raisonnablement utilisable avec une connectivité Internet limitée ?';
 
   @override
   String get q_expert_offline_functionality_hint =>
-      'More offline functionality often means less continuous data transfer to the cloud.';
+      'Une meilleure fonctionnalité hors ligne signifie souvent moins de transfert de données continu vers le cloud.';
 
   @override
   String get q_expert_bystander_transparency_text =>
-      'Are people nearby transparently informed (for example via visibility, notices, clear recording indicators)?';
+      'Les personnes à proximité sont-elles informées de manière transparente (par exemple via une visibilité, des avis, des indicateurs d\'enregistrement clairs) ?';
 
   @override
   String get q_expert_bystander_transparency_hint =>
-      'This addresses bystander privacy and is highlighted in Unboxing.IoT.Privacy as a key challenge.';
+      'Cela concerne la confidentialité des tiers et est souligné dans Unboxing.IoT.Privacy comme un défi clé.';
 
   @override
   String get q_expert_child_data_protection_text =>
-      'Are child-data protections active (minimization, no profiling, restrictive sharing)?';
+      'Les protections des données des enfants sont-elles actives (minimisation, pas de profilage, partage restrictif) ?';
 
   @override
   String get q_expert_child_data_protection_hint =>
-      'Devices in child-related contexts require especially strict privacy safeguards.';
+      'Les appareils dans des contextes liés aux enfants exigent des garanties de confidentialité particulièrement strictes.';
 
   @override
   String get q_expert_access_revocation_text =>
-      'Can digital keys/access rights be revoked quickly and individually?';
+      'Les clés numériques/droits d\'accès peuvent-ils être révoqués rapidement et individuellement ?';
 
   @override
   String get q_expert_access_revocation_hint =>
-      'Fast revocation is crucial when devices are shared or users change.';
+      'La révocation rapide est essentielle lorsque les appareils sont partagés ou que les utilisateurs changent.';
 
   @override
   String get q_expert_sensitive_inference_controls_text =>
-      'Are features that infer sensitive health or behavior profiles restricted or disableable?';
+      'Les fonctionnalités qui déduisent des profils de santé ou de comportement sensibles sont-elles restreintes ou désactivables ?';
 
   @override
   String get q_expert_sensitive_inference_controls_hint =>
-      'Inference controls reduce risks from secondary use of sensitive data.';
+      'Le contrôle de l\'inférence réduit les risques provenant de l\'utilisation secondaire de données sensibles.';
 
   @override
-  String get a_password_title => 'Change default password';
+  String get a_password_title => 'Changez le mot de passe par défaut';
 
   @override
   String get a_password_desc =>
-      'Replace the default password with a strong, unique password. Use a password manager.';
+      'Remplacez le mot de passe par défaut par un mot de passe fort et unique. Utilisez un gestionnaire de mots de passe.';
 
   @override
-  String get a_updates_title => 'Enable automatic updates';
+  String get a_updates_title => 'Activez les mises à jour automatiques';
 
   @override
   String get a_updates_desc =>
-      'Enable automatic security updates in device or app settings.';
+      'Activez les mises à jour de sécurité automatiques dans les paramètres de l\'appareil ou de l\'application.';
 
   @override
-  String get a_network_title => 'Set up separate IoT Wi-Fi';
+  String get a_network_title => 'Configurez un Wi-Fi IoT séparé';
 
   @override
   String get a_network_desc =>
-      'Set up a dedicated Wi-Fi network for smart home devices, for example with your router\'s guest network.';
+      'Mettez en place un réseau Wi-Fi dédié pour les appareils de la maison connectée, par exemple avec le réseau invité de votre routeur.';
 
   @override
-  String get a_informed_title => 'Inform household members';
+  String get a_informed_title => 'Informez les membres du ménage';
 
   @override
   String get a_informed_desc =>
-      'Inform all residents about what data the device collects, who has access, and how it can be disabled.';
+      'Informez tous les résidents sur les données que l\'appareil collecte, qui a accès et comment le désactiver.';
 
   @override
-  String get a_permissions_title => 'Restrict app permissions';
+  String get a_permissions_title =>
+      'Restreignez les permissions de l\'application';
 
   @override
   String get a_permissions_desc =>
-      'Check companion-app permissions in phone settings and disable unnecessary ones.';
+      'Vérifiez les permissions de l\'application complémentaire dans les paramètres du téléphone et désactivez les permissions inutiles.';
 
   @override
   String get a_camera_consent_title =>
-      'Align camera positioning with residents';
+      'Alignez le positionnement de la caméra avec les résidents';
 
   @override
   String get a_camera_consent_desc =>
-      'Obtain consent from everyone affected. The camera must not record areas without consent.';
+      'Obtenez le consentement de toutes les personnes concernées. La caméra ne doit pas enregistrer les zones sans consentement.';
 
   @override
-  String get a_mic_active_title => 'Disable microphone when not in use';
+  String get a_mic_active_title =>
+      'Désactivez le microphone lorsqu\'il n\'est pas utilisé';
 
   @override
   String get a_mic_active_desc =>
-      'Use the physical mute switch or disable the microphone in settings.';
+      'Utilisez le bouton de sourdine physique ou désactivez le microphone dans les paramètres.';
 
   @override
-  String get a_sensor_frequency_title => 'Reduce measurement interval';
+  String get a_sensor_frequency_title => 'Réduisez l\'intervalle de mesure';
 
   @override
   String get a_sensor_frequency_desc =>
-      'If possible, reduce sensor measurement frequency. Less frequent measurements produce fewer behavior data points.';
+      'Si possible, réduisez la fréquence de mesure du capteur. Des mesures moins fréquentes produisent moins de points de données comportementales.';
 
   @override
-  String get a_sensor_data_deletion_title => 'Delete old measurement values';
+  String get a_sensor_data_deletion_title =>
+      'Supprimez les anciennes valeurs de mesure';
 
   @override
   String get a_sensor_data_deletion_desc =>
-      'Review retention periods in app or web UI and enable auto deletion, or delete older data manually on a regular basis.';
+      'Vérifiez les périodes de rétention dans l\'interface utilisateur de l\'application ou du web et activez la suppression automatique, ou supprimez manuellement les données plus anciennes régulièrement.';
 
   @override
-  String get a_sensor_granularity_title => 'Show less detailed data';
+  String get a_sensor_granularity_title => 'Affichez moins de détails';
 
   @override
   String get a_sensor_granularity_desc =>
-      'If possible, switch to less granular display or evaluation, for example daily values instead of minute values.';
+      'Si possible, passez à un affichage ou une évaluation moins granulaire, par exemple les valeurs quotidiennes au lieu des valeurs minutaires.';
 
   @override
-  String get a_sensor_local_title => 'Prefer local processing';
+  String get a_sensor_local_title => 'Privilégiez le traitement local';
 
   @override
   String get a_sensor_local_desc =>
-      'Check whether cloud sync can be disabled or local storage enabled so measurement data is not sent to the vendor.';
+      'Vérifiez si la synchronisation cloud peut être désactivée ou le stockage local activé pour que les données de mesure ne soient pas envoyées au fournisseur.';
 
   @override
-  String get a_voice_history_title => 'Delete voice recordings';
+  String get a_voice_history_title => 'Supprimez les enregistrements vocaux';
 
   @override
   String get a_voice_history_desc =>
-      'BSI recommendation: Regularly delete voice recordings and disable voice history storage if the option is available.';
+      'Recommandation du BSI : supprimez régulièrement les enregistrements vocaux et désactivez le stockage de l\'historique vocal si l\'option est disponible.';
 
   @override
-  String get a_voice_local_title => 'Enable local voice processing';
+  String get a_voice_local_title => 'Activez le traitement vocal local';
 
   @override
   String get a_voice_local_desc =>
-      'Enable local voice processing if available. If not, minimize cloud storage of voice data.';
+      'Activez le traitement vocal local si disponible. Sinon, réduisez au minimum le stockage cloud des données vocales.';
 
   @override
-  String get a_skills_permissions_title => 'Review skills/integrations';
+  String get a_skills_permissions_title =>
+      'Vérifiez les compétences/intégrations';
 
   @override
   String get a_skills_permissions_desc =>
-      'Review which third-party skills have access. Disable unnecessary skills.';
+      'Vérifiez quelles compétences tierces ont accès. Désactivez les compétences inutiles.';
 
   @override
-  String get a_video_encryption_title => 'Enable end-to-end video encryption';
+  String get a_video_encryption_title =>
+      'Activez le chiffrement vidéo de bout en bout';
 
   @override
   String get a_video_encryption_desc =>
-      'Enable end-to-end encrypted transmission for live view and recordings in your camera app/settings.';
+      'Activez la transmission chiffrée de bout en bout pour la vue en direct et les enregistrements dans l\'application/les paramètres de votre caméra.';
 
   @override
-  String get a_video_storage_title => 'Store recordings locally';
+  String get a_video_storage_title => 'Stockez les enregistrements localement';
 
   @override
   String get a_video_storage_desc =>
-      'Configure local storage if possible. If cloud-only storage is unavoidable, shorten the retention period and delete recordings regularly.';
+      'Configurez le stockage local si possible. Si le stockage uniquement en cloud est inévitable, raccourcissez la période de rétention et supprimez régulièrement les enregistrements.';
 
   @override
-  String get a_sharing_restrictions_title => 'Restrict camera access';
+  String get a_sharing_restrictions_title => 'Restreignez l\'accès à la caméra';
 
   @override
   String get a_sharing_restrictions_desc =>
-      'Remove all unnecessary shares in the app and allow live view/recordings only for required accounts.';
+      'Supprimez tous les partages inutiles dans l\'application et autorisez la vue en direct/les enregistrements uniquement pour les comptes requis.';
 
   @override
   String get a_motion_detection_title =>
-      'Disable motion detection when at home';
+      'Désactivez la détection de mouvement lorsque vous êtes à la maison';
 
   @override
   String get a_motion_detection_desc =>
-      'Disable motion detection when people are home, or set a schedule that activates it only during absence.';
+      'Désactivez la détection de mouvement lorsque les gens sont à la maison, ou définissez un horaire qui l\'active uniquement en absence.';
 
   @override
   String get a_account_required_title =>
-      'Minimize privacy impact of required account';
+      'Réduisez l\'impact sur la confidentialité du compte obligatoire';
 
   @override
   String get a_account_required_desc =>
-      'If account-free operation is not possible, use a separate account with minimal profile data and disable personalized services.';
+      'Si l\'utilisation sans compte n\'est pas possible, utilisez un compte distinct avec des données de profil minimales et désactivez les services personnalisés.';
 
   @override
-  String get a_tracking_disabled_title => 'Disable tracking and advertising';
+  String get a_tracking_disabled_title => 'Désactivez le suivi et la publicité';
 
   @override
   String get a_tracking_disabled_desc =>
-      'Disable tracking, personalized advertising, and optional telemetry in privacy settings.';
+      'Désactivez le suivi, la publicité personnalisée et la télémétrie facultative dans les paramètres de confidentialité.';
 
   @override
-  String get a_local_mode_title => 'Prefer offline use';
+  String get a_local_mode_title => 'Privilégiez l\'utilisation hors ligne';
 
   @override
   String get a_local_mode_desc =>
-      'Use the device primarily via local sources (e.g., HDMI) to reduce data transfer to the vendor.';
+      'Utilisez l\'appareil principalement via des sources locales (par exemple, HDMI) pour réduire le transfert de données au fournisseur.';
 
   @override
-  String get a_data_collection_title => 'Disable history upload';
+  String get a_data_collection_title =>
+      'Désactivez le téléchargement de l\'historique';
 
   @override
   String get a_data_collection_desc =>
-      'Disable transmission of temperature history to the vendor in the thermostat app and shorten the retention period.';
+      'Désactivez la transmission de l\'historique de température au fournisseur dans l\'application de thermostat et raccourcissez la période de rétention.';
 
   @override
-  String get a_offline_control_title => 'Set up local control';
+  String get a_offline_control_title => 'Configurez le contrôle local';
 
   @override
   String get a_offline_control_desc =>
-      'Configure local schedules and control without cloud dependency if the device supports it.';
+      'Configurez des horaires locaux et un contrôle sans dépendance du cloud si l\'appareil le supporte.';
 
   @override
   String get a_family_access_title =>
-      'Separate access rights for household members';
+      'Droits d\'accès séparés pour les membres du ménage';
 
   @override
   String get a_family_access_desc =>
-      'Set up separate roles/accounts so that only authorized people can adjust the heating.';
+      'Mettez en place des rôles/comptes séparés pour que seules les personnes autorisées puissent ajuster le chauffage.';
 
   @override
-  String get a_local_control_title => 'Enable local automations';
+  String get a_local_control_title => 'Activez les automations locales';
 
   @override
   String get a_local_control_desc =>
-      'Use local scenes/schedules instead of cloud automations where available.';
+      'Utilisez des scènes/horaires locaux au lieu des automations cloud si disponibles.';
 
   @override
-  String get a_usage_tracking_title => 'Disable usage tracking';
+  String get a_usage_tracking_title => 'Désactivez le suivi d\'utilisation';
 
   @override
   String get a_usage_tracking_desc =>
-      'Disable analytics, telemetry, and usage data collection in app settings.';
+      'Désactivez l\'analyse, la télémétrie et la collecte de données d\'utilisation dans les paramètres de l\'application.';
 
   @override
-  String get a_offline_fallback_title => 'Ensure offline fallback';
+  String get a_offline_fallback_title => 'Assurez le recours hors ligne';
 
   @override
   String get a_offline_fallback_desc =>
-      'Check local switches/buttons and set up fallback controls so the device remains usable without internet.';
+      'Vérifiez les interrupteurs/boutons locaux et configurez des commandes de secours pour que l\'appareil reste utilisable sans Internet.';
 
   @override
-  String get a_offline_unlock_title => 'Secure offline access';
+  String get a_offline_unlock_title => 'Sécurisez l\'accès hors ligne';
 
   @override
   String get a_offline_unlock_desc =>
-      'Set up a physical key or emergency code and test access when internet is unavailable.';
+      'Configurez une clé physique ou un code d\'urgence et testez l\'accès lorsqu\'Internet n\'est pas disponible.';
 
   @override
-  String get a_access_logging_title => 'Enable access log';
+  String get a_access_logging_title => 'Activez le journal d\'accès';
 
   @override
   String get a_access_logging_desc =>
-      'Enable logging and notifications for lock openings so unauthorized access can be detected.';
+      'Mettez en place un journal d\'accès pour les ouvertures de serrure afin de détecter les accès non autorisés.';
 
   @override
-  String get a_two_factor_title => 'Enable two-factor authentication';
+  String get a_two_factor_title =>
+      'Activez l\'authentification à deux facteurs';
 
   @override
   String get a_two_factor_desc =>
-      'BSI recommendation: Enable 2FA for your lock account to protect remote access.';
+      'Recommandation du BSI : activez 2FA pour votre compte de serrure pour protéger l\'accès à distance.';
 
   @override
-  String get a_map_privacy_title => 'Disable cloud floor-plan storage';
+  String get a_map_privacy_title =>
+      'Désactivez le stockage cloud des plans d\'étage';
 
   @override
   String get a_map_privacy_desc =>
-      'Switch storage to local and disable cloud backups of floor plans if the option is available.';
+      'Basculez le stockage en local et désactivez les sauvegardes cloud des plans d\'étage si l\'option est disponible.';
 
   @override
-  String get a_cloud_required_title => 'Reduce cloud dependency';
+  String get a_cloud_required_title => 'Réduisez la dépendance au cloud';
 
   @override
   String get a_cloud_required_desc =>
-      'Enable local navigation or offline mode if available. If not, consider switching to a more privacy-friendly model.';
+      'Activez la navigation locale ou le mode hors ligne si disponible. Sinon, envisagez de passer à un modèle plus respectueux de la vie privée.';
 
   @override
-  String get a_vision_data_title => 'Process camera data locally only';
+  String get a_vision_data_title =>
+      'Traitez les données de caméra localement uniquement';
 
   @override
   String get a_vision_data_desc =>
-      'Disable upload/storage of camera images and use exclusively local navigation processing where possible.';
+      'Désactivez le téléchargement/stockage des images de caméra et utilisez exclusivement le traitement local de la navigation où possible.';
 
   @override
-  String get a_parental_control_title => 'Set up parental controls';
+  String get a_parental_control_title => 'Configurez le contrôle parental';
 
   @override
   String get a_parental_control_desc =>
-      'Enable parental controls with a PIN and restrict contacts, features, and sharing to what is necessary.';
+      'Activez le contrôle parental avec un code PIN et restreignez les contacts, les fonctionnalités et le partage à ce qui est nécessaire.';
 
   @override
-  String get a_child_data_limits_title => 'Minimize data collection';
+  String get a_child_data_limits_title => 'Réduisez la collecte de données';
 
   @override
   String get a_child_data_limits_desc =>
-      'Disable optional profile data and collect only the child data required for core functionality.';
+      'Désactivez les données de profil optionnelles et collectez uniquement les données enfant requises pour les fonctionnalités principales.';
 
   @override
-  String get a_recording_disable_title => 'Disable audio/video recordings';
+  String get a_recording_disable_title =>
+      'Désactivez les enregistrements audio/vidéo';
 
   @override
   String get a_recording_disable_desc =>
-      'Disable recording features by default and enable them only briefly when specifically needed.';
+      'Désactivez les fonctionnalités d\'enregistrement par défaut et activez-les uniquement brièvement lorsque spécifiquement nécessaire.';
 
   @override
-  String get a_health_sharing_title => 'Restrict health data sharing';
+  String get a_health_sharing_title =>
+      'Restreignez le partage des données de santé';
 
   @override
   String get a_health_sharing_desc =>
-      'Revoke health data access from unnecessary third-party apps in app and account settings.';
+      'Révoquez l\'accès aux données de santé des applications tierces inutiles dans les paramètres de l\'application et du compte.';
 
   @override
-  String get a_location_tracking_title => 'Reduce location sharing';
+  String get a_location_tracking_title => 'Réduisez le partage de localisation';
 
   @override
   String get a_location_tracking_desc =>
-      'Disable location tracking outside active use or allow it only while the app is in use.';
+      'Désactivez le suivi de localisation hors de l\'utilisation active ou autorisez-le uniquement pendant l\'utilisation de l\'application.';
 
   @override
   String get a_expert_data_retention_duration_title =>
-      'Define retention periods';
+      'Définissez les périodes de rétention';
 
   @override
   String get a_expert_data_retention_duration_desc =>
-      'Set short, clear retention periods in settings and regularly delete old data.';
+      'Définissez des périodes de rétention courtes et explicites dans les paramètres et supprimez régulièrement les anciennes données.';
 
   @override
   String get a_expert_access_control_granular_title =>
-      'Introduce granular roles and accounts';
+      'Introduisez des rôles et des comptes granulaires';
 
   @override
   String get a_expert_access_control_granular_desc =>
-      'Use separate accounts instead of shared logins and grant only the minimum necessary permissions.';
+      'Utilisez des comptes séparés au lieu de connexions partagées et accordez uniquement les permissions minimales nécessaires.';
 
   @override
   String get a_expert_third_party_sharing_limited_title =>
-      'Limit third-party sharing';
+      'Limitez le partage avec des tiers';
 
   @override
   String get a_expert_third_party_sharing_limited_desc =>
-      'Disable partner, advertising, and analytics sharing in privacy and account settings.';
+      'Désactivez le partage avec les partenaires, la publicité et l\'analyse dans les paramètres de confidentialité et de compte.';
 
   @override
-  String get a_expert_data_sale_disabled_title => 'Opt out of data sale';
+  String get a_expert_data_sale_disabled_title => 'Refusez la vente de données';
 
   @override
   String get a_expert_data_sale_disabled_desc =>
-      'Enable available \"Do not sell\" options or object to data sharing for commercial purposes.';
+      'Activez les options disponibles « Ne pas vendre » ou objectez au partage de données à des fins commerciales.';
 
   @override
-  String get a_expert_update_support_window_title => 'Verify update commitment';
+  String get a_expert_update_support_window_title =>
+      'Vérifiez l\'engagement de mise à jour';
 
   @override
   String get a_expert_update_support_window_desc =>
-      'Review the vendor\'s official update policy and plan a device replacement if no commitment is given.';
+      'Vérifiez la politique officielle de mise à jour du fournisseur et planifiez un remplacement d\'appareil si aucun engagement n\'est donné.';
 
   @override
   String get a_expert_vulnerability_process_title =>
-      'Review vendor security process';
+      'Vérifiez le processus de sécurité du fournisseur';
 
   @override
   String get a_expert_vulnerability_process_desc =>
-      'Prefer vendors with a clear security contact and responsible disclosure process.';
+      'Privilégiez les fournisseurs disposant d\'une politique de divulgation responsable claire et d\'informations de contact de sécurité.';
 
   @override
   String get a_expert_offline_functionality_title =>
-      'Prioritize offline functionality';
+      'Privilégiez les fonctionnalités hors ligne';
 
   @override
   String get a_expert_offline_functionality_desc =>
-      'Enable local operating modes and minimize mandatory cloud features where the device allows.';
+      'Activez les modes de fonctionnement locaux et minimisez les fonctionnalités cloud obligatoires lorsque l\'appareil le permet.';
 
   @override
   String get a_expert_bystander_transparency_title =>
-      'Add transparency notices for bystanders';
+      'Ajoutez des avis de transparence pour les tiers';
 
   @override
   String get a_expert_bystander_transparency_desc =>
-      'Provide visible notices, recording indicators, and clear information for people in the surrounding area.';
+      'Fournissez des avis visibles, des indicateurs d\'enregistrement clairs et des informations transparentes pour les personnes à proximité.';
 
   @override
   String get a_expert_child_data_protection_title =>
-      'Strengthen child data protection';
+      'Renforcez la protection des données des enfants';
 
   @override
   String get a_expert_child_data_protection_desc =>
-      'Enable child-appropriate profiles, minimize data collection, and disable profiling/sharing.';
+      'Activez les profils adaptés aux enfants, réduisez la collecte de données et désactivez le profilage/partage.';
 
   @override
   String get a_expert_access_revocation_title =>
-      'Set up rapid access revocation';
+      'Mettez en place une révocation d\'accès rapide';
 
   @override
   String get a_expert_access_revocation_desc =>
-      'Ensure that digital keys can be revoked individually and immediately, e.g., in case of device loss.';
+      'Assurez-vous que les clés numériques peuvent être révoquées individuellement et immédiatement, par exemple en cas de perte d\'appareil.';
 
   @override
   String get a_expert_sensitive_inference_controls_title =>
-      'Restrict inference features';
+      'Restreignez les fonctionnalités d\'inférence';
 
   @override
   String get a_expert_sensitive_inference_controls_desc =>
-      'Disable features that infer sensitive health or behavioral profiles unless strictly necessary.';
+      'Désactivez les fonctionnalités qui déduisent des profils de santé ou de comportement sensibles sauf si strictement nécessaire.';
 
   @override
-  String get a_dont_know_title => 'Get to know device settings better';
+  String get a_dont_know_title =>
+      'Mieux connaître les paramètres des appareils';
 
   @override
   String get a_dont_know_desc =>
-      'At least one question was answered with \"I don\'t know\". Review your device settings and documentation to reduce risk more effectively.';
+      'Au moins une question a reçu la réponse « Je ne sais pas ». Vérifiez les paramètres de votre appareil et la documentation pour réduire le risque plus efficacement.';
 
   @override
-  String get sl_base_risk => 'Baseline risk of device type';
+  String get sl_base_risk => 'Risque de base du type d\'appareil';
 
   @override
-  String get sl_child_room_bonus => 'Increased sensitivity: child\'s bedroom';
+  String get sl_child_room_bonus => 'Sensibilité accrue : chambre d\'enfant';
 
   @override
-  String get sl_password => 'Default password not changed';
+  String get sl_password => 'Mot de passe par défaut non changé';
 
   @override
-  String get sl_updates => 'Automatic updates not enabled';
+  String get sl_updates => 'Mises à jour automatiques non activées';
 
   @override
-  String get sl_network => 'No separate IoT Wi-Fi configured';
+  String get sl_network => 'Aucun Wi-Fi IoT distinct configuré';
 
   @override
-  String get sl_informed => 'Household members not informed';
+  String get sl_informed => 'Membres du ménage non informés';
 
   @override
-  String get sl_permissions => 'App permissions not reduced';
+  String get sl_permissions => 'Autorisations d\'application non réduites';
 
   @override
-  String get sl_camera_consent => 'No consent for camera-covered area';
+  String get sl_camera_consent =>
+      'Pas de consentement pour la zone enregistrée par la caméra';
 
   @override
-  String get sl_mic_active => 'Microphone not disabled when unused';
+  String get sl_mic_active => 'Microphone non désactivé lorsqu\'inutilisé';
 
   @override
-  String get sl_sensor_frequency => 'Measurement interval not reduced';
+  String get sl_sensor_frequency => 'Intervalle de mesure non réduit';
 
   @override
-  String get sl_sensor_data_deletion => 'Old measurement values not deleted';
+  String get sl_sensor_data_deletion =>
+      'Anciennes valeurs de mesure non supprimées';
 
   @override
-  String get sl_sensor_granularity => 'Data stored with too much granularity';
+  String get sl_sensor_granularity =>
+      'Données stockées avec trop de granularité';
 
   @override
-  String get sl_sensor_local => 'Data transferred to cloud';
+  String get sl_sensor_local => 'Données transférées au cloud';
 
   @override
-  String get sl_voice_history => 'Voice recordings not deletable';
+  String get sl_voice_history => 'Enregistrements vocaux non supprimables';
 
   @override
-  String get sl_voice_local => 'No local voice processing';
+  String get sl_voice_local => 'Aucun traitement vocal local';
 
   @override
-  String get sl_skills_permissions => 'Skills not reviewed regularly';
+  String get sl_skills_permissions => 'Compétences non examinées régulièrement';
 
   @override
-  String get sl_video_encryption => 'Video transmission not encrypted';
+  String get sl_video_encryption => 'Transmission vidéo non chiffrée';
 
   @override
-  String get sl_video_storage => 'Recordings only in vendor cloud';
+  String get sl_video_storage =>
+      'Enregistrements uniquement dans le cloud du vendeur';
 
   @override
-  String get sl_sharing_restrictions => 'Recording access not controlled';
+  String get sl_sharing_restrictions =>
+      'Accès à l\'enregistrement non contrôlé';
 
   @override
-  String get sl_motion_detection => 'Motion detection always active';
+  String get sl_motion_detection => 'Détection de mouvement toujours active';
 
   @override
-  String get sl_account_required => 'Mandatory vendor account required';
+  String get sl_account_required => 'Compte vendeur obligatoire requis';
 
   @override
-  String get sl_tracking_disabled => 'Ad tracking not disabled';
+  String get sl_tracking_disabled => 'Suivi publicitaire non désactivé';
 
   @override
-  String get sl_local_mode => 'No offline operation possible';
+  String get sl_local_mode => 'Aucun fonctionnement hors ligne possible';
 
   @override
-  String get sl_data_collection => 'Temperature history sent to vendor';
+  String get sl_data_collection =>
+      'Historique de température envoyé au vendeur';
 
   @override
-  String get sl_offline_control => 'No offline operation possible';
+  String get sl_offline_control => 'Aucun fonctionnement hors ligne possible';
 
   @override
-  String get sl_family_access => 'Access cannot be restricted';
+  String get sl_family_access => 'L\'accès ne peut pas être restreint';
 
   @override
-  String get sl_local_control => 'Automations require internet connection';
+  String get sl_local_control =>
+      'Les automations nécessitent une connexion Internet';
 
   @override
-  String get sl_usage_tracking => 'Switching patterns collected by vendor';
+  String get sl_usage_tracking =>
+      'Modèles de commutation collectés par le vendeur';
 
   @override
-  String get sl_offline_fallback => 'Device unusable offline';
+  String get sl_offline_fallback => 'Appareil inutilisable hors ligne';
 
   @override
-  String get sl_offline_unlock => 'No offline unlock possible';
+  String get sl_offline_unlock => 'Déverrouillage hors ligne impossible';
 
   @override
-  String get sl_access_logging => 'No access log available';
+  String get sl_access_logging => 'Aucun journal d\'accès disponible';
 
   @override
-  String get sl_two_factor => 'Two-factor authentication missing';
+  String get sl_two_factor => 'Authentification à deux facteurs manquante';
 
   @override
-  String get sl_map_privacy => 'Floor plan transmitted to vendor';
+  String get sl_map_privacy => 'Plan d\'étage transmis au vendeur';
 
   @override
-  String get sl_cloud_required => 'Navigation only possible via cloud';
+  String get sl_cloud_required => 'Navigation possible uniquement via le cloud';
 
   @override
-  String get sl_vision_data => 'Camera images stored or transmitted';
+  String get sl_vision_data => 'Images de caméra stockées ou transmises';
 
   @override
-  String get sl_parental_control => 'Parental controls not configured';
+  String get sl_parental_control => 'Contrôles parentaux non configurés';
 
   @override
-  String get sl_child_data_limits => 'Data collection not limited';
+  String get sl_child_data_limits => 'Collecte de données non limitée';
 
   @override
-  String get sl_recording_disable => 'Recording cannot be disabled';
+  String get sl_recording_disable =>
+      'L\'enregistrement ne peut pas être désactivé';
 
   @override
-  String get sl_health_sharing => 'Health data shared with third parties';
+  String get sl_health_sharing => 'Données de santé partagées avec des tiers';
 
   @override
-  String get sl_location_tracking => 'Location tracking enabled';
+  String get sl_location_tracking => 'Suivi de localisation activé';
 
   @override
   String get sl_expert_data_retention_duration =>
-      'Retention duration unclear or too long';
+      'Durée de conservation non claire ou trop longue';
 
   @override
   String get sl_expert_access_control_granular =>
-      'Granular access control missing';
+      'Contrôle granulaire des accès manquant';
 
   @override
   String get sl_expert_third_party_sharing_limited =>
-      'Third-party sharing not limited';
+      'Partage tiers non limité';
 
   @override
-  String get sl_expert_data_sale_disabled => 'Data sale not excluded';
+  String get sl_expert_data_sale_disabled => 'Vente de données non exclue';
 
   @override
   String get sl_expert_update_support_window =>
-      'Guaranteed update support window unknown';
+      'Fenêtre de support de mise à jour garantie inconnue';
 
   @override
   String get sl_expert_vulnerability_process =>
-      'Vulnerability process not documented';
+      'Processus de vulnérabilité non documenté';
 
   @override
   String get sl_expert_offline_functionality =>
-      'Meaningful offline operation not possible';
+      'Fonctionnement significatif hors ligne impossible';
 
   @override
   String get sl_expert_bystander_transparency =>
-      'Transparency for nearby bystanders missing';
+      'Transparence pour les tiers à proximité manquante';
 
   @override
   String get sl_expert_child_data_protection =>
-      'Child-data protection measures missing';
+      'Mesures de protection des données des enfants manquantes';
 
   @override
   String get sl_expert_access_revocation =>
-      'Individual access revocation not possible';
+      'Révocation d\'accès individuel impossible';
 
   @override
   String get sl_expert_sensitive_inference_controls =>
-      'Controls against sensitive inference missing';
+      'Contrôles contre l\'inférence sensible manquants';
 
   @override
   String get risk_hint_camera =>
-      'You answered all questions positively. However, baseline risk remains higher for cameras because they capture highly sensitive observation data and can be misused for surveillance if misconfigured.';
+      'Vous avez répondu positivement à toutes les questions. Cependant, le risque de base reste plus élevé pour les caméras car elles capturent des données d\'observation hautement sensibles et peuvent être mal utilisées pour la surveillance si mal configurées.';
 
   @override
   String get risk_hint_mic =>
-      'You answered all questions positively. However, baseline risk remains elevated for microphone devices because voice data is highly sensitive and accidental activation or cloud processing still carries risks.';
+      'Vous avez répondu positivement à toutes les questions. Cependant, le risque de base reste élevé pour les appareils à microphone car les données vocales sont hautement sensibles et l\'activation accidentelle ou le traitement cloud posent toujours des risques.';
 
   @override
   String get risk_hint_lock =>
-      'You answered all questions positively. However, smart locks still have elevated baseline risk because misuse directly affects physical access to your home.';
+      'Vous avez répondu positivement à toutes les questions. Cependant, les serrures intelligentes ont toujours un risque de base élevé car l\'abus affecte directement l\'accès physique à votre maison.';
 
   @override
   String get risk_hint_child_room =>
-      'You answered all questions positively. However, baseline risk remains elevated in a child\'s bedroom because especially sensitive data about children and their daily life can be affected there.';
+      'Vous avez répondu positivement à toutes les questions. Cependant, le risque de base reste élevé dans la chambre d\'un enfant car des données particulièrement sensibles sur les enfants et leur vie quotidienne peuvent être affectées.';
 
   @override
   String get risk_hint_generic =>
-      'You answered all questions positively. The device can still remain medium/high risk because its type may reveal sensitive usage and behavior data.';
+      'Vous avez répondu positivement à toutes les questions. L\'appareil peut rester un risque moyen/élevé car son type peut révéler des données sensibles sur l\'utilisation et le comportement.';
 
   @override
   String get gen_rec_0 =>
-      'Mettez en place un réseau Wi-Fi séparé pour les appareils de la maison connectée (par ex. le réseau invité de votre routeur).';
+      'Configurez un réseau Wi-Fi distinct pour les appareils de maison intelligente (par exemple, le réseau invité de votre routeur).';
 
   @override
   String get gen_rec_1 =>
-      'Utilisez un gestionnaire de mots de passe et attribuez à chaque appareil un mot de passe unique et robuste.';
+      'Utilisez un gestionnaire de mots de passe et attribuez un mot de passe unique et robuste à chaque appareil.';
 
   @override
   String get gen_rec_2 =>
-      'Activez l’authentification multifacteur (MFA) pour tous les comptes fournisseurs.';
+      'Activez l\'authentification multifacteur (MFA) pour tous les comptes vendeur.';
 
   @override
   String get gen_rec_3 =>
-      'Définissez qui, dans votre foyer, est responsable des mises à jour, des sauvegardes et des comptes.';
+      'Définissez qui dans votre ménage est responsable des mises à jour, des sauvegardes et des comptes.';
 
   @override
   String get gen_rec_4 =>
-      'Vérifiez régulièrement (au moins une fois par trimestre) tous les droits d’accès et tous les comptes.';
+      'Vérifiez régulièrement (au moins une fois par trimestre) toutes les autorisations d\'accès et tous les comptes.';
 
   @override
   String get gen_rec_5 =>
-      'Éliminez les anciens appareils de manière respectueuse de la vie privée : effectuez une réinitialisation d’usine et retirez-les des comptes cloud du fournisseur.';
+      'Éliminez les anciens appareils de manière respectueuse de la vie privée : effectuez une réinitialisation d\'usine et retirez-les des comptes cloud du vendeur.';
 
   @override
   String get gen_rec_6 =>
-      'Faites un point de consentement au sein du foyer avant d’acheter de nouveaux appareils et impliquez tous les membres du foyer.';
+      'Effectuez une vérification du consentement du ménage avant d\'acheter de nouveaux appareils et impliquez tous les membres du ménage.';
 }
