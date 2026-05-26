@@ -51,6 +51,14 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.3
   msix: ^3.16.13
 
+msix_config:
+  display_name: Simplications
+  publisher_display_name: Technische Universitat Chemnitz
+  identity_name: de.tu-chemnitz.mi.simplications
+  msix_version: 1.0.0.23
+  logo_path: assets/icon/icon.png
+  # No capabilities are declared for the Windows package.
+
 flutter_launcher_icons:
   android: true
   ios: true
