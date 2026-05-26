@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
-import '../l10n/localization_lookup.dart';
+import '../l10n/app_localizations.dart';
+import '../l10n/app_localizations_key_resolver.dart';
 import '../models/room.dart';
 import '../models/device.dart';
 
 class CatalogData {
-  static String localizeText(String source) =>
-      LocalizationLookup.translate(source);
+  static String roomName(AppLocalizations localizations, Room room) =>
+      localizations.resolveKey(room.name, fallback: room.name);
 
-  static String roomName(Room room) => localizeText(room.name);
+  static String roomNameFromStored(
+    AppLocalizations localizations, {
+    required String roomId,
+    required String storedName,
+  }) {
+    for (final room in allRooms) {
+      if (room.id == roomId) {
+        return roomName(localizations, room);
+      }
+    }
+    return localizations.resolveKey(storedName, fallback: storedName);
+  }
 
-  static String deviceName(DeviceTemplate template) =>
-      localizeText(template.name);
+  static String deviceName(
+    AppLocalizations localizations,
+    DeviceTemplate template,
+  ) => localizations.resolveKey(template.name, fallback: template.name);
 
   static const List<Room> allRooms = [
     Room(id: 'living', name: 'room_living', icon: Icons.weekend),
@@ -313,16 +327,14 @@ class CatalogData {
   }
 
   // General recommendations always shown on the summary screen
-  static const List<String> _generalRecommendations = [
-    'gen_rec_0',
-    'gen_rec_1',
-    'gen_rec_2',
-    'gen_rec_3',
-    'gen_rec_4',
-    'gen_rec_5',
-    'gen_rec_6',
-  ];
-
-  static List<String> get generalRecommendations =>
-      _generalRecommendations.map(localizeText).toList();
+  static List<String> generalRecommendations(AppLocalizations localizations) =>
+      [
+        localizations.gen_rec_0,
+        localizations.gen_rec_1,
+        localizations.gen_rec_2,
+        localizations.gen_rec_3,
+        localizations.gen_rec_4,
+        localizations.gen_rec_5,
+        localizations.gen_rec_6,
+      ];
 }

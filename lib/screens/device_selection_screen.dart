@@ -121,7 +121,7 @@ class DeviceSelectionScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${localizations.deviceTitlePrefix}: ${CatalogData.roomName(room)}',
+          '${localizations.deviceTitlePrefix}: ${CatalogData.roomName(localizations, room)}',
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
@@ -167,7 +167,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                CatalogData.roomName(room),
+                                CatalogData.roomName(localizations, room),
                                 style: text.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -246,11 +246,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                       isCompleted: isCompleted,
                       isCustom: isCustom,
                       onTap: () {
-                        state.addDevice(
-                          device,
-                          room.id,
-                          CatalogData.roomName(room),
-                        );
+                        state.addDevice(device, room.id, room.name);
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) => DeviceQuestionnaireScreen(
@@ -353,7 +349,7 @@ class _DeviceCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  CatalogData.deviceName(device),
+                  CatalogData.deviceName(localizations, device),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w500,
                     color: contentColor,

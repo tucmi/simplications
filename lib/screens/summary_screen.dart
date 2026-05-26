@@ -6,7 +6,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../data/catalog_data.dart';
 import '../l10n/app_localizations.dart';
-import '../l10n/localization_lookup.dart';
+import '../l10n/app_localizations_key_resolver.dart';
 import '../models/device.dart';
 import '../models/survey_state.dart';
 
@@ -461,7 +461,9 @@ String _buildShareText(_SummaryReport report, AppLocalizations localizations) {
 
   buffer.writeln(localizations.generalRecommendations);
   buffer.writeln(localizations.generalRecommendationsHint);
-  for (final entry in CatalogData.generalRecommendations.asMap().entries) {
+  for (final entry in CatalogData.generalRecommendations(
+    localizations,
+  ).asMap().entries) {
     buffer.writeln('${entry.key + 1}. ${entry.value}');
   }
   buffer.writeln();
@@ -483,7 +485,7 @@ void _writeRiskSection(
   buffer.writeln(heading);
   for (final device in devices) {
     buffer.writeln(
-      '- ${CatalogData.deviceName(device.template)} (${CatalogData.localizeText(device.roomName)})',
+      '- ${CatalogData.deviceName(localizations, device.template)} (${CatalogData.roomNameFromStored(localizations, roomId: device.roomId, storedName: device.roomName)})',
     );
     buffer.writeln(
       '  ${localizations.risk}: ${_riskLabel(device.riskLevel, localizations)} (${device.riskScore}/100)',
@@ -492,7 +494,10 @@ void _writeRiskSection(
     final actions = device.suggestedActions;
     final inherentRiskHint = device.inherentRiskHint == null
         ? null
-        : LocalizationLookup.translate(device.inherentRiskHint!);
+        : localizations.resolveKey(
+            device.inherentRiskHint!,
+            fallback: device.inherentRiskHint!,
+          );
     if (actions.isEmpty) {
       buffer.writeln('  ${_noActionMessage(device.riskLevel, localizations)}');
       if (inherentRiskHint != null) {
@@ -502,10 +507,10 @@ void _writeRiskSection(
       buffer.writeln('  ${actions.length} ${localizations.recommendations}:');
       for (final action in actions) {
         buffer.writeln(
-          '  - ${LocalizationLookup.translate(action.title)} [${_priorityLabel(action.priority, localizations)} | ${_actionTypeLabel(action.type, localizations)}]',
+          '  - ${localizations.resolveKey(action.title, fallback: action.title)} [${_priorityLabel(action.priority, localizations)} | ${_actionTypeLabel(action.type, localizations)}]',
         );
         buffer.writeln(
-          '    ${LocalizationLookup.translate(action.description)}',
+          '    ${localizations.resolveKey(action.description, fallback: action.description)}',
         );
       }
     }
@@ -578,7 +583,9 @@ Future<Uint8List> _buildSharePdf(
         pw.Header(level: 1, text: localizations.generalRecommendations),
         pw.Text(localizations.generalRecommendationsHint),
         pw.SizedBox(height: 8),
-        ...CatalogData.generalRecommendations.asMap().entries.map(
+        ...CatalogData.generalRecommendations(
+          localizations,
+        ).asMap().entries.map(
           (entry) => pw.Padding(
             padding: const pw.EdgeInsets.only(bottom: 6),
             child: pw.Row(
@@ -614,10 +621,13 @@ List<pw.Widget> _buildPdfRiskSection(
       final actions = device.suggestedActions;
       final inherentRiskHint = device.inherentRiskHint == null
           ? null
-          : LocalizationLookup.translate(device.inherentRiskHint!);
+          : localizations.resolveKey(
+              device.inherentRiskHint!,
+              fallback: device.inherentRiskHint!,
+            );
       final widgets = <pw.Widget>[
         pw.Text(
-          '${CatalogData.deviceName(device.template)} (${CatalogData.localizeText(device.roomName)})',
+          '${CatalogData.deviceName(localizations, device.template)} (${CatalogData.roomNameFromStored(localizations, roomId: device.roomId, storedName: device.roomName)})',
           style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
         ),
         pw.Text(
@@ -647,10 +657,15 @@ List<pw.Widget> _buildPdfRiskSection(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
                   pw.Text(
-                    '- ${LocalizationLookup.translate(action.title)} [${_priorityLabel(action.priority, localizations)} | ${_actionTypeLabel(action.type, localizations)}]',
+                    '- ${localizations.resolveKey(action.title, fallback: action.title)} [${_priorityLabel(action.priority, localizations)} | ${_actionTypeLabel(action.type, localizations)}]',
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                   ),
-                  pw.Text(LocalizationLookup.translate(action.description)),
+                  pw.Text(
+                    localizations.resolveKey(
+                      action.description,
+                      fallback: action.description,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -980,7 +995,10 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
     final actions = device.suggestedActions;
     final inherentRiskHint = device.inherentRiskHint == null
         ? null
-        : LocalizationLookup.translate(device.inherentRiskHint!);
+        : localizations.resolveKey(
+            device.inherentRiskHint!,
+            fallback: device.inherentRiskHint!,
+          );
     final noActionColor = level == RiskLevel.low
         ? _riskColor(RiskLevel.low)
         : color;
@@ -1018,14 +1036,21 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          CatalogData.deviceName(device.template),
+                          CatalogData.deviceName(
+                            localizations,
+                            device.template,
+                          ),
                           style: text.bodyMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          CatalogData.localizeText(device.roomName),
+                          CatalogData.roomNameFromStored(
+                            localizations,
+                            roomId: device.roomId,
+                            storedName: device.roomName,
+                          ),
                           style: text.bodySmall?.copyWith(
                             color: colors.onSurfaceVariant,
                           ),
@@ -1268,6 +1293,7 @@ class _FactorRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     final Color chipColor;
     final IconData icon;
 
@@ -1294,7 +1320,7 @@ class _FactorRow extends StatelessWidget {
           const SizedBox(width: 6),
           Expanded(
             child: Text(
-              LocalizationLookup.translate(factor.label),
+              localizations.resolveKey(factor.label, fallback: factor.label),
               style: text.bodySmall?.copyWith(height: 1.3),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -1358,7 +1384,10 @@ class _ActionTile extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        LocalizationLookup.translate(action.title),
+                        localizations.resolveKey(
+                          action.title,
+                          fallback: action.title,
+                        ),
                         style: text.bodySmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -1390,7 +1419,10 @@ class _ActionTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  LocalizationLookup.translate(action.description),
+                  localizations.resolveKey(
+                    action.description,
+                    fallback: action.description,
+                  ),
                   style: text.bodySmall?.copyWith(
                     color: colors.onSurfaceVariant,
                     height: 1.4,
@@ -1446,7 +1478,9 @@ class _GeneralRecommendations extends StatelessWidget {
             style: text.bodySmall?.copyWith(color: colors.onSurfaceVariant),
           ),
           const SizedBox(height: 12),
-          ...CatalogData.generalRecommendations.asMap().entries.map(
+          ...CatalogData.generalRecommendations(
+            localizations,
+          ).asMap().entries.map(
             (entry) => Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Row(

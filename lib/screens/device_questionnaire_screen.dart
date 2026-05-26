@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/catalog_data.dart';
 import '../l10n/app_localizations.dart';
-import '../l10n/localization_lookup.dart';
+import '../l10n/app_localizations_key_resolver.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
@@ -99,7 +99,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          CatalogData.roomName(widget.room),
+                          CatalogData.roomName(localizations, widget.room),
                           style: text.labelSmall?.copyWith(
                             color: colors.primary,
                             fontWeight: FontWeight.bold,
@@ -138,7 +138,10 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  CatalogData.deviceName(device.template),
+                                  CatalogData.deviceName(
+                                    localizations,
+                                    device.template,
+                                  ),
                                   style: text.titleMedium?.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -376,7 +379,10 @@ class _QuestionCard extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    LocalizationLookup.translate(question.text),
+                    localizations.resolveKey(
+                      question.text,
+                      fallback: question.text,
+                    ),
                     style: text.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       height: 1.4,
@@ -388,7 +394,10 @@ class _QuestionCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 34, top: 6),
               child: Text(
-                LocalizationLookup.translate(question.hint),
+                localizations.resolveKey(
+                  question.hint,
+                  fallback: question.hint,
+                ),
                 style: text.bodySmall?.copyWith(
                   color: colors.onSurfaceVariant,
                   fontStyle: FontStyle.italic,
