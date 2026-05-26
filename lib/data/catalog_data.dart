@@ -5,6 +5,40 @@ import '../models/room.dart';
 import '../models/device.dart';
 
 class CatalogData {
+  static const List<String> _devicePopularityOrder = [
+    'smart_tv',
+    'smart_light',
+    'smart_speaker',
+    'smart_plug',
+    'smart_thermostat',
+    'smart_display',
+    'smart_router',
+    'smart_lock',
+    'indoor_camera',
+    'doorbell_camera',
+    'robot_vacuum',
+    'simple_sensor',
+    'smart_hub',
+    'smart_fridge',
+    'smart_printer',
+    'smart_oven',
+    'smart_washing',
+    'smart_blind',
+    'fitness_tracker',
+    'smart_scale',
+    'outdoor_camera',
+    'baby_monitor',
+    'smart_toy',
+    'smart_meter',
+    'smart_coffee',
+    'smart_irrigation',
+  ];
+
+  static final Map<String, int> _devicePopularityRank = {
+    for (var index = 0; index < _devicePopularityOrder.length; index++)
+      _devicePopularityOrder[index]: index,
+  };
+
   static String roomName(AppLocalizations localizations, Room room) =>
       localizations.resolveKey(room.name, fallback: room.name);
 
@@ -25,6 +59,28 @@ class CatalogData {
     AppLocalizations localizations,
     DeviceTemplate template,
   ) => localizations.resolveKey(template.name, fallback: template.name);
+
+  static List<DeviceTemplate> sortedDeviceTemplates(
+    Iterable<DeviceTemplate> templates,
+  ) {
+    final originalIndex = {
+      for (var index = 0; index < allDeviceTemplates.length; index++)
+        allDeviceTemplates[index].id: index,
+    };
+    final sortedTemplates = templates.toList();
+    sortedTemplates.sort((left, right) {
+      final leftRank = _devicePopularityRank[left.id] ?? 1 << 30;
+      final rightRank = _devicePopularityRank[right.id] ?? 1 << 30;
+      if (leftRank != rightRank) {
+        return leftRank.compareTo(rightRank);
+      }
+
+      final leftIndex = originalIndex[left.id] ?? 1 << 30;
+      final rightIndex = originalIndex[right.id] ?? 1 << 30;
+      return leftIndex.compareTo(rightIndex);
+    });
+    return sortedTemplates;
+  }
 
   static const List<Room> allRooms = [
     Room(id: 'living', name: 'room_living', icon: Icons.weekend),
@@ -315,15 +371,17 @@ class CatalogData {
 
   static List<DeviceTemplate> devicesForRoom(String roomId) {
     if (roomId == 'child_bedroom') {
-      return allDeviceTemplates
-          .where(
-            (d) =>
-                d.roomIds.contains('child_bedroom') ||
-                d.roomIds.contains('bedroom'),
-          )
-          .toList();
+      return sortedDeviceTemplates(
+        allDeviceTemplates.where(
+          (d) =>
+              d.roomIds.contains('child_bedroom') ||
+              d.roomIds.contains('bedroom'),
+        ),
+      );
     }
-    return allDeviceTemplates.where((d) => d.roomIds.contains(roomId)).toList();
+    return sortedDeviceTemplates(
+      allDeviceTemplates.where((d) => d.roomIds.contains(roomId)),
+    );
   }
 
   // General recommendations always shown on the summary screen

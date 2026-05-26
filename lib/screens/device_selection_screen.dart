@@ -115,7 +115,7 @@ class DeviceSelectionScreen extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     final isCustomRoom = state.customRooms.any((r) => r.id == room.id);
     final catalogDevices = isCustomRoom
-        ? CatalogData.allDeviceTemplates
+        ? CatalogData.sortedDeviceTemplates(CatalogData.allDeviceTemplates)
         : CatalogData.devicesForRoom(room.id);
 
     return Scaffold(
