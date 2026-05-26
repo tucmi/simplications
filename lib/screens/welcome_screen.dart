@@ -108,13 +108,48 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                                 height: 1.2,
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            Text(
-                              localizations.welcomeDescription,
-                              style: text.bodyMedium?.copyWith(
-                                color: colors.onSurfaceVariant,
-                                height: 1.4,
-                              ),
+                            const SizedBox(height: 14),
+                            LayoutBuilder(
+                              builder: (context, introConstraints) {
+                                final showSideBySide =
+                                    introConstraints.maxWidth >= 700;
+                                final description = Text(
+                                  localizations.welcomeDescription,
+                                  style: text.bodyMedium?.copyWith(
+                                    color: colors.onSurfaceVariant,
+                                    height: 1.4,
+                                  ),
+                                );
+
+                                final privacyCard = _PrivacyInfoCard(
+                                  title: localizations.welcomePrivacyTitle,
+                                  description:
+                                      localizations.welcomePrivacyDescription,
+                                  colors: colors,
+                                  text: text,
+                                );
+
+                                if (showSideBySide) {
+                                  return Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(child: description),
+                                      const SizedBox(width: 20),
+                                      SizedBox(width: 280, child: privacyCard),
+                                    ],
+                                  );
+                                }
+
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    description,
+                                    const SizedBox(height: 16),
+                                    privacyCard,
+                                  ],
+                                );
+                              },
                             ),
                           ],
                         ),
@@ -306,6 +341,60 @@ class _StepRow extends StatelessWidget {
               style: Theme.of(
                 context,
               ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PrivacyInfoCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final ColorScheme colors;
+  final TextTheme text;
+
+  const _PrivacyInfoCard({
+    required this.title,
+    required this.description,
+    required this.colors,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: colors.secondaryContainer.withAlpha(150),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: colors.secondary.withAlpha(90)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.lock_outline, size: 18, color: colors.secondary),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  title,
+                  style: text.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: colors.onSecondaryContainer,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            description,
+            style: text.bodySmall?.copyWith(
+              color: colors.onSecondaryContainer,
+              height: 1.35,
             ),
           ),
         ],

@@ -3,6 +3,8 @@
   "appTitle": "Simplications",
   "welcomeTitle": "Der Simplications\nSmart Home\nPrivatsphäre-Check",
   "welcomeDescription": "Erfassen Sie Raum für Raum Ihre smarten Geräte und erhalten Sie eine Privatsphärebewertung mit konkreten Empfehlungen.",
+  "welcomePrivacyTitle": "Datenschutz ohne Cloud",
+  "welcomePrivacyDescription": "Es werden keine personenbezogenen Daten erhoben. Ihre Antworten bleiben auf diesem Gerät und nichts wird an einen Server oder in die Cloud gesendet.",
   "stepSelectRooms": "Raum auswählen",
   "stepCaptureDevices": "Geräte erfassen",
   "stepAnswerQuestions": "Fragen beantworten",

@@ -20,6 +20,13 @@ class AppLocalizationsCs extends AppLocalizations {
       'Zaznamenejte svá chytrá zařízení místnost po místnosti a získejte hodnocení soukromí s konkrétními doporučeními.';
 
   @override
+  String get welcomePrivacyTitle => 'Soukromí bez cloudu';
+
+  @override
+  String get welcomePrivacyDescription =>
+      'Nejsou shromažďovány žádné osobní údaje. Vaše odpovědi zůstávají v tomto zařízení a nic se neodesílá na server ani do cloudu.';
+
+  @override
   String get stepSelectRooms => 'Vyberte místnost';
 
   @override

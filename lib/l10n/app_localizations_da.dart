@@ -19,6 +19,13 @@ class AppLocalizationsDa extends AppLocalizations {
       'Registrer dine smarte enheder rum for rum, og få en privatlivsvurdering med konkrete anbefalinger.';
 
   @override
+  String get welcomePrivacyTitle => 'Privatliv uden cloud';
+
+  @override
+  String get welcomePrivacyDescription =>
+      'Der indsamles ingen personlige data. Dine svar bliver på denne enhed, og intet sendes til en server eller cloud.';
+
+  @override
   String get stepSelectRooms => 'Vælg ét rum';
 
   @override

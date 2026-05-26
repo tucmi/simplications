@@ -449,6 +449,8 @@
   "website": "Website",
   "websiteOpenFailed": "Kon website niet openen.",
   "welcomeDescription": "Leg je slimme apparaten kamer voor kamer vast en ontvang een privacybeoordeling met concrete aanbevelingen.",
+  "welcomePrivacyTitle": "Privacy zonder cloud",
+  "welcomePrivacyDescription": "Er worden geen persoonsgegevens verzameld. Je antwoorden blijven op dit apparaat en er wordt niets naar een server of cloud gestuurd.",
   "welcomeTitle": "Simplications\nSmart Home\nprivacycheck",
   "yes": "Ja"
 }

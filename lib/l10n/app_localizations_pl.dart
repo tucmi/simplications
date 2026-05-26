@@ -19,6 +19,13 @@ class AppLocalizationsPl extends AppLocalizations {
       'Dodaj swoje inteligentne urządzenia pokój po pokoju i otrzymaj ocenę prywatności z konkretnymi zaleceniami.';
 
   @override
+  String get welcomePrivacyTitle => 'Prywatność bez chmury';
+
+  @override
+  String get welcomePrivacyDescription =>
+      'Nie są zbierane żadne dane osobowe. Twoje odpowiedzi pozostają na tym urządzeniu i nic nie jest wysyłane na serwer ani do chmury.';
+
+  @override
   String get stepSelectRooms => 'Wybierz pokój';
 
   @override

@@ -126,6 +126,18 @@ abstract class AppLocalizations {
   /// **'Capture your smart devices room by room and receive a privacy assessment with concrete recommendations.'**
   String get welcomeDescription;
 
+  /// No description provided for @welcomePrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Private by design'**
+  String get welcomePrivacyTitle;
+
+  /// No description provided for @welcomePrivacyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No personal data is collected. Your answers stay on this device and nothing is sent to a server or cloud.'**
+  String get welcomePrivacyDescription;
+
   /// No description provided for @stepSelectRooms.
   ///
   /// In en, this message translates to:

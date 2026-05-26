@@ -20,6 +20,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Renseignez vos appareils intelligents pièce par pièce et obtenez une évaluation de confidentialité avec des recommandations concrètes.';
 
   @override
+  String get welcomePrivacyTitle => 'Confidentialité sans cloud';
+
+  @override
+  String get welcomePrivacyDescription =>
+      'Aucune donnée personnelle n\'est collectée. Vos réponses restent sur cet appareil et rien n\'est envoyé vers un serveur ou le cloud.';
+
+  @override
   String get stepSelectRooms => 'Choisir une pièce';
 
   @override

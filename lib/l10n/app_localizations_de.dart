@@ -20,6 +20,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Erfassen Sie Raum für Raum Ihre smarten Geräte und erhalten Sie eine Privatsphärebewertung mit konkreten Empfehlungen.';
 
   @override
+  String get welcomePrivacyTitle => 'Datenschutz ohne Cloud';
+
+  @override
+  String get welcomePrivacyDescription =>
+      'Es werden keine personenbezogenen Daten erhoben. Ihre Antworten bleiben auf diesem Gerät und nichts wird an einen Server oder in die Cloud gesendet.';
+
+  @override
   String get stepSelectRooms => 'Raum auswählen';
 
   @override

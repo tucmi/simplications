@@ -19,6 +19,13 @@ class AppLocalizationsNl extends AppLocalizations {
       'Leg je slimme apparaten kamer voor kamer vast en ontvang een privacybeoordeling met concrete aanbevelingen.';
 
   @override
+  String get welcomePrivacyTitle => 'Privacy zonder cloud';
+
+  @override
+  String get welcomePrivacyDescription =>
+      'Er worden geen persoonsgegevens verzameld. Je antwoorden blijven op dit apparaat en er wordt niets naar een server of cloud gestuurd.';
+
+  @override
   String get stepSelectRooms => 'Kamer kiezen';
 
   @override

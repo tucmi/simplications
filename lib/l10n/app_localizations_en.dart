@@ -19,6 +19,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Capture your smart devices room by room and receive a privacy assessment with concrete recommendations.';
 
   @override
+  String get welcomePrivacyTitle => 'Private by design';
+
+  @override
+  String get welcomePrivacyDescription =>
+      'No personal data is collected. Your answers stay on this device and nothing is sent to a server or cloud.';
+
+  @override
   String get stepSelectRooms => 'Select room';
 
   @override

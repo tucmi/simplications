@@ -449,6 +449,8 @@
   "website": "Strona internetowa",
   "websiteOpenFailed": "Nie można otworzyć strony internetowej.",
   "welcomeDescription": "Dodaj swoje inteligentne urządzenia pokój po pokoju i otrzymaj ocenę prywatności z konkretnymi zaleceniami.",
+  "welcomePrivacyTitle": "Prywatność bez chmury",
+  "welcomePrivacyDescription": "Nie są zbierane żadne dane osobowe. Twoje odpowiedzi pozostają na tym urządzeniu i nic nie jest wysyłane na serwer ani do chmury.",
   "welcomeTitle": "Simplications\nKontrola prywatności\nSmart Home",
   "yes": "Tak"
 }
