@@ -16,9 +16,29 @@
             "problemMatcher": []
         },
         {
+            "label": "Flutter: Run Windows (Debug)",
+            "type": "shell",
+            "command": "flutter run -d windows",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Flutter: Run (Release)",
             "type": "shell",
             "command": "flutter run --release",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Flutter: Run Windows (Release)",
+            "type": "shell",
+            "command": "flutter run -d windows --release",
             "presentation": {
                 "reveal": "always",
                 "panel": "dedicated"
@@ -39,6 +59,16 @@
             "label": "Flutter: Build APK (Release)",
             "type": "shell",
             "command": "flutter build apk --release",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Flutter: Build Windows",
+            "type": "shell",
+            "command": "flutter build windows",
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
