@@ -569,7 +569,7 @@ class _AnswerButton extends StatelessWidget {
 
     return SizedBox(
       height: 42,
-      child: OutlinedButton.icon(
+      child: OutlinedButton(
         onPressed: onTap,
         style: OutlinedButton.styleFrom(
           backgroundColor: isSelected
@@ -582,19 +582,31 @@ class _AnswerButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
         ),
-        icon: Icon(
-          icon,
-          size: 16,
-          color: isSelected ? selectedFg : colors.onSurfaceVariant,
-        ),
-        label: Text(
-          label,
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-            color: isSelected ? selectedFg : colors.onSurfaceVariant,
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 16,
+              color: isSelected ? selectedFg : colors.onSurfaceVariant,
+            ),
+            const SizedBox(width: 6),
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: isSelected ? selectedFg : colors.onSurfaceVariant,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

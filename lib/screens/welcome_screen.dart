@@ -111,8 +111,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                             const SizedBox(height: 14),
                             LayoutBuilder(
                               builder: (context, introConstraints) {
-                                final showSideBySide =
-                                    introConstraints.maxWidth >= 700;
                                 final description = Text(
                                   localizations.welcomeDescription,
                                   style: text.bodyMedium?.copyWith(
@@ -129,25 +127,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                                   text: text,
                                 );
 
-                                if (showSideBySide) {
-                                  return Row(
+                                return ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 680,
+                                  ),
+                                  child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Expanded(child: description),
-                                      const SizedBox(width: 20),
-                                      SizedBox(width: 280, child: privacyCard),
+                                      description,
+                                      const SizedBox(height: 16),
+                                      privacyCard,
                                     ],
-                                  );
-                                }
-
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    description,
-                                    const SizedBox(height: 16),
-                                    privacyCard,
-                                  ],
+                                  ),
                                 );
                               },
                             ),
