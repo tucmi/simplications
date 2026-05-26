@@ -55,3 +55,35 @@ jobs:
           name: simplications-apk
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate localization files
+        run: flutter gen-l10n
+
+      - name: Verify generated localization files are committed
+        run: git diff --exit-code -- lib/l10n/app_localizations.dart lib/l10n/app_localizations_*.dart
+
+      - name: Build Windows app (Release)
+        run: flutter build windows --release
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: simplications-windows
+          path: build/windows/x64/runner/Release
+          if-no-files-found: error
