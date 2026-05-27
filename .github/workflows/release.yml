@@ -1,4 +1,4 @@
-name: Release Artifacts
+name: Release APK and Windows EXE
 
 on:
   release:
@@ -58,7 +58,7 @@ jobs:
         with:
           files: ${{ steps.apk.outputs.apk_path }}
 
-  build-windows-msix:
+  build-windows-exe:
     runs-on: windows-latest
 
     steps:
@@ -80,23 +80,22 @@ jobs:
       - name: Build release Windows app
         run: flutter build windows --release
 
-      - name: Build MSIX installer
-        id: msix
+      - name: Prepare versioned Windows EXE filename
+        id: exe
         shell: pwsh
         env:
           VERSION: ${{ github.event.release.tag_name || github.ref_name }}
         run: |
           $version = $env:VERSION.TrimStart('v')
-          $outputDir = 'build/windows/msix'
-          New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
-          dart run msix:create --build-windows false --install-certificate false --output-path $outputDir --output-name "simplications-$version-windows-installer"
-          $msixPath = (Get-ChildItem -Path $outputDir -Filter '*.msix' | Select-Object -First 1).FullName
-          if (-not $msixPath) {
-            throw 'MSIX output was not created.'
+          $exeSrc = 'build/windows/x64/runner/Release/simplications.exe'
+          if (-not (Test-Path $exeSrc)) {
+            throw "Windows executable not found at $exeSrc"
           }
-          "msix_path=$msixPath" >> $env:GITHUB_OUTPUT
+          $exeTarget = "build/windows/x64/runner/Release/simplications-$version-windows-release.exe"
+          Copy-Item -Path $exeSrc -Destination $exeTarget -Force
+          "exe_path=$exeTarget" >> $env:GITHUB_OUTPUT
 
-      - name: Attach MSIX to release
+      - name: Attach EXE to release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ steps.msix.outputs.msix_path }}
+          files: ${{ steps.exe.outputs.exe_path }}
