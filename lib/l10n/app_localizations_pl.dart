@@ -23,7 +23,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get welcomePrivacyDescription =>
-      'Nie są zbierane żadne dane osobowe. Twoje odpowiedzi pozostają na tym urządzeniu i nic nie jest wysyłane na serwer ani do chmury.';
+      'Nie zbieramy danych osobowych. Twoje odpowiedzi zostają na tym urządzeniu i nie trafiają do chmury.';
 
   @override
   String get stepSelectRooms => 'Wybierz pokój';

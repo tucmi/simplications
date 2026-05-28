@@ -24,7 +24,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get welcomePrivacyDescription =>
-      'Nejsou shromažďovány žádné osobní údaje. Vaše odpovědi zůstávají v tomto zařízení a nic se neodesílá na server ani do cloudu.';
+      'Neshromažďujeme osobní údaje. Vaše odpovědi zůstávají v tomto zařízení a neposílají se do cloudu.';
 
   @override
   String get stepSelectRooms => 'Vyberte místnost';

@@ -450,7 +450,7 @@
   "websiteOpenFailed": "Kunne ikke åbne webstedet.",
   "welcomeDescription": "Registrer dine smarte enheder rum for rum, og få en privatlivsvurdering med konkrete anbefalinger.",
   "welcomePrivacyTitle": "Privatliv uden cloud",
-  "welcomePrivacyDescription": "Der indsamles ingen personlige data. Dine svar bliver på denne enhed, og intet sendes til en server eller cloud.",
+  "welcomePrivacyDescription": "Vi indsamler ikke personlige data. Dine svar bliver på denne enhed og sendes ikke til cloud.",
   "welcomeTitle": "Simplications\nSmart Home\nprivatlivstjek",
   "yes": "Ja"
 }

@@ -23,7 +23,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get welcomePrivacyDescription =>
-      'Er worden geen persoonsgegevens verzameld. Je antwoorden blijven op dit apparaat en er wordt niets naar een server of cloud gestuurd.';
+      'We verzamelen geen persoonsgegevens. Je antwoorden blijven op dit apparaat en gaan niet naar de cloud.';
 
   @override
   String get stepSelectRooms => 'Kamer kiezen';

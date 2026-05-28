@@ -23,7 +23,7 @@ class AppLocalizationsDa extends AppLocalizations {
 
   @override
   String get welcomePrivacyDescription =>
-      'Der indsamles ingen personlige data. Dine svar bliver på denne enhed, og intet sendes til en server eller cloud.';
+      'Vi indsamler ikke personlige data. Dine svar bliver på denne enhed og sendes ikke til cloud.';
 
   @override
   String get stepSelectRooms => 'Vælg ét rum';

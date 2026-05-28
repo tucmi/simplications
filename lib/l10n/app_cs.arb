@@ -450,7 +450,7 @@
   "websiteOpenFailed": "Web se nepodařilo otevřít.",
   "welcomeDescription": "Zaznamenejte svá chytrá zařízení místnost po místnosti a získejte hodnocení soukromí s konkrétními doporučeními.",
   "welcomePrivacyTitle": "Soukromí bez cloudu",
-  "welcomePrivacyDescription": "Nejsou shromažďovány žádné osobní údaje. Vaše odpovědi zůstávají v tomto zařízení a nic se neodesílá na server ani do cloudu.",
+  "welcomePrivacyDescription": "Neshromažďujeme osobní údaje. Vaše odpovědi zůstávají v tomto zařízení a neposílají se do cloudu.",
   "welcomeTitle": "Simplications\nKontrola soukromí\nchytré domácnosti",
   "yes": "Ano"
 }

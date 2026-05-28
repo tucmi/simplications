@@ -450,7 +450,7 @@
   "websiteOpenFailed": "Impossible d’ouvrir le site web.",
   "welcomeDescription": "Renseignez vos appareils intelligents pièce par pièce et obtenez une évaluation de confidentialité avec des recommandations concrètes.",
   "welcomePrivacyTitle": "Confidentialité sans cloud",
-  "welcomePrivacyDescription": "Aucune donnée personnelle n'est collectée. Vos réponses restent sur cet appareil et rien n'est envoyé vers un serveur ou le cloud.",
+  "welcomePrivacyDescription": "Nous ne collectons pas de données personnelles. Vos réponses restent sur cet appareil et ne partent pas dans le cloud.",
   "welcomeTitle": "Simplications\nContrôle de confidentialité\nSmart Home",
   "yes": "Oui"
 }

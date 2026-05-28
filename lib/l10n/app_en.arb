@@ -4,7 +4,7 @@
   "welcomeTitle": "Simplications\nSmart Home\nPrivacy Check",
   "welcomeDescription": "Capture your smart devices room by room and receive a privacy assessment with concrete recommendations.",
   "welcomePrivacyTitle": "Private by design",
-  "welcomePrivacyDescription": "No personal data is collected. Your answers stay on this device and nothing is sent to a server or cloud.",
+  "welcomePrivacyDescription": "We do not collect personal data. Your answers stay on this device and are not sent to the cloud.",
   "stepSelectRooms": "Select room",
   "stepCaptureDevices": "Capture devices",
   "stepAnswerQuestions": "Answer questions",
