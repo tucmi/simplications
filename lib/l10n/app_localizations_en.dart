@@ -471,6 +471,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resumeIncompleteDevice => 'Continue with first incomplete device';
 
   @override
+  String get noIncompleteDevicesLeft => 'No unfinished devices left.';
+
+  @override
   String get overallRisk => 'Overall risk';
 
   @override

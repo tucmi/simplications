@@ -473,6 +473,9 @@ class AppLocalizationsDa extends AppLocalizations {
   String get resumeIncompleteDevice => 'Fortsæt med den første ufærdige enhed';
 
   @override
+  String get noIncompleteDevicesLeft => 'Ingen ufærdige enheder tilbage.';
+
+  @override
   String get overallRisk => 'Samlet risiko';
 
   @override

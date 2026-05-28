@@ -385,6 +385,7 @@
   "shareResult": "Del resultat",
   "skippedDevicesHint": "{count} enheder er sprunget over, fordi spørgeskemaet ikke er afsluttet.",
   "resumeIncompleteDevice": "Fortsæt med den første ufærdige enhed",
+  "noIncompleteDevicesLeft": "Ingen ufærdige enheder tilbage.",
   "sl_access_logging": "Ingen adgangslog tilgængelig",
   "sl_account_required": "Obligatorisk leverandørkonto krævet",
   "sl_base_risk": "Baseline risiko for enhedstype",

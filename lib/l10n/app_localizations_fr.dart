@@ -482,6 +482,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'Continuer avec le premier appareil non terminé';
 
   @override
+  String get noIncompleteDevicesLeft => 'Il ne reste aucun appareil inachevé.';
+
+  @override
   String get overallRisk => 'Risque global';
 
   @override

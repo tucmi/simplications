@@ -385,6 +385,7 @@
   "shareResult": "Sdílet výsledek",
   "skippedDevicesHint": "{count} zařízení přeskočeno, protože dotazník nebyl dokončen.",
   "resumeIncompleteDevice": "Pokračovat prvním nedokončeným zařízením",
+  "noIncompleteDevicesLeft": "Žádná nedokončená zařízení nezbývají.",
   "sl_access_logging": "Přístupový protokol není k dispozici",
   "sl_account_required": "Vyžadován povinný účet u prodejce",
   "sl_base_risk": "Základní riziko typu zařízení",

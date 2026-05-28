@@ -385,6 +385,7 @@
   "shareResult": "Partager le résultat",
   "skippedDevicesHint": "{count} appareils ignorés car le questionnaire n'a pas été terminé.",
   "resumeIncompleteDevice": "Continuer avec le premier appareil non terminé",
+  "noIncompleteDevicesLeft": "Il ne reste aucun appareil inachevé.",
   "sl_access_logging": "Aucun journal d'accès disponible",
   "sl_account_required": "Compte vendeur obligatoire requis",
   "sl_base_risk": "Risque de base du type d'appareil",

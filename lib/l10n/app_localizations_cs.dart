@@ -477,6 +477,9 @@ class AppLocalizationsCs extends AppLocalizations {
       'Pokračovat prvním nedokončeným zařízením';
 
   @override
+  String get noIncompleteDevicesLeft => 'Žádná nedokončená zařízení nezbývají.';
+
+  @override
   String get overallRisk => 'Celkové riziko';
 
   @override

@@ -385,6 +385,7 @@
   "shareResult": "Resultaat delen",
   "skippedDevicesHint": "{count} apparaten overgeslagen omdat de vragenlijst niet is voltooid.",
   "resumeIncompleteDevice": "Ga verder met het eerste onvoltooide apparaat",
+  "noIncompleteDevicesLeft": "Geen onvoltooide apparaten meer.",
   "sl_access_logging": "Geen toegangslogboek beschikbaar",
   "sl_account_required": "Verplichte leveranciersaccount vereist",
   "sl_base_risk": "Basisrisico van apparaattype",

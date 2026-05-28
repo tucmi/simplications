@@ -144,6 +144,7 @@
   "evaluatedDevices": "Evaluated devices",
   "skippedDevicesHint": "{count} devices skipped because the questionnaire was not completed.",
   "resumeIncompleteDevice": "Continue with first incomplete device",
+  "noIncompleteDevicesLeft": "No unfinished devices left.",
   "overallRisk": "Overall risk",
   "generalRecommendations": "General recommendations",
   "generalRecommendationsHint": "These measures apply to your whole smart home regardless of individual devices.",

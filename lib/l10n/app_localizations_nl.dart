@@ -476,6 +476,9 @@ class AppLocalizationsNl extends AppLocalizations {
       'Ga verder met het eerste onvoltooide apparaat';
 
   @override
+  String get noIncompleteDevicesLeft => 'Geen onvoltooide apparaten meer.';
+
+  @override
   String get overallRisk => 'Totaal risico';
 
   @override

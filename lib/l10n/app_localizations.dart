@@ -972,6 +972,12 @@ abstract class AppLocalizations {
   /// **'Continue with first incomplete device'**
   String get resumeIncompleteDevice;
 
+  /// No description provided for @noIncompleteDevicesLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'No unfinished devices left.'**
+  String get noIncompleteDevicesLeft;
+
   /// No description provided for @overallRisk.
   ///
   /// In en, this message translates to:
