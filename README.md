@@ -58,6 +58,8 @@ The app targets Android, iOS, Web, Windows, macOS, and Linux.
 
 All developer setup, architecture notes, code standards, and contribution workflow are documented in [CONTRIBUTING.md](CONTRIBUTING.md).
 
+Internal Windows MSIX trust-install instructions for testing are documented in [docs/msix-trust-install.md](docs/msix-trust-install.md).
+
 ### Localization workflow (contributors)
 
 1. Add the new key in `lib/l10n/app_en.arb`.

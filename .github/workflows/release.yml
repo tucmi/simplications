@@ -1,4 +1,4 @@
-name: Release Artifacts
+name: Release APK and Windows MSIX
 
 on:
   release:
@@ -80,23 +80,57 @@ jobs:
       - name: Build release Windows app
         run: flutter build windows --release
 
-      - name: Build MSIX installer
+      - name: Import MSIX signing certificate
+        id: import-msix-certificate
+        shell: pwsh
+        env:
+          MSIX_CERT_PFX_BASE64: ${{ secrets.MSIX_CERT_PFX_BASE64 }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:MSIX_CERT_PFX_BASE64)) {
+            throw 'Missing required secret: MSIX_CERT_PFX_BASE64'
+          }
+          $certPath = Join-Path $env:RUNNER_TEMP 'msix-signing.pfx'
+          $cerPath = Join-Path $env:RUNNER_TEMP 'msix-signing.cer'
+          [System.IO.File]::WriteAllBytes($certPath, [System.Convert]::FromBase64String($env:MSIX_CERT_PFX_BASE64))
+          $certPassword = ConvertTo-SecureString -String "${{ secrets.MSIX_CERT_PASSWORD }}" -AsPlainText -Force
+          $importedCert = Import-PfxCertificate -FilePath $certPath -Password $certPassword -CertStoreLocation 'Cert:\CurrentUser\My'
+          Export-Certificate -Cert $importedCert -FilePath $cerPath | Out-Null
+          "cert_path=$certPath" >> $env:GITHUB_OUTPUT
+          "cer_path=$cerPath" >> $env:GITHUB_OUTPUT
+
+      - name: Create MSIX installer
+        shell: pwsh
+        env:
+          MSIX_CERT_PASSWORD: ${{ secrets.MSIX_CERT_PASSWORD }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:MSIX_CERT_PASSWORD)) {
+            throw 'Missing required secret: MSIX_CERT_PASSWORD'
+          }
+          dart run msix:create --build-windows false --install-certificate false --certificate-path "${{ steps.import-msix-certificate.outputs.cert_path }}" --certificate-password "$env:MSIX_CERT_PASSWORD"
+
+      - name: Prepare versioned Windows MSIX filename
         id: msix
         shell: pwsh
         env:
           VERSION: ${{ github.event.release.tag_name || github.ref_name }}
         run: |
           $version = $env:VERSION.TrimStart('v')
-          $outputDir = 'build/windows/msix'
-          New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
-          dart run msix:create --build-windows false --install-certificate false --output-path $outputDir --output-name "simplications-$version-windows-installer"
-          $msixPath = (Get-ChildItem -Path $outputDir -Filter '*.msix' | Select-Object -First 1).FullName
-          if (-not $msixPath) {
-            throw 'MSIX output was not created.'
+          $msixSrc = Get-ChildItem -Path 'build' -Filter '*.msix' -Recurse | Select-Object -First 1
+          if (-not $msixSrc) {
+            throw 'MSIX package not found under build/'
           }
-          "msix_path=$msixPath" >> $env:GITHUB_OUTPUT
+          $msixTarget = "build/simplications-$version-windows-release.msix"
+          Copy-Item -Path $msixSrc.FullName -Destination $msixTarget -Force
+          "msix_path=$msixTarget" >> $env:GITHUB_OUTPUT
 
       - name: Attach MSIX to release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ steps.msix.outputs.msix_path }}
+          files: |
+            ${{ steps.msix.outputs.msix_path }}
+            ${{ steps.import-msix-certificate.outputs.cer_path }}
+          append_body: true
+          body: |
+            ## Internal Testing: Trust Install for Windows MSIX
+            If SmartScreen or certificate trust blocks install, follow the tester guide:
+            https://github.com/${{ github.repository }}/blob/main/docs/msix-trust-install.md
