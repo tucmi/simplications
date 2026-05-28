@@ -14,9 +14,9 @@ class AboutScreen extends StatelessWidget {
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(localizations.websiteOpenFailed)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(localizations.websiteOpenFailed)));
     }
   }
 
@@ -197,63 +197,68 @@ class AboutScreen extends StatelessWidget {
             style: text.titleSmall?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: colors.primaryContainer.withAlpha(120),
+          Material(
+            color: colors.primaryContainer.withAlpha(120),
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: colors.primary.withAlpha(80)),
+              side: BorderSide(color: colors.primary.withAlpha(80)),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.science_outlined, color: colors.primary),
-                  title: Text(
-                    localizations.expertModeToggleLabel,
-                    style: text.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: Icon(
+                      Icons.science_outlined,
+                      color: colors.primary,
+                    ),
+                    title: Text(
+                      localizations.expertModeToggleLabel,
+                      style: text.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    subtitle: Text(localizations.expertModeToggleHint),
+                    trailing: state == null
+                        ? const Switch(value: false, onChanged: null)
+                        : ListenableBuilder(
+                            listenable: state!,
+                            builder: (context, _) => Switch(
+                              value: state!.expertModeEnabled,
+                              onChanged: _setExpertMode,
+                            ),
+                          ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    localizations.expertModeSourcesHint,
+                    style: text.bodySmall?.copyWith(
+                      color: colors.onSurfaceVariant,
                     ),
                   ),
-                  subtitle: Text(localizations.expertModeToggleHint),
-                  trailing: state == null
-                      ? const Switch(value: false, onChanged: null)
-                      : ListenableBuilder(
-                          listenable: state!,
-                          builder: (context, _) => Switch(
-                            value: state!.expertModeEnabled,
-                            onChanged: _setExpertMode,
-                          ),
-                        ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  localizations.expertModeSourcesHint,
-                  style: text.bodySmall?.copyWith(
-                    color: colors.onSurfaceVariant,
+                  const SizedBox(height: 10),
+                  _PartnerTile(
+                    colors: colors,
+                    text: text,
+                    label: localizations.expertModeSourceCmuLabel,
+                    urlLabel: localizations.expertModeSourceCmuUrl,
+                    url: localizations.expertModeSourceCmuUrl,
+                    icon: Icons.open_in_new,
+                    openUrl: (url) => _openUrl(context, url),
                   ),
-                ),
-                const SizedBox(height: 10),
-                _PartnerTile(
-                  colors: colors,
-                  text: text,
-                  label: localizations.expertModeSourceCmuLabel,
-                  urlLabel: localizations.expertModeSourceCmuUrl,
-                  url: localizations.expertModeSourceCmuUrl,
-                  icon: Icons.open_in_new,
-                  openUrl: (url) => _openUrl(context, url),
-                ),
-                _PartnerTile(
-                  colors: colors,
-                  text: text,
-                  label: localizations.expertModeSourceUnboxingLabel,
-                  urlLabel: localizations.expertModeSourceUnboxingUrl,
-                  url: localizations.expertModeSourceUnboxingUrl,
-                  icon: Icons.open_in_new,
-                  openUrl: (url) => _openUrl(context, url),
-                ),
-              ],
+                  _PartnerTile(
+                    colors: colors,
+                    text: text,
+                    label: localizations.expertModeSourceUnboxingLabel,
+                    urlLabel: localizations.expertModeSourceUnboxingUrl,
+                    url: localizations.expertModeSourceUnboxingUrl,
+                    icon: Icons.open_in_new,
+                    openUrl: (url) => _openUrl(context, url),
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 20),

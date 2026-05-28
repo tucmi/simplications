@@ -116,8 +116,8 @@ class RoomSelectionScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       sliver: SliverGrid(
                         gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 220,
                               childAspectRatio: 2.2,
                               crossAxisSpacing: 12,
                               mainAxisSpacing: 12,

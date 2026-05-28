@@ -443,13 +443,13 @@ class _QuestionCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: isNotApplicable
-                    ? colors.tertiaryContainer.withAlpha(220)
-                    : colors.surfaceContainerHighest,
+            Material(
+              color: isNotApplicable
+                  ? colors.tertiaryContainer.withAlpha(220)
+                  : colors.surfaceContainerHighest,
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(
+                side: BorderSide(
                   color: isNotApplicable ? colors.tertiary : colors.outline,
                 ),
               ),
