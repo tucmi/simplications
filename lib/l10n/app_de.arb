@@ -143,6 +143,7 @@
   "overview": "Übersicht",
   "evaluatedDevices": "Bewertete Geräte",
   "skippedDevicesHint": "{count} Geräte übersprungen, da der Fragebogen nicht abgeschlossen wurde.",
+  "resumeIncompleteDevice": "Mit erstem unvollständigen Gerät fortfahren",
   "overallRisk": "Gesamtrisiko",
   "generalRecommendations": "Allgemeine Empfehlungen",
   "generalRecommendationsHint": "Diese Maßnahmen gelten unabhängig von einzelnen Geräten für Ihr gesamtes Smart Home.",

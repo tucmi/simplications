@@ -472,6 +472,10 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get resumeIncompleteDevice =>
+      'Mit erstem unvollständigen Gerät fortfahren';
+
+  @override
   String get overallRisk => 'Gesamtrisiko';
 
   @override

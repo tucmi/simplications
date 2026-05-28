@@ -472,6 +472,10 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
+  String get resumeIncompleteDevice =>
+      'Ga verder met het eerste onvoltooide apparaat';
+
+  @override
   String get overallRisk => 'Totaal risico';
 
   @override

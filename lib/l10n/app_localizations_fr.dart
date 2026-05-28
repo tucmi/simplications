@@ -478,6 +478,10 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get resumeIncompleteDevice =>
+      'Continuer avec le premier appareil non terminé';
+
+  @override
   String get overallRisk => 'Risque global';
 
   @override

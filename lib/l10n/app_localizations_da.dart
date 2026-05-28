@@ -470,6 +470,9 @@ class AppLocalizationsDa extends AppLocalizations {
   }
 
   @override
+  String get resumeIncompleteDevice => 'Fortsæt med den første ufærdige enhed';
+
+  @override
   String get overallRisk => 'Samlet risiko';
 
   @override

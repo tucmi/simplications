@@ -472,6 +472,10 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
+  String get resumeIncompleteDevice =>
+      'Kontynuuj od pierwszego nieukończonego urządzenia';
+
+  @override
   String get overallRisk => 'Ryzyko całkowite';
 
   @override

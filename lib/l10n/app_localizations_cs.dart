@@ -473,6 +473,10 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
+  String get resumeIncompleteDevice =>
+      'Pokračovat prvním nedokončeným zařízením';
+
+  @override
   String get overallRisk => 'Celkové riziko';
 
   @override

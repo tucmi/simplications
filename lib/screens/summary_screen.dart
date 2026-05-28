@@ -8,7 +8,9 @@ import '../data/catalog_data.dart';
 import '../l10n/app_localizations.dart';
 import '../l10n/app_localizations_key_resolver.dart';
 import '../models/device.dart';
+import '../models/room.dart';
 import '../models/survey_state.dart';
+import 'device_questionnaire_screen.dart';
 
 const String _catalogUrl =
     'https://tucmi.github.io/simplications-outreach/pages/massnahmenkatalog.html';
@@ -25,6 +27,51 @@ class SummaryScreen extends StatefulWidget {
 class _SummaryScreenState extends State<SummaryScreen> {
   bool _isSharing = false;
 
+  DeviceInstance? _firstIncompleteDevice() {
+    for (final device in widget.state.devices) {
+      if (!device.isFullyAnswered) {
+        return device;
+      }
+    }
+    return null;
+  }
+
+  Room? _roomForId(String roomId) {
+    for (final room in CatalogData.allRooms) {
+      if (room.id == roomId) {
+        return room;
+      }
+    }
+    for (final room in widget.state.customRooms) {
+      if (room.id == roomId) {
+        return room;
+      }
+    }
+    return null;
+  }
+
+  void _openFirstIncompleteDevice() {
+    final device = _firstIncompleteDevice();
+    if (device == null) {
+      return;
+    }
+
+    final room = _roomForId(device.roomId);
+    if (room == null) {
+      return;
+    }
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => DeviceQuestionnaireScreen(
+          state: widget.state,
+          room: room,
+          instanceId: device.instanceId,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -35,6 +82,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
     final highRisk = report.highRisk;
     final medRisk = report.mediumRisk;
     final lowRisk = report.lowRisk;
+    final canContinueIncomplete = _firstIncompleteDevice() != null;
 
     return Scaffold(
       appBar: AppBar(
@@ -109,6 +157,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
               highCount: highRisk.length,
               medCount: medRisk.length,
               lowCount: lowRisk.length,
+              canContinueIncomplete: canContinueIncomplete,
+              onContinueIncomplete: _openFirstIncompleteDevice,
               colors: colors,
               text: text,
               localizations: localizations,
@@ -741,6 +791,8 @@ class _OverviewHeader extends StatelessWidget {
   final int highCount;
   final int medCount;
   final int lowCount;
+  final bool canContinueIncomplete;
+  final VoidCallback onContinueIncomplete;
   final ColorScheme colors;
   final TextTheme text;
   final AppLocalizations localizations;
@@ -753,6 +805,8 @@ class _OverviewHeader extends StatelessWidget {
     required this.highCount,
     required this.medCount,
     required this.lowCount,
+    required this.canContinueIncomplete,
+    required this.onContinueIncomplete,
     required this.colors,
     required this.text,
     required this.localizations,
@@ -835,6 +889,19 @@ class _OverviewHeader extends StatelessWidget {
                             color: colors.onSurfaceVariant,
                           ),
                         ),
+                        if (canContinueIncomplete)
+                          TextButton.icon(
+                            onPressed: onContinueIncomplete,
+                            icon: const Icon(
+                              Icons.play_arrow_rounded,
+                              size: 18,
+                            ),
+                            label: Text(localizations.resumeIncompleteDevice),
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.only(top: 4, bottom: 2),
+                              visualDensity: VisualDensity.compact,
+                            ),
+                          ),
                       ],
                       const SizedBox(height: 8),
                       if (highCount > 0)
@@ -856,6 +923,21 @@ class _OverviewHeader extends StatelessWidget {
                 height: 1.4,
               ),
             ),
+          ] else if (skippedDevices > 0) ...[
+            Text(
+              localizations.skippedDevicesHint(skippedDevices),
+              style: text.bodySmall?.copyWith(color: colors.onSurfaceVariant),
+            ),
+            if (canContinueIncomplete)
+              TextButton.icon(
+                onPressed: onContinueIncomplete,
+                icon: const Icon(Icons.play_arrow_rounded, size: 18),
+                label: Text(localizations.resumeIncompleteDevice),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.only(top: 6, bottom: 2),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
           ],
         ],
       ),

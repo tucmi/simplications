@@ -966,6 +966,12 @@ abstract class AppLocalizations {
   /// **'{count} devices skipped because the questionnaire was not completed.'**
   String skippedDevicesHint(Object count);
 
+  /// No description provided for @resumeIncompleteDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with first incomplete device'**
+  String get resumeIncompleteDevice;
+
   /// No description provided for @overallRisk.
   ///
   /// In en, this message translates to:

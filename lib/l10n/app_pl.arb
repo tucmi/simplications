@@ -384,6 +384,7 @@
   "shareAsText": "Udostępnij jako tekst",
   "shareResult": "Udostępnij wynik",
   "skippedDevicesHint": "Pominięto {count} urządzeń, ponieważ kwestionariusz nie został ukończony.",
+  "resumeIncompleteDevice": "Kontynuuj od pierwszego nieukończonego urządzenia",
   "sl_access_logging": "Brak dostępnego dziennika dostępu",
   "sl_account_required": "Wymagane obowiązkowe konto dostawcy",
   "sl_base_risk": "Bazowe ryzyko typu urządzenia",
