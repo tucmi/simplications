@@ -23,7 +23,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get welcomePrivacyDescription =>
-      'We do not collect personal data. Your answers stay on this device and are not sent to the cloud.';
+      'We do not collect personal data. Your answers stay on this device and are not sent to a cloud.';
 
   @override
   String get stepSelectRooms => 'Select room';

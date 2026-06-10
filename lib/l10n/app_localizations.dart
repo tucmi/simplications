@@ -135,7 +135,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcomePrivacyDescription.
   ///
   /// In en, this message translates to:
-  /// **'We do not collect personal data. Your answers stay on this device and are not sent to the cloud.'**
+  /// **'We do not collect personal data. Your answers stay on this device and are not sent to a cloud.'**
   String get welcomePrivacyDescription;
 
   /// No description provided for @stepSelectRooms.
