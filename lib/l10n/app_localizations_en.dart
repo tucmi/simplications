@@ -84,6 +84,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deviceQuestionHint => 'Tap a device to answer its questions.';
 
   @override
+  String get searchDevicesHint => 'Search devices';
+
+  @override
   String get noKnownDevices =>
       'No known devices for this room. You can add your own device.';
 
@@ -131,6 +134,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get done => 'Done';
+
+  @override
+  String get checkAnotherDevice => 'Check another device';
 
   @override
   String get yes => 'Yes';

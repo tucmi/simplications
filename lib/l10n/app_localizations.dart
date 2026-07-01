@@ -252,6 +252,12 @@ abstract class AppLocalizations {
   /// **'Tap a device to answer its questions.'**
   String get deviceQuestionHint;
 
+  /// No description provided for @searchDevicesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search devices'**
+  String get searchDevicesHint;
+
   /// No description provided for @noKnownDevices.
   ///
   /// In en, this message translates to:
@@ -341,6 +347,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get done;
+
+  /// No description provided for @checkAnotherDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Check another device'**
+  String get checkAnotherDevice;
 
   /// No description provided for @yes.
   ///

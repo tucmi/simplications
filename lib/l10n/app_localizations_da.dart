@@ -85,6 +85,9 @@ class AppLocalizationsDa extends AppLocalizations {
       'Tryk på en enhed for at besvare spørgsmålene.';
 
   @override
+  String get searchDevicesHint => 'Søg enheder';
+
+  @override
   String get noKnownDevices =>
       'Ingen kendte enheder for dette rum. Du kan tilføje din egen enhed.';
 
@@ -132,6 +135,9 @@ class AppLocalizationsDa extends AppLocalizations {
 
   @override
   String get done => 'Færdig';
+
+  @override
+  String get checkAnotherDevice => 'Tjek en anden enhed';
 
   @override
   String get yes => 'Ja';

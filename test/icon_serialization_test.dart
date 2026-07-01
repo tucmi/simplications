@@ -202,6 +202,18 @@ void main() {
       expect(state.hasResultsAvailable, isTrue);
     });
 
+    test('same template can be added multiple times to the same room', () {
+      final state = SurveyState();
+      final room = CatalogData.allRooms.first;
+      final template = CatalogData.devicesForRoom(room.id).first;
+
+      final first = state.addDevice(template, room.id, room.name);
+      final second = state.addDevice(template, room.id, room.name);
+
+      expect(state.devicesForRoom(room.id), hasLength(2));
+      expect(first.instanceId, isNot(second.instanceId));
+    });
+
     test('completed room progress is restored after restart', () async {
       final state = SurveyState();
       final room = CatalogData.allRooms.first;

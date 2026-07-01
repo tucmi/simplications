@@ -89,6 +89,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'Touchez un appareil pour répondre aux questions.';
 
   @override
+  String get searchDevicesHint => 'Rechercher des appareils';
+
+  @override
   String get noKnownDevices =>
       'Aucun appareil connu pour cette pièce. Vous pouvez ajouter votre propre appareil.';
 
@@ -136,6 +139,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get done => 'Terminé';
+
+  @override
+  String get checkAnotherDevice => 'Vérifier un autre appareil';
 
   @override
   String get yes => 'Oui';

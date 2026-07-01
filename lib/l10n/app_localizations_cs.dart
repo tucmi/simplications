@@ -87,6 +87,9 @@ class AppLocalizationsCs extends AppLocalizations {
       'Klepněte na zařízení a odpovězte na otázky.';
 
   @override
+  String get searchDevicesHint => 'Hledat zařízení';
+
+  @override
   String get noKnownDevices =>
       'Pro tuto místnost nejsou známá žádná zařízení. Můžete přidat vlastní zařízení.';
 
@@ -134,6 +137,9 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get done => 'Hotovo';
+
+  @override
+  String get checkAnotherDevice => 'Zkontrolovat další zařízení';
 
   @override
   String get yes => 'Ano';

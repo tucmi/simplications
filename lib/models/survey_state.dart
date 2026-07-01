@@ -120,25 +120,36 @@ class SurveyState extends ChangeNotifier {
   bool isRoomIncomplete(String roomId) =>
       visitedRoomIds.contains(roomId) && !isRoomCompleted(roomId);
 
-  void addDevice(DeviceTemplate template, String roomId, String roomName) {
-    if (devices.any(
-      (d) => d.template.id == template.id && d.roomId == roomId,
-    )) {
-      return;
-    }
+  DeviceInstance addDevice(
+    DeviceTemplate template,
+    String roomId,
+    String roomName,
+  ) {
     visitedRoomIds.add(roomId);
     noDeviceRoomIds.remove(roomId);
     completedRoomIds.remove(roomId);
-    devices.add(
-      DeviceInstance(
-        instanceId: '${roomId}_${template.id}',
-        template: template,
-        roomId: roomId,
-        roomName: roomName,
-        expertModeEnabled: _expertModeEnabled,
-      ),
+    final instance = DeviceInstance(
+      instanceId: _nextInstanceId(roomId, template.id),
+      template: template,
+      roomId: roomId,
+      roomName: roomName,
+      expertModeEnabled: _expertModeEnabled,
     );
+    devices.add(instance);
     _changed();
+    return instance;
+  }
+
+  String _nextInstanceId(String roomId, String templateId) {
+    final base =
+        '${roomId}_${templateId}_${DateTime.now().microsecondsSinceEpoch}';
+    var candidate = base;
+    var suffix = 1;
+    while (devices.any((device) => device.instanceId == candidate)) {
+      candidate = '${base}_$suffix';
+      suffix += 1;
+    }
+    return candidate;
   }
 
   void removeDevice(String instanceId) {
@@ -154,6 +165,26 @@ class SurveyState extends ChangeNotifier {
 
   List<DeviceInstance> devicesForRoom(String roomId) =>
       devices.where((d) => d.roomId == roomId).toList();
+
+  List<DeviceInstance> evaluatedDevicesForRoom(String roomId) =>
+      devicesForRoom(roomId).where((device) => device.isFullyAnswered).toList();
+
+  RiskLevel? worstRiskLevelForRoom(String roomId) {
+    final evaluated = evaluatedDevicesForRoom(roomId);
+    if (evaluated.isEmpty) {
+      return null;
+    }
+    if (evaluated.any((device) => device.riskLevel == RiskLevel.high)) {
+      return RiskLevel.high;
+    }
+    if (evaluated.any((device) => device.riskLevel == RiskLevel.medium)) {
+      return RiskLevel.medium;
+    }
+    return RiskLevel.low;
+  }
+
+  int evaluatedDeviceCountForRoom(String roomId) =>
+      evaluatedDevicesForRoom(roomId).length;
 
   bool get hasAnyData =>
       completedRoomIds.isNotEmpty ||
@@ -373,7 +404,7 @@ class SurveyState extends ChangeNotifier {
       };
 
       devices.clear();
-      final restoredDeviceKeys = <String>{};
+      final restoredInstanceIds = <String>{};
       for (final dynamic item
           in (data['devices'] as List<dynamic>? ?? const [])) {
         if (item is! Map) {
@@ -391,13 +422,15 @@ class SurveyState extends ChangeNotifier {
           continue;
         }
         final roomId = entry['roomId'] as String;
-        final restoredDeviceKey = '$roomId:${template.id}';
-        if (!restoredDeviceKeys.add(restoredDeviceKey)) {
+        final restoredInstanceId =
+            entry['instanceId'] as String? ??
+            _nextInstanceId(roomId, template.id);
+        if (!restoredInstanceIds.add(restoredInstanceId)) {
           continue;
         }
 
         final instance = DeviceInstance(
-          instanceId: entry['instanceId'] as String,
+          instanceId: restoredInstanceId,
           template: template,
           roomId: roomId,
           roomName: entry['roomName'] as String,

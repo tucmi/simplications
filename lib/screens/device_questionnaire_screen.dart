@@ -5,6 +5,7 @@ import '../l10n/app_localizations_key_resolver.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
+import 'device_result_screen.dart';
 
 class DeviceQuestionnaireScreen extends StatefulWidget {
   final SurveyState state;
@@ -49,7 +50,15 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
 
   void _onNext(DeviceInstance device) {
     if (!device.isFullyAnswered) return;
-    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => DeviceResultScreen(
+          state: widget.state,
+          room: widget.room,
+          instanceId: device.instanceId,
+        ),
+      ),
+    );
   }
 
   @override

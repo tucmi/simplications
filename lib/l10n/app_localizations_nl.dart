@@ -86,6 +86,9 @@ class AppLocalizationsNl extends AppLocalizations {
       'Tik op een apparaat om de vragen te beantwoorden.';
 
   @override
+  String get searchDevicesHint => 'Zoek apparaten';
+
+  @override
   String get noKnownDevices =>
       'Geen bekende apparaten voor deze kamer. U kunt een eigen apparaat toevoegen.';
 
@@ -133,6 +136,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get done => 'Klaar';
+
+  @override
+  String get checkAnotherDevice => 'Nog een apparaat controleren';
 
   @override
   String get yes => 'Ja';

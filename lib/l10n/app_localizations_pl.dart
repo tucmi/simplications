@@ -86,6 +86,9 @@ class AppLocalizationsPl extends AppLocalizations {
       'Stuknij urządzenie, aby odpowiedzieć na pytania.';
 
   @override
+  String get searchDevicesHint => 'Szukaj urządzeń';
+
+  @override
   String get noKnownDevices =>
       'Brak znanych urządzeń dla tego pokoju. Możesz dodać własne urządzenie.';
 
@@ -133,6 +136,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get done => 'Gotowe';
+
+  @override
+  String get checkAnotherDevice => 'Sprawdź kolejne urządzenie';
 
   @override
   String get yes => 'Tak';
