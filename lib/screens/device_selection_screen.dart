@@ -732,7 +732,11 @@ class _DeviceCard extends StatelessWidget {
                   const Positioned(
                     top: 0,
                     right: 0,
-                    child: Icon(Icons.check_circle, size: 16, color: Colors.green),
+                    child: Icon(
+                      Icons.check_circle,
+                      size: 16,
+                      color: Colors.green,
+                    ),
                   ),
                 if (hasRiskColor)
                   Positioned(
@@ -748,7 +752,11 @@ class _DeviceCard extends StatelessWidget {
                   Positioned(
                     top: 0,
                     right: hasRiskColor ? 22 : (allCompleted ? 22 : 0),
-                    child: Icon(Icons.timelapse, size: 16, color: colors.tertiary),
+                    child: Icon(
+                      Icons.timelapse,
+                      size: 16,
+                      color: colors.tertiary,
+                    ),
                   ),
                 if (isCustom && onRemove != null)
                   Positioned(
