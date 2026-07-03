@@ -660,105 +660,123 @@ class _DeviceCard extends StatelessWidget {
           ),
         ),
         padding: const EdgeInsets.all(8),
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final textScale = MediaQuery.textScalerOf(context).scale(1);
+            final compact = constraints.maxHeight < 72 || textScale > 1.15;
+            final showProgress = hasInstances && !compact;
+
+            return Stack(
               children: [
-                Row(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(device.icon, size: 20, color: contentColor),
-                    const Spacer(),
-                    if (device.hasCamera && !allCompleted)
-                      Tooltip(
-                        message: localizations.camera,
-                        child: Icon(
-                          Icons.videocam,
-                          size: 12,
+                    Row(
+                      children: [
+                        Icon(device.icon, size: 20, color: contentColor),
+                        const Spacer(),
+                        if (device.hasCamera && !allCompleted)
+                          Tooltip(
+                            message: localizations.camera,
+                            child: Icon(
+                              Icons.videocam,
+                              size: 12,
+                              color: contentColor,
+                            ),
+                          ),
+                        if (device.hasMicrophone && !allCompleted)
+                          Tooltip(
+                            message: localizations.microphone,
+                            child: Icon(
+                              Icons.mic,
+                              size: 12,
+                              color: contentColor,
+                            ),
+                          ),
+                      ],
+                    ),
+                    SizedBox(height: compact ? 2 : 4),
+                    Flexible(
+                      child: Text(
+                        CatalogData.deviceName(localizations, device),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w500,
                           color: contentColor,
                         ),
+                        maxLines: compact ? 1 : 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    if (device.hasMicrophone && !allCompleted)
-                      Tooltip(
-                        message: localizations.microphone,
-                        child: Icon(Icons.mic, size: 12, color: contentColor),
+                    ),
+                    if (showProgress) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        allCompleted
+                            ? '$completedCount/$instanceCount ${localizations.done}'
+                            : '$completedCount/$instanceCount',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: hasRiskColor
+                              ? riskColor
+                              : allCompleted
+                              ? Colors.green.shade700
+                              : colors.onSurfaceVariant,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
+                    ],
                   ],
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  CatalogData.deviceName(localizations, device),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: contentColor,
+                if (allCompleted && !hasRiskColor)
+                  const Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Icon(Icons.check_circle, size: 16, color: Colors.green),
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                if (hasInstances) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    allCompleted
-                        ? '$completedCount/$instanceCount ${localizations.done}'
-                        : '$completedCount/$instanceCount',
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: hasRiskColor
-                          ? riskColor
-                          : allCompleted
-                          ? Colors.green.shade700
-                          : colors.onSurfaceVariant,
-                      fontWeight: FontWeight.w600,
+                if (hasRiskColor)
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Icon(
+                      Icons.shield_outlined,
+                      size: 16,
+                      color: riskColor,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
+                if (hasIncomplete)
+                  Positioned(
+                    top: 0,
+                    right: hasRiskColor ? 22 : (allCompleted ? 22 : 0),
+                    child: Icon(Icons.timelapse, size: 16, color: colors.tertiary),
+                  ),
+                if (isCustom && onRemove != null)
+                  Positioned(
+                    top: 0,
+                    right: hasIncomplete && hasRiskColor
+                        ? 44
+                        : (allCompleted || hasIncomplete || hasRiskColor)
+                        ? 22
+                        : 0,
+                    child: GestureDetector(
+                      onTap: onRemove,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red.shade400,
+                          shape: BoxShape.circle,
+                        ),
+                        padding: const EdgeInsets.all(4),
+                        child: const Icon(
+                          Icons.close,
+                          size: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
               ],
-            ),
-            if (allCompleted && !hasRiskColor)
-              const Positioned(
-                top: 0,
-                right: 0,
-                child: Icon(Icons.check_circle, size: 16, color: Colors.green),
-              ),
-            if (hasRiskColor)
-              Positioned(
-                top: 0,
-                right: 0,
-                child: Icon(Icons.shield_outlined, size: 16, color: riskColor),
-              ),
-            if (hasIncomplete)
-              Positioned(
-                top: 0,
-                right: hasRiskColor ? 22 : (allCompleted ? 22 : 0),
-                child: Icon(Icons.timelapse, size: 16, color: colors.tertiary),
-              ),
-            if (isCustom && onRemove != null)
-              Positioned(
-                top: 0,
-                right: hasIncomplete && hasRiskColor
-                    ? 44
-                    : (allCompleted || hasIncomplete || hasRiskColor)
-                    ? 22
-                    : 0,
-                child: GestureDetector(
-                  onTap: onRemove,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade400,
-                      shape: BoxShape.circle,
-                    ),
-                    padding: const EdgeInsets.all(4),
-                    child: const Icon(
-                      Icons.close,
-                      size: 14,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-          ],
+            );
+          },
         ),
       ),
     );

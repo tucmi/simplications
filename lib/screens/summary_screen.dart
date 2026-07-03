@@ -435,7 +435,7 @@ Color _riskColor(RiskLevel level) {
     case RiskLevel.high:
       return const Color(0xFFC62828);
     case RiskLevel.medium:
-      return const Color(0xFFE65100);
+      return const Color(0xFFF9A825);
     case RiskLevel.low:
       return const Color(0xFF2E7D32);
   }
@@ -742,7 +742,7 @@ Color _riskBg(RiskLevel level) {
     case RiskLevel.high:
       return const Color(0xFFFFEBEE);
     case RiskLevel.medium:
-      return const Color(0xFFFFF3E0);
+      return const Color(0xFFFFF8E1);
     case RiskLevel.low:
       return const Color(0xFFE8F5E9);
   }
@@ -1390,7 +1390,7 @@ class _FactorRow extends StatelessWidget {
       chipColor = const Color(0xFF5C6BC0);
       icon = Icons.device_hub_outlined;
     } else if (factor.isDontKnow) {
-      chipColor = const Color(0xFFE65100);
+      chipColor = const Color(0xFFF9A825);
       icon = Icons.help_outline;
     } else {
       chipColor = const Color(0xFFC62828);
@@ -1450,7 +1450,7 @@ class _ActionTile extends StatelessWidget {
     final priorityColor = action.priority == ActionPriority.high
         ? const Color(0xFFC62828)
         : action.priority == ActionPriority.medium
-        ? const Color(0xFFE65100)
+        ? const Color(0xFFF9A825)
         : colors.primary;
 
     return Container(
