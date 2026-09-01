@@ -212,7 +212,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                   child: _SectionHeader(
                     label: localizations.highRisk,
                     count: highRisk.length,
-                    color: _riskColor(RiskLevel.high),
+                    color: RiskLevel.high.color,
                     icon: Icons.warning_rounded,
                   ),
                 ),
@@ -236,7 +236,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                   child: _SectionHeader(
                     label: localizations.mediumRisk,
                     count: medRisk.length,
-                    color: _riskColor(RiskLevel.medium),
+                    color: RiskLevel.medium.color,
                     icon: Icons.info_rounded,
                   ),
                 ),
@@ -260,7 +260,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                   child: _SectionHeader(
                     label: localizations.lowRisk,
                     count: lowRisk.length,
-                    color: _riskColor(RiskLevel.low),
+                    color: RiskLevel.low.color,
                     icon: Icons.check_circle_rounded,
                   ),
                 ),
@@ -427,17 +427,6 @@ class _SummaryReport {
       return '${localizations.overallMedium}$learnHint';
     }
     return '${localizations.overallHigh}$learnHint';
-  }
-}
-
-Color _riskColor(RiskLevel level) {
-  switch (level) {
-    case RiskLevel.high:
-      return const Color(0xFFC62828);
-    case RiskLevel.medium:
-      return const Color(0xFFF9A825);
-    case RiskLevel.low:
-      return const Color(0xFF2E7D32);
   }
 }
 
@@ -830,7 +819,7 @@ class _OverviewHeader extends StatelessWidget {
         : overallScore <= 66
         ? RiskLevel.medium
         : RiskLevel.high;
-    final scoreColor = _riskColor(scoreLevel);
+    final scoreColor = scoreLevel.color;
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -977,7 +966,7 @@ class _RiskCount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = _riskColor(level);
+    final color = level.color;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -1079,7 +1068,7 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
     final text = Theme.of(context).textTheme;
     final device = widget.device;
     final level = device.riskLevel;
-    final color = _riskColor(level);
+    final color = level.color;
     final bg = _riskBg(level);
     final actions = device.suggestedActions;
     final inherentRiskHint = device.inherentRiskHint == null
@@ -1088,9 +1077,7 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
             device.inherentRiskHint!,
             fallback: device.inherentRiskHint!,
           );
-    final noActionColor = level == RiskLevel.low
-        ? _riskColor(RiskLevel.low)
-        : color;
+    final noActionColor = level == RiskLevel.low ? RiskLevel.low.color : color;
     final noActionIcon = level == RiskLevel.low
         ? Icons.check_circle
         : Icons.info_outline;
@@ -1299,7 +1286,7 @@ class _ScoreBreakdownState extends State<_ScoreBreakdown> {
 
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final riskColor = _riskColor(widget.device.riskLevel);
+    final riskColor = widget.device.riskLevel.color;
 
     return Container(
       margin: const EdgeInsets.fromLTRB(14, 0, 14, 10),

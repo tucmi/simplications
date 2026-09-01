@@ -169,19 +169,8 @@ class SurveyState extends ChangeNotifier {
   List<DeviceInstance> evaluatedDevicesForRoom(String roomId) =>
       devicesForRoom(roomId).where((device) => device.isFullyAnswered).toList();
 
-  RiskLevel? worstRiskLevelForRoom(String roomId) {
-    final evaluated = evaluatedDevicesForRoom(roomId);
-    if (evaluated.isEmpty) {
-      return null;
-    }
-    if (evaluated.any((device) => device.riskLevel == RiskLevel.high)) {
-      return RiskLevel.high;
-    }
-    if (evaluated.any((device) => device.riskLevel == RiskLevel.medium)) {
-      return RiskLevel.medium;
-    }
-    return RiskLevel.low;
-  }
+  RiskLevel? worstRiskLevelForRoom(String roomId) =>
+      evaluatedDevicesForRoom(roomId).worstRiskLevel;
 
   int evaluatedDeviceCountForRoom(String roomId) =>
       evaluatedDevicesForRoom(roomId).length;
@@ -503,7 +492,7 @@ class SurveyState extends ChangeNotifier {
     customRooms.clear();
     customDevices.clear();
     _expertModeEnabled = false;
-    await clearStorage();
+    await _enqueueWrite(clearStorage);
     notifyListeners();
   }
 
@@ -597,8 +586,20 @@ class SurveyState extends ChangeNotifier {
     return Icons.home;
   }
 
+  /// Chains persistence writes so overlapping calls can't finish out of
+  /// order. Without this, two rapid mutations could race: the newer write
+  /// starts and finishes first, then the older (now-stale) write finishes
+  /// last and overwrites it with outdated data.
+  Future<void>? _pendingWrite;
+
+  Future<void> _enqueueWrite(Future<void> Function() task) {
+    final next = (_pendingWrite ?? Future<void>.value()).then((_) => task());
+    _pendingWrite = next;
+    return next;
+  }
+
   void _changed() {
-    unawaited(saveToStorage());
+    unawaited(_enqueueWrite(saveToStorage));
     notifyListeners();
   }
 }

@@ -349,23 +349,9 @@ class _DeviceSelectionScreenState extends State<DeviceSelectionScreen> {
                     final completedCount = instanceList
                         .where((instance) => instance.isFullyAnswered)
                         .length;
-                    final evaluatedInstances = instanceList
+                    final riskLevel = instanceList
                         .where((instance) => instance.isFullyAnswered)
-                        .toList();
-                    RiskLevel? riskLevel;
-                    if (evaluatedInstances.isNotEmpty) {
-                      if (evaluatedInstances.any(
-                        (instance) => instance.riskLevel == RiskLevel.high,
-                      )) {
-                        riskLevel = RiskLevel.high;
-                      } else if (evaluatedInstances.any(
-                        (instance) => instance.riskLevel == RiskLevel.medium,
-                      )) {
-                        riskLevel = RiskLevel.medium;
-                      } else {
-                        riskLevel = RiskLevel.low;
-                      }
-                    }
+                        .worstRiskLevel;
                     final hasIncomplete = instanceList.any(
                       (instance) => !instance.isFullyAnswered,
                     );
@@ -493,16 +479,9 @@ class _DeviceInstanceCard extends StatelessWidget {
 
   Color _riskColor() {
     if (!instance.isFullyAnswered) {
-      return const Color(0xFFF9A825);
+      return RiskLevel.medium.color;
     }
-    switch (instance.riskLevel) {
-      case RiskLevel.high:
-        return const Color(0xFFC62828);
-      case RiskLevel.medium:
-        return const Color(0xFFF9A825);
-      case RiskLevel.low:
-        return const Color(0xFF2E7D32);
-    }
+    return instance.riskLevel.color;
   }
 
   String _riskLabel(AppLocalizations localizations) {
@@ -612,12 +591,8 @@ class _DeviceCard extends StatelessWidget {
 
   Color _riskColor() {
     switch (riskLevel) {
-      case RiskLevel.high:
-        return const Color(0xFFC62828);
-      case RiskLevel.medium:
-        return const Color(0xFFF9A825);
-      case RiskLevel.low:
-        return const Color(0xFF2E7D32);
+      case final RiskLevel level:
+        return level.color;
       case null:
         return Colors.transparent;
     }

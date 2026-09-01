@@ -213,5 +213,31 @@ void main() {
       );
       expect(hasExpertFactor, isTrue);
     });
+
+    test('riskScore always equals the clamped sum of scoringFactors', () {
+      // Guards against riskScore and scoringFactors drifting apart into two
+      // independently-maintained penalty tables.
+      final devicesToCheck = [
+        _instance('simple_sensor'),
+        _instance('smart_lock', roomId: 'child_bedroom'),
+        _instance('smart_speaker'),
+        _instance('smart_toy', expertMode: true, roomId: 'bedroom'),
+      ];
+
+      for (final device in devicesToCheck) {
+        _answerAll(device, QuestionAnswer.no);
+        final summedFactors = device.scoringFactors.fold(
+          0,
+          (sum, factor) => sum + factor.penalty,
+        );
+        expect(
+          device.riskScore,
+          summedFactors.clamp(0, 100),
+          reason:
+              'riskScore must equal the clamped sum of scoringFactors for '
+              '${device.template.id}',
+        );
+      }
+    });
   });
 }

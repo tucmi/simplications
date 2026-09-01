@@ -237,17 +237,11 @@ class _RoomCard extends StatelessWidget {
   });
 
   Color _riskColor(ColorScheme colors) {
-    if (roomRisk == null) {
+    final risk = roomRisk;
+    if (risk == null) {
       return isIncomplete ? colors.error : colors.outlineVariant;
     }
-    switch (roomRisk!) {
-      case RiskLevel.high:
-        return const Color(0xFFC62828);
-      case RiskLevel.medium:
-        return const Color(0xFFF9A825);
-      case RiskLevel.low:
-        return const Color(0xFF2E7D32);
-    }
+    return risk.color;
   }
 
   String? _riskLabel(AppLocalizations localizations) {

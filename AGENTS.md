@@ -94,10 +94,18 @@ test/
 ### Localization
 
 - Never hardcode user-visible strings in widgets.
-- All strings live in `lib/l10n/app_localizations.dart` in the
-  `_localizedValues` map, under every supported locale.
-- When adding a string, add it under **all** locales (`de`, `en`, etc.).
-- The fallback chain is: requested locale → `en` → `de` → fallback param → key.
+- Uses standard Flutter `gen-l10n` codegen (see `l10n.yaml`), not a hand-rolled
+  lookup. Source of truth is the ARB files in `lib/l10n/` (`app_en.arb` is the
+  template); `lib/l10n/app_localizations*.dart` are generated output — do not
+  hand-edit them, edit the ARBs and run `flutter gen-l10n` (or `flutter build`/
+  `flutter run` with `generate: true`, already set in `pubspec.yaml`).
+- When adding a string, add the key under **all** locale ARB files (`app_de.arb`,
+  `app_en.arb`, etc.), then regenerate and commit the generated files together
+  (see the Localization workflow section in `README.md`).
+- Access strings via `AppLocalizations.of(context)!.someKey`. For strings keyed
+  dynamically by a string id (e.g. catalog room/device names), use the
+  `resolveKey` extension in `lib/l10n/app_localizations_key_resolver.dart`
+  instead, and add new dynamic keys there too.
 
 ### Risk scoring
 

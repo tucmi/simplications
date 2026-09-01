@@ -44,7 +44,7 @@ class DeviceResultScreen extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final localizations = AppLocalizations.of(context)!;
-    final riskColor = _riskColor(device.riskLevel);
+    final riskColor = device.riskLevel.color;
     final riskLabel = _riskLabel(localizations, device.riskLevel);
     final actions = device.suggestedActions;
 
@@ -356,17 +356,6 @@ class DeviceResultScreen extends StatelessWidget {
         return localizations.noActionMedium;
       case RiskLevel.low:
         return localizations.noActionLow;
-    }
-  }
-
-  Color _riskColor(RiskLevel level) {
-    switch (level) {
-      case RiskLevel.high:
-        return const Color(0xFFC62828);
-      case RiskLevel.medium:
-        return const Color(0xFFF9A825);
-      case RiskLevel.low:
-        return const Color(0xFF2E7D32);
     }
   }
 }

@@ -1,6 +1,48 @@
 import 'package:flutter/material.dart';
 
-enum RiskLevel { low, medium, high }
+enum RiskLevel {
+  low,
+  medium,
+  high;
+
+  /// The single place that maps a 0-100 risk score to a [RiskLevel].
+  static RiskLevel fromScore(int score) {
+    if (score <= 33) return RiskLevel.low;
+    if (score <= 66) return RiskLevel.medium;
+    return RiskLevel.high;
+  }
+}
+
+extension RiskLevelColor on RiskLevel {
+  /// The traffic-light color used everywhere risk is visualized (badges,
+  /// bars, cards). Kept as a single source of truth so the palette can't
+  /// drift between screens.
+  Color get color {
+    switch (this) {
+      case RiskLevel.high:
+        return const Color(0xFFC62828);
+      case RiskLevel.medium:
+        return const Color(0xFFF9A825);
+      case RiskLevel.low:
+        return const Color(0xFF2E7D32);
+    }
+  }
+}
+
+extension DeviceInstanceRiskSummary on Iterable<DeviceInstance> {
+  /// The highest [RiskLevel] among these devices, or `null` if empty.
+  /// Relies on [RiskLevel] being declared low → medium → high.
+  RiskLevel? get worstRiskLevel {
+    RiskLevel? worst;
+    for (final device in this) {
+      final level = device.riskLevel;
+      if (worst == null || level.index > worst.index) {
+        worst = level;
+      }
+    }
+    return worst;
+  }
+}
 
 enum ActionType { social, technical, security }
 
@@ -794,88 +836,13 @@ class DeviceInstance {
   bool _hasQuestion(String questionId) =>
       questions.any((question) => question.id == questionId);
 
-  int get riskScore {
-    int score = template.baseRiskScore;
-    if (roomId == _childBedroomRoomId) {
-      score += _childBedroomRiskBonus;
-    }
-    if (_hasQuestion('password')) {
-      score += _riskPenalty(
-        passwordChanged,
-        noPenalty: 20,
-        dontKnowPenalty: 10,
-      );
-    }
-    if (_hasQuestion('updates')) {
-      score += _riskPenalty(
-        autoUpdatesEnabled,
-        noPenalty: 15,
-        dontKnowPenalty: 8,
-      );
-    }
-    if (_hasQuestion('network')) {
-      score += _riskPenalty(separateNetwork, noPenalty: 10, dontKnowPenalty: 5);
-    }
-    if (_hasQuestion('informed')) {
-      score += _riskPenalty(
-        householdInformed,
-        noPenalty: 10,
-        dontKnowPenalty: 5,
-      );
-    }
-    if (_hasQuestion('permissions')) {
-      score += _riskPenalty(
-        permissionsReduced,
-        noPenalty: 5,
-        dontKnowPenalty: 3,
-      );
-    }
-    if (_hasQuestion('camera_consent')) {
-      score += _riskPenalty(
-        cameraConsentGiven,
-        noPenalty: 15,
-        dontKnowPenalty: 8,
-      );
-    }
-    if (_hasQuestion('mic_active')) {
-      score += _riskPenalty(
-        micDeactivatedWhenUnused,
-        noPenalty: 10,
-        dontKnowPenalty: 5,
-      );
-    }
+  /// Derived from [scoringFactors] so the displayed score and its breakdown
+  /// (shown to the user via "how is this calculated") can never drift apart.
+  int get riskScore => scoringFactors
+      .fold(0, (sum, factor) => sum + factor.penalty)
+      .clamp(0, 100);
 
-    const baseIds = {
-      'password',
-      'updates',
-      'network',
-      'informed',
-      'permissions',
-      'camera_consent',
-      'mic_active',
-    };
-
-    // Penalties for currently active device-specific questions.
-    for (final question in questions) {
-      if (baseIds.contains(question.id)) {
-        continue;
-      }
-      score += _riskPenalty(
-        answerFor(question.id),
-        noPenalty: 8,
-        dontKnowPenalty: 4,
-      );
-    }
-
-    return score.clamp(0, 100);
-  }
-
-  RiskLevel get riskLevel {
-    final s = riskScore;
-    if (s <= 33) return RiskLevel.low;
-    if (s <= 66) return RiskLevel.medium;
-    return RiskLevel.high;
-  }
+  RiskLevel get riskLevel => RiskLevel.fromScore(riskScore);
 
   String? get inherentRiskHint {
     if (!allAnswersPositive || riskLevel == RiskLevel.low) {
@@ -1071,19 +1038,5 @@ class DeviceInstance {
     }
 
     return factors;
-  }
-
-  int _riskPenalty(
-    QuestionAnswer? answer, {
-    required int noPenalty,
-    required int dontKnowPenalty,
-  }) {
-    if (answer == QuestionAnswer.no) {
-      return noPenalty;
-    }
-    if (answer == QuestionAnswer.dontKnow) {
-      return dontKnowPenalty;
-    }
-    return 0;
   }
 }
