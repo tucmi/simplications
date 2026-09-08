@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../l10n/app_localizations.dart';
+import '../l10n/l10n_extensions.dart';
 import '../models/survey_state.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -10,7 +10,7 @@ class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key, required this.state});
 
   Future<void> _openUrl(BuildContext context, String url) async {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       if (!context.mounted) return;
@@ -25,7 +25,7 @@ class AboutScreen extends StatelessWidget {
       return;
     }
 
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -73,7 +73,7 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return Scaffold(
       appBar: AppBar(title: Text(localizations.aboutScreenTitle)),

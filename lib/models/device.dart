@@ -125,6 +125,31 @@ class ScoringFactor {
   });
 }
 
+/// Which question set and scoring rules a [DeviceTemplate] uses. Categories
+/// without a dedicated question set in [DeviceInstance._baseQuestions] (e.g.
+/// [appliance], [router]) fall back to the generic question set.
+enum DeviceCategory {
+  general,
+  custom,
+  sensor,
+  speaker,
+  camera,
+  tv,
+  thermostat,
+  plug,
+  light,
+  lock,
+  blind,
+  robot,
+  toy,
+  router,
+  hub,
+  meter,
+  outdoor,
+  printer,
+  appliance,
+}
+
 class DeviceTemplate {
   final String id;
   final String name;
@@ -133,7 +158,7 @@ class DeviceTemplate {
   final bool hasCamera;
   final bool hasMicrophone;
   final List<String> roomIds;
-  final String deviceType; // 'catalog' or 'custom'
+  final DeviceCategory deviceType;
   final bool isCustom;
 
   const DeviceTemplate({
@@ -145,7 +170,7 @@ class DeviceTemplate {
     this.hasMicrophone = false,
     required this.roomIds,
     // Default falls back to the generic question set in DeviceInstance.questions.
-    this.deviceType = 'general',
+    this.deviceType = DeviceCategory.general,
     this.isCustom = false,
   });
 }
@@ -512,7 +537,7 @@ class DeviceInstance {
     );
 
     // ── Sensor: tailored set – no app/password/update concept ─────────────────
-    if (template.deviceType == 'sensor') {
+    if (template.deviceType == DeviceCategory.sensor) {
       return const [
         DeviceQuestion(
           id: 'sensor_frequency',
@@ -533,7 +558,7 @@ class DeviceInstance {
     }
 
     // ── Speaker ───────────────────────────────────────────────────────────────
-    if (template.deviceType == 'speaker') {
+    if (template.deviceType == DeviceCategory.speaker) {
       return [
         const DeviceQuestion(
           id: 'voice_history',
@@ -555,7 +580,7 @@ class DeviceInstance {
     }
 
     // ── Camera ────────────────────────────────────────────────────────────────
-    if (template.deviceType == 'camera') {
+    if (template.deviceType == DeviceCategory.camera) {
       return const [
         DeviceQuestion(
           id: 'video_encryption',
@@ -581,7 +606,7 @@ class DeviceInstance {
     }
 
     // ── Smart TV ──────────────────────────────────────────────────────────────
-    if (template.deviceType == 'tv') {
+    if (template.deviceType == DeviceCategory.tv) {
       return [
         qUpdates,
         const DeviceQuestion(
@@ -603,7 +628,7 @@ class DeviceInstance {
     }
 
     // ── Thermostat ────────────────────────────────────────────────────────────
-    if (template.deviceType == 'thermostat') {
+    if (template.deviceType == DeviceCategory.thermostat) {
       return [
         qUpdates,
         const DeviceQuestion(
@@ -625,9 +650,9 @@ class DeviceInstance {
     }
 
     // ── Smart Light / Smart Plug / Motorised Blind ────────────────────────────
-    if (template.deviceType == 'light' ||
-        template.deviceType == 'plug' ||
-        template.deviceType == 'blind') {
+    if (template.deviceType == DeviceCategory.light ||
+        template.deviceType == DeviceCategory.plug ||
+        template.deviceType == DeviceCategory.blind) {
       return [
         qUpdates,
         const DeviceQuestion(
@@ -649,7 +674,7 @@ class DeviceInstance {
     }
 
     // ── Smart Lock ────────────────────────────────────────────────────────────
-    if (template.deviceType == 'lock') {
+    if (template.deviceType == DeviceCategory.lock) {
       return [
         qPassword,
         const DeviceQuestion(
@@ -671,7 +696,7 @@ class DeviceInstance {
     }
 
     // ── Robot Vacuum ──────────────────────────────────────────────────────────
-    if (template.deviceType == 'robot') {
+    if (template.deviceType == DeviceCategory.robot) {
       return [
         qUpdates,
         const DeviceQuestion(
@@ -693,7 +718,7 @@ class DeviceInstance {
     }
 
     // ── Connected Toy ─────────────────────────────────────────────────────────
-    if (template.deviceType == 'toy') {
+    if (template.deviceType == DeviceCategory.toy) {
       return [
         qUpdates,
         const DeviceQuestion(
@@ -767,7 +792,8 @@ class DeviceInstance {
         ),
       );
     }
-    if (template.deviceType == 'toy' || roomId == _childBedroomRoomId) {
+    if (template.deviceType == DeviceCategory.toy ||
+        roomId == _childBedroomRoomId) {
       questions.add(
         const DeviceQuestion(
           id: 'expert_child_data_protection',
@@ -776,7 +802,7 @@ class DeviceInstance {
         ),
       );
     }
-    if (template.deviceType == 'lock') {
+    if (template.deviceType == DeviceCategory.lock) {
       questions.add(
         const DeviceQuestion(
           id: 'expert_access_revocation',
@@ -849,13 +875,14 @@ class DeviceInstance {
       return null;
     }
 
-    if (template.deviceType == 'camera' || template.hasCamera) {
+    if (template.deviceType == DeviceCategory.camera || template.hasCamera) {
       return 'risk_hint_camera';
     }
-    if (template.deviceType == 'speaker' || template.hasMicrophone) {
+    if (template.deviceType == DeviceCategory.speaker ||
+        template.hasMicrophone) {
       return 'risk_hint_mic';
     }
-    if (template.deviceType == 'lock') {
+    if (template.deviceType == DeviceCategory.lock) {
       return 'risk_hint_lock';
     }
     if (roomId == _childBedroomRoomId) {

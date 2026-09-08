@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/catalog_data.dart';
 import '../l10n/app_localizations.dart';
+import '../l10n/l10n_extensions.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
@@ -23,22 +24,19 @@ class RoomSelectionScreen extends StatelessWidget {
   }
 
   Future<void> _showAddRoomDialog(BuildContext context) async {
-    final result = await showDialog<Map<String, dynamic>>(
+    final result = await showDialog<NewRoomResult>(
       context: context,
-      builder: (context) => const CustomRoomDialog(),
+      builder: (context) => CustomRoomDialog(),
     );
 
     if (result != null && context.mounted) {
-      final room = state.addCustomRoom(
-        result['name'] as String,
-        result['icon'] as IconData,
-      );
+      final room = state.addCustomRoom(result.name, result.icon);
       _openRoom(context, room);
     }
   }
 
   void _removeCustomRoom(BuildContext context, String roomId) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -74,7 +72,7 @@ class RoomSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return Scaffold(
       appBar: AppBar(
@@ -261,7 +259,7 @@ class _RoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final riskColor = _riskColor(colors);
     final riskLabel = _riskLabel(localizations);
     final showRisk = riskLabel != null && evaluatedCount > 0;
@@ -404,7 +402,7 @@ class _AddRoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return GestureDetector(
       onTap: onTap,

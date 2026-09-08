@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/catalog_data.dart';
 import '../l10n/app_localizations.dart';
+import '../l10n/l10n_extensions.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
@@ -48,25 +49,25 @@ class _DeviceSelectionScreenState extends State<DeviceSelectionScreen> {
   }
 
   Future<void> _showAddDeviceDialog(BuildContext context) async {
-    final result = await showDialog<Map<String, dynamic>>(
+    final result = await showDialog<NewDeviceResult>(
       context: context,
-      builder: (context) => const CustomDeviceDialog(),
+      builder: (context) => CustomDeviceDialog(),
     );
 
     if (result != null && context.mounted) {
       widget.state.addCustomDevice(
         widget.room.id,
-        result['name'] as String,
-        result['icon'] as IconData,
-        result['riskScore'] as int,
-        hasCamera: result['hasCamera'] as bool,
-        hasMicrophone: result['hasMicrophone'] as bool,
+        result.name,
+        result.icon,
+        result.riskScore,
+        hasCamera: result.hasCamera,
+        hasMicrophone: result.hasMicrophone,
       );
     }
   }
 
   Future<void> _markNoDevice(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final hasExistingDevices = widget.state
         .devicesForRoom(widget.room.id)
         .isNotEmpty;
@@ -113,7 +114,7 @@ class _DeviceSelectionScreenState extends State<DeviceSelectionScreen> {
   }
 
   void _removeCustomDevice(BuildContext context, String deviceId) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -140,7 +141,7 @@ class _DeviceSelectionScreenState extends State<DeviceSelectionScreen> {
   }
 
   void _removeDeviceInstance(BuildContext context, String instanceId) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -170,7 +171,7 @@ class _DeviceSelectionScreenState extends State<DeviceSelectionScreen> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final isCustomRoom = widget.state.customRooms.any(
       (r) => r.id == widget.room.id,
     );
@@ -501,7 +502,7 @@ class _DeviceInstanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final riskColor = _riskColor();
 
     return Card(
@@ -601,7 +602,7 @@ class _DeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final hasInstances = instanceCount > 0;
     final allCompleted = hasInstances && completedCount == instanceCount;
     final riskColor = _riskColor();
@@ -774,7 +775,7 @@ class _AddDeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return GestureDetector(
       onTap: onTap,
@@ -817,7 +818,7 @@ class _NoDeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return GestureDetector(
       onTap: onTap,
@@ -874,7 +875,7 @@ class _BottomBar extends StatelessWidget {
     return ListenableBuilder(
       listenable: state,
       builder: (context, _) {
-        final localizations = AppLocalizations.of(context)!;
+        final localizations = context.l10n;
         final hasResultsAvailable =
             state.hasResultsAvailable ||
             state.hasFinishedDeviceInRoom(currentRoomId);

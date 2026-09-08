@@ -11,11 +11,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:simplications/l10n/app_localizations.dart';
 import 'package:simplications/l10n/language_controller.dart';
 import 'package:simplications/main.dart';
+import 'package:simplications/models/survey_state.dart';
 
 void main() {
   testWidgets('App launches smoke test', (WidgetTester tester) async {
     await tester.pumpWidget(
-      SimplicationsApp(languageController: LanguageController()),
+      SimplicationsApp(
+        languageController: LanguageController(),
+        surveyState: SurveyState(),
+      ),
     );
     await tester.pumpAndSettle();
 

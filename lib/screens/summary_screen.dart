@@ -7,6 +7,7 @@ import 'package:share_plus/share_plus.dart';
 import '../data/catalog_data.dart';
 import '../l10n/app_localizations.dart';
 import '../l10n/app_localizations_key_resolver.dart';
+import '../l10n/l10n_extensions.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
@@ -55,7 +56,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
   }
 
   void _openFirstIncompleteDevice() {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final device = _firstIncompleteDevice();
     if (device == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -81,7 +82,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return Scaffold(
       appBar: AppBar(
@@ -292,7 +293,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
   }
 
   Future<void> _shareSummary(_ShareFormat format) async {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     if (_isSharing) {
       return;
     }
@@ -977,7 +978,7 @@ class _RiskCount extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         Text(
-          '$count × ${_riskLabel(level, AppLocalizations.of(context)!)}',
+          '$count × ${_riskLabel(level, context.l10n)}',
           style: TextStyle(
             fontSize: 13,
             color: color,
@@ -1063,7 +1064,7 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final device = widget.device;
@@ -1280,7 +1281,7 @@ class _ScoreBreakdownState extends State<_ScoreBreakdown> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final factors = widget.device.scoringFactors;
     if (factors.isEmpty) return const SizedBox.shrink();
 
@@ -1369,7 +1370,7 @@ class _FactorRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final Color chipColor;
     final IconData icon;
 
@@ -1431,7 +1432,7 @@ class _ActionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final priorityColor = action.priority == ActionPriority.high
@@ -1530,7 +1531,7 @@ class _GeneralRecommendations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(

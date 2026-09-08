@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/catalog_data.dart';
 import '../l10n/app_localizations.dart';
 import '../l10n/app_localizations_key_resolver.dart';
+import '../l10n/l10n_extensions.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
@@ -43,7 +44,7 @@ class DeviceResultScreen extends StatelessWidget {
 
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final riskColor = device.riskLevel.color;
     final riskLabel = _riskLabel(localizations, device.riskLevel);
     final actions = device.suggestedActions;

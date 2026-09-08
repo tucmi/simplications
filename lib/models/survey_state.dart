@@ -65,6 +65,51 @@ final Map<String, String> _iconKeyByFingerprint = {
     '${e.value.codePoint}:${e.value.fontFamily}': e.key,
 };
 
+/// The icon options offered by the "add custom room" picker, as
+/// [kIconRegistry] keys — see [iconsForKeys].
+const List<String> kRoomIconKeys = [
+  'weekend',
+  'kitchen',
+  'hotel',
+  'bathtub',
+  'computer',
+  'meeting_room',
+  'yard',
+  'storage',
+  'home',
+  'living',
+  'local_library',
+  'fitness_center',
+  'sports_esports',
+  'roofing',
+];
+
+/// The icon options offered by the "add custom device" picker, as
+/// [kIconRegistry] keys — see [iconsForKeys].
+const List<String> kDeviceIconKeys = [
+  'speaker',
+  'videocam',
+  'tv',
+  'thermostat',
+  'lightbulb',
+  'lock',
+  'electrical_services',
+  'window',
+  'cleaning_services',
+  'kitchen',
+  'watch',
+  'toys',
+  'router',
+  'print',
+];
+
+/// Resolves [keys] against [kIconRegistry]. Used to build icon-picker option
+/// lists so every offered icon is guaranteed to have a registry entry — a
+/// missing key throws immediately here instead of silently persisting as
+/// `home` later in [SurveyState].
+List<IconData> iconsForKeys(List<String> keys) =>
+    keys.map((key) => kIconRegistry[key]!).toList(growable: false);
+
 class SurveyState extends ChangeNotifier {
   static const String _storageKey = 'survey_state_v1';
   static const Map<String, String> _legacyTemplateIdAliases = {
@@ -263,7 +308,7 @@ class SurveyState extends ChangeNotifier {
       hasCamera: hasCamera,
       hasMicrophone: hasMicrophone,
       roomIds: [roomId],
-      deviceType: 'custom',
+      deviceType: DeviceCategory.custom,
       isCustom: true,
     );
     customDevices.add(newDevice);
@@ -352,7 +397,7 @@ class SurveyState extends ChangeNotifier {
                   roomIds: (e['roomIds'] as List<dynamic>? ?? const [])
                       .whereType<String>()
                       .toList(),
-                  deviceType: 'custom',
+                  deviceType: DeviceCategory.custom,
                   isCustom: true,
                 ),
               ),

@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
 
 import 'l10n/app_localizations.dart';
+import 'l10n/l10n_extensions.dart';
 import 'l10n/language_controller.dart';
+import 'models/survey_state.dart';
 import 'screens/welcome_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final languageController = LanguageController();
   await languageController.init();
-  runApp(SimplicationsApp(languageController: languageController));
+  // Loaded once for the app's lifetime instead of per-screen, so every
+  // screen shares one instance and no screen needs to reload it from disk.
+  final surveyState = SurveyState();
+  await surveyState.loadFromStorage();
+  runApp(
+    SimplicationsApp(
+      languageController: languageController,
+      surveyState: surveyState,
+    ),
+  );
 }
 
 class SimplicationsApp extends StatefulWidget {
   final LanguageController languageController;
+  final SurveyState surveyState;
 
-  const SimplicationsApp({super.key, required this.languageController});
+  const SimplicationsApp({
+    super.key,
+    required this.languageController,
+    required this.surveyState,
+  });
 
   @override
   State<SimplicationsApp> createState() => _SimplicationsAppState();
@@ -30,9 +46,8 @@ class _SimplicationsAppState extends State<SimplicationsApp> {
       builder: (context, _) {
         return MaterialApp(
           navigatorKey: _navigatorKey,
-          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+          onGenerateTitle: (context) => context.l10n.appTitle,
           debugShowCheckedModeBanner: false,
-          navigatorObservers: [appRouteObserver],
           locale: widget.languageController.locale,
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -46,6 +61,7 @@ class _SimplicationsAppState extends State<SimplicationsApp> {
           home: WelcomeScreen(
             languageController: widget.languageController,
             navigatorKey: _navigatorKey,
+            state: widget.surveyState,
           ),
         );
       },
