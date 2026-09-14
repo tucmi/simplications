@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../data/catalog_data.dart';
 import '../l10n/app_localizations.dart';
+import '../l10n/l10n_extensions.dart';
+import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
 import 'device_selection_screen.dart';
@@ -22,22 +24,19 @@ class RoomSelectionScreen extends StatelessWidget {
   }
 
   Future<void> _showAddRoomDialog(BuildContext context) async {
-    final result = await showDialog<Map<String, dynamic>>(
+    final result = await showDialog<NewRoomResult>(
       context: context,
-      builder: (context) => const CustomRoomDialog(),
+      builder: (context) => CustomRoomDialog(),
     );
 
     if (result != null && context.mounted) {
-      final room = state.addCustomRoom(
-        result['name'] as String,
-        result['icon'] as IconData,
-      );
+      final room = state.addCustomRoom(result.name, result.icon);
       _openRoom(context, room);
     }
   }
 
   void _removeCustomRoom(BuildContext context, String roomId) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -73,7 +72,7 @@ class RoomSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return Scaffold(
       appBar: AppBar(
@@ -116,8 +115,8 @@ class RoomSelectionScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       sliver: SliverGrid(
                         gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 220,
                               childAspectRatio: 2.2,
                               crossAxisSpacing: 12,
                               mainAxisSpacing: 12,
@@ -142,12 +141,19 @@ class RoomSelectionScreen extends StatelessWidget {
                             final isIncomplete = state.isRoomIncomplete(
                               room.id,
                             );
+                            final roomRisk = state.worstRiskLevelForRoom(
+                              room.id,
+                            );
+                            final evaluatedCount = state
+                                .evaluatedDeviceCountForRoom(room.id);
                             final isCustom = state.customRooms.contains(room);
 
                             return _RoomCard(
                               room: room,
                               isCompleted: isCompleted,
                               isIncomplete: isIncomplete,
+                              roomRisk: roomRisk,
+                              evaluatedCount: evaluatedCount,
                               isCustom: isCustom,
                               onTap: () => _openRoom(context, room),
                               onRemove: isCustom
@@ -211,6 +217,8 @@ class _RoomCard extends StatelessWidget {
   final Room room;
   final bool isCompleted;
   final bool isIncomplete;
+  final RiskLevel? roomRisk;
+  final int evaluatedCount;
   final bool isCustom;
   final VoidCallback onTap;
   final VoidCallback? onRemove;
@@ -219,15 +227,42 @@ class _RoomCard extends StatelessWidget {
     required this.room,
     required this.isCompleted,
     required this.isIncomplete,
+    required this.roomRisk,
+    required this.evaluatedCount,
     required this.isCustom,
     required this.onTap,
     this.onRemove,
   });
 
+  Color _riskColor(ColorScheme colors) {
+    final risk = roomRisk;
+    if (risk == null) {
+      return isIncomplete ? colors.error : colors.outlineVariant;
+    }
+    return risk.color;
+  }
+
+  String? _riskLabel(AppLocalizations localizations) {
+    if (roomRisk == null) {
+      return null;
+    }
+    switch (roomRisk!) {
+      case RiskLevel.high:
+        return localizations.highRisk;
+      case RiskLevel.medium:
+        return localizations.mediumRisk;
+      case RiskLevel.low:
+        return localizations.lowRisk;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
+    final riskColor = _riskColor(colors);
+    final riskLabel = _riskLabel(localizations);
+    final showRisk = riskLabel != null && evaluatedCount > 0;
 
     return GestureDetector(
       onTap: onTap,
@@ -239,7 +274,9 @@ class _RoomCard extends StatelessWidget {
               : colors.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isCompleted
+            color: showRisk
+                ? riskColor
+                : isCompleted
                 ? Colors.transparent
                 : isIncomplete
                 ? colors.error
@@ -259,14 +296,18 @@ class _RoomCard extends StatelessWidget {
                     Icon(
                       room.icon,
                       size: 20,
-                      color: isCompleted
+                      color: showRisk
+                          ? riskColor
+                          : isCompleted
                           ? colors.onSurface.withValues(alpha: 0.35)
                           : isIncomplete
                           ? colors.error
                           : colors.onSurfaceVariant,
                     ),
                     const Spacer(),
-                    if (isCompleted)
+                    if (showRisk)
+                      Icon(Icons.shield_outlined, size: 16, color: riskColor)
+                    else if (isCompleted)
                       const Icon(
                         Icons.check_circle,
                         size: 16,
@@ -281,7 +322,9 @@ class _RoomCard extends StatelessWidget {
                   CatalogData.roomName(localizations, room),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: isCompleted
+                    color: showRisk
+                        ? riskColor
+                        : isCompleted
                         ? colors.onSurface.withValues(alpha: 0.35)
                         : isIncomplete
                         ? colors.error
@@ -290,7 +333,18 @@ class _RoomCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                if (isCompleted) ...[
+                if (showRisk) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    '$riskLabel • $evaluatedCount',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: riskColor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ] else if (isCompleted) ...[
                   const SizedBox(height: 2),
                   Text(
                     localizations.alreadyEvaluated,
@@ -348,7 +402,7 @@ class _AddRoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return GestureDetector(
       onTap: onTap,

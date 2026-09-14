@@ -23,7 +23,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get welcomePrivacyDescription =>
-      'No personal data is collected. Your answers stay on this device and nothing is sent to a server or cloud.';
+      'We do not collect personal data. Your answers stay on this device and are not sent to a cloud.';
 
   @override
   String get stepSelectRooms => 'Select room';
@@ -84,6 +84,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deviceQuestionHint => 'Tap a device to answer its questions.';
 
   @override
+  String get searchDevicesHint => 'Search devices';
+
+  @override
   String get noKnownDevices =>
       'No known devices for this room. You can add your own device.';
 
@@ -131,6 +134,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get done => 'Done';
+
+  @override
+  String get checkAnotherDevice => 'Check another device';
 
   @override
   String get yes => 'Yes';
@@ -466,6 +472,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String skippedDevicesHint(Object count) {
     return '$count devices skipped because the questionnaire was not completed.';
   }
+
+  @override
+  String get resumeIncompleteDevice => 'Continue with first incomplete device';
+
+  @override
+  String get noIncompleteDevicesLeft => 'No unfinished devices left.';
 
   @override
   String get overallRisk => 'Overall risk';

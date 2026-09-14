@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import '../data/catalog_data.dart';
 import '../l10n/app_localizations.dart';
+import '../l10n/l10n_extensions.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
 import '../widgets/custom_add_dialogs.dart';
 import 'device_questionnaire_screen.dart';
+import 'device_result_screen.dart';
 import 'summary_screen.dart';
 
-class DeviceSelectionScreen extends StatelessWidget {
+class DeviceSelectionScreen extends StatefulWidget {
   final SurveyState state;
   final Room room;
 
@@ -18,27 +20,57 @@ class DeviceSelectionScreen extends StatelessWidget {
     required this.room,
   });
 
+  @override
+  State<DeviceSelectionScreen> createState() => _DeviceSelectionScreenState();
+}
+
+class _DeviceSelectionScreenState extends State<DeviceSelectionScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  List<DeviceTemplate> _filterDevices(
+    AppLocalizations localizations,
+    List<DeviceTemplate> devices,
+  ) {
+    final query = _searchQuery.trim().toLowerCase();
+    if (query.isEmpty) {
+      return devices;
+    }
+    return devices.where((device) {
+      final name = CatalogData.deviceName(localizations, device).toLowerCase();
+      return name.contains(query);
+    }).toList();
+  }
+
   Future<void> _showAddDeviceDialog(BuildContext context) async {
-    final result = await showDialog<Map<String, dynamic>>(
+    final result = await showDialog<NewDeviceResult>(
       context: context,
-      builder: (context) => const CustomDeviceDialog(),
+      builder: (context) => CustomDeviceDialog(),
     );
 
     if (result != null && context.mounted) {
-      state.addCustomDevice(
-        room.id,
-        result['name'] as String,
-        result['icon'] as IconData,
-        result['riskScore'] as int,
-        hasCamera: result['hasCamera'] as bool,
-        hasMicrophone: result['hasMicrophone'] as bool,
+      widget.state.addCustomDevice(
+        widget.room.id,
+        result.name,
+        result.icon,
+        result.riskScore,
+        hasCamera: result.hasCamera,
+        hasMicrophone: result.hasMicrophone,
       );
     }
   }
 
   Future<void> _markNoDevice(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
-    final hasExistingDevices = state.devicesForRoom(room.id).isNotEmpty;
+    final localizations = context.l10n;
+    final hasExistingDevices = widget.state
+        .devicesForRoom(widget.room.id)
+        .isNotEmpty;
     final shouldMarkNoDevice = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -65,24 +97,34 @@ class DeviceSelectionScreen extends StatelessWidget {
       return;
     }
 
-    state.markRoomWithoutDevices(room.id);
+    widget.state.markRoomWithoutDevices(widget.room.id);
     Navigator.of(context).pop();
   }
 
+  // Only the room the user actually finished a device in gets marked
+  // completed — otherwise tapping through an untouched room (or one where
+  // results are only available because a *different* room was finished)
+  // would falsely show it as done on the room list.
+  void _markCompletedIfFinished() {
+    if (widget.state.hasFinishedDeviceInRoom(widget.room.id)) {
+      widget.state.markRoomCompleted(widget.room.id);
+    }
+  }
+
   void _onNext(BuildContext context) {
-    state.markRoomCompleted(room.id);
+    _markCompletedIfFinished();
     Navigator.of(context).pop();
   }
 
   void _onFinish(BuildContext context) {
-    state.markRoomCompleted(room.id);
+    _markCompletedIfFinished();
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => SummaryScreen(state: state)),
+      MaterialPageRoute(builder: (_) => SummaryScreen(state: widget.state)),
     );
   }
 
   void _removeCustomDevice(BuildContext context, String deviceId) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -95,7 +137,34 @@ class DeviceSelectionScreen extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              state.removeCustomDevice(deviceId);
+              widget.state.removeCustomDevice(deviceId);
+              Navigator.pop(context);
+            },
+            child: Text(
+              localizations.delete,
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _removeDeviceInstance(BuildContext context, String instanceId) {
+    final localizations = context.l10n;
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(localizations.deleteDeviceTitle),
+        content: Text(localizations.deleteDeviceBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(localizations.cancel),
+          ),
+          TextButton(
+            onPressed: () {
+              widget.state.removeDevice(instanceId);
               Navigator.pop(context);
             },
             child: Text(
@@ -112,26 +181,44 @@ class DeviceSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context)!;
-    final isCustomRoom = state.customRooms.any((r) => r.id == room.id);
+    final localizations = context.l10n;
+    final isCustomRoom = widget.state.customRooms.any(
+      (r) => r.id == widget.room.id,
+    );
     final catalogDevices = isCustomRoom
         ? CatalogData.sortedDeviceTemplates(CatalogData.allDeviceTemplates)
-        : CatalogData.devicesForRoom(room.id);
+        : CatalogData.devicesForRoom(widget.room.id);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${localizations.deviceTitlePrefix}: ${CatalogData.roomName(localizations, room)}',
+          '${localizations.deviceTitlePrefix}: ${CatalogData.roomName(localizations, widget.room)}',
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
       ),
       body: ListenableBuilder(
-        listenable: state,
+        listenable: widget.state,
         builder: (context, _) {
-          final customDevices = state.customDevicesForRoom(room.id);
-          final allDevices = [...catalogDevices, ...customDevices];
-          final isNoDeviceSelected = state.noDeviceRoomIds.contains(room.id);
+          final roomInstances = widget.state.devicesForRoom(widget.room.id);
+          final customDevices = widget.state.customDevicesForRoom(
+            widget.room.id,
+          );
+          final filteredCatalogDevices = _filterDevices(
+            localizations,
+            catalogDevices,
+          );
+          final filteredCustomDevices = _filterDevices(
+            localizations,
+            customDevices,
+          );
+          final allDevices = [
+            ...filteredCatalogDevices,
+            ...filteredCustomDevices,
+          ];
+          final isNoDeviceSelected = widget.state.noDeviceRoomIds.contains(
+            widget.room.id,
+          );
 
           return CustomScrollView(
             slivers: [
@@ -150,7 +237,7 @@ class DeviceSelectionScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Icon(
-                              room.icon,
+                              widget.room.icon,
                               color: colors.primary,
                               size: 24,
                             ),
@@ -167,7 +254,10 @@ class DeviceSelectionScreen extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                CatalogData.roomName(localizations, room),
+                                CatalogData.roomName(
+                                  localizations,
+                                  widget.room,
+                                ),
                                 style: text.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -190,6 +280,37 @@ class DeviceSelectionScreen extends StatelessWidget {
                           color: colors.onSurfaceVariant,
                         ),
                       ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: _searchController,
+                        onChanged: (value) {
+                          if (value == _searchQuery) {
+                            return;
+                          }
+                          setState(() {
+                            _searchQuery = value;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.search),
+                          hintText: localizations.searchDevicesHint,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          isDense: true,
+                          suffixIcon: _searchQuery.isEmpty
+                              ? null
+                              : IconButton(
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    setState(() {
+                                      _searchQuery = '';
+                                    });
+                                  },
+                                  icon: const Icon(Icons.clear),
+                                ),
+                        ),
+                      ),
                       const SizedBox(height: 16),
                     ],
                   ),
@@ -210,8 +331,8 @@ class DeviceSelectionScreen extends StatelessWidget {
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 sliver: SliverGrid(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 220,
                     childAspectRatio: 2.2,
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
@@ -232,27 +353,40 @@ class DeviceSelectionScreen extends StatelessWidget {
                     }
 
                     final device = allDevices[index];
-                    final isAdded = state.isDeviceAdded(room.id, device.id);
-                    final instances = state
-                        .devicesForRoom(room.id)
+                    final instances = widget.state
+                        .devicesForRoom(widget.room.id)
                         .where((i) => i.template.id == device.id);
-                    final isCompleted =
-                        instances.isNotEmpty && instances.first.isFullyAnswered;
-                    final isCustom = customDevices.contains(device);
+                    final instanceList = instances.toList();
+                    final completedCount = instanceList
+                        .where((instance) => instance.isFullyAnswered)
+                        .length;
+                    final riskLevel = instanceList
+                        .where((instance) => instance.isFullyAnswered)
+                        .worstRiskLevel;
+                    final hasIncomplete = instanceList.any(
+                      (instance) => !instance.isFullyAnswered,
+                    );
+                    final isCustom = filteredCustomDevices.contains(device);
 
                     return _DeviceCard(
                       device: device,
-                      isAdded: isAdded,
-                      isCompleted: isCompleted,
+                      instanceCount: instanceList.length,
+                      completedCount: completedCount,
+                      hasIncomplete: hasIncomplete,
+                      riskLevel: riskLevel,
                       isCustom: isCustom,
                       onTap: () {
-                        state.addDevice(device, room.id, room.name);
+                        final instance = widget.state.addDevice(
+                          device,
+                          widget.room.id,
+                          widget.room.name,
+                        );
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) => DeviceQuestionnaireScreen(
-                              state: state,
-                              room: room,
-                              instanceId: '${room.id}_${device.id}',
+                              state: widget.state,
+                              room: widget.room,
+                              instanceId: instance.instanceId,
                             ),
                           ),
                         );
@@ -264,6 +398,68 @@ class DeviceSelectionScreen extends StatelessWidget {
                   }, childCount: allDevices.length + 2),
                 ),
               ),
+              if (roomInstances.isNotEmpty)
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(20, 18, 20, 10),
+                  sliver: SliverToBoxAdapter(
+                    child: Text(
+                      localizations.overview,
+                      style: text.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              if (roomInstances.isNotEmpty)
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final instance = roomInstances[index];
+                      final countForTemplate = roomInstances
+                          .take(index + 1)
+                          .where(
+                            (device) =>
+                                device.template.id == instance.template.id,
+                          )
+                          .length;
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: _DeviceInstanceCard(
+                          instance: instance,
+                          sequence: countForTemplate,
+                          onOpen: () {
+                            if (instance.isFullyAnswered) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => DeviceResultScreen(
+                                    state: widget.state,
+                                    room: widget.room,
+                                    instanceId: instance.instanceId,
+                                  ),
+                                ),
+                              );
+                              return;
+                            }
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => DeviceQuestionnaireScreen(
+                                  state: widget.state,
+                                  room: widget.room,
+                                  instanceId: instance.instanceId,
+                                ),
+                              ),
+                            );
+                          },
+                          onDelete: () => _removeDeviceInstance(
+                            context,
+                            instance.instanceId,
+                          ),
+                        ),
+                      );
+                    }, childCount: roomInstances.length),
+                  ),
+                ),
               const SliverToBoxAdapter(child: SizedBox(height: 100)),
             ],
           );
@@ -272,8 +468,112 @@ class DeviceSelectionScreen extends StatelessWidget {
       bottomNavigationBar: _BottomBar(
         onNext: () => _onNext(context),
         onFinish: () => _onFinish(context),
-        state: state,
-        currentRoomId: room.id,
+        state: widget.state,
+        currentRoomId: widget.room.id,
+      ),
+    );
+  }
+}
+
+class _DeviceInstanceCard extends StatelessWidget {
+  final DeviceInstance instance;
+  final int sequence;
+  final VoidCallback onOpen;
+  final VoidCallback onDelete;
+
+  const _DeviceInstanceCard({
+    required this.instance,
+    required this.sequence,
+    required this.onOpen,
+    required this.onDelete,
+  });
+
+  Color _riskColor() {
+    if (!instance.isFullyAnswered) {
+      return RiskLevel.medium.color;
+    }
+    return instance.riskLevel.color;
+  }
+
+  String _riskLabel(AppLocalizations localizations) {
+    if (!instance.isFullyAnswered) {
+      return localizations.notCompleted;
+    }
+    switch (instance.riskLevel) {
+      case RiskLevel.high:
+        return localizations.highRisk;
+      case RiskLevel.medium:
+        return localizations.mediumRisk;
+      case RiskLevel.low:
+        return localizations.lowRisk;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final localizations = context.l10n;
+    final riskColor = _riskColor();
+
+    return Card(
+      elevation: 0,
+      color: riskColor.withValues(alpha: 0.08),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+        side: BorderSide(color: riskColor.withValues(alpha: 0.45)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+        child: Row(
+          children: [
+            Icon(instance.template.icon, size: 20, color: riskColor),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${CatalogData.deviceName(localizations, instance.template)} #$sequence',
+                    style: text.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    instance.isFullyAnswered
+                        ? '${_riskLabel(localizations)} • ${instance.riskScore}/100'
+                        : _riskLabel(localizations),
+                    style: text.labelSmall?.copyWith(
+                      color: riskColor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            IconButton(
+              tooltip: instance.isFullyAnswered
+                  ? localizations.results
+                  : localizations.resumeIncompleteDevice,
+              onPressed: onOpen,
+              icon: Icon(
+                instance.isFullyAnswered
+                    ? Icons.arrow_forward_ios
+                    : Icons.play_circle_fill,
+                size: 18,
+              ),
+            ),
+            IconButton(
+              tooltip: localizations.delete,
+              onPressed: onDelete,
+              icon: const Icon(Icons.delete_outline, size: 18),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -281,26 +581,45 @@ class DeviceSelectionScreen extends StatelessWidget {
 
 class _DeviceCard extends StatelessWidget {
   final DeviceTemplate device;
-  final bool isAdded;
-  final bool isCompleted;
+  final int instanceCount;
+  final int completedCount;
+  final bool hasIncomplete;
+  final RiskLevel? riskLevel;
   final bool isCustom;
   final VoidCallback onTap;
   final VoidCallback? onRemove;
 
   const _DeviceCard({
     required this.device,
-    required this.isAdded,
-    required this.isCompleted,
+    required this.instanceCount,
+    required this.completedCount,
+    required this.hasIncomplete,
+    required this.riskLevel,
     required this.isCustom,
     required this.onTap,
     this.onRemove,
   });
 
+  Color _riskColor() {
+    switch (riskLevel) {
+      case final RiskLevel level:
+        return level.color;
+      case null:
+        return Colors.transparent;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context)!;
-    final contentColor = isCompleted
+    final localizations = context.l10n;
+    final hasInstances = instanceCount > 0;
+    final allCompleted = hasInstances && completedCount == instanceCount;
+    final riskColor = _riskColor();
+    final hasRiskColor = riskLevel != null;
+    final contentColor = hasRiskColor
+        ? riskColor
+        : allCompleted
         ? colors.onSurface.withValues(alpha: 0.35)
         : colors.onSurfaceVariant;
 
@@ -309,83 +628,149 @@ class _DeviceCard extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 160),
         decoration: BoxDecoration(
-          color: isCompleted
+          color: hasRiskColor
+              ? riskColor.withValues(alpha: 0.08)
+              : allCompleted
               ? colors.surfaceContainerLow
               : colors.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: isCompleted
+            color: hasRiskColor
+                ? riskColor
+                : allCompleted
                 ? Colors.transparent
+                : hasIncomplete
+                ? colors.tertiary
                 : (isCustom ? colors.tertiaryContainer : Colors.transparent),
             width: 2,
           ),
         ),
         padding: const EdgeInsets.all(8),
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final textScale = MediaQuery.textScalerOf(context).scale(1);
+            final compact = constraints.maxHeight < 72 || textScale > 1.15;
+            final showProgress = hasInstances && !compact;
+
+            return Stack(
               children: [
-                Row(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(device.icon, size: 20, color: contentColor),
-                    const Spacer(),
-                    if (device.hasCamera && !isCompleted)
-                      Tooltip(
-                        message: localizations.camera,
-                        child: Icon(
-                          Icons.videocam,
-                          size: 12,
+                    Row(
+                      children: [
+                        Icon(device.icon, size: 20, color: contentColor),
+                        const Spacer(),
+                        if (device.hasCamera && !allCompleted)
+                          Tooltip(
+                            message: localizations.camera,
+                            child: Icon(
+                              Icons.videocam,
+                              size: 12,
+                              color: contentColor,
+                            ),
+                          ),
+                        if (device.hasMicrophone && !allCompleted)
+                          Tooltip(
+                            message: localizations.microphone,
+                            child: Icon(
+                              Icons.mic,
+                              size: 12,
+                              color: contentColor,
+                            ),
+                          ),
+                      ],
+                    ),
+                    SizedBox(height: compact ? 2 : 4),
+                    Flexible(
+                      child: Text(
+                        CatalogData.deviceName(localizations, device),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w500,
                           color: contentColor,
                         ),
+                        maxLines: compact ? 1 : 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    if (device.hasMicrophone && !isCompleted)
-                      Tooltip(
-                        message: localizations.microphone,
-                        child: Icon(Icons.mic, size: 12, color: contentColor),
+                    ),
+                    if (showProgress) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        allCompleted
+                            ? '$completedCount/$instanceCount ${localizations.done}'
+                            : '$completedCount/$instanceCount',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: hasRiskColor
+                              ? riskColor
+                              : allCompleted
+                              ? Colors.green.shade700
+                              : colors.onSurfaceVariant,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
+                    ],
                   ],
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  CatalogData.deviceName(localizations, device),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: contentColor,
+                if (allCompleted && !hasRiskColor)
+                  const Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Icon(
+                      Icons.check_circle,
+                      size: 16,
+                      color: Colors.green,
+                    ),
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                if (hasRiskColor)
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Icon(
+                      Icons.shield_outlined,
+                      size: 16,
+                      color: riskColor,
+                    ),
+                  ),
+                if (hasIncomplete)
+                  Positioned(
+                    top: 0,
+                    right: hasRiskColor ? 22 : (allCompleted ? 22 : 0),
+                    child: Icon(
+                      Icons.timelapse,
+                      size: 16,
+                      color: colors.tertiary,
+                    ),
+                  ),
+                if (isCustom && onRemove != null)
+                  Positioned(
+                    top: 0,
+                    right: hasIncomplete && hasRiskColor
+                        ? 44
+                        : (allCompleted || hasIncomplete || hasRiskColor)
+                        ? 22
+                        : 0,
+                    child: GestureDetector(
+                      onTap: onRemove,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red.shade400,
+                          shape: BoxShape.circle,
+                        ),
+                        padding: const EdgeInsets.all(4),
+                        child: const Icon(
+                          Icons.close,
+                          size: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
               ],
-            ),
-            if (isCompleted)
-              const Positioned(
-                top: 0,
-                right: 0,
-                child: Icon(Icons.check_circle, size: 16, color: Colors.green),
-              ),
-            if (isCustom && onRemove != null)
-              Positioned(
-                top: 0,
-                right: isCompleted ? 22 : 0,
-                child: GestureDetector(
-                  onTap: onRemove,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade400,
-                      shape: BoxShape.circle,
-                    ),
-                    padding: const EdgeInsets.all(4),
-                    child: const Icon(
-                      Icons.close,
-                      size: 14,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-          ],
+            );
+          },
         ),
       ),
     );
@@ -400,7 +785,7 @@ class _AddDeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return GestureDetector(
       onTap: onTap,
@@ -443,7 +828,7 @@ class _NoDeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return GestureDetector(
       onTap: onTap,
@@ -500,7 +885,7 @@ class _BottomBar extends StatelessWidget {
     return ListenableBuilder(
       listenable: state,
       builder: (context, _) {
-        final localizations = AppLocalizations.of(context)!;
+        final localizations = context.l10n;
         final hasResultsAvailable =
             state.hasResultsAvailable ||
             state.hasFinishedDeviceInRoom(currentRoomId);

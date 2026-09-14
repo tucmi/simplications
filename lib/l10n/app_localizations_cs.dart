@@ -24,7 +24,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get welcomePrivacyDescription =>
-      'Nejsou shromažďovány žádné osobní údaje. Vaše odpovědi zůstávají v tomto zařízení a nic se neodesílá na server ani do cloudu.';
+      'Neshromažďujeme osobní údaje. Vaše odpovědi zůstávají v tomto zařízení a neposílají se do cloudu.';
 
   @override
   String get stepSelectRooms => 'Vyberte místnost';
@@ -87,6 +87,9 @@ class AppLocalizationsCs extends AppLocalizations {
       'Klepněte na zařízení a odpovězte na otázky.';
 
   @override
+  String get searchDevicesHint => 'Hledat zařízení';
+
+  @override
   String get noKnownDevices =>
       'Pro tuto místnost nejsou známá žádná zařízení. Můžete přidat vlastní zařízení.';
 
@@ -134,6 +137,9 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get done => 'Hotovo';
+
+  @override
+  String get checkAnotherDevice => 'Zkontrolovat další zařízení';
 
   @override
   String get yes => 'Ano';
@@ -471,6 +477,13 @@ class AppLocalizationsCs extends AppLocalizations {
   String skippedDevicesHint(Object count) {
     return '$count zařízení přeskočeno, protože dotazník nebyl dokončen.';
   }
+
+  @override
+  String get resumeIncompleteDevice =>
+      'Pokračovat prvním nedokončeným zařízením';
+
+  @override
+  String get noIncompleteDevicesLeft => 'Žádná nedokončená zařízení nezbývají.';
 
   @override
   String get overallRisk => 'Celkové riziko';

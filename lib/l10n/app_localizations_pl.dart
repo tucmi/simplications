@@ -23,7 +23,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get welcomePrivacyDescription =>
-      'Nie są zbierane żadne dane osobowe. Twoje odpowiedzi pozostają na tym urządzeniu i nic nie jest wysyłane na serwer ani do chmury.';
+      'Nie zbieramy danych osobowych. Twoje odpowiedzi zostają na tym urządzeniu i nie trafiają do chmury.';
 
   @override
   String get stepSelectRooms => 'Wybierz pokój';
@@ -86,6 +86,9 @@ class AppLocalizationsPl extends AppLocalizations {
       'Stuknij urządzenie, aby odpowiedzieć na pytania.';
 
   @override
+  String get searchDevicesHint => 'Szukaj urządzeń';
+
+  @override
   String get noKnownDevices =>
       'Brak znanych urządzeń dla tego pokoju. Możesz dodać własne urządzenie.';
 
@@ -133,6 +136,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get done => 'Gotowe';
+
+  @override
+  String get checkAnotherDevice => 'Sprawdź kolejne urządzenie';
 
   @override
   String get yes => 'Tak';
@@ -470,6 +476,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String skippedDevicesHint(Object count) {
     return 'Pominięto $count urządzeń, ponieważ kwestionariusz nie został ukończony.';
   }
+
+  @override
+  String get resumeIncompleteDevice =>
+      'Kontynuuj od pierwszego nieukończonego urządzenia';
+
+  @override
+  String get noIncompleteDevicesLeft => 'Brak nieukończonych urządzeń.';
 
   @override
   String get overallRisk => 'Ryzyko całkowite';

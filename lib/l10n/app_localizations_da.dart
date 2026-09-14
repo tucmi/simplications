@@ -23,7 +23,7 @@ class AppLocalizationsDa extends AppLocalizations {
 
   @override
   String get welcomePrivacyDescription =>
-      'Der indsamles ingen personlige data. Dine svar bliver på denne enhed, og intet sendes til en server eller cloud.';
+      'Vi indsamler ikke personlige data. Dine svar bliver på denne enhed og sendes ikke til cloud.';
 
   @override
   String get stepSelectRooms => 'Vælg ét rum';
@@ -85,6 +85,9 @@ class AppLocalizationsDa extends AppLocalizations {
       'Tryk på en enhed for at besvare spørgsmålene.';
 
   @override
+  String get searchDevicesHint => 'Søg enheder';
+
+  @override
   String get noKnownDevices =>
       'Ingen kendte enheder for dette rum. Du kan tilføje din egen enhed.';
 
@@ -132,6 +135,9 @@ class AppLocalizationsDa extends AppLocalizations {
 
   @override
   String get done => 'Færdig';
+
+  @override
+  String get checkAnotherDevice => 'Tjek en anden enhed';
 
   @override
   String get yes => 'Ja';
@@ -468,6 +474,12 @@ class AppLocalizationsDa extends AppLocalizations {
   String skippedDevicesHint(Object count) {
     return '$count enheder er sprunget over, fordi spørgeskemaet ikke er afsluttet.';
   }
+
+  @override
+  String get resumeIncompleteDevice => 'Fortsæt med den første ufærdige enhed';
+
+  @override
+  String get noIncompleteDevicesLeft => 'Ingen ufærdige enheder tilbage.';
 
   @override
   String get overallRisk => 'Samlet risiko';

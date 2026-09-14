@@ -24,7 +24,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get welcomePrivacyDescription =>
-      'Es werden keine personenbezogenen Daten erhoben. Ihre Antworten bleiben auf diesem Gerät und nichts wird an einen Server oder in die Cloud gesendet.';
+      'Wir sammeln keine persönlichen Daten. Ihre Antworten bleiben auf diesem Gerät und gehen nicht in eine Cloud.';
 
   @override
   String get stepSelectRooms => 'Raum auswählen';
@@ -87,6 +87,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Tippen Sie auf ein Gerät, um die Fragen dafür zu beantworten.';
 
   @override
+  String get searchDevicesHint => 'Geräte suchen';
+
+  @override
   String get noKnownDevices =>
       'Keine bekannten Geräte für diesen Raum. Sie können ein eigenes Gerät hinzufügen.';
 
@@ -134,6 +137,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get done => 'Fertig';
+
+  @override
+  String get checkAnotherDevice => 'Weiteres Gerät prüfen';
 
   @override
   String get yes => 'Ja';
@@ -470,6 +476,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String skippedDevicesHint(Object count) {
     return '$count Geräte übersprungen, da der Fragebogen nicht abgeschlossen wurde.';
   }
+
+  @override
+  String get resumeIncompleteDevice =>
+      'Mit erstem unvollständigen Gerät fortfahren';
+
+  @override
+  String get noIncompleteDevicesLeft => 'Keine unvollständigen Geräte mehr.';
 
   @override
   String get overallRisk => 'Gesamtrisiko';

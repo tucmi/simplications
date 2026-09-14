@@ -23,7 +23,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get welcomePrivacyDescription =>
-      'Er worden geen persoonsgegevens verzameld. Je antwoorden blijven op dit apparaat en er wordt niets naar een server of cloud gestuurd.';
+      'We verzamelen geen persoonsgegevens. Je antwoorden blijven op dit apparaat en gaan niet naar de cloud.';
 
   @override
   String get stepSelectRooms => 'Kamer kiezen';
@@ -86,6 +86,9 @@ class AppLocalizationsNl extends AppLocalizations {
       'Tik op een apparaat om de vragen te beantwoorden.';
 
   @override
+  String get searchDevicesHint => 'Zoek apparaten';
+
+  @override
   String get noKnownDevices =>
       'Geen bekende apparaten voor deze kamer. U kunt een eigen apparaat toevoegen.';
 
@@ -133,6 +136,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get done => 'Klaar';
+
+  @override
+  String get checkAnotherDevice => 'Nog een apparaat controleren';
 
   @override
   String get yes => 'Ja';
@@ -470,6 +476,13 @@ class AppLocalizationsNl extends AppLocalizations {
   String skippedDevicesHint(Object count) {
     return '$count apparaten overgeslagen omdat de vragenlijst niet is voltooid.';
   }
+
+  @override
+  String get resumeIncompleteDevice =>
+      'Ga verder met het eerste onvoltooide apparaat';
+
+  @override
+  String get noIncompleteDevicesLeft => 'Geen onvoltooide apparaten meer.';
 
   @override
   String get overallRisk => 'Totaal risico';

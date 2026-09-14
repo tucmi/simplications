@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
+import '../l10n/l10n_extensions.dart';
 import '../l10n/language_controller.dart';
 
 class LanguageSwitcher extends StatelessWidget {
@@ -15,7 +16,7 @@ class LanguageSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return Tooltip(
       message: localizations.languageDialogTitle,
@@ -42,7 +43,7 @@ class LanguageSwitcher extends StatelessWidget {
 
   Future<void> _showLanguageDialog(BuildContext context) async {
     final dialogContext = navigatorKey?.currentContext ?? context;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final selected = await showDialog<String>(
       context: dialogContext,
       useRootNavigator: true,

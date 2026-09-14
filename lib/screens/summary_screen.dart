@@ -7,8 +7,11 @@ import 'package:share_plus/share_plus.dart';
 import '../data/catalog_data.dart';
 import '../l10n/app_localizations.dart';
 import '../l10n/app_localizations_key_resolver.dart';
+import '../l10n/l10n_extensions.dart';
 import '../models/device.dart';
+import '../models/room.dart';
 import '../models/survey_state.dart';
+import 'device_questionnaire_screen.dart';
 
 const String _catalogUrl =
     'https://tucmi.github.io/simplications-outreach/pages/massnahmenkatalog.html';
@@ -25,16 +28,61 @@ class SummaryScreen extends StatefulWidget {
 class _SummaryScreenState extends State<SummaryScreen> {
   bool _isSharing = false;
 
+  DeviceInstance? _firstIncompleteDevice() {
+    for (final device in widget.state.devices) {
+      if (!device.isFullyAnswered) {
+        return device;
+      }
+    }
+    return null;
+  }
+
+  Room? _roomForId(String roomId) {
+    for (final room in CatalogData.allRooms) {
+      if (room.id == roomId) {
+        return room;
+      }
+    }
+    for (final room in widget.state.customRooms) {
+      if (room.id == roomId) {
+        return room;
+      }
+    }
+    return null;
+  }
+
+  Room _fallbackRoomForDevice(DeviceInstance device) {
+    return Room(id: device.roomId, name: device.roomName, icon: Icons.home);
+  }
+
+  void _openFirstIncompleteDevice() {
+    final localizations = context.l10n;
+    final device = _firstIncompleteDevice();
+    if (device == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(localizations.noIncompleteDevicesLeft)),
+      );
+      return;
+    }
+
+    final room = _roomForId(device.roomId) ?? _fallbackRoomForDevice(device);
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => DeviceQuestionnaireScreen(
+          state: widget.state,
+          room: room,
+          instanceId: device.instanceId,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context)!;
-    final report = _SummaryReport.fromDevices(widget.state.devices);
-    final devices = report.devices;
-    final highRisk = report.highRisk;
-    final medRisk = report.mediumRisk;
-    final lowRisk = report.lowRisk;
+    final localizations = context.l10n;
 
     return Scaffold(
       appBar: AppBar(
@@ -97,141 +145,155 @@ class _SummaryScreenState extends State<SummaryScreen> {
           ),
         ],
       ),
-      body: CustomScrollView(
-        slivers: [
-          // ── Overview header ──────────────────────────────────────────
-          SliverToBoxAdapter(
-            child: _OverviewHeader(
-              devices: devices,
-              skippedDevices: report.skippedDevices,
-              overallScore: report.overallScore,
-              dontKnowAnswers: report.dontKnowAnswers,
-              highCount: highRisk.length,
-              medCount: medRisk.length,
-              lowCount: lowRisk.length,
-              colors: colors,
-              text: text,
-              localizations: localizations,
-            ),
-          ),
+      body: ListenableBuilder(
+        listenable: widget.state,
+        builder: (context, _) {
+          final report = _SummaryReport.fromDevices(widget.state.devices);
+          final devices = report.devices;
+          final highRisk = report.highRisk;
+          final medRisk = report.mediumRisk;
+          final lowRisk = report.lowRisk;
+          final canContinueIncomplete = _firstIncompleteDevice() != null;
 
-          // ── No devices ───────────────────────────────────────────────
-          if (devices.isEmpty)
-            SliverPadding(
-              padding: const EdgeInsets.all(32),
-              sliver: SliverToBoxAdapter(
-                child: Center(
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.check_circle_outline,
-                        size: 64,
-                        color: colors.primary,
+          return CustomScrollView(
+            slivers: [
+              // ── Overview header ──────────────────────────────────────────
+              SliverToBoxAdapter(
+                child: _OverviewHeader(
+                  devices: devices,
+                  skippedDevices: report.skippedDevices,
+                  overallScore: report.overallScore,
+                  dontKnowAnswers: report.dontKnowAnswers,
+                  highCount: highRisk.length,
+                  medCount: medRisk.length,
+                  lowCount: lowRisk.length,
+                  canContinueIncomplete: canContinueIncomplete,
+                  onContinueIncomplete: _openFirstIncompleteDevice,
+                  colors: colors,
+                  text: text,
+                  localizations: localizations,
+                ),
+              ),
+
+              // ── No devices ───────────────────────────────────────────────
+              if (devices.isEmpty)
+                SliverPadding(
+                  padding: const EdgeInsets.all(32),
+                  sliver: SliverToBoxAdapter(
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.check_circle_outline,
+                            size: 64,
+                            color: colors.primary,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            localizations.noDevicesCaptured,
+                            style: text.titleMedium,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            localizations.noDevicesHint,
+                            style: text.bodyMedium?.copyWith(
+                              color: colors.onSurfaceVariant,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                      Text(
-                        localizations.noDevicesCaptured,
-                        style: text.titleMedium,
+                    ),
+                  ),
+                ),
+
+              // ── Hohe Risiken ─────────────────────────────────────────────
+              if (highRisk.isNotEmpty) ...[
+                SliverToBoxAdapter(
+                  child: _SectionHeader(
+                    label: localizations.highRisk,
+                    count: highRisk.length,
+                    color: RiskLevel.high.color,
+                    icon: Icons.warning_rounded,
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, i) => Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: _DeviceResultCard(device: highRisk[i]),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        localizations.noDevicesHint,
-                        style: text.bodyMedium?.copyWith(
-                          color: colors.onSurfaceVariant,
-                        ),
-                        textAlign: TextAlign.center,
+                      childCount: highRisk.length,
+                    ),
+                  ),
+                ),
+              ],
+
+              // ── Mittlere Risiken ─────────────────────────────────────────
+              if (medRisk.isNotEmpty) ...[
+                SliverToBoxAdapter(
+                  child: _SectionHeader(
+                    label: localizations.mediumRisk,
+                    count: medRisk.length,
+                    color: RiskLevel.medium.color,
+                    icon: Icons.info_rounded,
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, i) => Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: _DeviceResultCard(device: medRisk[i]),
                       ),
-                    ],
+                      childCount: medRisk.length,
+                    ),
                   ),
                 ),
-              ),
-            ),
+              ],
 
-          // ── Hohe Risiken ─────────────────────────────────────────────
-          if (highRisk.isNotEmpty) ...[
-            SliverToBoxAdapter(
-              child: _SectionHeader(
-                label: localizations.highRisk,
-                count: highRisk.length,
-                color: _riskColor(RiskLevel.high),
-                icon: Icons.warning_rounded,
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, i) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: _DeviceResultCard(device: highRisk[i]),
+              // ── Niedrige Risiken ─────────────────────────────────────────
+              if (lowRisk.isNotEmpty) ...[
+                SliverToBoxAdapter(
+                  child: _SectionHeader(
+                    label: localizations.lowRisk,
+                    count: lowRisk.length,
+                    color: RiskLevel.low.color,
+                    icon: Icons.check_circle_rounded,
                   ),
-                  childCount: highRisk.length,
                 ),
-              ),
-            ),
-          ],
-
-          // ── Mittlere Risiken ─────────────────────────────────────────
-          if (medRisk.isNotEmpty) ...[
-            SliverToBoxAdapter(
-              child: _SectionHeader(
-                label: localizations.mediumRisk,
-                count: medRisk.length,
-                color: _riskColor(RiskLevel.medium),
-                icon: Icons.info_rounded,
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, i) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: _DeviceResultCard(device: medRisk[i]),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, i) => Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: _DeviceResultCard(device: lowRisk[i]),
+                      ),
+                      childCount: lowRisk.length,
+                    ),
                   ),
-                  childCount: medRisk.length,
                 ),
-              ),
-            ),
-          ],
+              ],
 
-          // ── Niedrige Risiken ─────────────────────────────────────────
-          if (lowRisk.isNotEmpty) ...[
-            SliverToBoxAdapter(
-              child: _SectionHeader(
-                label: localizations.lowRisk,
-                count: lowRisk.length,
-                color: _riskColor(RiskLevel.low),
-                icon: Icons.check_circle_rounded,
+              // ── General recommendations ──────────────────────────────────
+              SliverToBoxAdapter(
+                child: _GeneralRecommendations(colors: colors, text: text),
               ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, i) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: _DeviceResultCard(device: lowRisk[i]),
-                  ),
-                  childCount: lowRisk.length,
-                ),
-              ),
-            ),
-          ],
 
-          // ── General recommendations ──────────────────────────────────
-          SliverToBoxAdapter(
-            child: _GeneralRecommendations(colors: colors, text: text),
-          ),
-
-          const SliverToBoxAdapter(child: SizedBox(height: 40)),
-        ],
+              const SliverToBoxAdapter(child: SizedBox(height: 40)),
+            ],
+          );
+        },
       ),
     );
   }
 
   Future<void> _shareSummary(_ShareFormat format) async {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     if (_isSharing) {
       return;
     }
@@ -366,17 +428,6 @@ class _SummaryReport {
       return '${localizations.overallMedium}$learnHint';
     }
     return '${localizations.overallHigh}$learnHint';
-  }
-}
-
-Color _riskColor(RiskLevel level) {
-  switch (level) {
-    case RiskLevel.high:
-      return const Color(0xFFC62828);
-    case RiskLevel.medium:
-      return const Color(0xFFE65100);
-    case RiskLevel.low:
-      return const Color(0xFF2E7D32);
   }
 }
 
@@ -681,7 +732,7 @@ Color _riskBg(RiskLevel level) {
     case RiskLevel.high:
       return const Color(0xFFFFEBEE);
     case RiskLevel.medium:
-      return const Color(0xFFFFF3E0);
+      return const Color(0xFFFFF8E1);
     case RiskLevel.low:
       return const Color(0xFFE8F5E9);
   }
@@ -741,6 +792,8 @@ class _OverviewHeader extends StatelessWidget {
   final int highCount;
   final int medCount;
   final int lowCount;
+  final bool canContinueIncomplete;
+  final VoidCallback onContinueIncomplete;
   final ColorScheme colors;
   final TextTheme text;
   final AppLocalizations localizations;
@@ -753,6 +806,8 @@ class _OverviewHeader extends StatelessWidget {
     required this.highCount,
     required this.medCount,
     required this.lowCount,
+    required this.canContinueIncomplete,
+    required this.onContinueIncomplete,
     required this.colors,
     required this.text,
     required this.localizations,
@@ -765,7 +820,7 @@ class _OverviewHeader extends StatelessWidget {
         : overallScore <= 66
         ? RiskLevel.medium
         : RiskLevel.high;
-    final scoreColor = _riskColor(scoreLevel);
+    final scoreColor = scoreLevel.color;
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -802,12 +857,18 @@ class _OverviewHeader extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          '$overallScore',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: scoreColor,
+                        // FittedBox keeps a 3-digit score (the maximum
+                        // possible, 100) on one line instead of wrapping and
+                        // overflowing this fixed-size circle.
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            '$overallScore',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: scoreColor,
+                            ),
                           ),
                         ),
                         Text(
@@ -835,6 +896,19 @@ class _OverviewHeader extends StatelessWidget {
                             color: colors.onSurfaceVariant,
                           ),
                         ),
+                        if (canContinueIncomplete)
+                          TextButton.icon(
+                            onPressed: onContinueIncomplete,
+                            icon: const Icon(
+                              Icons.play_arrow_rounded,
+                              size: 18,
+                            ),
+                            label: Text(localizations.resumeIncompleteDevice),
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.only(top: 4, bottom: 2),
+                              visualDensity: VisualDensity.compact,
+                            ),
+                          ),
                       ],
                       const SizedBox(height: 8),
                       if (highCount > 0)
@@ -856,6 +930,21 @@ class _OverviewHeader extends StatelessWidget {
                 height: 1.4,
               ),
             ),
+          ] else if (skippedDevices > 0) ...[
+            Text(
+              localizations.skippedDevicesHint(skippedDevices),
+              style: text.bodySmall?.copyWith(color: colors.onSurfaceVariant),
+            ),
+            if (canContinueIncomplete)
+              TextButton.icon(
+                onPressed: onContinueIncomplete,
+                icon: const Icon(Icons.play_arrow_rounded, size: 18),
+                label: Text(localizations.resumeIncompleteDevice),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.only(top: 6, bottom: 2),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
           ],
         ],
       ),
@@ -884,7 +973,7 @@ class _RiskCount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = _riskColor(level);
+    final color = level.color;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -895,7 +984,7 @@ class _RiskCount extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         Text(
-          '$count × ${_riskLabel(level, AppLocalizations.of(context)!)}',
+          '$count × ${_riskLabel(level, context.l10n)}',
           style: TextStyle(
             fontSize: 13,
             color: color,
@@ -981,12 +1070,12 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final device = widget.device;
     final level = device.riskLevel;
-    final color = _riskColor(level);
+    final color = level.color;
     final bg = _riskBg(level);
     final actions = device.suggestedActions;
     final inherentRiskHint = device.inherentRiskHint == null
@@ -995,9 +1084,7 @@ class _DeviceResultCardState extends State<_DeviceResultCard> {
             device.inherentRiskHint!,
             fallback: device.inherentRiskHint!,
           );
-    final noActionColor = level == RiskLevel.low
-        ? _riskColor(RiskLevel.low)
-        : color;
+    final noActionColor = level == RiskLevel.low ? RiskLevel.low.color : color;
     final noActionIcon = level == RiskLevel.low
         ? Icons.check_circle
         : Icons.info_outline;
@@ -1200,13 +1287,13 @@ class _ScoreBreakdownState extends State<_ScoreBreakdown> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final factors = widget.device.scoringFactors;
     if (factors.isEmpty) return const SizedBox.shrink();
 
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final riskColor = _riskColor(widget.device.riskLevel);
+    final riskColor = widget.device.riskLevel.color;
 
     return Container(
       margin: const EdgeInsets.fromLTRB(14, 0, 14, 10),
@@ -1289,7 +1376,7 @@ class _FactorRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final Color chipColor;
     final IconData icon;
 
@@ -1297,7 +1384,7 @@ class _FactorRow extends StatelessWidget {
       chipColor = const Color(0xFF5C6BC0);
       icon = Icons.device_hub_outlined;
     } else if (factor.isDontKnow) {
-      chipColor = const Color(0xFFE65100);
+      chipColor = const Color(0xFFF9A825);
       icon = Icons.help_outline;
     } else {
       chipColor = const Color(0xFFC62828);
@@ -1351,13 +1438,13 @@ class _ActionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final priorityColor = action.priority == ActionPriority.high
         ? const Color(0xFFC62828)
         : action.priority == ActionPriority.medium
-        ? const Color(0xFFE65100)
+        ? const Color(0xFFF9A825)
         : colors.primary;
 
     return Container(
@@ -1450,7 +1537,7 @@ class _GeneralRecommendations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(

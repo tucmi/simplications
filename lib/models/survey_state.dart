@@ -65,6 +65,51 @@ final Map<String, String> _iconKeyByFingerprint = {
     '${e.value.codePoint}:${e.value.fontFamily}': e.key,
 };
 
+/// The icon options offered by the "add custom room" picker, as
+/// [kIconRegistry] keys — see [iconsForKeys].
+const List<String> kRoomIconKeys = [
+  'weekend',
+  'kitchen',
+  'hotel',
+  'bathtub',
+  'computer',
+  'meeting_room',
+  'yard',
+  'storage',
+  'home',
+  'living',
+  'local_library',
+  'fitness_center',
+  'sports_esports',
+  'roofing',
+];
+
+/// The icon options offered by the "add custom device" picker, as
+/// [kIconRegistry] keys — see [iconsForKeys].
+const List<String> kDeviceIconKeys = [
+  'speaker',
+  'videocam',
+  'tv',
+  'thermostat',
+  'lightbulb',
+  'lock',
+  'electrical_services',
+  'window',
+  'cleaning_services',
+  'kitchen',
+  'watch',
+  'toys',
+  'router',
+  'print',
+];
+
+/// Resolves [keys] against [kIconRegistry]. Used to build icon-picker option
+/// lists so every offered icon is guaranteed to have a registry entry — a
+/// missing key throws immediately here instead of silently persisting as
+/// `home` later in [SurveyState].
+List<IconData> iconsForKeys(List<String> keys) =>
+    keys.map((key) => kIconRegistry[key]!).toList(growable: false);
+
 class SurveyState extends ChangeNotifier {
   static const String _storageKey = 'survey_state_v1';
   static const Map<String, String> _legacyTemplateIdAliases = {
@@ -120,25 +165,36 @@ class SurveyState extends ChangeNotifier {
   bool isRoomIncomplete(String roomId) =>
       visitedRoomIds.contains(roomId) && !isRoomCompleted(roomId);
 
-  void addDevice(DeviceTemplate template, String roomId, String roomName) {
-    if (devices.any(
-      (d) => d.template.id == template.id && d.roomId == roomId,
-    )) {
-      return;
-    }
+  DeviceInstance addDevice(
+    DeviceTemplate template,
+    String roomId,
+    String roomName,
+  ) {
     visitedRoomIds.add(roomId);
     noDeviceRoomIds.remove(roomId);
     completedRoomIds.remove(roomId);
-    devices.add(
-      DeviceInstance(
-        instanceId: '${roomId}_${template.id}',
-        template: template,
-        roomId: roomId,
-        roomName: roomName,
-        expertModeEnabled: _expertModeEnabled,
-      ),
+    final instance = DeviceInstance(
+      instanceId: _nextInstanceId(roomId, template.id),
+      template: template,
+      roomId: roomId,
+      roomName: roomName,
+      expertModeEnabled: _expertModeEnabled,
     );
+    devices.add(instance);
     _changed();
+    return instance;
+  }
+
+  String _nextInstanceId(String roomId, String templateId) {
+    final base =
+        '${roomId}_${templateId}_${DateTime.now().microsecondsSinceEpoch}';
+    var candidate = base;
+    var suffix = 1;
+    while (devices.any((device) => device.instanceId == candidate)) {
+      candidate = '${base}_$suffix';
+      suffix += 1;
+    }
+    return candidate;
   }
 
   void removeDevice(String instanceId) {
@@ -154,6 +210,15 @@ class SurveyState extends ChangeNotifier {
 
   List<DeviceInstance> devicesForRoom(String roomId) =>
       devices.where((d) => d.roomId == roomId).toList();
+
+  List<DeviceInstance> evaluatedDevicesForRoom(String roomId) =>
+      devicesForRoom(roomId).where((device) => device.isFullyAnswered).toList();
+
+  RiskLevel? worstRiskLevelForRoom(String roomId) =>
+      evaluatedDevicesForRoom(roomId).worstRiskLevel;
+
+  int evaluatedDeviceCountForRoom(String roomId) =>
+      evaluatedDevicesForRoom(roomId).length;
 
   bool get hasAnyData =>
       completedRoomIds.isNotEmpty ||
@@ -243,7 +308,7 @@ class SurveyState extends ChangeNotifier {
       hasCamera: hasCamera,
       hasMicrophone: hasMicrophone,
       roomIds: [roomId],
-      deviceType: 'custom',
+      deviceType: DeviceCategory.custom,
       isCustom: true,
     );
     customDevices.add(newDevice);
@@ -332,7 +397,7 @@ class SurveyState extends ChangeNotifier {
                   roomIds: (e['roomIds'] as List<dynamic>? ?? const [])
                       .whereType<String>()
                       .toList(),
-                  deviceType: 'custom',
+                  deviceType: DeviceCategory.custom,
                   isCustom: true,
                 ),
               ),
@@ -373,77 +438,88 @@ class SurveyState extends ChangeNotifier {
       };
 
       devices.clear();
-      final restoredDeviceKeys = <String>{};
+      final restoredInstanceIds = <String>{};
       for (final dynamic item
           in (data['devices'] as List<dynamic>? ?? const [])) {
-        if (item is! Map) {
-          continue;
-        }
-        final entry = Map<String, dynamic>.from(item);
-        final templateId = entry['templateId'] as String?;
-        if (templateId == null) {
-          continue;
-        }
-        final normalizedTemplateId =
-            _legacyTemplateIdAliases[templateId] ?? templateId;
-        final template = templateById[normalizedTemplateId];
-        if (template == null) {
-          continue;
-        }
-        final roomId = entry['roomId'] as String;
-        final restoredDeviceKey = '$roomId:${template.id}';
-        if (!restoredDeviceKeys.add(restoredDeviceKey)) {
-          continue;
-        }
+        // One malformed device entry shouldn't cost the user every other
+        // already-answered device in the same save file.
+        try {
+          if (item is! Map) {
+            continue;
+          }
+          final entry = Map<String, dynamic>.from(item);
+          final templateId = entry['templateId'] as String?;
+          if (templateId == null) {
+            continue;
+          }
+          final normalizedTemplateId =
+              _legacyTemplateIdAliases[templateId] ?? templateId;
+          final template = templateById[normalizedTemplateId];
+          if (template == null) {
+            continue;
+          }
+          final roomId = entry['roomId'] as String?;
+          if (roomId == null) {
+            continue;
+          }
+          final restoredInstanceId =
+              entry['instanceId'] as String? ??
+              _nextInstanceId(roomId, template.id);
+          if (!restoredInstanceIds.add(restoredInstanceId)) {
+            continue;
+          }
 
-        final instance = DeviceInstance(
-          instanceId: entry['instanceId'] as String,
-          template: template,
-          roomId: roomId,
-          roomName: entry['roomName'] as String,
-          expertModeEnabled: _expertModeEnabled,
-        );
-
-        instance.passwordChanged = questionAnswerFromStored(
-          entry['passwordChanged'],
-        );
-        instance.autoUpdatesEnabled = questionAnswerFromStored(
-          entry['autoUpdatesEnabled'],
-        );
-        instance.separateNetwork = questionAnswerFromStored(
-          entry['separateNetwork'],
-        );
-        instance.householdInformed = questionAnswerFromStored(
-          entry['householdInformed'],
-        );
-        instance.permissionsReduced = questionAnswerFromStored(
-          entry['permissionsReduced'],
-        );
-        instance.cameraConsentGiven = questionAnswerFromStored(
-          entry['cameraConsentGiven'],
-        );
-        instance.micDeactivatedWhenUnused = questionAnswerFromStored(
-          entry['micDeactivatedWhenUnused'],
-        );
-
-        final storedSpecific = Map<String, dynamic>.from(
-          entry['deviceSpecificAnswers'] as Map? ?? const {},
-        );
-        instance.deviceSpecificAnswers
-          ..clear()
-          ..addEntries(
-            storedSpecific.entries
-                .map(
-                  (entry) => MapEntry(
-                    entry.key,
-                    questionAnswerFromStored(entry.value),
-                  ),
-                )
-                .where((entry) => entry.value != null)
-                .map((entry) => MapEntry(entry.key, entry.value!)),
+          final instance = DeviceInstance(
+            instanceId: restoredInstanceId,
+            template: template,
+            roomId: roomId,
+            roomName: entry['roomName'] as String? ?? '',
+            expertModeEnabled: _expertModeEnabled,
           );
 
-        devices.add(instance);
+          instance.passwordChanged = questionAnswerFromStored(
+            entry['passwordChanged'],
+          );
+          instance.autoUpdatesEnabled = questionAnswerFromStored(
+            entry['autoUpdatesEnabled'],
+          );
+          instance.separateNetwork = questionAnswerFromStored(
+            entry['separateNetwork'],
+          );
+          instance.householdInformed = questionAnswerFromStored(
+            entry['householdInformed'],
+          );
+          instance.permissionsReduced = questionAnswerFromStored(
+            entry['permissionsReduced'],
+          );
+          instance.cameraConsentGiven = questionAnswerFromStored(
+            entry['cameraConsentGiven'],
+          );
+          instance.micDeactivatedWhenUnused = questionAnswerFromStored(
+            entry['micDeactivatedWhenUnused'],
+          );
+
+          final storedSpecific = Map<String, dynamic>.from(
+            entry['deviceSpecificAnswers'] as Map? ?? const {},
+          );
+          instance.deviceSpecificAnswers
+            ..clear()
+            ..addEntries(
+              storedSpecific.entries
+                  .map(
+                    (entry) => MapEntry(
+                      entry.key,
+                      questionAnswerFromStored(entry.value),
+                    ),
+                  )
+                  .where((entry) => entry.value != null)
+                  .map((entry) => MapEntry(entry.key, entry.value!)),
+            );
+
+          devices.add(instance);
+        } catch (_) {
+          // Skip just this entry; keep restoring the rest of the list.
+        }
       }
 
       notifyListeners();
@@ -470,7 +546,7 @@ class SurveyState extends ChangeNotifier {
     customRooms.clear();
     customDevices.clear();
     _expertModeEnabled = false;
-    await clearStorage();
+    await _enqueueWrite(clearStorage);
     notifyListeners();
   }
 
@@ -564,8 +640,20 @@ class SurveyState extends ChangeNotifier {
     return Icons.home;
   }
 
+  /// Chains persistence writes so overlapping calls can't finish out of
+  /// order. Without this, two rapid mutations could race: the newer write
+  /// starts and finishes first, then the older (now-stale) write finishes
+  /// last and overwrites it with outdated data.
+  Future<void>? _pendingWrite;
+
+  Future<void> _enqueueWrite(Future<void> Function() task) {
+    final next = (_pendingWrite ?? Future<void>.value()).then((_) => task());
+    _pendingWrite = next;
+    return next;
+  }
+
   void _changed() {
-    unawaited(saveToStorage());
+    unawaited(_enqueueWrite(saveToStorage));
     notifyListeners();
   }
 }

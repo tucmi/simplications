@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 
-import '../l10n/app_localizations.dart';
+import '../l10n/l10n_extensions.dart';
+import '../models/survey_state.dart';
+
+/// Result of [CustomRoomDialog]. A typed record instead of a raw map so a
+/// mismatched key/type is a compile error at the call site, not a runtime
+/// cast failure.
+typedef NewRoomResult = ({String name, IconData icon});
+
+/// Result of [CustomDeviceDialog].
+typedef NewDeviceResult = ({
+  String name,
+  IconData icon,
+  int riskScore,
+  bool hasCamera,
+  bool hasMicrophone,
+});
 
 class CustomRoomDialog extends StatefulWidget {
   final List<IconData> availableIcons;
 
-  const CustomRoomDialog({
-    super.key,
-    this.availableIcons = const [
-      Icons.weekend,
-      Icons.kitchen,
-      Icons.hotel,
-      Icons.bathtub,
-      Icons.computer,
-      Icons.meeting_room,
-      Icons.yard,
-      Icons.storage,
-      Icons.home,
-      Icons.living,
-      Icons.local_library,
-      Icons.fitness_center,
-      Icons.sports_esports,
-      Icons.roofing,
-    ],
-  });
+  CustomRoomDialog({super.key, List<IconData>? availableIcons})
+    : availableIcons = availableIcons ?? iconsForKeys(kRoomIconKeys);
 
   @override
   State<CustomRoomDialog> createState() => _CustomRoomDialogState();
@@ -48,7 +46,7 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     return Dialog(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 500),
@@ -120,10 +118,10 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
                     onPressed: _nameController.text.trim().isEmpty
                         ? null
                         : () {
-                            Navigator.pop(context, {
-                              'name': _nameController.text.trim(),
-                              'icon': _selectedIcon,
-                            });
+                            Navigator.pop<NewRoomResult>(context, (
+                              name: _nameController.text.trim(),
+                              icon: _selectedIcon,
+                            ));
                           },
                     child: Text(localizations.add),
                   ),
@@ -140,25 +138,8 @@ class _CustomRoomDialogState extends State<CustomRoomDialog> {
 class CustomDeviceDialog extends StatefulWidget {
   final List<IconData> availableIcons;
 
-  const CustomDeviceDialog({
-    super.key,
-    this.availableIcons = const [
-      Icons.speaker,
-      Icons.videocam,
-      Icons.tv,
-      Icons.thermostat,
-      Icons.lightbulb,
-      Icons.lock,
-      Icons.electrical_services,
-      Icons.window,
-      Icons.cleaning_services,
-      Icons.kitchen,
-      Icons.watch,
-      Icons.toys,
-      Icons.router,
-      Icons.print,
-    ],
-  });
+  CustomDeviceDialog({super.key, List<IconData>? availableIcons})
+    : availableIcons = availableIcons ?? iconsForKeys(kDeviceIconKeys);
 
   @override
   State<CustomDeviceDialog> createState() => _CustomDeviceDialogState();
@@ -188,7 +169,7 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     return Dialog(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 520),
@@ -295,13 +276,13 @@ class _CustomDeviceDialogState extends State<CustomDeviceDialog> {
                         : () {
                             final riskScore =
                                 int.tryParse(_riskScoreController.text) ?? 30;
-                            Navigator.pop(context, {
-                              'name': _nameController.text.trim(),
-                              'icon': _selectedIcon,
-                              'riskScore': riskScore.clamp(0, 100),
-                              'hasCamera': _hasCamera,
-                              'hasMicrophone': _hasMicrophone,
-                            });
+                            Navigator.pop<NewDeviceResult>(context, (
+                              name: _nameController.text.trim(),
+                              icon: _selectedIcon,
+                              riskScore: riskScore.clamp(0, 100),
+                              hasCamera: _hasCamera,
+                              hasMicrophone: _hasMicrophone,
+                            ));
                           },
                     child: Text(localizations.add),
                   ),

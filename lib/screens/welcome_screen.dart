@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../l10n/app_localizations.dart';
+import '../l10n/l10n_extensions.dart';
 import '../l10n/language_controller.dart';
 import '../models/survey_state.dart';
 import '../widgets/language_switcher.dart';
@@ -7,67 +7,23 @@ import 'about_screen.dart';
 import 'faq_screen.dart';
 import 'room_selection_screen.dart';
 
-/// App-wide route observer — provide this in [MaterialApp.navigatorObservers].
-final RouteObserver<ModalRoute<void>> appRouteObserver =
-    RouteObserver<ModalRoute<void>>();
-
-class WelcomeScreen extends StatefulWidget {
+class WelcomeScreen extends StatelessWidget {
   final LanguageController languageController;
   final GlobalKey<NavigatorState>? navigatorKey;
+  final SurveyState state;
 
   const WelcomeScreen({
     super.key,
     required this.languageController,
+    required this.state,
     this.navigatorKey,
   });
-
-  @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
-}
-
-class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
-  SurveyState? _surveyState;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadSurveyState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final route = ModalRoute.of(context);
-    if (route is PageRoute) {
-      appRouteObserver.subscribe(this, route);
-    }
-  }
-
-  @override
-  void dispose() {
-    appRouteObserver.unsubscribe(this);
-    super.dispose();
-  }
-
-  /// Called when this screen is popped back to (e.g. after reset).
-  @override
-  void didPopNext() {
-    _loadSurveyState();
-  }
-
-  Future<void> _loadSurveyState() async {
-    final surveyState = SurveyState();
-    await surveyState.loadFromStorage();
-    if (mounted) {
-      setState(() => _surveyState = surveyState);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return Scaffold(
       backgroundColor: colors.surface,
@@ -180,26 +136,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Builder(
-                              builder: (context) {
-                                final surveyState = _surveyState;
-                                final hasState = surveyState != null;
-                                final hasProgress =
-                                    hasState && surveyState.hasAnyData;
+                            ListenableBuilder(
+                              listenable: state,
+                              builder: (context, _) {
+                                final hasProgress = state.hasAnyData;
 
                                 return FilledButton(
-                                  onPressed: hasState
-                                      ? () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (_) =>
-                                                  RoomSelectionScreen(
-                                                    state: surveyState,
-                                                  ),
-                                            ),
-                                          );
-                                        }
-                                      : null,
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            RoomSelectionScreen(state: state),
+                                      ),
+                                    );
+                                  },
                                   style: FilledButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 16,
@@ -245,8 +195,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
                                 TextButton.icon(
                                   onPressed: () => Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (_) =>
-                                          AboutScreen(state: _surveyState),
+                                      builder: (_) => AboutScreen(state: state),
                                     ),
                                   ),
                                   icon: const Icon(
@@ -276,8 +225,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with RouteAware {
             right: 10,
             child: SafeArea(
               child: LanguageSwitcher(
-                controller: widget.languageController,
-                navigatorKey: widget.navigatorKey,
+                controller: languageController,
+                navigatorKey: navigatorKey,
               ),
             ),
           ),

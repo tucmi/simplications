@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import '../data/catalog_data.dart';
-import '../l10n/app_localizations.dart';
 import '../l10n/app_localizations_key_resolver.dart';
+import '../l10n/l10n_extensions.dart';
 import '../models/device.dart';
 import '../models/room.dart';
 import '../models/survey_state.dart';
+import 'device_result_screen.dart';
 
 class DeviceQuestionnaireScreen extends StatefulWidget {
   final SurveyState state;
@@ -49,7 +50,15 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
 
   void _onNext(DeviceInstance device) {
     if (!device.isFullyAnswered) return;
-    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => DeviceResultScreen(
+          state: widget.state,
+          room: widget.room,
+          instanceId: device.instanceId,
+        ),
+      ),
+    );
   }
 
   @override
@@ -66,7 +75,7 @@ class _DeviceQuestionnaireScreenState extends State<DeviceQuestionnaireScreen> {
 
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final questions = device.questions;
     final answered = questions
         .where((q) => device.answerFor(q.id) != null)
@@ -327,7 +336,7 @@ class _QuestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final answered = answer != null;
     final isNotApplicable = answer == QuestionAnswer.notApplicable;
     final accentColor = _answerAccentColor(colors, answer);
@@ -443,13 +452,13 @@ class _QuestionCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: isNotApplicable
-                    ? colors.tertiaryContainer.withAlpha(220)
-                    : colors.surfaceContainerHighest,
+            Material(
+              color: isNotApplicable
+                  ? colors.tertiaryContainer.withAlpha(220)
+                  : colors.surfaceContainerHighest,
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(
+                side: BorderSide(
                   color: isNotApplicable ? colors.tertiary : colors.outline,
                 ),
               ),

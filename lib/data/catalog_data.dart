@@ -115,7 +115,7 @@ class CatalogData {
         'basement',
         'whole_home',
       ],
-      deviceType: 'sensor',
+      deviceType: DeviceCategory.sensor,
     ),
 
     // ── Smart Speaker / Voice ──────────────────────────────────────────
@@ -126,7 +126,7 @@ class CatalogData {
       baseRiskScore: 50,
       hasMicrophone: true,
       roomIds: ['living', 'kitchen', 'bedroom', 'office', 'hallway'],
-      deviceType: 'speaker',
+      deviceType: DeviceCategory.speaker,
     ),
     DeviceTemplate(
       id: 'smart_display',
@@ -136,7 +136,7 @@ class CatalogData {
       hasCamera: true,
       hasMicrophone: true,
       roomIds: ['living', 'kitchen', 'bedroom', 'office'],
-      deviceType: 'speaker',
+      deviceType: DeviceCategory.speaker,
     ),
 
     // ── TV & Entertainment ────────────────────────────────────────────
@@ -146,7 +146,7 @@ class CatalogData {
       icon: Icons.tv,
       baseRiskScore: 40,
       roomIds: ['living', 'bedroom'],
-      deviceType: 'tv',
+      deviceType: DeviceCategory.tv,
     ),
 
     // ── Cameras ───────────────────────────────────────────────────────
@@ -157,7 +157,7 @@ class CatalogData {
       baseRiskScore: 60,
       hasCamera: true,
       roomIds: ['living', 'hallway', 'basement', 'bedroom', 'kitchen'],
-      deviceType: 'camera',
+      deviceType: DeviceCategory.camera,
     ),
     DeviceTemplate(
       id: 'outdoor_camera',
@@ -166,7 +166,7 @@ class CatalogData {
       baseRiskScore: 60,
       hasCamera: true,
       roomIds: ['garden', 'hallway', 'whole_home'],
-      deviceType: 'camera',
+      deviceType: DeviceCategory.camera,
     ),
     DeviceTemplate(
       id: 'doorbell_camera',
@@ -176,7 +176,7 @@ class CatalogData {
       hasCamera: true,
       hasMicrophone: true,
       roomIds: ['hallway', 'whole_home'],
-      deviceType: 'camera',
+      deviceType: DeviceCategory.camera,
     ),
     DeviceTemplate(
       id: 'baby_monitor',
@@ -186,7 +186,7 @@ class CatalogData {
       hasCamera: true,
       hasMicrophone: true,
       roomIds: ['bedroom'],
-      deviceType: 'camera',
+      deviceType: DeviceCategory.camera,
     ),
 
     // ── Robots & Appliances ───────────────────────────────────────────
@@ -196,7 +196,7 @@ class CatalogData {
       icon: Icons.cleaning_services,
       baseRiskScore: 35,
       roomIds: ['living', 'kitchen', 'hallway', 'bedroom', 'whole_home'],
-      deviceType: 'robot',
+      deviceType: DeviceCategory.robot,
     ),
     DeviceTemplate(
       id: 'smart_fridge',
@@ -204,7 +204,7 @@ class CatalogData {
       icon: Icons.kitchen,
       baseRiskScore: 30,
       roomIds: ['kitchen'],
-      deviceType: 'appliance',
+      deviceType: DeviceCategory.appliance,
     ),
     DeviceTemplate(
       id: 'smart_oven',
@@ -212,7 +212,7 @@ class CatalogData {
       icon: Icons.microwave,
       baseRiskScore: 25,
       roomIds: ['kitchen'],
-      deviceType: 'appliance',
+      deviceType: DeviceCategory.appliance,
     ),
     DeviceTemplate(
       id: 'smart_coffee',
@@ -220,7 +220,7 @@ class CatalogData {
       icon: Icons.coffee,
       baseRiskScore: 20,
       roomIds: ['kitchen'],
-      deviceType: 'appliance',
+      deviceType: DeviceCategory.appliance,
     ),
     DeviceTemplate(
       id: 'smart_washing',
@@ -228,7 +228,7 @@ class CatalogData {
       icon: Icons.local_laundry_service,
       baseRiskScore: 20,
       roomIds: ['basement', 'bathroom', 'whole_home'],
-      deviceType: 'appliance',
+      deviceType: DeviceCategory.appliance,
     ),
 
     // ── Smart Home Controls ───────────────────────────────────────────
@@ -238,7 +238,7 @@ class CatalogData {
       icon: Icons.thermostat,
       baseRiskScore: 30,
       roomIds: ['living', 'bedroom', 'hallway', 'whole_home'],
-      deviceType: 'thermostat',
+      deviceType: DeviceCategory.thermostat,
     ),
     DeviceTemplate(
       id: 'smart_plug',
@@ -254,7 +254,7 @@ class CatalogData {
         'garden',
         'basement',
       ],
-      deviceType: 'plug',
+      deviceType: DeviceCategory.plug,
     ),
     DeviceTemplate(
       id: 'smart_light',
@@ -270,7 +270,7 @@ class CatalogData {
         'hallway',
         'garden',
       ],
-      deviceType: 'light',
+      deviceType: DeviceCategory.light,
     ),
     DeviceTemplate(
       id: 'smart_lock',
@@ -278,7 +278,7 @@ class CatalogData {
       icon: Icons.lock,
       baseRiskScore: 50,
       roomIds: ['hallway', 'whole_home'],
-      deviceType: 'lock',
+      deviceType: DeviceCategory.lock,
     ),
     DeviceTemplate(
       id: 'smart_blind',
@@ -286,7 +286,7 @@ class CatalogData {
       icon: Icons.window,
       baseRiskScore: 20,
       roomIds: ['living', 'bedroom', 'office', 'whole_home'],
-      deviceType: 'blind',
+      deviceType: DeviceCategory.blind,
     ),
 
     // ── Kids ──────────────────────────────────────────────────────────
@@ -297,7 +297,7 @@ class CatalogData {
       baseRiskScore: 55,
       hasMicrophone: true,
       roomIds: ['bedroom', 'living'],
-      deviceType: 'toy',
+      deviceType: DeviceCategory.toy,
     ),
 
     // ── Network & Hub ─────────────────────────────────────────────────
@@ -307,7 +307,7 @@ class CatalogData {
       icon: Icons.router,
       baseRiskScore: 40,
       roomIds: ['whole_home', 'office'],
-      deviceType: 'router',
+      deviceType: DeviceCategory.router,
     ),
     DeviceTemplate(
       id: 'smart_hub',
@@ -315,7 +315,7 @@ class CatalogData {
       icon: Icons.hub,
       baseRiskScore: 35,
       roomIds: ['whole_home', 'living'],
-      deviceType: 'hub',
+      deviceType: DeviceCategory.hub,
     ),
     DeviceTemplate(
       id: 'smart_meter',
@@ -323,7 +323,7 @@ class CatalogData {
       icon: Icons.bolt,
       baseRiskScore: 30,
       roomIds: ['whole_home', 'basement'],
-      deviceType: 'meter',
+      deviceType: DeviceCategory.meter,
     ),
 
     // ── Garden ────────────────────────────────────────────────────────
@@ -333,7 +333,7 @@ class CatalogData {
       icon: Icons.water_drop,
       baseRiskScore: 15,
       roomIds: ['garden'],
-      deviceType: 'outdoor',
+      deviceType: DeviceCategory.outdoor,
     ),
 
     // ── Office ────────────────────────────────────────────────────────
@@ -343,7 +343,7 @@ class CatalogData {
       icon: Icons.print,
       baseRiskScore: 30,
       roomIds: ['office'],
-      deviceType: 'printer',
+      deviceType: DeviceCategory.printer,
     ),
   ];
 

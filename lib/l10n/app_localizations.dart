@@ -135,7 +135,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcomePrivacyDescription.
   ///
   /// In en, this message translates to:
-  /// **'No personal data is collected. Your answers stay on this device and nothing is sent to a server or cloud.'**
+  /// **'We do not collect personal data. Your answers stay on this device and are not sent to a cloud.'**
   String get welcomePrivacyDescription;
 
   /// No description provided for @stepSelectRooms.
@@ -252,6 +252,12 @@ abstract class AppLocalizations {
   /// **'Tap a device to answer its questions.'**
   String get deviceQuestionHint;
 
+  /// No description provided for @searchDevicesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search devices'**
+  String get searchDevicesHint;
+
   /// No description provided for @noKnownDevices.
   ///
   /// In en, this message translates to:
@@ -341,6 +347,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get done;
+
+  /// No description provided for @checkAnotherDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Check another device'**
+  String get checkAnotherDevice;
 
   /// No description provided for @yes.
   ///
@@ -965,6 +977,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} devices skipped because the questionnaire was not completed.'**
   String skippedDevicesHint(Object count);
+
+  /// No description provided for @resumeIncompleteDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with first incomplete device'**
+  String get resumeIncompleteDevice;
+
+  /// No description provided for @noIncompleteDevicesLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'No unfinished devices left.'**
+  String get noIncompleteDevicesLeft;
 
   /// No description provided for @overallRisk.
   ///
