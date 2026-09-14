@@ -47,6 +47,20 @@ version: 1.0.0+4
 
 Never skip numbers. Never decrease the build number.
 
+### Release tagging (semantic version)
+
+This is separate from the per-edit build-number bump above and only applies
+when actually cutting a release, not on ordinary task/PR work:
+
+1. Bump the semantic version in `pubspec.yaml` (e.g. `1.0.0+41` → `1.1.0+41`
+   for a feature release, `1.1.1+41` for a hotfix) — leave the build number
+   as-is unless a core file also changed.
+2. Commit: `chore: bump version to X.Y.Z`.
+3. Tag: `git tag vX.Y.Z` (the tag does not include the build number).
+4. Push with tags: `git push origin main --tags`.
+5. The `v*`-tag release workflow validates the tag matches `pubspec.yaml` and
+   creates the GitHub Release.
+
 ---
 
 ## Project Overview
@@ -55,8 +69,11 @@ Never skip numbers. Never decrease the build number.
 their smart-home rooms, select devices, answer privacy questions, and receive
 a risk score with concrete action recommendations.
 
-- **Platform targets**: Android, iOS, Web, Windows
-- **Languages**: Dart / Flutter
+- **Repository**: <https://github.com/tucmi/simplications>
+- **Platform targets**: Android, iOS, Web, Windows, macOS, Linux
+- **Languages**: Dart / Flutter (Flutter 3.11.5+, Dart 3.1.0+)
+- **Build system**: Gradle (Android), Xcode (iOS), CMake (Linux/macOS/Windows)
+- **Key packages**: `pdf` (PDF export), `share_plus` (share sheet)
 - **Supported locales**: `de` (default), `en`, `cs`, `pl`, `fr`, `nl`, `da`
 - **State persistence**: `SharedPreferences` via `SurveyState`
 - **No backend** – all data stays on-device
@@ -107,6 +124,15 @@ test/
   `resolveKey` extension in `lib/l10n/app_localizations_key_resolver.dart`
   instead, and add new dynamic keys there too.
 
+### PDF export
+
+- All text rendered to PDF must use characters covered by Helvetica (Latin-1 /
+  ISO 8859-1) — the `pdf` package's default fonts don't support more than that.
+- Avoid en-dashes (`–`), em-dashes (`—`), and non-Latin accented characters in
+  strings used in PDF export.
+- If a locale needs unsupported characters, embed a Unicode font (e.g. Roboto)
+  rather than relaxing this rule.
+
 ### Risk scoring
 
 - Base risk is set per `DeviceTemplate.baseRiskScore` in `catalog_data.dart`.
@@ -121,18 +147,27 @@ test/
 - Run `flutter analyze` to catch static issues.
 - When changing risk scoring logic, update `test/device_risk_scoring_test.dart`
   with the new expected values.
+- Write widget tests for complex UI components (dialogs, forms, risk displays).
+- Test localization changes against at least two locales, preferably one with
+  non-ASCII/special characters (e.g. `cs`, `pl`, `fr`).
 
 ### Code style
 
 - 2-space indentation, Dart conventions (PascalCase classes, camelCase members).
 - Group imports: dart → flutter → package → relative.
 - Zero analyzer errors and warnings required.
+- Add short docstring comments to public classes and methods explaining their
+  purpose and key behavior.
 
-### Pull request titles
+### Commits and pull requests
 
+- Use conventional commit format: `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`.
 - Pull request titles should follow this template: `<type>: <short description>`.
 - Use a lowercase type prefix such as `feat`, `fix`, `docs`, `refactor`, `test`, or `chore`.
 - Examples: `feat: add summary export`, `fix: preserve selected room state`.
+- Reference related issues with `Fixes #…` or `Closes #…` in PR descriptions.
+- Split logical changes into separate commits; avoid unrelated refactors in feature PRs.
+- All PRs must pass CI (`flutter analyze`, release APK build).
 
 ---
 
@@ -143,3 +178,6 @@ test/
 - [ ] `flutter analyze` passes (zero errors/warnings)
 - [ ] Localization keys added in all locales if UI text was added/changed
 - [ ] No hardcoded user-visible strings in widgets
+- [ ] PDF-export strings stay Latin-1/Helvetica-safe (no en/em dashes, no
+      unsupported accented characters)
+- [ ] Widget tests added for complex UI components touched by the change

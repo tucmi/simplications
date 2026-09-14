@@ -30,8 +30,10 @@ This file provides essential context for LLMs working on the Simplications proje
 
 ### Device-Specific Features
 
-The app dynamically changes questions based on device type:
+The app dynamically changes questions based on `DeviceTemplate.deviceType`
+(the `DeviceCategory` enum in `lib/models/device.dart`):
 
+- **sensor**: Sampling frequency, data deletion, local processing (3 device-specific Q's)
 - **speaker**: Voice history, local processing, app permissions (3 device-specific Q's)
 - **camera**: Encryption, storage, sharing controls, motion detection (4 Q's)
 - **tv**: Account required, tracking disabled, offline mode (3 Q's)
@@ -39,8 +41,9 @@ The app dynamically changes questions based on device type:
 - **lock**: Offline unlock, access logging, 2FA (3 Q's)
 - **robot**: Map privacy, cloud requirement, vision data (3 Q's)
 - **toy**: Parental control, child data limits, recording disable (3 Q's)
-- **wearable**: Health data sharing, location tracking (2 Q's)
 - **light/plug/blind**: Local control, usage tracking, offline fallback (3 Q's)
+- **general/custom/router/hub/meter/outdoor/printer/appliance**: no dedicated
+  question set — fall back to the generic questions below
 - All devices: 5 universal base questions (password, updates, network, informed, permissions)
 - Conditional: Camera/microphone consent questions if applicable
 
@@ -74,6 +77,9 @@ lib/
 │   │   ├── enum RiskLevel { low, medium, high }
 │   │   ├── enum ActionType { social, technical, security }
 │   │   ├── enum ActionPriority { high, medium, low }
+│   │   ├── enum DeviceCategory { general, custom, sensor, speaker, camera,
+│   │   │     tv, thermostat, plug, light, lock, blind, robot, toy, router,
+│   │   │     hub, meter, outdoor, printer, appliance }
 │   │   ├── class PrivacyAction
 │   │   ├── class DeviceTemplate
 │   │   ├── class DeviceQuestion(id, text, hint)
@@ -104,7 +110,7 @@ lib/
 
 ### Device-Specific Logic
 
-- `DeviceTemplate.deviceType` (string) determines question set
+- `DeviceTemplate.deviceType` (`DeviceCategory` enum, `lib/models/device.dart`) determines question set
 - `DeviceInstance.questions` property returns conditional question list
 - `CatalogData.getDeviceSpecificQuestions(template)` provides question definitions
 - `CatalogData.getDeviceSpecificActions(template)` provides action recommendations
@@ -163,9 +169,9 @@ lib/
 
 ### To Add Support for a New Device Type
 
-1. Add device type string (e.g., `'dishwasher'`) to device constants
+1. Add a new value to `enum DeviceCategory` in `lib/models/device.dart` (e.g., `dishwasher`)
 2. Create 3-4 device-specific questions in `catalog_data.dart`
-3. Add conditional questions in `DeviceInstance.questions` getter (if device type == 'dishwasher')
+3. Add conditional questions in `DeviceInstance.questions` getter (`if (template.deviceType == DeviceCategory.dishwasher)`)
 4. Add 3-5 device-specific actions in `CatalogData.getDeviceSpecificActions()`
 5. Test with custom device creation or add to predefined devices list
 
@@ -206,7 +212,7 @@ lib/
 - Variable/method names: camelCase
 - Class names: PascalCase
 - Constants: camelCase with const keyword
-- Device type strings: lowercase single word (speaker, camera, tv, lock, robot, toy, wearable, thermostat, light, plug, blind, router, hub, meter, printer, appliance, outdoor)
+- `DeviceCategory` enum values (camelCase, `lib/models/device.dart`): general, custom, sensor, speaker, camera, tv, thermostat, plug, light, lock, blind, robot, toy, router, hub, meter, outdoor, printer, appliance
 - Question IDs: lowercase with underscores (e.g., 'password', 'voice_history', 'video_encryption')
 
 ## File Locations & Purposes
@@ -249,9 +255,9 @@ Before submitting changes:
 
 ### Device-specific questions not appearing
 
-- Check `DeviceTemplate.deviceType` matches string used in `DeviceInstance.questions`
+- Check `DeviceTemplate.deviceType` matches the `DeviceCategory` value checked in `DeviceInstance.questions`
 - Verify question added to `CatalogData.getDeviceSpecificQuestions()`
-- Check conditional logic: `if (template.deviceType == 'speaker')`
+- Check conditional logic: `if (template.deviceType == DeviceCategory.speaker)`
 
 ### Custom devices not showing in grid
 
@@ -259,15 +265,26 @@ Before submitting changes:
 - Check grid logic: `allDevices.length + state.customDevices.length + 1`
 - Ensure `isCustom` flag is properly set
 
+## CI/CD
+
+- **`check.yml`**: Runs on every push to any branch; builds APK release
+  (`flutter build apk --release`) and uploads it as an artifact.
+- **Release workflow** (on `v*` tags): Validates the tag matches the
+  `pubspec.yaml` version and creates the GitHub Release — see the release
+  tagging steps in `AGENTS.md`.
+
 ## Resources
 
 - **Flutter Docs**: <https://docs.flutter.dev/>
 - **Material Design 3**: <https://m3.material.io/>
 - **Dart Language**: <https://dart.dev/guides/language/language-tour>
 - **BSI Smart Home Security** (reference): German Federal Office for Information Security guidelines
+- **`lib/models/RISK_SCORING_README.md`**: Risk scoring algorithm details
 
-## Recent Changes (April 2026)
+## Recent Changes
 
+- ✅ (2026-09) Refactored `DeviceTemplate.deviceType` from a raw string to the
+  `DeviceCategory` enum (`lib/models/device.dart`)
 - ✅ Added custom room and device support with full UI
 - ✅ Implemented 40+ device-specific questions across 12+ device types
 - ✅ Added 30+ BSI-based security actions mapped to device types
