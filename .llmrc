@@ -43,9 +43,12 @@ The app dynamically changes questions based on `DeviceTemplate.deviceType`
 - **toy**: Parental control, child data limits, recording disable (3 Q's)
 - **light/plug/blind**: Local control, usage tracking, offline fallback (3 Q's)
 - **general/custom/router/hub/meter/outdoor/printer/appliance**: no dedicated
-  question set — fall back to the generic questions below
-- All devices: 5 universal base questions (password, updates, network, informed, permissions)
-- Conditional: Camera/microphone consent questions if applicable
+  question set — fall back to `password`/`updates`/`network`/`informed`
+- Cross-cutting, appended on top of the category's own list (see
+  `_questionsWithCrossCuttingOnes` in `lib/models/device.dart`): every device
+  except `sensor` also gets an app-`permissions` question; any device with
+  `hasCamera`/`hasMicrophone` also gets a camera-consent / mic-active question
+  if its category list didn't already ask one
 
 ### Risk Scoring
 

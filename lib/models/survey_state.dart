@@ -441,76 +441,85 @@ class SurveyState extends ChangeNotifier {
       final restoredInstanceIds = <String>{};
       for (final dynamic item
           in (data['devices'] as List<dynamic>? ?? const [])) {
-        if (item is! Map) {
-          continue;
-        }
-        final entry = Map<String, dynamic>.from(item);
-        final templateId = entry['templateId'] as String?;
-        if (templateId == null) {
-          continue;
-        }
-        final normalizedTemplateId =
-            _legacyTemplateIdAliases[templateId] ?? templateId;
-        final template = templateById[normalizedTemplateId];
-        if (template == null) {
-          continue;
-        }
-        final roomId = entry['roomId'] as String;
-        final restoredInstanceId =
-            entry['instanceId'] as String? ??
-            _nextInstanceId(roomId, template.id);
-        if (!restoredInstanceIds.add(restoredInstanceId)) {
-          continue;
-        }
+        // One malformed device entry shouldn't cost the user every other
+        // already-answered device in the same save file.
+        try {
+          if (item is! Map) {
+            continue;
+          }
+          final entry = Map<String, dynamic>.from(item);
+          final templateId = entry['templateId'] as String?;
+          if (templateId == null) {
+            continue;
+          }
+          final normalizedTemplateId =
+              _legacyTemplateIdAliases[templateId] ?? templateId;
+          final template = templateById[normalizedTemplateId];
+          if (template == null) {
+            continue;
+          }
+          final roomId = entry['roomId'] as String?;
+          if (roomId == null) {
+            continue;
+          }
+          final restoredInstanceId =
+              entry['instanceId'] as String? ??
+              _nextInstanceId(roomId, template.id);
+          if (!restoredInstanceIds.add(restoredInstanceId)) {
+            continue;
+          }
 
-        final instance = DeviceInstance(
-          instanceId: restoredInstanceId,
-          template: template,
-          roomId: roomId,
-          roomName: entry['roomName'] as String,
-          expertModeEnabled: _expertModeEnabled,
-        );
-
-        instance.passwordChanged = questionAnswerFromStored(
-          entry['passwordChanged'],
-        );
-        instance.autoUpdatesEnabled = questionAnswerFromStored(
-          entry['autoUpdatesEnabled'],
-        );
-        instance.separateNetwork = questionAnswerFromStored(
-          entry['separateNetwork'],
-        );
-        instance.householdInformed = questionAnswerFromStored(
-          entry['householdInformed'],
-        );
-        instance.permissionsReduced = questionAnswerFromStored(
-          entry['permissionsReduced'],
-        );
-        instance.cameraConsentGiven = questionAnswerFromStored(
-          entry['cameraConsentGiven'],
-        );
-        instance.micDeactivatedWhenUnused = questionAnswerFromStored(
-          entry['micDeactivatedWhenUnused'],
-        );
-
-        final storedSpecific = Map<String, dynamic>.from(
-          entry['deviceSpecificAnswers'] as Map? ?? const {},
-        );
-        instance.deviceSpecificAnswers
-          ..clear()
-          ..addEntries(
-            storedSpecific.entries
-                .map(
-                  (entry) => MapEntry(
-                    entry.key,
-                    questionAnswerFromStored(entry.value),
-                  ),
-                )
-                .where((entry) => entry.value != null)
-                .map((entry) => MapEntry(entry.key, entry.value!)),
+          final instance = DeviceInstance(
+            instanceId: restoredInstanceId,
+            template: template,
+            roomId: roomId,
+            roomName: entry['roomName'] as String? ?? '',
+            expertModeEnabled: _expertModeEnabled,
           );
 
-        devices.add(instance);
+          instance.passwordChanged = questionAnswerFromStored(
+            entry['passwordChanged'],
+          );
+          instance.autoUpdatesEnabled = questionAnswerFromStored(
+            entry['autoUpdatesEnabled'],
+          );
+          instance.separateNetwork = questionAnswerFromStored(
+            entry['separateNetwork'],
+          );
+          instance.householdInformed = questionAnswerFromStored(
+            entry['householdInformed'],
+          );
+          instance.permissionsReduced = questionAnswerFromStored(
+            entry['permissionsReduced'],
+          );
+          instance.cameraConsentGiven = questionAnswerFromStored(
+            entry['cameraConsentGiven'],
+          );
+          instance.micDeactivatedWhenUnused = questionAnswerFromStored(
+            entry['micDeactivatedWhenUnused'],
+          );
+
+          final storedSpecific = Map<String, dynamic>.from(
+            entry['deviceSpecificAnswers'] as Map? ?? const {},
+          );
+          instance.deviceSpecificAnswers
+            ..clear()
+            ..addEntries(
+              storedSpecific.entries
+                  .map(
+                    (entry) => MapEntry(
+                      entry.key,
+                      questionAnswerFromStored(entry.value),
+                    ),
+                  )
+                  .where((entry) => entry.value != null)
+                  .map((entry) => MapEntry(entry.key, entry.value!)),
+            );
+
+          devices.add(instance);
+        } catch (_) {
+          // Skip just this entry; keep restoring the rest of the list.
+        }
       }
 
       notifyListeners();

@@ -857,12 +857,18 @@ class _OverviewHeader extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          '$overallScore',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: scoreColor,
+                        // FittedBox keeps a 3-digit score (the maximum
+                        // possible, 100) on one line instead of wrapping and
+                        // overflowing this fixed-size circle.
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            '$overallScore',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: scoreColor,
+                            ),
                           ),
                         ),
                         Text(

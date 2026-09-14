@@ -496,8 +496,27 @@ class DeviceInstance {
     this.expertModeEnabled = false,
   });
 
+  /// Cross-cutting questions that apply based on device properties rather
+  /// than [DeviceCategory] — asked in addition to whatever [_baseQuestions]
+  /// returns for the device's category.
+  static const DeviceQuestion _qPermissions = DeviceQuestion(
+    id: 'permissions',
+    text: 'q_permissions_text',
+    hint: 'q_permissions_hint',
+  );
+  static const DeviceQuestion _qCameraConsent = DeviceQuestion(
+    id: 'camera_consent',
+    text: 'q_camera_consent_text',
+    hint: 'q_camera_consent_hint',
+  );
+  static const DeviceQuestion _qMicActive = DeviceQuestion(
+    id: 'mic_active',
+    text: 'q_mic_active_text',
+    hint: 'q_mic_active_hint',
+  );
+
   List<DeviceQuestion> get questions {
-    final baseQuestions = _baseQuestions;
+    final baseQuestions = _questionsWithCrossCuttingOnes(_baseQuestions);
     if (!expertModeEnabled) {
       return baseQuestions;
     }
@@ -506,6 +525,29 @@ class DeviceInstance {
       ..._expertCommonQuestions,
       ..._expertDeviceTypeQuestions(),
     ];
+  }
+
+  /// Appends [_qCameraConsent] / [_qMicActive] when the device has that
+  /// capability, and [_qPermissions] for every device with a companion app
+  /// (i.e. everything except bare sensors, which have none) — skipping any
+  /// that a category's [_baseQuestions] list already asked explicitly.
+  List<DeviceQuestion> _questionsWithCrossCuttingOnes(
+    List<DeviceQuestion> base,
+  ) {
+    final questions = [...base];
+    bool has(String id) => questions.any((q) => q.id == id);
+
+    if (template.deviceType != DeviceCategory.sensor &&
+        !has(_qPermissions.id)) {
+      questions.add(_qPermissions);
+    }
+    if (template.hasCamera && !has(_qCameraConsent.id)) {
+      questions.add(_qCameraConsent);
+    }
+    if (template.hasMicrophone && !has(_qMicActive.id)) {
+      questions.add(_qMicActive);
+    }
+    return questions;
   }
 
   List<DeviceQuestion> get _baseQuestions {
@@ -530,11 +572,7 @@ class DeviceInstance {
       text: 'q_informed_text',
       hint: 'q_informed_hint',
     );
-    const qMicActive = DeviceQuestion(
-      id: 'mic_active',
-      text: 'q_mic_active_text',
-      hint: 'q_mic_active_hint',
-    );
+    const qMicActive = _qMicActive;
 
     // ── Sensor: tailored set – no app/password/update concept ─────────────────
     if (template.deviceType == DeviceCategory.sensor) {

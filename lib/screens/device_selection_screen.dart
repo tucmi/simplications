@@ -101,13 +101,23 @@ class _DeviceSelectionScreenState extends State<DeviceSelectionScreen> {
     Navigator.of(context).pop();
   }
 
+  // Only the room the user actually finished a device in gets marked
+  // completed — otherwise tapping through an untouched room (or one where
+  // results are only available because a *different* room was finished)
+  // would falsely show it as done on the room list.
+  void _markCompletedIfFinished() {
+    if (widget.state.hasFinishedDeviceInRoom(widget.room.id)) {
+      widget.state.markRoomCompleted(widget.room.id);
+    }
+  }
+
   void _onNext(BuildContext context) {
-    widget.state.markRoomCompleted(widget.room.id);
+    _markCompletedIfFinished();
     Navigator.of(context).pop();
   }
 
   void _onFinish(BuildContext context) {
-    widget.state.markRoomCompleted(widget.room.id);
+    _markCompletedIfFinished();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => SummaryScreen(state: widget.state)),
     );

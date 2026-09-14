@@ -340,7 +340,9 @@ void main() {
     expect(resultsButton().onPressed, isNotNull);
   });
 
-  testWidgets('next-room action marks room completed', (tester) async {
+  testWidgets('next-room action does not complete an untouched room', (
+    tester,
+  ) async {
     _configureLargeViewport(tester);
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
@@ -361,6 +363,47 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(state.completedRoomIds.contains(room.id), isTrue);
+    // Leaving via "next room" without adding or finishing a device must not
+    // falsely mark the room as assessed — that misleads the room list into
+    // showing it as done when nothing was actually checked.
+    expect(state.completedRoomIds.contains(room.id), isFalse);
+    expect(state.isRoomCompleted(room.id), isFalse);
   });
+
+  testWidgets(
+    'next-room action marks room completed once a device is finished',
+    (tester) async {
+      _configureLargeViewport(tester);
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final state = SurveyState();
+      final room = _roomById('office');
+
+      final template = CatalogData.allDeviceTemplates.firstWhere(
+        (device) => device.id == 'smart_tv',
+      );
+      state.addDevice(template, room.id, room.name);
+      final instance = state.devices.single;
+      for (final question in instance.questions) {
+        instance.setAnswer(question.id, QuestionAnswer.yes);
+      }
+      state.notifyUpdate();
+
+      await tester.pumpWidget(
+        _buildTestApp(DeviceSelectionScreen(state: state, room: room)),
+      );
+      await tester.pumpAndSettle();
+
+      final context = tester.element(find.byType(Scaffold).first);
+      final localizations = AppLocalizations.of(context)!;
+
+      await tester.tap(
+        find.widgetWithText(OutlinedButton, localizations.nextRoom),
+      );
+      await tester.pumpAndSettle();
+
+      expect(state.completedRoomIds.contains(room.id), isTrue);
+    },
+  );
 }

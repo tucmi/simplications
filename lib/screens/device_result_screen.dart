@@ -298,6 +298,14 @@ class DeviceResultScreen extends StatelessWidget {
               Expanded(
                 child: FilledButton.icon(
                   onPressed: () {
+                    // Reaching the summary directly from a finished device
+                    // should unlock the room-list "Results" gate too, not
+                    // only the in-room shortcut — otherwise backing out to
+                    // room selection shows Results as unavailable despite
+                    // having just viewed it.
+                    if (state.hasFinishedDeviceInRoom(room.id)) {
+                      state.markRoomCompleted(room.id);
+                    }
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (_) => SummaryScreen(state: state),
