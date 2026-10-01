@@ -355,6 +355,8 @@
   "recommended": "Aanbevolen",
   "reportExportedAt": "Geëxporteerd op",
   "restart": "Opnieuw starten",
+  "restartConfirmTitle": "Opnieuw beginnen?",
+  "restartConfirmBody": "Alle vastgelegde kamers, apparaten en antwoorden worden permanent verwijderd. Deze actie kan niet ongedaan worden gemaakt.",
   "results": "Resultaten",
   "resume": "Doorgaan",
   "risk": "Risico",

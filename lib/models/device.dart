@@ -619,23 +619,25 @@ class DeviceInstance {
 
     // ── Camera ────────────────────────────────────────────────────────────────
     if (template.deviceType == DeviceCategory.camera) {
-      return const [
-        DeviceQuestion(
+      return [
+        qPassword,
+        qUpdates,
+        const DeviceQuestion(
           id: 'video_encryption',
           text: 'q_video_encryption_text',
           hint: 'q_video_encryption_hint',
         ),
-        DeviceQuestion(
+        const DeviceQuestion(
           id: 'video_storage',
           text: 'q_video_storage_text',
           hint: 'q_video_storage_hint',
         ),
-        DeviceQuestion(
+        const DeviceQuestion(
           id: 'sharing_restrictions',
           text: 'q_sharing_restrictions_text',
           hint: 'q_sharing_restrictions_hint',
         ),
-        DeviceQuestion(
+        const DeviceQuestion(
           id: 'motion_detection',
           text: 'q_motion_detection_text',
           hint: 'q_motion_detection_hint',
@@ -715,6 +717,7 @@ class DeviceInstance {
     if (template.deviceType == DeviceCategory.lock) {
       return [
         qPassword,
+        qUpdates,
         const DeviceQuestion(
           id: 'offline_unlock',
           text: 'q_offline_unlock_text',

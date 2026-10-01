@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:share_plus/share_plus.dart';
 
@@ -78,6 +79,40 @@ class _SummaryScreenState extends State<SummaryScreen> {
     );
   }
 
+  /// Asks for confirmation before wiping all captured data, then resets.
+  Future<void> _confirmRestart() async {
+    final localizations = context.l10n;
+    final shouldRestart = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        icon: const Icon(Icons.warning_amber_rounded),
+        title: Text(localizations.restartConfirmTitle),
+        content: Text(localizations.restartConfirmBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(localizations.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(
+              localizations.restart,
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (shouldRestart != true) {
+      return;
+    }
+    await widget.state.reset();
+    if (!mounted) {
+      return;
+    }
+    Navigator.of(context).popUntil((route) => route.isFirst);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -135,13 +170,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
           TextButton.icon(
             icon: const Icon(Icons.restart_alt, size: 18),
             label: Text(localizations.restart),
-            onPressed: () async {
-              await widget.state.reset();
-              if (!context.mounted) {
-                return;
-              }
-              Navigator.of(context).popUntil((route) => route.isFirst);
-            },
+            onPressed: _confirmRestart,
           ),
         ],
       ),
@@ -325,6 +354,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                 name: localizations.summaryPdfFileName,
               ),
             ],
+            fileNameOverrides: [localizations.summaryPdfFileName],
             sharePositionOrigin: origin,
           ),
         );
@@ -395,11 +425,7 @@ class _SummaryReport {
             return (0.4 * max + 0.6 * mean).round();
           })();
 
-    final overallLevel = overallScore <= 33
-        ? RiskLevel.low
-        : overallScore <= 66
-        ? RiskLevel.medium
-        : RiskLevel.high;
+    final overallLevel = RiskLevel.fromScore(overallScore);
 
     final dontKnowAnswers = evaluatedDevices
         .map((d) => d.dontKnowAnswerCount)
@@ -570,7 +596,22 @@ Future<Uint8List> _buildSharePdf(
   _SummaryReport report,
   AppLocalizations localizations,
 ) async {
-  final pdf = pw.Document();
+  // Helvetica (the pdf package default) only covers Latin-1, which breaks cs,
+  // pl and fr text, so embed Roboto.
+  final regular = pw.Font.ttf(
+    await rootBundle.load('assets/fonts/Roboto-Regular.ttf'),
+  );
+  final bold = pw.Font.ttf(
+    await rootBundle.load('assets/fonts/Roboto-Bold.ttf'),
+  );
+  final pdf = pw.Document(
+    theme: pw.ThemeData.withFont(
+      base: regular,
+      bold: bold,
+      italic: regular,
+      boldItalic: bold,
+    ),
+  );
   final generatedAt = _formatDate(DateTime.now());
 
   pdf.addPage(

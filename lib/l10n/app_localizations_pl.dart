@@ -439,6 +439,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get restart => 'Uruchom ponownie';
 
   @override
+  String get restartConfirmTitle => 'Zacząć od nowa?';
+
+  @override
+  String get restartConfirmBody =>
+      'Wszystkie dodane pomieszczenia, urządzenia i odpowiedzi zostaną trwale usunięte. Tej czynności nie można cofnąć.';
+
+  @override
   String get noDevicesCaptured => 'Nie dodano żadnych urządzeń.';
 
   @override

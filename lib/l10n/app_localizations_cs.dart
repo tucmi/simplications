@@ -440,6 +440,13 @@ class AppLocalizationsCs extends AppLocalizations {
   String get restart => 'Začít znovu';
 
   @override
+  String get restartConfirmTitle => 'Začít znovu?';
+
+  @override
+  String get restartConfirmBody =>
+      'Všechny zadané místnosti, zařízení a odpovědi budou trvale smazány. Tuto akci nelze vrátit zpět.';
+
+  @override
   String get noDevicesCaptured => 'Nebyla zaznamenána žádná zařízení.';
 
   @override

@@ -355,6 +355,8 @@
   "recommended": "Recommandé",
   "reportExportedAt": "Exporté le",
   "restart": "Recommencer",
+  "restartConfirmTitle": "Recommencer ?",
+  "restartConfirmBody": "Toutes les pièces, tous les appareils et toutes les réponses saisis seront définitivement supprimés. Cette action est irréversible.",
   "results": "Résultats",
   "resume": "Continuer",
   "risk": "Risque",

@@ -439,6 +439,13 @@ class AppLocalizationsNl extends AppLocalizations {
   String get restart => 'Opnieuw starten';
 
   @override
+  String get restartConfirmTitle => 'Opnieuw beginnen?';
+
+  @override
+  String get restartConfirmBody =>
+      'Alle vastgelegde kamers, apparaten en antwoorden worden permanent verwijderd. Deze actie kan niet ongedaan worden gemaakt.';
+
+  @override
   String get noDevicesCaptured => 'Geen apparaten vastgelegd.';
 
   @override

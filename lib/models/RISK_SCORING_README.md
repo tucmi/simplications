@@ -54,6 +54,7 @@ Applied in all (or most) devices:
 - Separate IoT network: `no +10`, `dontKnow +5`
 - Household informed: `no +10`, `dontKnow +5`
 - App permissions reduced: `no +5`, `dontKnow +3`
+- Cameras additionally ask password + updates; locks additionally ask updates (flat device-specific penalty applies, see below)
 - Camera consent (if camera device): `no +15`, `dontKnow +8`
 - Mic deactivation (if microphone device): `no +10`, `dontKnow +5`
 

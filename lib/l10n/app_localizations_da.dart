@@ -437,6 +437,13 @@ class AppLocalizationsDa extends AppLocalizations {
   String get restart => 'Start forfra';
 
   @override
+  String get restartConfirmTitle => 'Starte forfra?';
+
+  @override
+  String get restartConfirmBody =>
+      'Alle registrerede rum, enheder og svar slettes permanent. Denne handling kan ikke fortrydes.';
+
+  @override
   String get noDevicesCaptured => 'Ingen enheder registreret.';
 
   @override

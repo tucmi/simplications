@@ -133,6 +133,8 @@
   "shareAsText": "Als Text teilen",
   "shareAsPdf": "Als PDF teilen",
   "restart": "Neu starten",
+  "restartConfirmTitle": "Neu starten?",
+  "restartConfirmBody": "Alle erfassten Räume, Geräte und Antworten werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
   "noDevicesCaptured": "Keine Geräte erfasst.",
   "noDevicesHint": "Starten Sie erneut und fügen Sie Geräte hinzu, um eine Bewertung zu erhalten.",
   "highRisk": "Hohes Risiko",
