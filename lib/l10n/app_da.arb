@@ -355,6 +355,8 @@
   "recommended": "Anbefalet",
   "reportExportedAt": "Eksporteret den",
   "restart": "Start forfra",
+  "restartConfirmTitle": "Starte forfra?",
+  "restartConfirmBody": "Alle registrerede rum, enheder og svar slettes permanent. Denne handling kan ikke fortrydes.",
   "results": "Resultater",
   "resume": "Fortsæt",
   "risk": "Risiko",

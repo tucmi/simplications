@@ -71,7 +71,7 @@ a risk score with concrete action recommendations.
 
 - **Repository**: <https://github.com/tucmi/simplications>
 - **Platform targets**: Android, iOS, Web, Windows, macOS, Linux
-- **Languages**: Dart / Flutter (Flutter 3.11.5+, Dart 3.1.0+)
+- **Languages**: Dart / Flutter (Flutter 3.11.5+, Dart 3.11.5+)
 - **Build system**: Gradle (Android), Xcode (iOS), CMake (Linux/macOS/Windows)
 - **Key packages**: `pdf` (PDF export), `share_plus` (share sheet)
 - **Supported locales**: `de` (default), `en`, `cs`, `pl`, `fr`, `nl`, `da`
@@ -102,6 +102,7 @@ test/
   app_localizations_test.dart     — Localization fallback and interpolation tests
   language_controller_test.dart   — Language persistence tests
   summary_screen_test.dart        — Summary screen rendering tests
+  review_fixes_test.dart          — PDF font coverage, tolerant loading, camera/lock questions
 ```
 
 ---
@@ -130,8 +131,8 @@ test/
   ISO 8859-1) — the `pdf` package's default fonts don't support more than that.
 - Avoid en-dashes (`–`), em-dashes (`—`), and non-Latin accented characters in
   strings used in PDF export.
-- If a locale needs unsupported characters, embed a Unicode font (e.g. Roboto)
-  rather than relaxing this rule.
+- The PDF export embeds Roboto (`assets/fonts/`), so cs/pl/fr text renders
+  correctly; `test/review_fixes_test.dart` checks every ARB character is covered.
 
 ### Risk scoring
 

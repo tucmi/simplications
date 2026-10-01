@@ -435,6 +435,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get restart => 'Restart';
 
   @override
+  String get restartConfirmTitle => 'Restart?';
+
+  @override
+  String get restartConfirmBody =>
+      'All captured rooms, devices, and answers will be permanently deleted. This action cannot be undone.';
+
+  @override
   String get noDevicesCaptured => 'No devices captured.';
 
   @override

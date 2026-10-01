@@ -439,6 +439,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get restart => 'Neu starten';
 
   @override
+  String get restartConfirmTitle => 'Neu starten?';
+
+  @override
+  String get restartConfirmBody =>
+      'Alle erfassten Räume, Geräte und Antworten werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.';
+
+  @override
   String get noDevicesCaptured => 'Keine Geräte erfasst.';
 
   @override

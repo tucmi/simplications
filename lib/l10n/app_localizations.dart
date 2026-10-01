@@ -906,6 +906,18 @@ abstract class AppLocalizations {
   /// **'Restart'**
   String get restart;
 
+  /// No description provided for @restartConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart?'**
+  String get restartConfirmTitle;
+
+  /// No description provided for @restartConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'All captured rooms, devices, and answers will be permanently deleted. This action cannot be undone.'**
+  String get restartConfirmBody;
+
   /// No description provided for @noDevicesCaptured.
   ///
   /// In en, this message translates to:

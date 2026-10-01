@@ -355,6 +355,8 @@
   "recommended": "Doporučeno",
   "reportExportedAt": "Exportováno",
   "restart": "Začít znovu",
+  "restartConfirmTitle": "Začít znovu?",
+  "restartConfirmBody": "Všechny zadané místnosti, zařízení a odpovědi budou trvale smazány. Tuto akci nelze vrátit zpět.",
   "results": "Výsledky",
   "resume": "Pokračovat",
   "risk": "Riziko",

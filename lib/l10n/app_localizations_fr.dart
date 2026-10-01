@@ -445,6 +445,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get restart => 'Recommencer';
 
   @override
+  String get restartConfirmTitle => 'Recommencer ?';
+
+  @override
+  String get restartConfirmBody =>
+      'Toutes les pièces, tous les appareils et toutes les réponses saisis seront définitivement supprimés. Cette action est irréversible.';
+
+  @override
   String get noDevicesCaptured => 'Aucun appareil enregistré.';
 
   @override

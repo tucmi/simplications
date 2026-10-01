@@ -365,19 +365,23 @@ class SurveyState extends ChangeNotifier {
               .whereType<String>(),
         );
 
+      // Malformed custom rooms/devices are skipped individually so one bad
+      // entry can't cost the user the rest of the save file.
       customRooms
         ..clear()
         ..addAll(
           (data['customRooms'] as List<dynamic>? ?? const [])
               .whereType<Map>()
               .map((e) => Map<String, dynamic>.from(e))
-              .map(
-                (e) => Room(
-                  id: e['id'] as String,
-                  name: e['name'] as String,
-                  icon: _resolveIcon(e),
-                ),
-              ),
+              .map((e) {
+                final id = e['id'];
+                final name = e['name'];
+                if (id is! String || name is! String) {
+                  return null;
+                }
+                return Room(id: id, name: name, icon: _resolveIcon(e));
+              })
+              .whereType<Room>(),
         );
 
       customDevices
@@ -386,12 +390,18 @@ class SurveyState extends ChangeNotifier {
           (data['customDevices'] as List<dynamic>? ?? const [])
               .whereType<Map>()
               .map((e) => Map<String, dynamic>.from(e))
-              .map(
-                (e) => DeviceTemplate(
-                  id: e['id'] as String,
-                  name: e['name'] as String,
+              .map((e) {
+                final id = e['id'];
+                final name = e['name'];
+                final baseRisk = e['baseRiskScore'];
+                if (id is! String || name is! String || baseRisk is! num) {
+                  return null;
+                }
+                return DeviceTemplate(
+                  id: id,
+                  name: name,
                   icon: _resolveIcon(e),
-                  baseRiskScore: (e['baseRiskScore'] as num).toInt(),
+                  baseRiskScore: baseRisk.toInt(),
                   hasCamera: e['hasCamera'] as bool? ?? false,
                   hasMicrophone: e['hasMicrophone'] as bool? ?? false,
                   roomIds: (e['roomIds'] as List<dynamic>? ?? const [])
@@ -399,8 +409,9 @@ class SurveyState extends ChangeNotifier {
                       .toList(),
                   deviceType: DeviceCategory.custom,
                   isCustom: true,
-                ),
-              ),
+                );
+              })
+              .whereType<DeviceTemplate>(),
         );
 
       // Backward compatibility: infer room ownership for older saved custom
@@ -647,7 +658,15 @@ class SurveyState extends ChangeNotifier {
   Future<void>? _pendingWrite;
 
   Future<void> _enqueueWrite(Future<void> Function() task) {
-    final next = (_pendingWrite ?? Future<void>.value()).then((_) => task());
+    // A failed write must not poison the chain: `.then` on an errored future
+    // would skip every later save, so swallow the error per task.
+    final next = (_pendingWrite ?? Future<void>.value()).then((_) async {
+      try {
+        await task();
+      } catch (_) {
+        // Persistence is best-effort; in-memory state stays authoritative.
+      }
+    });
     _pendingWrite = next;
     return next;
   }

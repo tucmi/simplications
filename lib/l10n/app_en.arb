@@ -133,6 +133,8 @@
   "shareAsText": "Share as text",
   "shareAsPdf": "Share as PDF",
   "restart": "Restart",
+  "restartConfirmTitle": "Restart?",
+  "restartConfirmBody": "All captured rooms, devices, and answers will be permanently deleted. This action cannot be undone.",
   "noDevicesCaptured": "No devices captured.",
   "noDevicesHint": "Restart and add devices to receive an assessment.",
   "highRisk": "High risk",

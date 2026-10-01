@@ -355,6 +355,8 @@
   "recommended": "Zalecane",
   "reportExportedAt": "Wyeksportowano",
   "restart": "Uruchom ponownie",
+  "restartConfirmTitle": "Zacząć od nowa?",
+  "restartConfirmBody": "Wszystkie dodane pomieszczenia, urządzenia i odpowiedzi zostaną trwale usunięte. Tej czynności nie można cofnąć.",
   "results": "Wyniki",
   "resume": "Wznów",
   "risk": "Ryzyko",
