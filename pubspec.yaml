@@ -55,7 +55,7 @@ msix_config:
   display_name: Simplications
   publisher_display_name: Professur Medieninformatik (TU Chemnitz)
   identity_name: de.tu-chemnitz.mi.simplications
-  msix_version: 1.0.0.23
+  msix_version: 1.0.0.26
   logo_path: assets/icon/icon.png
   # No capabilities are declared for the Windows package.
 
