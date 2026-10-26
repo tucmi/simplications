@@ -54,7 +54,7 @@ jobs:
           echo "apk_path=${APK_TARGET}" >> "${GITHUB_OUTPUT}"
 
       - name: Attach APK to release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: ${{ steps.apk.outputs.apk_path }}
 
@@ -107,6 +107,6 @@ jobs:
           "installer_path=$installerTarget" >> $env:GITHUB_OUTPUT
 
       - name: Attach Windows installer to release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: ${{ steps.inno.outputs.installer_path }}
